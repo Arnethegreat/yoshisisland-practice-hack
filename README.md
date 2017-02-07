@@ -17,6 +17,7 @@ Free Movement debug mode,
 Press Select on controller 1 inside a level to save your current state
 
 Press X on controller 1 to load your state. Loading can be done from anywhere (but not guaranteed to work)
+Hold L button while pressing X to do a full load (regenerate all terrain)
 
 # How to patch
 Open ASAR.exe

@@ -16,20 +16,31 @@ save_state:
     LDA #$0008
     STA $0053
 
-    JSR save_inventory
+.save_memory_blocks
     JSR save_item_memory
 
-    JSR save_yoshi_states
-    JSR save_all_sram
+    JSR save_sram_block_00
+    JSR save_sram_block_01
+    JSR save_sram_block_02
+    JSR save_sram_block_03
+
     JSR save_some_ram
 
 .save_position
     LDA !current_level
     STA !save_level
-    LDA $608C
+
+    LDA !yoshi_x_pos
     STA !save_x_pos
-    LDA $6090
+
+    LDA !yoshi_y_pos
     STA !save_y_pos
+
+    LDA !s_camera_layer1_x
+    STA !save_camera_layer1_x
+
+    LDA !s_camera_layer1_y
+    STA !save_camera_layer1_y
 
 .ret
     PLP

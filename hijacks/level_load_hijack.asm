@@ -10,12 +10,12 @@ freecode $FF
 fix_camera:
     LDA !loaded_state
     BEQ .ret
-.save_state
-    LDA $7F0394
+.in_load_state
+    LDA !save_camera_layer1_x
     STA !s_camera_layer1_x
-    LDA $7F039C
-    SEC
-    SBC #$0004
+    LDA !save_camera_layer1_y
+    ; SEC
+    ; SBC #$0004
     STA !s_camera_layer1_y
 
 .ret

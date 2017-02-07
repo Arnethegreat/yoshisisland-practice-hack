@@ -81,6 +81,8 @@ handle_egg_inv_routine = $01B2B7
 !yoshi_x_speed = $60B4
 !yoshi_y_speed = $60AA
 
+
+
 ;Sprite Data
 ; $6F00 
 

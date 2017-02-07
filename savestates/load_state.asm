@@ -17,6 +17,8 @@ load_state:
     LDA !save_y_pos
     STA !yoshi_y_pos
 
+    JSR load_item_memory
+
     PLP
     PLY
     PLX
@@ -36,11 +38,26 @@ load_state:
     LDA !save_x_pos
     STA !yoshi_x_pos 
     LDA !save_y_pos
-    STA !yoshi_y_pos 
+    STA !yoshi_y_pos
 
-    JSR load_yoshi_states
-    JSR load_all_sram
+; Turn off screen while loading
+    LDA $0200
+    ORA #$8000
+    STA $0200
+
+    STZ !level_load_type
+
+    JSR load_sram_block_00
+    JSR load_sram_block_01
+    JSR load_sram_block_02
+    JSR load_sram_block_03
+
     JSR load_some_ram
+
+; Re-enable screen when finished loading
+    LDA $0200
+    AND #$7FFF
+    STA $0200
 
     PLP
     PLY
@@ -62,12 +79,12 @@ prepare_load:
     CMP #$000C
     BEQ .ret
 
-    JSR load_inventory
-    JSR load_item_memory
-
 ; Flag for us to use later
     LDA #$0002
     STA !loaded_state
+
+; zero load type
+    STZ !level_load_type
 
 ; Screen zero
     STZ !current_screen
@@ -76,6 +93,7 @@ prepare_load:
     LDA !current_level
     CMP !save_level
     BNE .different_level
+
 ; override fast load if user is pressing L
     LDA !controller_data1
     AND #$0020

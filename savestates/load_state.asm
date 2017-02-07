@@ -17,11 +17,10 @@ load_state:
     LDA !save_y_pos
     STA !yoshi_y_pos
 
-    ; Hack gamemode to 0E to skip fade-out
     PLP
     PLY
     PLX
-
+    ; Hack gamemode to 0E to skip fade-out
     LDA #$0E
     STA $0118
     JMP game_mode_return
@@ -47,6 +46,8 @@ load_state:
     PLY
     PLX
     JMP game_mode_return
+
+;=================================
 
 prepare_load:
     PHX

@@ -1,13 +1,6 @@
 lorom
 
-incsrc savestate_vars.asm
-
-;----------------------
-
-incsrc save_level.asm
-incsrc level_load_hijack.asm
-
-;----------------------
+;=================================
 
 org $00815F
     autoclean JML game_loop_hijack
@@ -19,6 +12,8 @@ game_loop_hijack:
 ; Hijacked right before jumping into game mode
 ; Current gamemode index is in X, rest of registers are free
 
+; Check if state has been loaded
+; Initial value is $02 and does before load preparations
     LDA !loaded_state
     BEQ controller_checks
 
@@ -54,11 +49,3 @@ game_mode_return:
     LDA $00816A,x                             
     PHA   
     RTL
-
-
-
-incsrc save_state.asm
-
-incsrc load_state.asm
-
-incsrc routines.asm

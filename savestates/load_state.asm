@@ -17,6 +17,9 @@ load_state:
     LDA !save_y_pos
     STA !yoshi_y_pos
 
+; blocks needed before load
+    JSR load_item_memory
+
     PLP
     PLY
     PLX

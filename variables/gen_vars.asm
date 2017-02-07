@@ -21,7 +21,6 @@
 !controller_data2_press_mode0f = $6073
 
 
-
 ;Item Memory
 !item_mem_current_page = $03BE
 ; 128 bytes per page

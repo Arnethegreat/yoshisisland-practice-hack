@@ -17,8 +17,6 @@ load_state:
     LDA !save_y_pos
     STA !yoshi_y_pos
 
-    JSR load_item_memory
-
     PLP
     PLY
     PLX
@@ -42,21 +40,24 @@ load_state:
 
 ; Turn off screen while loading
     LDA $0200
-    ORA #$8000
+    ORA #$0080
     STA $0200
 
     STZ !level_load_type
 
     JSR load_sram_block_00
     JSR load_sram_block_01
-    JSR load_sram_block_02
-    JSR load_sram_block_03
+    ; JSR load_sram_block_02
+    ; JSR load_sram_block_03
 
-    JSR load_some_ram
+    JSR load_wram_block_00
+    JSR load_wram_block_01
+    ; JSR load_wram_block_02
+    ; JSR load_wram_block_03
 
 ; Re-enable screen when finished loading
     LDA $0200
-    AND #$7FFF
+    AND #$FF7F
     STA $0200
 
     PLP
@@ -79,6 +80,14 @@ prepare_load:
     CMP #$000C
     BEQ .ret
 
+; Check if a savestate exists 
+    LDA !savestate_exists
+    BNE .continue
+    LDA #$0090
+    STA $0053
+    BRA .no_load
+
+.continue
 ; Flag for us to use later
     LDA #$0002
     STA !loaded_state
@@ -132,7 +141,7 @@ prepare_load:
 .ret
     LDA #$000C
     STA !gamemode
-
+.no_load
     PLP
     PLY
     PLX

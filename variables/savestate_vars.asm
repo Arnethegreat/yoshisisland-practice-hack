@@ -1,6 +1,8 @@
 !loaded_state = $140A
 !savestate_exists = $140C
 
+!disable_music = $140E
+
 !current_level = $1410
 ; persistent save data (keeps on reset)
 ; stuff used throughout

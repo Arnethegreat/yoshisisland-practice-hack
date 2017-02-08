@@ -55,8 +55,10 @@ load_state:
 
     JSR load_wram_block_00
     JSR load_wram_block_01
-    ; JSR load_wram_block_02
+    JSR load_wram_block_02
     ; JSR load_wram_block_03
+
+    JSR load_dma_channel_settings
 
 ; Re-enable screen when finished loading
     LDA $0200

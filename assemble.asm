@@ -13,7 +13,9 @@ incsrc hijacks/save_level_hijack.asm
 incsrc hijacks/level_load_hijack.asm
 ;=================================
 incsrc hijacks/game_loop_hijack.asm
+;=================================
 incsrc savestates/save_state.asm
 incsrc savestates/load_state.asm
 incsrc savestates/upload_routines.asm
 ;=================================
+incsrc music/toggle_music.asm

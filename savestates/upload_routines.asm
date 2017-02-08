@@ -1,6 +1,8 @@
-; Blocks that needs to uploaded before state is loaded
 ; TODO: Eventually replace with DMA and MOV
-; Still in testing stage
+;       Still in testing stage
+;       Move block settings into seperate file?
+;=================================
+; Blocks that needs to uploaded before state is loaded
 ;=================================
 save_item_memory:
     LDX #$0200
@@ -160,10 +162,10 @@ load_sram_block_03:
 !wram_block_01_savestate = $7F439E
 !wram_block_01_size = #$06A8
 
-; Not used
-!wram_block_02_source = $7E409E
-!wram_block_02_savestate = $7F3F9E
-!wram_block_02_size = #$1A9E
+; Register mirrors test
+!wram_block_02_source = $7E094A
+!wram_block_02_savestate = $7F4A46
+!wram_block_02_size = #$0024
 
 ; Not used
 !wram_block_03_source = $70409E
@@ -259,4 +261,120 @@ load_wram_block_03:
     BNE .loop
 .ret
     RTS
+;=================================
+;=================================
+;=================================
+
+; TODO: Make a nice tight loop
+save_dma_channel_settings:
+    SEP #$30
+    LDX #$0A
+.channel_0
+    LDA $4300,x
+    STA $1500,x
+    DEX
+    BPL .channel_0
+    LDX #$0A
+.channel_1
+    LDA $4310,x
+    STA $1510,x
+    DEX
+    BPL .channel_1
+    LDX #$0A
+.channel_2
+    LDA $4320,x
+    STA $1520,x
+    DEX
+    BPL .channel_2
+    LDX #$0A
+.channel_3
+    LDA $4330,x
+    STA $1530,x
+    DEX
+    BPL .channel_3
+    LDX #$0A
+.channel_4
+    LDA $4340,x
+    STA $1540,x
+    DEX
+    BPL .channel_4
+    LDX #$0A
+.channel_5
+    LDA $4350,x
+    STA $1550,x
+    DEX
+    BPL .channel_5
+    LDX #$0A
+.channel_6
+    LDA $4360,x
+    STA $1560,x
+    DEX
+    BPL .channel_6
+    LDX #$0A
+.channel_7
+    LDA $4370,x
+    STA $1570,x
+    DEX
+    BPL .channel_7
+
+.ret
+    REP #$30
+    RTS
+;=================================
+load_dma_channel_settings:
+    SEP #$30
+    LDX #$0A
+.channel_0
+    LDA $1500,x
+    STA $4300,x
+    DEX
+    BPL .channel_0
+    LDX #$0A
+.channel_1
+    LDA $1510,x
+    STA $4310,x
+    DEX
+    BPL .channel_1
+    LDX #$0A
+.channel_2
+    LDA $1520,x
+    STA $4320,x
+    DEX
+    BPL .channel_2
+    LDX #$0A
+.channel_3 
+    LDA $1530,x
+    STA $4330,x
+    DEX
+    BPL .channel_3
+    LDX #$0A
+.channel_4
+    LDA $1540,x
+    STA $4340,x
+    DEX
+    BPL .channel_4
+    LDX #$0A
+.channel_5
+    LDA $4350,x
+    STA $1550,x
+    DEX
+    BPL .channel_5
+    LDX #$0A
+.channel_6
+    LDA $4360,x
+    STA $1560,x
+    DEX
+    BPL .channel_6
+    LDX #$0A
+.channel_7
+    LDA $4360,x
+    STA $1560,x
+    DEX
+    BPL .channel_7
+
+.ret
+    REP #$30
+    RTS
+;=================================
+;=================================
 ;=================================

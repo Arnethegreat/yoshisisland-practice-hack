@@ -34,10 +34,20 @@ handle_loadstate:
 
 handle_music_toggle:
     LDA !disable_music
-    BEQ controller_checks
+    BEQ .next
 ; send music off command each frame (ugly)
     LDA #$F0
     STA $4D
+.next
+
+
+handle_debug_menu:
+    LDA !debug_menu
+    BEQ .next
+; jump to debug menu processing code
+    JMP main_debug_menu
+.next
+
 
 controller_checks:
 .load_button
@@ -51,8 +61,15 @@ controller_checks:
     LDA !controller_data2_press
 ; select
     AND #$20
-    BEQ .disable_music
+    BEQ .debug_menu_button
     JMP save_state
+
+.debug_menu_button
+    LDA !controller_data1_press
+; L
+    AND #$20
+    BEQ .disable_music
+    JMP init_debug_menu
 
 .disable_music
 ; controller 2 data 2 on press
@@ -65,8 +82,8 @@ controller_checks:
 
 game_mode_return:
 ; Setting up gamemode pointer to stack as per original routine
-    LDA $00816B,x                             
-    PHA                                       
-    LDA $00816A,x                             
-    PHA   
+    LDA $00816B,x
+    PHA
+    LDA $00816A,x
+    PHA
     RTL

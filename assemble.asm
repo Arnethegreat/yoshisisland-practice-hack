@@ -3,6 +3,7 @@ print "YI Practice Hack 0.2"
 incsrc region_check.asm
 incsrc config.asm
 ;=================================
+incsrc variables/debug_vars.asm
 incsrc variables/game_vars.asm
 incsrc variables/sprite_table_vars.asm
 incsrc variables/reg_vars.asm
@@ -26,3 +27,4 @@ incsrc savestates/upload_routines.asm
 ;=================================
 incsrc music/toggle_music.asm
 ;=================================
+incsrc debug_menu.asm

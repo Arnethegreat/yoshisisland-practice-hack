@@ -45,6 +45,10 @@ Stage intro now begins as soon as there's user input (if finished loading).
 
 Hold a button to load level as fast as possible.
 
+### Disable Autoscroll
+Press Y on controller 2 to disable an autoscroll.
+
+
 # How to patch
 Open ASAR.exe
 Enter "assemble.asm" for patch

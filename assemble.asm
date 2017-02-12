@@ -15,6 +15,8 @@ incsrc hijacks/save_level_hijack.asm
 ;=================================
 incsrc hijacks/level_load_hijack.asm
 ;=================================
+incsrc hijacks/downtime_edits.asm
+;=================================
 incsrc hijacks/debug_hijacks.asm
 ;=================================
 incsrc hijacks/game_loop_hijack.asm
@@ -27,4 +29,6 @@ incsrc savestates/upload_routines.asm
 ;=================================
 incsrc music/toggle_music.asm
 ;=================================
-incsrc debug_menu.asm
+incsrc menu/debug_menu.asm
+;=================================
+incsrc routines/frame_skip.asm

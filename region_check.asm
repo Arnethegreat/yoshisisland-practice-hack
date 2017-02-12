@@ -18,9 +18,15 @@ if read1($00FFD9) == $00
     level_load_camera = $04DBC9
 ; debug hijacks
     start_select_check = $01D31D
+
     file_select_check = $179890
         !file_select_check_jump = $992B
+
     free_movement = $04F5E7
+
+    level_intro_wait = $01C3FA
+    
+    map_icon_rotation = $17E700
 
 elseif read1($00FFD9) == $01
     print "North American 1.0 ROM"
@@ -31,9 +37,15 @@ elseif read1($00FFD9) == $01
     level_load_camera = $04DC2E
 ; debug hijacks
     start_select_check = $01C13D
+
     file_select_check = $179897
         !file_select_check_jump = $9932
+
     free_movement = $04F64C
+
+    level_intro_wait = $01B1C8
+
+    map_icon_rotation = $17E73E
 ;=================================
 else
     print "Unknown Region"

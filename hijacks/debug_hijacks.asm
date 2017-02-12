@@ -6,8 +6,7 @@
 ; TODO: Add button config
 ;       Fix so one advance toggles buttons on press
 org $0080F6
-    NOP
-    NOP
+    JML handle_frame_skip
 
 ;=================================
 ; NOP out branch past save-select debug code

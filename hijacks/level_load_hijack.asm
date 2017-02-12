@@ -12,11 +12,17 @@ fix_camera:
     BEQ .ret
 .in_load_state
     LDA !save_camera_layer1_x
+; values will be 2 off for when normal gameplay starts
+    CLC
+    ADC #$0002
     STA !s_camera_layer1_x
+    STA $0039
+
     LDA !save_camera_layer1_y
-    ; SEC
-    ; SBC #$0004
+    SEC
+    SBC #$0004
     STA !s_camera_layer1_y
+    STA $003B
 
 .ret
     LDA #$0061

@@ -40,8 +40,17 @@ Hold L or R while entering File 3 to enter a fully unlocked save file. Note that
 ### Start-Select to clear a level
 Hold L while pressing select in pause menu and you'll leave any level as well as mark it as cleared. This doesn't save until you beat a level legit.
 
-### Frame Advance
-Press Start on controller 2 to enable/disable frame advance. Press L or R on controller 2 to advance frames. Note however that on-press input is hard to achieve (working on) 
+### Frame Skip (slow down)
+Press R to increase frames to skip per frame (amount of slow down). Press L to decreas. Game will run at 1/n speed where n is frame skip amount. 
+
+### Stage Intro (with the level text)
+Stage intro now begins as soon as there's user input (if finished loading).
+
+Hold a button to load level as fast as possible.
+
+### Disable Autoscroll
+Press Y on controller 2 to disable an autoscroll.
+
 
 # How to patch
 Open ASAR.exe

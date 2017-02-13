@@ -30,11 +30,34 @@ load_item_memory:
 ;=================================
 ;=================================
 ;=================================
+save_sram_map16:   
+    LDX #$0400
+    BEQ .ret
+.loop 
+    LDA $70409E-2,x
+    STA $7E2340-2,x
+    DEX
+    DEX
+    BNE .loop
+.ret
+    RTS
+;=================================
+load_sram_map16:
+    LDX #$0400
+    BEQ .ret
+.loop 
+    LDA $7E2340-2,x
+    STA $70409E-2,x
+    DEX
+    DEX
+    BNE .loop
+.ret
+    RTS
+;=================================
 
 ; SRAM blocks
 ;
 ;
-
 
 ;=================================
 save_sram_block_00:   
@@ -350,4 +373,57 @@ load_dma_channel_settings:
     RTS
 ;=================================
 ;=================================
+;=================================
+fix_cross_section:
+; empty out VRAM $5000 -> $5800
+; if inside cross section
+    LDA $7FEC
+    BEQ .ret
+    LDA #$7E7E
+    STA $0000
+    ; STZ $0002
+    LDA #$0800
+    LDY #$2800
+    LDX #$0000
+    JSR fixed_vram_dma
+
+.ret
+    RTS
+
+
+;=================================
+;=================================
+;=================================
+fixed_vram_dma:
+; video port control = $80
+; DMA control = $09
+; DMA dest reg = $2118
+  PHB                                       ; $00BFBA |
+  PEA $7E48                                 ; $00BFBB |\
+  PLB                                       ; $00BFBE | | data bank $7E
+  PLB                                       ; $00BFBF |/
+  PHX                                       ; $00BFC0 |
+  LDX $4800                                 ; $00BFC1 |
+  STA $0008,x                               ; $00BFC4 |
+  TYA                                       ; $00BFC7 |
+  STA $0000,x                               ; $00BFC8 |
+  LDA #$0980                                ; $00BFCB |
+  STA $0002,x                               ; $00BFCE |
+  LDA #$0018                                ; $00BFD1 |
+  STA $0004,x                               ; $00BFD4 |
+  LDA #$7E48                                ; $00BFD7 |
+  STA $0006,x                               ; $00BFDA |
+  TXA                                       ; $00BFDD |
+  CLC                                       ; $00BFDE |
+  ADC #$000C                                ; $00BFDF |
+  STA $0005,x                               ; $00BFE2 |
+  TXA                                       ; $00BFE5 |
+  CLC                                       ; $00BFE6 |
+  ADC #$000D                                ; $00BFE7 |
+  STA $000A,x                               ; $00BFEA |
+  STA $4800                                 ; $00BFED |
+  PLA                                       ; $00BFF0 |
+  STA $000C,x                               ; $00BFF1 |
+  PLB                                       ; $00BFF4 |
+  RTS                                       ; $00BFF5 |
 ;=================================

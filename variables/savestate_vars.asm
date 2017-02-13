@@ -26,6 +26,7 @@
 ;=================================
 
 ; SRAM blocks
+; Add some kamek timer stuff @ $44F0
 ;
 
 ; $0000 -> $2200 
@@ -58,20 +59,20 @@
 !wram_block_00_savestate = $7F3FFE
 !wram_block_00_size = #$00C0
 
-; $0B0F -> $11B7 
-!wram_block_01_source = $7E0B0F
+; $0948 -> $11B6 
+!wram_block_01_source = $7E0948
 !wram_block_01_savestate = $7F40BE
-!wram_block_01_size = #$06A8
+!wram_block_01_size = #$086E
 
-; Register mirrors test
-!wram_block_02_source = $7E094A
-!wram_block_02_savestate = $7F4766
-!wram_block_02_size = #$0024
+; $0200 -> $0222
+!wram_block_02_source = $7E0200
+!wram_block_02_savestate = $7F492C
+!wram_block_02_size = #$0022
 
-; Not used
-!wram_block_03_source = $70409E
-!wram_block_03_savestate = $7F3E96
-!wram_block_03_size = #$0000
+; $0118 -> $ $015E
+!wram_block_03_source = $7E0030
+!wram_block_03_savestate = $7F494E
+!wram_block_03_size = #$012E
 
 
 

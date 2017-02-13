@@ -34,6 +34,9 @@ save_state:
     JSR save_wram_block_02
     JSR save_wram_block_03
 
+; for experimental load
+    JSR save_sram_map16
+
     JSR save_dma_channel_settings
 
 .save_position

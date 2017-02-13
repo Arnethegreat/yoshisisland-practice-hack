@@ -36,6 +36,7 @@ load_state:
     PHP
     REP #$30
 
+..entry
     LDA !save_x_pos
     STA !yoshi_x_pos 
     LDA !save_y_pos
@@ -48,25 +49,17 @@ load_state:
 
     STZ !level_load_type
 
-    ;LDA !s_camera_layer1_x
-    ;PHA
-    ;LDA !s_camera_layer1_y
-    ;PHA
-
     JSR load_sram_block_00
     JSR load_sram_block_01
     JSR load_sram_block_02
     JSR load_sram_block_03
 
-    ;PLA
-    ;STA !s_camera_layer1_y
-    ;PLA
-    ;STA !s_camera_layer1_x
-
     JSR load_wram_block_00
     JSR load_wram_block_01
     JSR load_wram_block_02
     JSR load_wram_block_03
+
+    JSR fix_cross_section
 
     JSR load_dma_channel_settings
 
@@ -97,10 +90,18 @@ prepare_load:
 
 ; Check if a savestate exists 
     LDA !savestate_exists
-    BNE .continue
+    BNE .test_experimental_state
     LDA #$0090
     STA $0053
     BRA .no_load
+
+.test_experimental_state
+; experimental states
+    LDA !controller_data1
+    AND #$0010
+    BEQ .continue
+    JSR load_sram_map16
+    JMP load_state_after_load_entry
 
 .continue
 ; Flag for us to use later

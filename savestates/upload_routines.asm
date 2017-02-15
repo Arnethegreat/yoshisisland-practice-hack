@@ -54,8 +54,31 @@ load_sram_map16:
 .ret
     RTS
 ;=================================
+save_dyntile_buffer:   
+    LDX #$0800
+    BEQ .ret
+.loop 
+    LDA $705800-2,x
+    STA $7E2740-2,x
+    DEX
+    DEX
+    BNE .loop
+.ret
+    RTS
+;=================================
+load_dyntile_buffer:
+    LDX #$0800
+    BEQ .ret
+.loop 
+    LDA $7E2740-2,x
+    STA $705800-2,x
+    DEX
+    DEX
+    BNE .loop
+.ret
+    RTS
 
-; SRAM blocks
+; Generic SRAM blocks
 ;
 ;
 
@@ -108,6 +131,18 @@ save_sram_block_03:
 .ret
     RTS
 ;=================================
+save_sram_block_04:
+    LDX !sram_block_04_size
+    BEQ .ret
+.loop
+    LDA !sram_block_04_source-2,x
+    STA !sram_block_04_savestate-2,x
+    DEX
+    DEX
+    BNE .loop
+.ret
+    RTS
+;=================================
 ;=================================
 ;=================================
 load_sram_block_00:
@@ -152,6 +187,18 @@ load_sram_block_03:
 .loop
     LDA !sram_block_03_savestate-2,x
     STA !sram_block_03_source-2,x
+    DEX
+    DEX
+    BNE .loop
+.ret
+    RTS
+;=================================
+load_sram_block_04:
+    LDX !sram_block_04_size
+    BEQ .ret
+.loop
+    LDA !sram_block_04_savestate-2,x
+    STA !sram_block_04_source-2,x
     DEX
     DEX
     BNE .loop

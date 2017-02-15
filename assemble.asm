@@ -31,3 +31,5 @@ incsrc music/toggle_music.asm
 incsrc menu/debug_menu.asm
 ;=================================
 incsrc routines/frame_skip.asm
+
+print bytes

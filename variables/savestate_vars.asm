@@ -51,6 +51,12 @@
 !sram_block_03_savestate = $7F3FC0
 !sram_block_03_size = #$003E
 
+; $4C76 -> $4CB4
+; sluggy info
+!sram_block_04_source = $70449E
+!sram_block_04_savestate = $7F4B2C
+!sram_block_04_size = #$0080
+
 ; WRAM blocks
 ;
 
@@ -69,7 +75,7 @@
 !wram_block_02_savestate = $7F492C
 !wram_block_02_size = #$0022
 
-; $0118 -> $ $015E
+; $0030 -> $ $015E
 !wram_block_03_source = $7E0030
 !wram_block_03_savestate = $7F494E
 !wram_block_03_size = #$012E

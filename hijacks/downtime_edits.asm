@@ -6,6 +6,6 @@ wait:
     ORA $0940
     BEQ wait
 ; Skip icon rotating on world map
-; 
+ ;
 org map_icon_rotation
     LDA #$0000

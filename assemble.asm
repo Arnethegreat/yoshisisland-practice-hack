@@ -25,6 +25,7 @@ incsrc hijacks/game_loop_hijack.asm
 incsrc savestates/save_state.asm
 incsrc savestates/load_state.asm
 incsrc savestates/upload_routines.asm
+incsrc savestates/hard_fixes.asm
 ;=================================
 incsrc music/toggle_music.asm
 ;=================================

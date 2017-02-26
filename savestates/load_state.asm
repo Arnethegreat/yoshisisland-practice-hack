@@ -23,9 +23,12 @@ load_state:
     PLP
     PLY
     PLX
-    ; Hack gamemode to 0E to skip fade-out
+    ; Hack gamemode to 0E to skip fade-out for next frame
     LDA #$0E
     STA $0118
+    ; really hacky fix to avoid gamemode being written over from previous frame
+    ; sets this frame mode to 0C
+    LDX #$24
     JMP game_mode_return
 
 .after_load
@@ -86,23 +89,49 @@ prepare_load:
 
 ; Do some checks for already loading game modes
     LDA !gamemode
-    CMP #$000B
-    BEQ .ret
     CMP #$000C
-    BEQ .ret
+    BEQ .in_loading_mode
+    CMP #$0020
+    BEQ .in_loading_mode
+    BRA .check_savestate
+.in_loading_mode
+    BRA .fail_load
 
+.check_savestate
 ; Check if a savestate exists 
     LDA !savestate_exists
     BNE .test_experimental_state
+.fail_load
     LDA #$0090
     STA $0053
-    BRA .no_load
+    JMP .no_load
 
 .test_experimental_state
 ; experimental states
+    JSR fix_special_bosses
+; if we're in hookbill/bowser, do experimental load
+    BCS .experimental_load
+
     LDA !controller_data1
     AND #$0010
     BEQ .continue
+
+.experimental_load
+    LDA !gamemode
+; Only allow experimental load for certain gamemodes
+; mainly in-level, death and retry screen
+    CMP #$000F
+    BEQ +
+    CMP #$0011
+    BEQ +
+    CMP #$0035
+    BEQ +
+    CMP #$0012
+    BEQ +
+    CMP #$003D
+    BEQ +
+    BRA .fail_load
++
     JSR load_sram_map16
     JMP load_state_after_load_entry
 
@@ -139,7 +168,6 @@ prepare_load:
     LDA !save_level
     STA !screen_exit_level 
 
-
     LDA !save_x_pos
     CLC
     ADC #$0008
@@ -160,6 +188,10 @@ prepare_load:
 .ret
     LDA #$000C
     STA !gamemode
+    STZ $35
+    STZ $37
+    STZ $093C
+    STZ $093E
 .no_load
     PLP
     PLY

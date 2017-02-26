@@ -439,27 +439,6 @@ load_dma_channel_settings:
     RTS
 ;=================================
 ;=================================
-;=================================
-fix_cross_section:
-; empty out VRAM $5000 -> $5800
-; if inside cross section
-    LDA $7FEC
-    BEQ .ret
-    LDA #$7E7E
-    STA $0000
-    ; STZ $0002
-    LDA #$0800
-    LDY #$2800
-    LDX #$026C
-    JSR fixed_vram_dma_full
-
-.ret
-    RTS
-
-
-;=================================
-;=================================
-;=================================
 fixed_vram_dma_full:
 ; Fixed transfer, write both bytes
 ; video port control = $80

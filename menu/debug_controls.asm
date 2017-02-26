@@ -14,17 +14,33 @@
 ; [word] wildcard
 !dbc_wildcard = #$06
 
-!debug_controls_count = #$0002
+!debug_controls_count = #$0005
 debug_menu_controls:
 ; lives
   db $00
   dl $7E0379
-  dw $0050, $0000
+  dw $0040, $0000
 
 ; coins
   db $00
   dl $7E037B
-  dw $0090, $0000
+  dw $0080, $0000
+
+; red coins
+  db $00
+  dl $7E03B4
+  dw $00C0, $0000
+
+; stars
+  db $00
+  dl $7E03B6
+  dw $0100, $0000
+
+; flowers
+  db $00
+  dl $7E03B8
+  dw $0140, $0000
+
 
 ; indexed by control type
 debug_control_inits:
@@ -48,10 +64,9 @@ main_controls:
 
   ; cycle up and handle wrapping
   LDA !debug_index
-  INC A
-  CMP !debug_controls_count
-  BCC .store_index_up
-  LDA #$0000
+  DEC A
+  BPL .store_index_up
+  LDA !debug_controls_count-1
 .store_index_up
   STA !debug_index
 
@@ -62,9 +77,10 @@ main_controls:
 
   ; cycle down and handle wrapping
   LDA !debug_index
-  DEC A
-  BPL .store_index_down
-  LDA !debug_controls_count-1
+  INC A
+  CMP !debug_controls_count
+  BCC .store_index_down
+  LDA #$0000
 .store_index_down
   STA !debug_index
 

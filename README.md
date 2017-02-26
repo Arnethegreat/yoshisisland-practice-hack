@@ -20,8 +20,6 @@ Press Select on controller 1 inside a level to save your current state
 Press X on controller 1 to load your state. Loading can be done from anywhere (but not always guaranteed to work)
 Hold L button while pressing X to do a full load (regenerate all terrain)
 
-Some levels like 6-4 beginning has issues. Try using Full Load for these.
-
 *Experimental loading:* if you hold R while loading, it will ignore reloading the level itself. Loading outside of area you saved in will result in issues.
 Can be useful for certain bosses like Big Bowser.
 

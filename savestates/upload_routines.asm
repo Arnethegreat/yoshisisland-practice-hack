@@ -75,6 +75,25 @@ load_dyntile_buffer:
     DEX
     DEX
     BNE .loop
+.copy_to_vram
+    SEP #$10
+
+; $5C00 vram destination
+    LDA #$5C00
+    STA !reg_vmadd
+; $705800 source
+    LDA #$5800
+    STA $4302
+    LDY #$70
+    STY $4304
+; $0800 bytes
+    LDA #$0800
+    STA $4305
+; Enable DMA
+    LDX #$01
+    STX $420B
+
+    REP #$30
 .ret
     RTS
 
@@ -431,8 +450,8 @@ fix_cross_section:
     ; STZ $0002
     LDA #$0800
     LDY #$2800
-    LDX #$0000
-    JSR fixed_vram_dma
+    LDX #$026C
+    JSR fixed_vram_dma_full
 
 .ret
     RTS
@@ -441,36 +460,62 @@ fix_cross_section:
 ;=================================
 ;=================================
 ;=================================
-fixed_vram_dma:
+fixed_vram_dma_full:
+; Fixed transfer, write both bytes
 ; video port control = $80
 ; DMA control = $09
 ; DMA dest reg = $2118
-  PHB                                       ; $00BFBA |
-  PEA $7E48                                 ; $00BFBB |\
-  PLB                                       ; $00BFBE | | data bank $7E
-  PLB                                       ; $00BFBF |/
-  PHX                                       ; $00BFC0 |
-  LDX $4800                                 ; $00BFC1 |
-  STA $0008,x                               ; $00BFC4 |
-  TYA                                       ; $00BFC7 |
-  STA $0000,x                               ; $00BFC8 |
-  LDA #$0980                                ; $00BFCB |
-  STA $0002,x                               ; $00BFCE |
-  LDA #$0018                                ; $00BFD1 |
-  STA $0004,x                               ; $00BFD4 |
-  LDA #$7E48                                ; $00BFD7 |
-  STA $0006,x                               ; $00BFDA |
-  TXA                                       ; $00BFDD |
-  CLC                                       ; $00BFDE |
-  ADC #$000C                                ; $00BFDF |
-  STA $0005,x                               ; $00BFE2 |
-  TXA                                       ; $00BFE5 |
-  CLC                                       ; $00BFE6 |
-  ADC #$000D                                ; $00BFE7 |
-  STA $000A,x                               ; $00BFEA |
-  STA $4800                                 ; $00BFED |
-  PLA                                       ; $00BFF0 |
-  STA $000C,x                               ; $00BFF1 |
-  PLB                                       ; $00BFF4 |
-  RTS                                       ; $00BFF5 |
+  PHB                                       ; $00BEA6 |
+  PEA $7E48                                 ; $00BEA7 |\
+  PLB                                       ; $00BEAA | | data bank $7E
+  PLB                                       ; $00BEAB |/
+  PHX                                       ; $00BEAC |
+  LDX $4800                                 ; $00BEAD |
+  STA $0008,x                               ; $00BEB0 |
+  TYA                                       ; $00BEB3 |
+  STA $0000,x                               ; $00BEB4 |
+  LDA #$0980                                ; $00BEB7 |
+  STA $0002,x                               ; $00BEBA |
+  LDA #$0018                                ; $00BEBD |
+  STA $0004,x                               ; $00BEC0 |
+  LDA $0000                                 ; $00BEC3 |
+  STA $0006,x                               ; $00BEC6 |
+  PLA                                       ; $00BEC9 |
+  STA $0005,x                               ; $00BECA |
+  TXA                                       ; $00BECD |
+  CLC                                       ; $00BECE |
+  ADC #$000C                                ; $00BECF |
+  STA $000A,x                               ; $00BED2 |
+  STA $4800                                 ; $00BED5 |
+  PLB                                       ; $00BED8 |
+  RTS                                       ; $00BED9 |                                     ; $00BFF5 |
 ;=================================
+fixed_vram_dma_low:
+; Fixed transfer, write only low byte
+; video port control = $00
+; DMA control = $08
+; DMA dest reg = $2118
+  PHB                                       ; $00BEA6 |
+  PEA $7E48                                 ; $00BEA7 |\
+  PLB                                       ; $00BEAA | | data bank $7E
+  PLB                                       ; $00BEAB |/
+  PHX                                       ; $00BEAC |
+  LDX $4800                                 ; $00BEAD |
+  STA $0008,x                               ; $00BEB0 |
+  TYA                                       ; $00BEB3 |
+  STA $0000,x                               ; $00BEB4 |
+  LDA #$0800                                ; $00BEB7 |
+  STA $0002,x                               ; $00BEBA |
+  LDA #$0018                                ; $00BEBD |
+  STA $0004,x                               ; $00BEC0 |
+  LDA $0000                                 ; $00BEC3 |
+  STA $0006,x                               ; $00BEC6 |
+  PLA                                       ; $00BEC9 |
+  STA $0005,x                               ; $00BECA |
+  TXA                                       ; $00BECD |
+  CLC                                       ; $00BECE |
+  ADC #$000C                                ; $00BECF |
+  STA $000A,x                               ; $00BED2 |
+  STA $4800                                 ; $00BED5 |
+  PLB                                       ; $00BED8 |
+  RTS                                       ; $00BED9 |  

@@ -45,7 +45,7 @@ handle_debug_menu:
     LDA !debug_menu
     BEQ .next
 ; jump to debug menu processing code
-    ; JMP main_debug_menu
+    JMP main_debug_menu
 .next
 
 
@@ -65,17 +65,17 @@ controller_checks:
     JMP save_state
 
 .debug_menu_button
-    LDA $0943
+    LDA !controller_2_data2_press
 ; controller 2 data 2 on press
 ; start
     AND #$10
     BEQ .disable_music
-    ; JMP init_debug_menu
+    JMP init_debug_menu
 
 .disable_music
 ; controller 2 data 2 on press
 ; select
-    LDA $0943
+    LDA !controller_2_data2_press
     AND #$20
     BEQ .disable_autoscroll
 ; toggle music
@@ -84,7 +84,7 @@ controller_checks:
 .disable_autoscroll
 ; controller 2 data 2 on press
 ; Y-button
-    LDA $0943
+    LDA !controller_2_data2_press
     AND #$40
     BEQ game_mode_return
 ; clear out autoscroll flags

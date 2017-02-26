@@ -13,9 +13,18 @@
 ; Controller data
 !controller_data1 = $093C
 !controller_data2 = $093D
+!controller_data1_dp = $35
+!controller_data2_dp = $36
 
 !controller_data1_press = $093E
 !controller_data2_press = $093F
+!controller_data1_press_dp = $37
+!controller_data2_press_dp = $38
+
+!controller_2_data1 = $0940
+!controller_2_data2 = $0941
+!controller_2_data1_press = $0942
+!controller_2_data2_press = $0943
 
 !controller_data2_press_mode0f = $6072
 !controller_data2_press_mode0f = $6073

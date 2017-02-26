@@ -14,7 +14,7 @@ org $0080F6
 ; "finish" a level by holding L while doing start-select
 org start_select_check
     NOP #3
-    LDA $35
+    LDA !controller_data1_dp
     AND #$20
     BEQ $05
 
@@ -34,7 +34,7 @@ org file_select_check
 
     LDA #$63
     STA $037B
-    LDA $35
+    LDA !controller_data1_dp
     AND #$30
 ; Change branch so it returns completely if user isn't holding L or R
     BEQ $F2
@@ -44,7 +44,7 @@ org file_select_check
 ;
 org free_movement-$4C
 ; use controller 2 instead
-    LDA $0940
+    LDA !controller_2_data1
 ; A + X
     CMP #$00C0
 
@@ -55,7 +55,7 @@ org free_movement
     JSR free_movement-$4C
 
 ; If B button on pressed on controller 2
-    LDA $0943
+    LDA !controller_2_data2_press
     AND #$0080
     BEQ $0F
     NOP #6

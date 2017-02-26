@@ -75,7 +75,7 @@
 !wram_block_02_savestate = $7F492C
 !wram_block_02_size = #$0022
 
-; $0030 -> $ $015E
+; $0030 -> $015E
 !wram_block_03_source = $7E0030
 !wram_block_03_savestate = $7F494E
 !wram_block_03_size = #$012E

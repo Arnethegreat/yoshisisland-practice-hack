@@ -1,12 +1,16 @@
 !frame_skip = $012F
 !frame_skip_timer = $0130
 
+!controller_on_press_store = $CC
+
 end_frame = $00813A
 continue_frame = $008130
 
+
+
 handle_frame_skip:
   NOP
-  LDA $0942
+  LDA !controller_2_data1_press
   ; R controller 2
   BIT #$10
   BEQ .test_l
@@ -29,9 +33,9 @@ frame_skip_main:
 
 .skip_a_frame
   REP #$20
-  LDA $CC
-  ORA $37
-  STA $CC
+  LDA !controller_on_press_store
+  ORA !controller_data1_press_dp
+  STA !controller_on_press_store
   SEP #$20
   DEC !frame_skip_timer
   JML end_frame
@@ -41,11 +45,11 @@ frame_skip_main:
   STA !frame_skip_timer
 
   REP #$20
-  LDA $37
-  ORA $CC
-  STA $37
-  STA $093E
-  STZ $CC
+  LDA !controller_data1_press_dp
+  ORA !controller_on_press_store
+  STA !controller_data1_press_dp
+  STA !controller_data1_press
+  STZ !controller_on_press_store
   SEP #$20
 
 .ret

@@ -169,9 +169,11 @@ main_debug_menu:
     LDA #$0F
     STA $0200
 
+    JSR main_controls
+
     JSR draw_menu
 
-    LDA $0943
+    LDA !controller_2_data2_press
     AND #$10
     BEQ .ret
     JSR exit_debug_menu
@@ -204,7 +206,7 @@ exit_debug_menu:
 
     LDA !irq_mode_1_backup
     STA $011C
-    LDA !irq_mode_2_backup 
+    LDA !irq_mode_2_backup
     STA $0126
     LDA !hmda_backup
     STA $094A

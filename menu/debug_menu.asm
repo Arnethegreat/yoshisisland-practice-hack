@@ -154,6 +154,9 @@ init_debug_menu:
         DEX
         BNE .test
 
+    ; initialize controls
+    JSR init_controls
+
     SEP #$30
 
     PLB

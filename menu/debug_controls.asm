@@ -41,7 +41,6 @@ debug_menu_controls:
   dl $7E03B8
   dw $0140, $0000
 
-
 ; indexed by control type
 debug_control_inits:
   dw init_lownib_memchanger
@@ -51,6 +50,45 @@ debug_control_inits:
 debug_control_mains:
   dw main_lownib_memchanger
   dw main_highnib_memchanger
+
+init_controls:
+  REP #$30
+  PHD
+  ; loop through all controls
+  LDY !debug_controls_count*8-8
+.loop
+  PHY
+  ; set up base ROM address for control
+  TYA
+  CLC
+  ADC #debug_menu_controls
+  STA !debug_base
+
+  ; set up DP as base RAM address
+  LDA #!debug_base
+  PHA
+  PLD
+
+  ; fetch type and call init
+  LDA ($00)
+  AND #$00FF
+  TAX
+  JSR (debug_control_inits,x)
+
+  PLY
+  DEY
+  DEY
+  DEY
+  DEY
+  DEY
+  DEY
+  DEY
+  DEY
+  BPL .loop
+
+  PLD
+  RTS
+
 
 ; handles control processing & focus changes
 main_controls:
@@ -111,6 +149,7 @@ main_controls:
   RTS
 
 init_lownib_memchanger:
+  JSR draw_lownib
   RTS
 
 main_lownib_memchanger:

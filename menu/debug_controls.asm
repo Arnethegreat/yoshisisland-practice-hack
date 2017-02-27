@@ -26,8 +26,16 @@ init_controls:
   PHA
   PLD
 
+  ; set up long memory address into dp range
+  LDY #$0001
+  LDA (!debug_base_dp),y
+  STA $02
+  LDY #$0002
+  LDA (!debug_base_dp),y
+  STA $03
+
   ; fetch type and call init
-  LDA ($00)
+  LDA (!debug_base_dp)
   AND #$00FF
   TAX
   JSR (debug_control_inits,x)
@@ -45,7 +53,6 @@ init_controls:
 
   PLD
   RTS
-
 
 ; handles control processing & focus changes
 main_controls:
@@ -95,8 +102,16 @@ main_controls:
   PHA
   PLD
 
+  ; set up long memory address into dp range
+  LDY !dbc_memory
+  LDA (!debug_base_dp),y
+  STA $02
+  LDY !dbc_memory+1
+  LDA (!debug_base_dp),y
+  STA $03
+
   ; fetch type and call main
-  LDA ($00)
+  LDA (!debug_base_dp)
   AND #$00FF
   TAX
   JSR (debug_control_mains,x)
@@ -118,18 +133,8 @@ main_lownib_memchanger:
   AND #%10000000
   BEQ .check_decrement
 
-  ; set up memory address to read from
-  REP #$20
-  LDY !dbc_memory
-  LDA ($00),y
-  STA $02
-  LDY !dbc_memory+1
-  LDA ($00),y
-  STA $03
-  SEP #$20
-
   ; increment only low nibble
-  LDA [$02]
+  LDA [!debug_memoryaddr_dp]
   STA $0000
   INC A
   AND #$0F
@@ -137,7 +142,7 @@ main_lownib_memchanger:
   LDA $0000
   AND #$F0
   ORA $0002
-  STA [$02]
+  STA [!debug_memoryaddr_dp]
 
 ; pressing Y?
 .check_decrement
@@ -145,18 +150,8 @@ main_lownib_memchanger:
   AND #%01000000
   BEQ .ret
 
-  ; set up memory address to read from
-  REP #$20
-  LDY !dbc_memory
-  LDA ($00),y
-  STA $02
-  LDY !dbc_memory+1
-  LDA ($00),y
-  STA $03
-  SEP #$20
-
   ; decrement only low nibble
-  LDA [$02]
+  LDA [!debug_memoryaddr_dp]
   STA $0000
   DEC A
   AND #$0F
@@ -164,7 +159,7 @@ main_lownib_memchanger:
   LDA $0000
   AND #$F0
   ORA $0002
-  STA [$02]
+  STA [!debug_memoryaddr_dp]
 
 .ret
   JSR draw_lownib
@@ -175,17 +170,11 @@ draw_lownib:
 
   ; read tilemap address
   LDY #$0004
-  LDA ($00),y
+  LDA (!debug_base_dp),y
   TAX
 
   ; read memory address
-  LDY #$0001
-  LDA ($00),y
-  STA $02
-  LDY #$0002
-  LDA ($00),y
-  STA $03
-  LDA [$02]
+  LDA [!debug_memoryaddr_dp]
   AND #$000F
   STA !menu_tilemap_mirror,x
   RTS
@@ -201,17 +190,11 @@ draw_highnib:
 
   ; read tilemap address
   LDY #$0004
-  LDA ($00),y
+  LDA (!debug_base_dp),y
   TAX
 
   ; read memory address
-  LDY #$0001
-  LDA ($00),y
-  STA $02
-  LDY #$0002
-  LDA ($00),y
-  STA $03
-  LDA [$02]
+  LDA [!debug_memoryaddr_dp]
   AND #$00F0
   LSR
   LSR

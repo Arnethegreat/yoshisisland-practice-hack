@@ -31,6 +31,8 @@ incsrc music/toggle_music.asm
 incsrc menu/debug_menu.asm
 incsrc menu/debug_control_data.asm
 incsrc menu/debug_controls.asm
+incsrc menu/debug_control_types.asm
+
 ;=================================
 incsrc routines/frame_skip.asm
 

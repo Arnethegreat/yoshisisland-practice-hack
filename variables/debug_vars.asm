@@ -1,3 +1,5 @@
+!debug_egg_inv_mirror = $14A0
+
 !debug_menu = $1500
 !debug_tilemap = $1502
 !debug_index = $1504

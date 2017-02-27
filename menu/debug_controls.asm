@@ -2,11 +2,15 @@
 debug_control_inits:
   dw init_lownib_memchanger
   dw init_highnib_memchanger
+  dw init_toggle_changer
+  dw init_egg_changer
 
 ; indexed by control type
 debug_control_mains:
   dw main_lownib_memchanger
   dw main_highnib_memchanger
+  dw main_toggle_changer
+  dw main_egg_changer
 
 init_controls:
   REP #$30
@@ -87,6 +91,11 @@ main_controls:
   STA !debug_index
 
 .process_focused
+  
+  ; clear indicator from previous frame
+  ; before setting new debug_base
+  JSR clear_position_indicator
+
   ; set up base ROM address for control
   LDA !debug_index
   ASL
@@ -101,6 +110,9 @@ main_controls:
   LDA #!debug_base
   PHA
   PLD
+
+  ; set new indicator with new debug_base
+  JSR set_position_indicator
 
   ; set up long memory address into dp range
   LDY !dbc_memory
@@ -120,50 +132,6 @@ main_controls:
   PLD
   RTS
 
-init_lownib_memchanger:
-  JSR draw_lownib
-  RTS
-
-main_lownib_memchanger:
-  SEP #$20
-
-; pressing A?
-.check_increment
-  LDA !controller_data1_press
-  AND #%10000000
-  BEQ .check_decrement
-
-  ; increment only low nibble
-  LDA [!debug_memoryaddr_dp]
-  STA $0000
-  INC A
-  AND #$0F
-  STA $0002
-  LDA $0000
-  AND #$F0
-  ORA $0002
-  STA [!debug_memoryaddr_dp]
-
-; pressing Y?
-.check_decrement
-  LDA !controller_data2_press
-  AND #%01000000
-  BEQ .ret
-
-  ; decrement only low nibble
-  LDA [!debug_memoryaddr_dp]
-  STA $0000
-  DEC A
-  AND #$0F
-  STA $0002
-  LDA $0000
-  AND #$F0
-  ORA $0002
-  STA [!debug_memoryaddr_dp]
-
-.ret
-  JSR draw_lownib
-  RTS
 
 draw_lownib:
   REP #$30
@@ -179,11 +147,6 @@ draw_lownib:
   STA !menu_tilemap_mirror,x
   RTS
 
-init_highnib_memchanger:
-  RTS
-
-main_highnib_memchanger:
-  RTS
 
 draw_highnib:
   REP #$30
@@ -201,4 +164,53 @@ draw_highnib:
   LSR
   LSR
   STA !menu_tilemap_mirror,x
+  RTS
+
+draw_toggle:
+  REP #$30
+
+  LDY #$0004
+  LDA (!debug_base_dp),y
+  TAX
+
+  LDA [!debug_memoryaddr_dp]
+  STA !menu_tilemap_mirror,x
+
+.ret
+  RTS
+
+
+clear_position_indicator:
+  PHD
+  LDA #!debug_base
+  TCD
+
+  REP #$10
+
+  LDY #$0004
+  LDA (!debug_base_dp),y
+  SEC
+  SBC #$0040
+  TAX
+  LDA #$003F
+  STA !menu_tilemap_mirror,x
+
+  SEP #$10
+.ret
+  PLD
+  RTS
+
+set_position_indicator:
+  REP #$10
+
+  LDY #$0004
+  LDA (!debug_base_dp),y
+  SEC
+  SBC #$0040
+  TAX
+  LDA #$0031
+  STA !menu_tilemap_mirror,x
+
+  SEP #$10
+.ret
   RTS

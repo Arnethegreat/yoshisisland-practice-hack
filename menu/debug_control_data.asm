@@ -5,16 +5,16 @@
 ; $02: high nibble memory changer (wildcard $xxyy xx = min, yy = max)
 ; $04: toggle (wildcard as value for enable)
 ; $06: egg inventory editor (wildcard as egg number)
-!dbc_type = #$00
+!dbc_type = $00
 
 ; [long] memory address to read / write from
-!dbc_memory = #$01
+!dbc_memory = $01
 
 ; [word] relative tilemap address (offset from start of tilemap mirror)
-!dbc_tilemap = #$04
+!dbc_tilemap = $04
 
 ; [word] wildcard
-!dbc_wildcard = #$061
+!dbc_wildcard = $06
 
 !debug_controls_count = #$0005
 debug_menu_controls:

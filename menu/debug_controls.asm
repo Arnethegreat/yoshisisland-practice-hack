@@ -19,27 +19,11 @@ init_controls:
   LDY !debug_controls_count*8-8
 .loop
   PHY
-  ; set up base ROM address for control
-  TYA
-  CLC
-  ADC #debug_menu_controls
-  STA !debug_base
-
-  ; set up DP as base RAM address
-  LDA #!debug_base
-  PHA
-  PLD
-
-  ; set up long memory address into dp range
-  LDY #$0001
-  LDA (!debug_base_dp),y
-  STA $02
-  LDY #$0002
-  LDA (!debug_base_dp),y
-  STA $03
+  ; set up DP and copy data into DP
+  JSR copy_control_data_dp
 
   ; fetch type and call init
-  LDA (!debug_base_dp)
+  LDA !dbc_type
   AND #$00FF
   TAX
   JSR (debug_control_inits,x)
@@ -97,43 +81,51 @@ main_controls:
   STA $0053
 
 .process_focused
-  
+
   ; clear indicator from previous frame
-  ; before setting new debug_base
+  ; before copying new data
   JSR clear_position_indicator
 
-  ; set up base ROM address for control
+  ; set up DP and copy data into DP range
+  PHD
   LDA !debug_index
   ASL
   ASL
   ASL
-  CLC
-  ADC #debug_menu_controls
-  STA !debug_base
-
-  ; set up DP as base RAM address
-  PHD
-  LDA #!debug_base
-  PHA
-  PLD
+  TAY
+  JSR copy_control_data_dp
 
   ; set new indicator with new debug_base
   JSR set_position_indicator
 
-  ; set up long memory address into dp range
-  LDY !dbc_memory
-  LDA (!debug_base_dp),y
-  STA $02
-  LDY !dbc_memory+1
-  LDA (!debug_base_dp),y
-  STA $03
-
   ; fetch type and call main
-  LDA (!debug_base_dp)
+  LDA !dbc_type
   AND #$00FF
   TAX
   JSR (debug_control_mains,x)
 
 .ret
   PLD
+  RTS
+
+; sets DP and copies control data bytes into
+; this DP range to access these bytes easily
+; needs 16-bit m
+; parameters:
+; y = entry index into debug_menu_controls
+copy_control_data_dp:
+  ; set DP
+  LDA #!debug_base
+  TCD
+
+  ; just do 4 LDA/STA's
+  LDA debug_menu_controls,y
+  STA $00
+  LDA debug_menu_controls+2,y
+  STA $02
+  LDA debug_menu_controls+4,y
+  STA $04
+  LDA debug_menu_controls+6,y
+  STA $06
+
   RTS

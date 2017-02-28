@@ -1,5 +1,5 @@
 ; Control type inits
-; 
+;
 
 init_highnib_memchanger:
   JSR draw_highnib
@@ -33,10 +33,8 @@ main_highnib_memchanger:
   AND #%10000000
   BEQ .check_decrement
 
-  LDY !dbc_wildcard
-
   ; increment only high nibble
-  LDA [!debug_memoryaddr_dp]
+  LDA [!dbc_memory]
   STA $0000
   CLC
   ADC #$10
@@ -45,17 +43,16 @@ main_highnib_memchanger:
 
   ; compare to wild card (max)
   LDA $0000
-  CMP (!debug_base_dp),y
+  CMP !dbc_wildcard
   BCC +
-  LDY !dbc_wildcard+1
-  LDA (!debug_base_dp),y
+  LDA !dbc_wildcard+1
   STA $0002
 
 +
   LDA $0000
   AND #$0F
   ORA $0002
-  STA [!debug_memoryaddr_dp]
+  STA [!dbc_memory]
 
 ; pressing Y?
 .check_decrement
@@ -63,17 +60,15 @@ main_highnib_memchanger:
   AND #%01000000
   BEQ .ret
 
-  LDY !dbc_wildcard+1
   ; decrement only high nibble
-  LDA [!debug_memoryaddr_dp]
+  LDA [!dbc_memory]
   STA $0000
   AND #$F0
 
   ; compare to wild card (min)
-  CMP (!debug_base_dp),y
+  CMP !dbc_wildcard+1
   BNE .normal_dec
-  LDY !dbc_wildcard
-  LDA (!debug_base_dp),y
+  LDA !dbc_wildcard
   STA $0002
   BRA .wrap
 
@@ -87,7 +82,7 @@ main_highnib_memchanger:
   LDA $0000
   AND #$0F
   ORA $0002
-  STA [!debug_memoryaddr_dp]
+  STA [!dbc_memory]
 
 .ret
   JSR draw_highnib
@@ -104,9 +99,8 @@ main_lownib_memchanger:
   AND #%10000000
   BEQ .check_decrement
 
-  LDY !dbc_wildcard
   ; increment only low nibble
-  LDA [!debug_memoryaddr_dp]
+  LDA [!dbc_memory]
   STA $0000
   INC A
   AND #$0F
@@ -114,16 +108,15 @@ main_lownib_memchanger:
 
   ; compare to wild card (max)
   LDA $0000
-  CMP (!debug_base_dp),y
+  CMP !dbc_wildcard
   BCC +
-  LDY !dbc_wildcard+1
-  LDA (!debug_base_dp),y
+  LDA !dbc_wildcard+1
   STA $0002
 +
   LDA $0000
   AND #$F0
   ORA $0002
-  STA [!debug_memoryaddr_dp]
+  STA [!dbc_memory]
 
   ; increase sound effect
   LDA #$11
@@ -136,17 +129,15 @@ main_lownib_memchanger:
   AND #%01000000
   BEQ .ret
 
-  LDY !dbc_wildcard+1
   ; decrement only low nibble
-  LDA [!debug_memoryaddr_dp]
+  LDA [!dbc_memory]
   STA $0000
   AND #$0F
 
   ; compare to wild card (min)
-  CMP (!debug_base_dp),y
+  CMP !dbc_wildcard+1
   BNE .normal_dec
-  LDY !dbc_wildcard
-  LDA (!debug_base_dp),y
+  LDA !dbc_wildcard
   STA $0002
   BRA .wrap
 
@@ -157,7 +148,7 @@ main_lownib_memchanger:
   LDA $0000
   AND #$F0
   ORA $0002
-  STA [!debug_memoryaddr_dp]
+  STA [!dbc_memory]
 
   ; decrease sound effect
   LDA #$10
@@ -178,12 +169,10 @@ main_toggle_changer:
   AND #%11000000
   BEQ .ret
 
-  LDY !dbc_wildcard
-
-  LDA [!debug_memoryaddr_dp]
-  AND (!debug_base_dp),y
-  EOR (!debug_base_dp),y
-  STA [!debug_memoryaddr_dp]
+  LDA [!dbc_memory]
+  AND !dbc_wildcard
+  EOR !dbc_wildcard
+  STA [!dbc_memory]
 
 ; midtape sound
   LDA #$19

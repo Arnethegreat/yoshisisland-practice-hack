@@ -1,20 +1,20 @@
 ; data structure for each control as follows:
 
 ; [byte] type of control:
-; $00: low nibble memory changer (wildcard $0x0y xx = min, yy = max)
-; $02: high nibble memory changer (wildcard $x0y0 xx = min, yy = max)
+; $00: low nibble memory changer (wildcard $xxyy xx = min, yy = max)
+; $02: high nibble memory changer (wildcard $xxyy xx = min, yy = max)
 ; $04: toggle (wildcard as value for enable)
 ; $06: egg inventory editor (wildcard as egg number)
-!dbc_type = #$00
+!dbc_type = $00
 
 ; [long] memory address to read / write from
-!dbc_memory = #$01
+!dbc_memory = $01
 
 ; [word] relative tilemap address (offset from start of tilemap mirror)
-!dbc_tilemap = #$04
+!dbc_tilemap = $04
 
 ; [word] wildcard
-!dbc_wildcard = #$06
+!dbc_wildcard = $06
 
 !debug_controls_count = #$0005
 debug_menu_controls:
@@ -67,8 +67,3 @@ dw $0028, $083C
 dw $002A, $0C3B
 ; Green Giant Egg
 dw $002B, $043B
-; Shrug
-dw $002B, $0441
-
-; inventory is just indexes into this table
-; 

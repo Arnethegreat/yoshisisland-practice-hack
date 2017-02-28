@@ -2,12 +2,10 @@ draw_lownib:
   REP #$30
 
   ; read tilemap address
-  LDY #$0004
-  LDA (!debug_base_dp),y
-  TAX
+  LDX !dbc_tilemap
 
   ; read memory address
-  LDA [!debug_memoryaddr_dp]
+  LDA [!dbc_memory]
   AND #$000F
   STA !menu_tilemap_mirror,x
   RTS
@@ -17,12 +15,10 @@ draw_highnib:
   REP #$30
 
   ; read tilemap address
-  LDY #$0004
-  LDA (!debug_base_dp),y
-  TAX
+  LDX !dbc_tilemap
 
   ; read memory address
-  LDA [!debug_memoryaddr_dp]
+  LDA [!dbc_memory]
   AND #$00F0
   LSR
   LSR
@@ -34,11 +30,9 @@ draw_highnib:
 draw_toggle:
   REP #$30
 
-  LDY #$0004
-  LDA (!debug_base_dp),y
-  TAX
+  LDX !dbc_tilemap
 
-  LDA [!debug_memoryaddr_dp]
+  LDA [!dbc_memory]
   BEQ .red_color
   ORA #$1400
   BRA .ret
@@ -51,14 +45,10 @@ draw_toggle:
 
 
 clear_position_indicator:
-  PHD
-  LDA #!debug_base
-  TCD
-
   REP #$10
 
-  LDY #$0004
-  LDA (!debug_base_dp),y
+  ; load old tilemap
+  LDA !debug_base+!dbc_tilemap
   SEC
   SBC #$0040
   TAX
@@ -67,14 +57,12 @@ clear_position_indicator:
 
   SEP #$10
 .ret
-  PLD
   RTS
 
 set_position_indicator:
   REP #$10
 
-  LDY #$0004
-  LDA (!debug_base_dp),y
+  LDA !dbc_tilemap
   SEC
   SBC #$0040
   TAX

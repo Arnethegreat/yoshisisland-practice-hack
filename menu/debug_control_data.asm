@@ -1,9 +1,9 @@
 ; data structure for each control as follows:
 
 ; [byte] type of control:
-; $00: low nibble memory changer
-; $02: high nibble memory changer
-; $04: toggle
+; $00: low nibble memory changer (wildcard $xxyy xx = min, yy = max)
+; $02: high nibble memory changer (wildcard $xxyy xx = min, yy = max)
+; $04: toggle (wildcard as value for enable)
 ; $06: egg inventory editor (wildcard as egg number)
 !dbc_type = #$00
 
@@ -14,24 +14,24 @@
 !dbc_tilemap = #$04
 
 ; [word] wildcard
-!dbc_wildcard = #$06
+!dbc_wildcard = #$061
 
 !debug_controls_count = #$0005
 debug_menu_controls:
 ; lives
   db $00
   dl $7E0379
-  dw $008E, $0000
+  dw $008E, $000F
 
 ; coins
   db $02
   dl $7E037B
-  dw $010E, $0000
+  dw $010E, $30C0
 
 ; red coins
   db $04
   dl $7E03B4
-  dw $018E, $0000
+  dw $018E, $0003
 
 ; stars
   db $00

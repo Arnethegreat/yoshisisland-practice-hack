@@ -32,6 +32,7 @@ incsrc menu/debug_menu.asm
 incsrc menu/debug_control_data.asm
 incsrc menu/debug_controls.asm
 incsrc menu/debug_control_types.asm
+incsrc menu/debug_control_draws.asm
 
 ;=================================
 incsrc routines/frame_skip.asm

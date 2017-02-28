@@ -11,9 +11,8 @@
 
 ; 32 bytes
 !palette_backup = $0270
-
+!palette_backup_size = #$0040
 menu_palette:
-; any is fine with text
 .flashing
 dw $0000, $FFFF, $0000, $789F
 .green_egg
@@ -22,6 +21,10 @@ dw $0000, $FFFF, $0000, $05E0
 dw $0000, $FFFF, $0000, $1F9F
 .red
 dw $0000, $FFFF, $0000, $001F
+.red_text
+dw $0000, $001F, $0000, $001F
+.green_text
+dw $0000, $05E0, $0000, $001F
 
 ; 28 rows
 ; 1792 bytes
@@ -57,7 +60,7 @@ init_debug_menu:
     STA !bg1_char_backup
 
 ; save palette
-    LDX #$0020
+    LDX !palette_backup_size
     ..loop
         LDA $702000-2,x
         STA !palette_backup-2,x
@@ -141,7 +144,7 @@ init_debug_menu:
     STA $0948
 
     ; palettes
-    LDX #$0020
+    LDX !palette_backup_size
     -
         LDA menu_palette-2,x
         STA $702000-2,x
@@ -247,7 +250,7 @@ exit_debug_menu:
     LDA !bg2_backup
     STA $3B
 ; palettes
-    LDX #$0020
+    LDX !palette_backup_size
     ..loop
         LDA !palette_backup-2,x
         STA $702000-2,x

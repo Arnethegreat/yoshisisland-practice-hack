@@ -11,7 +11,7 @@
 
 ; 32 bytes
 !palette_backup = $0270
-!palette_backup_size = #$0040
+!palette_backup_size = #$0030
 menu_palette:
 .flashing
 dw $0000, $FFFF, $0000, $789F
@@ -268,13 +268,11 @@ exit_debug_menu:
     BRA .ret
 +
     CMP #$0A
-    BNE +
+    BNE .ret
     LDA #$08
     STA !gamemode
     LDA #$00
     STA $0200
-
-+
 
 .ret
     RTS

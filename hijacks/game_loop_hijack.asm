@@ -65,9 +65,20 @@ controller_checks:
     JMP save_state
 
 .debug_menu_button
+; Pressing start while holding L & R
+    LDA !controller_data1
+    AND #$30
+    CMP #$30
+    BNE ..controller_2
+    LDA !controller_data2_press
+    AND #$10
+    BEQ ..controller_2
+    JMP init_debug_menu 
+
+..controller_2
     LDA !controller_2_data2_press
 ; controller 2 data 2 on press
-; start
+; starT
     AND #$10
     BEQ .disable_music
     JMP init_debug_menu
@@ -88,11 +99,7 @@ controller_checks:
     AND #$40
     BEQ game_mode_return
 ; clear out autoscroll flags
-    STZ $0C1C
-    STZ $0C1E
-    STZ $0C20
-
-
+    JSR disable_autoscroll
 
 game_mode_return:
 ; Setting up gamemode pointer to stack as per original routine

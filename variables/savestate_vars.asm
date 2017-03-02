@@ -4,6 +4,8 @@
 !disable_music = $140E
 
 !current_level = $1410
+
+!full_load_default = $1412
 ; persistent save data (keeps on reset)
 ; stuff used throughout
     !save_level = $707F0A

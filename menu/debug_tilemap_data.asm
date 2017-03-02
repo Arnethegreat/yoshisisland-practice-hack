@@ -87,6 +87,8 @@ dw $000D, $0012, $001C, $000A, $000B, $0015, $000E, $003F, $0014, $000A, $0016
 dw $000E, $0014, $003F, $000A, $001D, $003F, $000B, $0018, $001C, $001C
 
 ;====================================
+; Absolute garbage, replacing with a single loop later
+;
 
 init_option_tilemaps:
     REP #$30

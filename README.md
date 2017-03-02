@@ -1,7 +1,9 @@
-# YI Practice Hack 0.2.2
+# YI Practice Hack 0.3.0
 Practice hack for Yoshi's Island designed to be used on a SNES console
 Features:
 * Savestates
+* Global Menu
+* Slowdown
 * Music on/off toggle
 * Enabling built-in Debug functions
 
@@ -10,10 +12,18 @@ Bug reports highly appreciated!
 Supports J 1.0 and U 1.0 versions. I'll add more versions upon request.
 
 Planned features:
-* Button configuration, 
-* Simple menu for setting options, 
+* Button configuration
+* Room reset
 
 # How to use
+### Menu
+To enter menu press Start while holding L & R on controller 1 or just press Start on controller 2.
+To leave menu press Start on either controller.
+
+Press Up and Down to go between options, B and Y for setting values.
+
+Note, egg editor really only affects your eggs when entering a new level from map screen. Flashing upside down key is the boss key.
+
 ### Savestates
 Press Select on controller 1 inside a level to save your current state
 
@@ -21,7 +31,7 @@ Press X on controller 1 to load your state. Loading can be done from anywhere (b
 Hold L button while pressing X to do a full load (regenerate all terrain)
 
 *Experimental loading:* if you hold R while loading, it will ignore reloading the level itself. Loading outside of area you saved in will result in issues.
-Can be useful for certain bosses like Big Bowser.
+Hookbill and Big Bowser uses this by default, loading outside of the fight itself will cause graphical glitches.
 
 ### Warp to Boss Room
 Press A+X on controller 2 to warp to that levels Boss Room.

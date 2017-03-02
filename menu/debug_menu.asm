@@ -165,7 +165,8 @@ init_debug_menu:
     LDX #.font_gfx
     LDY #$6000
     LDA #$0600
-    JSL $00BEA6
+    JSL vram_dma_01
+
 
    ; initialize tilemap with blanktiles
     LDX !menu_tilemap_size
@@ -222,7 +223,7 @@ draw_menu:
     LDX !menu_tilemap_mirror_addr
     LDY #$6400
     LDA !menu_tilemap_size
-    JSL $00BEA6
+    JSL vram_dma_01
 .ret
     SEP #$30
     RTS

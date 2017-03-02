@@ -1,4 +1,4 @@
-print "YI Practice Hack 0.2.3"
+print "YI Practice Hack 0.3.0"
 ;=================================
 incsrc region_check.asm
 incsrc config.asm

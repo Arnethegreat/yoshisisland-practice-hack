@@ -28,6 +28,8 @@ if read1($00FFD9) == $00
     
     map_icon_rotation = $17E700
 
+    vram_dma_01 = $00BC47
+
 elseif read1($00FFD9) == $01
     print "North American 1.0 ROM"
 ;=================================
@@ -46,6 +48,9 @@ elseif read1($00FFD9) == $01
     level_intro_wait = $01B1C8
 
     map_icon_rotation = $17E73E
+
+    vram_dma_01 = $00BEA6
+
 ;=================================
 else
     print "Unknown Region"

@@ -10,6 +10,7 @@
 
 
 ; 32 bytes
+!palette_anim_timer = $026E
 !palette_backup = $0270
 !palette_backup_size = #$0030
 menu_palette:
@@ -18,7 +19,7 @@ dw $0000, $FFFF, $0000, $789F
 .green_egg
 dw $0000, $FFFF, $0000, $05E0
 .yellow
-dw $0000, $FFFF, $0000, $1F9F
+dw $0000, $FFFF, $0000, $033F
 .red
 dw $0000, $FFFF, $0000, $001F
 .red_text
@@ -32,6 +33,7 @@ dw $0000, $05E0, $0000, $001F
 !menu_tilemap_mirror_bank = #$7E7E
 !menu_tilemap_mirror_addr = #$B8E2
 !menu_tilemap_size = #$0700
+
 
 ; handle initialization of debug menu
 init_debug_menu:
@@ -144,6 +146,8 @@ init_debug_menu:
     STA $0948
 
     ; palettes
+    LDA #$0003
+    STA !palette_anim_timer
     LDX !palette_backup_size
     -
         LDA menu_palette-2,x
@@ -175,6 +179,8 @@ init_debug_menu:
     ; initialize controls
     JSR init_controls
 
+    JSR init_option_tilemaps
+
     SEP #$30
 
     PLB
@@ -191,10 +197,11 @@ main_debug_menu:
     STA $0200
 
     JSR main_controls
-
+    JSR animate_palette
     JSR draw_menu
 
     LDA !controller_2_data2_press
+    ORA !controller_data2_press
     AND #$10
     BEQ .ret
     JSR exit_debug_menu
@@ -218,6 +225,28 @@ draw_menu:
     JSL $00BEA6
 .ret
     SEP #$30
+    RTS
+
+;================================
+anim_palette_data:
+dw $035F, $001F, $03E0, $5C1F
+
+animate_palette:
+    REP #$20
+    DEC !palette_anim_timer
+    LDA !palette_anim_timer
+    BPL .change_color
+.reset
+    ; reset timer
+    LDA #$0003
+    STA !palette_anim_timer
+.change_color
+    ASL A 
+    TAX
+    LDA anim_palette_data,x
+    STA $702000+6
+.ret
+    SEP #$20
     RTS
 
 ;================================

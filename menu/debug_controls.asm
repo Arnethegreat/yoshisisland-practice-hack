@@ -4,6 +4,7 @@ debug_control_inits:
   dw init_highnib_memchanger
   dw init_toggle_changer
   dw init_egg_changer
+  dw init_call_function
 
 ; indexed by control type
 debug_control_mains:
@@ -11,6 +12,7 @@ debug_control_mains:
   dw main_highnib_memchanger
   dw main_toggle_changer
   dw main_egg_changer
+  dw main_call_function
 
 init_controls:
   REP #$30

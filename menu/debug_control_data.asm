@@ -5,6 +5,7 @@
 ; $02: high nibble memory changer (wildcard $xxyy xx = min, yy = max)
 ; $04: toggle (wildcard as value for enable)
 ; $06: egg inventory editor (wildcard as egg number)
+; $08: call function (wildcard as what function)
 !dbc_type = $00
 
 ; [long] memory address to read / write from
@@ -16,33 +17,97 @@
 ; [word] wildcard
 !dbc_wildcard = $06
 
-!debug_controls_count = #$0005
+!debug_controls_count = #$0010
 debug_menu_controls:
-; lives
-  db $00
-  dl $7E0379
-  dw $008E, $000F
+; DISABLE AUTOSCROLL
+  db $08
+  dl $7E14A0
+  dw $00C2, $0001
 
-; coins
-  db $02
-  dl $7E037B
-  dw $010E, $30C0
+; WARP TO BOSS
+  db $08
+  dl $7E14A0
+  dw $0142, $0000
 
-; red coins
+; MUSIC DISABLE
+  db $08
+  dl $7E14A0
+  dw $01C2, $0002
+
+; FREE MOVEMENT
   db $04
+  dl $7E10DA
+  dw $0242, $0001
+
+; Egg count
+  db $00
+  dl $7E14A0
+  dw $02C2, $0006
+
+; egg 1
+  db $06
+  dl $7E0379
+  dw $02C6, $0000
+
+; egg 2
+  db $06
+  dl $7E037B
+  dw $02C8, $0001
+
+; egg 3
+  db $06
   dl $7E03B4
-  dw $018E, $0003
+  dw $02CA, $0002
 
-; stars
-  db $00
+; egg 4 
+  db $06
   dl $7E03B6
-  dw $020E, $0000
+  dw $02CC, $0003
 
-; flowers
-  db $00
+; egg 5
+  db $06
   dl $7E03B8
-  dw $028E, $0000
+  dw $02CE, $0004
 
+; egg 6
+  db $06
+  dl $7E03B8
+  dw $02D0, $0005
+
+; SLOW DOWN AMOUNT high
+  db $02
+  dl $7E012F
+  dw $0342, $00F0
+
+; SLOW DOWN AMOUNT low
+  db $00
+  dl $7E012F
+  dw $0344, $000F
+
+; FULL LOAD AS DEFAULT
+  db $04
+  dl $7E1412
+  dw $03C2, $0021
+
+; SET TUTORIAL FLAGS
+  db $04
+  dl $7E0372
+  dw $0442, $00E0
+
+; DISABLE KAMEK AT BOSS
+  db $04
+  dl $7E03AE
+  dw $04C2, $0001
+
+;======================================
+
+; indexed by wilcard for control type $08
+control_function_calls:
+  dw boss_room_warp
+  dw disable_autoscroll
+  dw toggle_music
+
+;======================================
 
 ; word 1: sprite ID
 ; word 2: tilemap ID
@@ -67,3 +132,5 @@ dw $0028, $083C
 dw $002A, $0C3B
 ; Green Giant Egg
 dw $002B, $043B
+; Unknown
+dw $000D, $0026

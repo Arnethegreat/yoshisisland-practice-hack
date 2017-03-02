@@ -124,6 +124,7 @@ prepare_load:
 
 ; override fast load if user is pressing L
     LDA !controller_data1
+    EOR !full_load_default
     AND #$0020
     BNE .different_level
 

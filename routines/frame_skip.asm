@@ -2,6 +2,7 @@
 !frame_skip_timer = $0130
 
 !controller_on_press_store = $CC
+!controller_2_on_press_store = $CE
 
 end_frame = $00813A
 continue_frame = $008130
@@ -33,9 +34,15 @@ frame_skip_main:
 
 .skip_a_frame
   REP #$20
+
   LDA !controller_on_press_store
   ORA !controller_data1_press_dp
   STA !controller_on_press_store
+
+  LDA !controller_2_on_press_store
+  ORA !controller_2_data1_press
+  STA !controller_2_on_press_store
+
   SEP #$20
   DEC !frame_skip_timer
   JML end_frame
@@ -45,11 +52,18 @@ frame_skip_main:
   STA !frame_skip_timer
 
   REP #$20
+
   LDA !controller_data1_press_dp
   ORA !controller_on_press_store
   STA !controller_data1_press_dp
   STA !controller_data1_press
   STZ !controller_on_press_store
+
+  LDA !controller_2_data1_press
+  ORA !controller_2_on_press_store
+  STA !controller_2_data1_press
+  STZ !controller_2_on_press_store
+
   SEP #$20
 
 .ret

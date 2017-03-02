@@ -33,6 +33,7 @@ draw_toggle:
   LDX !dbc_tilemap
 
   LDA [!dbc_memory]
+  AND #$00FF
   BEQ .red_color
   ORA #$1400
   BRA .ret
@@ -41,6 +42,79 @@ draw_toggle:
 
 .ret
   STA !menu_tilemap_mirror,x
+  RTS
+
+
+draw_egg_changer:
+; which egg in inventory
+  REP #$30
+  LDA !dbc_wildcard
+  ASL A
+  TAX
+  LDA !debug_egg_inv_mirror,x
+  ASL A
+  ASL A
+  TAX
+  LDA egg_inv_tilemap+2,x
+
+.ret
+  LDX !dbc_tilemap
+  STA !menu_tilemap_mirror,x
+  RTS
+
+
+draw_all_egg_changer:
+  REP #$30
+
+; Push copy 
+  PHD
+  LDA $00
+  PHA
+  LDA $02
+  PHA
+  LDA $04
+  PHA
+  LDA $06
+  PHA
+  ; loop through all controls
+  LDY !debug_controls_count*8-8
+.loop
+  PHY
+  ; set up DP and copy data into DP
+  JSR copy_control_data_dp
+
+  ; fetch type and call init
+  LDA !dbc_type
+  AND #$00FF
+  CMP #$0006
+  BNE .no_draw
+  JSR draw_egg_changer
+
+.no_draw
+  PLY
+  DEY
+  DEY
+  DEY
+  DEY
+  DEY
+  DEY
+  DEY
+  DEY
+  BPL .loop
+
+
+.ret
+; Pull copy
+  PLA
+  STA $06
+  PLA
+  STA $04
+  PLA
+  STA $02
+  PLA
+  STA $00
+  PLD
+
   RTS
 
 

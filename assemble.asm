@@ -33,8 +33,10 @@ incsrc menu/debug_control_data.asm
 incsrc menu/debug_controls.asm
 incsrc menu/debug_control_types.asm
 incsrc menu/debug_control_draws.asm
-
+incsrc menu/debug_tilemap_data.asm
 ;=================================
 incsrc routines/frame_skip.asm
+incsrc routines/boss_room_warp.asm
+incsrc routines/disable_autoscroll.asm
 
 print bytes

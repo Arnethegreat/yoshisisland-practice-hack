@@ -75,13 +75,13 @@ controller_checks:
     BEQ ..controller_2
     JMP init_debug_menu 
 
-..controller_2
-    LDA !controller_2_data2_press
-; controller 2 data 2 on press
-; starT
-    AND #$10
-    BEQ .disable_music
-    JMP init_debug_menu
+    ..controller_2
+        LDA !controller_2_data2_press
+    ; controller 2 data 2 on press
+    ; start
+        AND #$10
+        BEQ .disable_music
+        JMP init_debug_menu
 
 .disable_music
 ; controller 2 data 2 on press

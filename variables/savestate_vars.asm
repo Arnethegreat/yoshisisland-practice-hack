@@ -6,6 +6,23 @@
 !current_level = $1410
 
 !full_load_default = $1412
+
+!last_exit_1 = $1414
+!last_exit_2 = $1416
+
+!last_exit_item_page = $1418
+
+!last_exit_stars = $141A
+!last_exit_red_coins = $141C
+!last_exit_flowers = $141E
+
+; 14 bytes
+!last_exit_eggs = $150C
+; not useful?
+!last_exit_load_type = $151A
+
+!last_exit_item_mem_backup = $151C
+
 ; persistent save data (keeps on reset)
 ; stuff used throughout
     !save_level = $707F0A

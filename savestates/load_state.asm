@@ -45,6 +45,7 @@ load_state:
     LDA !save_y_pos
     STA !yoshi_y_pos
 
+
 ; Turn off screen while loading
     LDA $0200
     ORA #$0080
@@ -112,9 +113,13 @@ prepare_load:
 ; if we're in hookbill/bowser, do experimental load
     BCS .experimental_load
 
+; if user is holding R, do room reset of last room
+.test_reset_room
     LDA !controller_data1
     AND #$0010
     BEQ .continue
+    JSR load_last_exit
+    JMP .no_load
 
 .experimental_load
     LDA !gamemode
@@ -200,3 +205,59 @@ prepare_load:
     JMP game_mode_return
 
 ;=================================
+; restore data from last exit and load
+;
+
+item_memory_page_pointers:
+  dw $03C0, $0440, $04C0, $0540
+
+load_last_exit:
+    PHB
+
+    PHK
+    PLB
+
+    ; word sized
+    LDA !last_exit_1
+    STA !screen_exit_level
+    LDA !last_exit_2
+    STA !screen_exit_ypos
+
+    LDA !last_exit_load_type
+    STA !level_load_type
+
+    LDA !last_exit_red_coins
+    STA !red_coin_count
+    LDA !last_exit_stars
+    STA !star_count
+    LDA !last_exit_flowers
+    STA !flower_count
+
+    STZ !current_screen
+    LDX #$000C
+    .restore_eggs
+        LDA !last_exit_eggs,x
+        STA !egg_inv_size,x
+        DEX
+        DEX
+        BPL .restore_eggs
+
+    LDA !item_mem_current_page
+    ASL A
+    TAX
+    LDA item_memory_page_pointers,x
+    STA $00
+; TODO: save and restore item memory? 
+    LDY #$0080
+    .nuke_item_memory
+        LDA #$0000
+        STA ($00),y
+        DEY
+        DEY
+        BPL .nuke_item_memory
+
+    LDA #$000B
+    STA !gamemode
+.ret
+    PLB
+    RTS

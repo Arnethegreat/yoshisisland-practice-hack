@@ -358,7 +358,7 @@ debug_inv_to_egg_inv:
   .loop
     LDA !debug_egg_inv_mirror,y
     ; if null egg/unknown index, don't set
-    CMP #$0009
+    CMP #$000A
     BCS +
     ASL A
     ASL A

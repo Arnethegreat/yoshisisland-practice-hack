@@ -10,7 +10,6 @@ continue_frame = $008130
 
 
 handle_frame_skip:
-  NOP
   LDA !controller_2_data1_press
   ; R controller 2
   BIT #$10
@@ -29,6 +28,8 @@ handle_frame_skip:
   BEQ frame_skip_main_ret
 
 frame_skip_main:
+  LDA !debug_menu
+  BNE .ret
   LDA !frame_skip_timer
   BEQ .reset_timer
 

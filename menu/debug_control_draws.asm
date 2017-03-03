@@ -31,14 +31,12 @@ draw_toggle:
   REP #$30
 
   LDX !dbc_tilemap
-
   LDA [!dbc_memory]
-  AND #$00FF
   BEQ .red_color
-  ORA #$1400
+  LDA #$1428
   BRA .ret
 .red_color
-  ORA #$1000
+  LDA #$1026
 
 .ret
   STA !menu_tilemap_mirror,x

@@ -248,13 +248,16 @@ load_last_exit:
     LDA item_memory_page_pointers,x
     STA $00
 ; TODO: save and restore item memory? 
-    LDY #$0080
-    .nuke_item_memory
-        LDA #$0000
+    LDY #$007E
+    .restore_item_memory
+        LDA !last_exit_item_mem_backup,y
         STA ($00),y
         DEY
         DEY
-        BPL .nuke_item_memory
+        BPL .restore_item_memory
+
+    LDA #$0001
+    STA !last_exit_loading_flag
 
     LDA #$000B
     STA !gamemode

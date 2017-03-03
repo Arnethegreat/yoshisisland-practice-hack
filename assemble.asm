@@ -39,5 +39,6 @@ incsrc menu/debug_tilemap_data.asm
 incsrc routines/frame_skip.asm
 incsrc routines/boss_room_warp.asm
 incsrc routines/disable_autoscroll.asm
+incsrc routines/fix_camera.asm
 
 print bytes

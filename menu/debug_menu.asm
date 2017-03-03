@@ -103,7 +103,9 @@ init_debug_menu:
     STZ !reg_bg1vofs
     STZ $39
     STZ $3A
-    STZ $3B
+; screen is one pixel off otherwise?
+    LDA #$FF
+    STA $3B
     STZ $3C
 
 

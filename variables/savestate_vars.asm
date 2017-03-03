@@ -21,7 +21,9 @@
 ; not useful?
 !last_exit_load_type = $151A
 
-!last_exit_item_mem_backup = $151C
+!last_exit_loading_flag = $151C
+; 128 bytes
+!last_exit_item_mem_backup = $151E
 
 ; persistent save data (keeps on reset)
 ; stuff used throughout

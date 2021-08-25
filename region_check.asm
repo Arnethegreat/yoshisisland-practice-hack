@@ -2,7 +2,7 @@ lorom
 ;=================================
 ; check for version in internal header
 ; error if bad version
-if read($00FFDB) != $00
+if read1($00FFDB) != $00
     print "1.1 ROM version are not supported yet (ask me about it)"
     error "Version Error"
 endif

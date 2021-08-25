@@ -11,8 +11,8 @@ org map_icon_rotation
     LDA #$0000
 
 ; speed up world map transition
-org $17CD76
+org world_map_prev_fold_away
     NOP #19
 
-org $17CEFB
+org world_map_new_fold_in
     NOP #14

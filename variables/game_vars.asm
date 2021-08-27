@@ -90,7 +90,13 @@ handle_egg_inv_routine = $01B2B7
 !yoshi_x_speed = $60B4
 !yoshi_y_speed = $60AA
 
+; SFX (see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Sound-IDs)
+!sound_immediate = $0053
 
+!sfx_shell_01 = #$000B
+!sfx_midway_tape = #$0019
+!sfx_poof = #$001D
+!sfx_yoshi = #$0043
 
 ;Sprite Data
 ; $6F00 

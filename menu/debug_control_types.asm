@@ -27,6 +27,10 @@ init_call_function:
 .ret
   RTS
 
+init_warps_function:
+.ret
+  RTS
+
 ;================================
 ; Control type main routines
 
@@ -279,6 +283,22 @@ main_call_function:
 
 .ret
   RTS
+
+;================================
+
+main_warps_function:
+  SEP #$30
+  LDA !controller_data1_press
+  ORA !controller_data2_press
+; B/Y/X/A buttons
+  AND #%11000000
+  BEQ .ret
+  LDA !dbc_wildcard
+  TAX
+  JSR warp_menu
+.ret
+  RTS
+
 ;================================
 ; Loop through egg inventory
 ; Mark eggs as empty if after

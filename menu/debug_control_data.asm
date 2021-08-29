@@ -6,6 +6,7 @@
 ; $04: toggle (wildcard as value for enable)
 ; $06: egg inventory editor (wildcard as egg number)
 ; $08: call function (wildcard as what function)
+; $0A: warp navigation (wildcard as index)
 !dbc_type = $00
 
 ; [long] memory address to read / write from
@@ -17,7 +18,6 @@
 ; [word] wildcard
 !dbc_wildcard = $06
 
-!debug_controls_count = #$0010
 debug_menu_controls:
 ; DISABLE AUTOSCROLL
   db $08
@@ -98,6 +98,28 @@ debug_menu_controls:
   db $04
   dl $7E03AE
   dw $04C2, $0001
+
+; WARP MENU
+  db $0A
+  dl $7E14A0
+  dw $0542, $0001
+
+
+!first_option_tilemap_dest = $00C2
+!tilemap_line_width = $0080
+
+
+; each control is the same, so just store a count for each page (max = $0B)
+!debug_menu_controls_warps_worlds_count = #$0007
+!debug_menu_controls_warps_levels_count = #$000A
+debug_menu_controls_warps_room_counts:
+  db $02, $03, $05, $06, $01, $08, $03, $06, $01 ; world 1
+  db $05, $03, $03, $0A, $06, $06, $08, $0B, $02 ; world 2
+  db $04, $03, $06, $0B, $04, $04, $06, $05, $02 ; world 3
+  db $05, $06, $03, $0B, $03, $06, $03, $08, $09 ; world 4
+  db $05, $04, $08, $08, $04, $03, $04, $07, $05 ; world 5
+  db $04, $03, $03, $06, $03, $06, $05, $08, $07 ; world 6
+
 
 ;======================================
 

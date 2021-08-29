@@ -75,7 +75,11 @@ draw_all_egg_changer:
   LDA $06
   PHA
   ; loop through all controls
-  LDY !debug_controls_count*8-8
+  LDA !debug_controls_count_current
+  ASL #3
+  SEC
+  SBC #$0008
+  TAY
 .loop
   PHY
   ; set up DP and copy data into DP

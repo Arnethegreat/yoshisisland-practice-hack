@@ -35,6 +35,16 @@ dw $0000, $05E0, $0000, $001F
 !menu_tilemap_size = #$0700
 
 
+; hate having to use longs, but I don't understand mirroring/bank registers well enough
+!warps_page_depth_index = $0000DF   ; current page depth --  0: main menu,   1: world select,   2: level select,   3: room warp select
+
+!warps_current_world_index = $0000E1
+!warps_current_level_index = $0000E3
+!warps_current_world_level_index = $0000E5
+
+!debug_controls_count_current = $0000E7
+!debug_controls_count = #$0011
+
 ; handle initialization of debug menu
 init_debug_menu:
     SEP #$30
@@ -169,6 +179,9 @@ init_debug_menu:
     LDA #$0600
     JSL vram_dma_01
 
+    ; set the page index and the controls count for the main page
+    LDA #$0000 : STA !warps_page_depth_index
+    LDA !debug_controls_count : STA !debug_controls_count_current
 
    ; initialize tilemap with blanktiles
     LDX !menu_tilemap_size

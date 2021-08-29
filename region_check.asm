@@ -2,7 +2,7 @@ lorom
 ;=================================
 ; check for version in internal header
 ; error if bad version
-if read($00FFDB) != $00
+if read1($00FFDB) != $00
     print "1.1 ROM version are not supported yet (ask me about it)"
     error "Version Error"
 endif
@@ -28,6 +28,10 @@ if read1($00FFD9) == $00
     
     map_icon_rotation = $17E700
 
+    world_map_prev_fold_away = $17CD3C
+
+    world_map_new_fold_in = $17CEC5
+
     vram_dma_01 = $00BC47
 
 elseif read1($00FFD9) == $01
@@ -48,6 +52,10 @@ elseif read1($00FFD9) == $01
     level_intro_wait = $01B1C8
 
     map_icon_rotation = $17E73E
+
+    world_map_prev_fold_away = $17CD76
+
+    world_map_new_fold_in = $17CEFB
 
     vram_dma_01 = $00BEA6
 

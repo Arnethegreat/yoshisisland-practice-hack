@@ -330,9 +330,7 @@ clean_egg_inv_mirror:
 ;================================
 ; Read inventory and translate sprite ID to 
 ; proper index for debug egg inv
-;
-; TODO: Always use current egg inventory
-;       If we're inside a level
+
 egg_inv_to_debug_mirror:
   REP #$30
   LDA !egg_inv_size

@@ -37,14 +37,7 @@ init_controls:
   JSR (debug_control_inits,x)
 
   PLY
-  DEY
-  DEY
-  DEY
-  DEY
-  DEY
-  DEY
-  DEY
-  DEY
+  DEY #8
   BPL .loop
 
   PLD

@@ -324,7 +324,7 @@ macro mul(operand_a, operand_b)
   STA !reg_wrmpyb
   NOP #3
   REP #$30
-  LDA !reg_rdmpyl ; !reg_rdmpyh is high byte of product - BUG? p sure this uses bank A1 since the register is 2bytes
+  LDA !reg_rdmpyl
 
   PLP
 endmacro
@@ -489,14 +489,7 @@ load_room:
   LDA #$0001
 .load
   STA $7E038C ; Flag to enter 0: start of level, 1: different room within level
-  LDA #$000B : STA $7E0118 ; Game-mode - see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Game-Modes
-  
-  ; reset music otherwise old music will continue playing when warping to a room
-  SEP #$20
-  JSR toggle_music_set_music
-  REP #$20
-
-  JSR save_egg_inventory ; just use the method from boss room warp
+  LDA #$000B : STA !gamemode ; Game-mode - see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Game-Modes
   LDA !debug_menu
   BEQ .ret
   JSR exit_debug_menu

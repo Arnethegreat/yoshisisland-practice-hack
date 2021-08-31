@@ -56,6 +56,31 @@ init_debug_menu:
     STA !reg_inidisp
     STA $0200
 
+    ; save egg inventory if in a level
+    LDA $011C ; IRQ mode - could possibly use game mode, but it's way more granular and this seems to work
+    CMP #$02 ; normal level
+    BEQ .save_eggs
+    CMP #$04 ; tile-offset level
+    BEQ .save_eggs
+    CMP #$0A ; mode7 boss level
+    BNE .back_up
+.save_eggs
+    REP #$30
+    JSL save_eggs_to_wram ; in a level, save eggs SRAM -> WRAM
+
+    ; despawn current egg sprites when opening the debug menu so that a different set can be loaded when resuming gameplay
+    LDY !egg_inv_size_cur
+    BEQ .back_up
+    -
+        LDX !egg_inv_items_cur-2,y ; grab the sprite slot from egg memory and store it in x
+        PHY
+        JSL despawn_sprite_free_slot
+        PLY
+        DEY
+        DEY
+        BNE -
+    STZ !egg_inv_size_cur
+
 .back_up
     REP #$30
 
@@ -268,6 +293,17 @@ animate_palette:
 ;================================
 
 exit_debug_menu:
+    ; if in-level, load eggs
+    SEP #$20
+    LDA !irq_mode_1_backup
+    CMP #$02 ; normal level
+    BEQ .load_eggs
+    CMP #$04 ; tile-offset level
+    BEQ .load_eggs
+    CMP #$0A ; mode7 boss level
+    BNE .restore
+.load_eggs
+    JSL load_eggs_from_wram ; spawn egg sprites WRAM -> SRAM
 .restore
     STZ !debug_menu
 

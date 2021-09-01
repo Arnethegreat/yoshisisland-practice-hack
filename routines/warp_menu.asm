@@ -346,9 +346,7 @@ warp_menu:
   CPX #$0000
   BEQ .go_back
   LDA !sfx_shell_01 : STA !sound_immediate
-  LDA !warps_page_depth_index
-  INC A
-  STA !warps_page_depth_index
+  INC !warps_page_depth_index
 
   CMP #$0004
   BEQ .play_warp_sound
@@ -360,9 +358,7 @@ warp_menu:
 
 .go_back
   LDA !sfx_poof : STA !sound_immediate
-  LDA !warps_page_depth_index
-  DEC A
-  STA !warps_page_depth_index
+  DEC !warps_page_depth_index
 .next
   TXY ; option index now in Y
   ; initialize tilemap with blanktiles
@@ -391,11 +387,9 @@ load_main_menu:
   RTS
 
 load_world_select:
-  LDA #$0000
-  STA !warps_current_world_index
-  STA !warps_current_level_index
-  LDA !debug_menu_controls_warps_worlds_count
-  STA !debug_controls_count_current
+  STZ !warps_current_world_index
+  STZ !warps_current_level_index
+  LDA !debug_menu_controls_warps_worlds_count : STA !debug_controls_count_current
   JSR init_warp_option_worlds_tilemaps
   RTS
 
@@ -403,25 +397,20 @@ load_level_select:
   CPY #$FFFF
   BEQ .from_rooms
   ; do this if coming from world select
-  TYA ; index --> world index
-  STA !warps_current_world_index
+  STY !warps_current_world_index
   BRA .next
 
 .from_rooms ; do this if coming from room select
-  LDA !warps_current_world_index
-  TAY
+  LDY !warps_current_world_index
 
 .next
-  LDA #$0000 : STA !warps_current_level_index
-
-  LDA !debug_menu_controls_warps_levels_count
-  STA !debug_controls_count_current
+  STZ !warps_current_level_index
+  LDA !debug_menu_controls_warps_levels_count : STA !debug_controls_count_current
   JSR init_warp_option_levels_tilemaps
   RTS
 
 load_room_select:
-  TYA ; index --> level index
-  STA !warps_current_level_index
+  STY !warps_current_level_index
 
   ; offset into debug_menu_controls_warps_room_counts is found by !warps_current_world_index*9+!warps_current_level_index
   %mul(!warps_current_world_index, #$09)
@@ -446,7 +435,7 @@ load_room:
   ; set the world and level number
   LDA !warps_current_world_index
   ASL A
-  STA $7E0218 ; world num * 2 (0000 = world 1, 0002 = world 2, etc.)
+  STA !world_num
 
   ASL A ; world*4
   PHA
@@ -454,15 +443,8 @@ load_room:
   CLC
   ADC $01,s ; world*8+world*4 = world*12
   ADC !warps_current_level_index ; world*12+level
-  STA $7E021A ; I think this stores level index with the formula world*12+level, so 1-1 would be 0, 2-2 would be 13, 4-5 would be 40 ($28)
+  STA !level_num
   PLA
-
-  ; set stars=10 if under - addr stores current star count * 10
-  LDA $7E03B6
-  CMP #$0064
-  BPL .nbd
-  LDA #$0064 : STA $7E03B6
-.nbd
   
   ; if y == 0, load level start... i think the game automatically loads room data for us?
   DEY
@@ -480,18 +462,63 @@ load_room:
   ASL A
   TAY
   LDA ($01,s),y
-  STA $7F7E00 ; screen exit data (xpos, dest)
+  STA !screen_exit_level ; screen exit data (xpos, dest)
   INY
   INY
   LDA ($01,s),y
-  STA $7F7E02 ; screen exit data (type, ypos)
+  STA !screen_exit_level+2 ; screen exit data (type, ypos)
   PLA
   LDA #$0001
 .load
-  STA $7E038C ; Flag to enter 0: start of level, 1: different room within level
+  STA !level_load_type ; Flag to enter 0: start of level, 1: different room within level
   LDA #$000B : STA !gamemode ; Game-mode - see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Game-Modes
+  JSR set_min_10_stars
+  JSR set_yoshi_colour
   LDA !debug_menu
   BEQ .ret
   JSR exit_debug_menu
 .ret
+  RTS
+
+;================================
+; Set stars=10 if under
+
+set_min_10_stars:
+  LDA !star_count
+  CMP #$0064
+  BPL .ret
+  LDA #$0064 : STA !star_count ; stores current star count * 10
+.ret
+  RTS
+
+;================================
+; Change palette based on the level index, but swap yellow and 
+; light blue, and set 6-8 and extra levels to green
+
+set_yoshi_colour:
+  LDA !warps_current_level_index
+  CMP #$0008 ; ?-E
+  BEQ .set_green
+  CMP #$0002 ; ?-3
+  BEQ .set_lightblue
+  CMP #$0003 ; ?-4
+  BEQ .set_yellow
+  CMP #$0007 ; ?-8
+  BNE .finish
+  LDX !warps_current_world_index
+  CPX #$0005 ; 6-8
+  BNE .finish
+
+.set_green
+  LDA #$0000
+  BRA .finish
+.set_lightblue
+  LDA #$0003
+  BRA .finish
+.set_yellow
+  LDA #$0002
+  BRA .finish
+
+.finish
+  STA !yoshi_colour
   RTS

@@ -7,7 +7,7 @@
 !screen_exit_level = $7F7E00
 !screen_exit_xpos = $7F7E01
 !screen_exit_ypos = $7F7E02
-!screen_exit_type = $7F7E02
+!screen_exit_type = $7F7E03
 !current_screen = $038E
 
 ; Controller data
@@ -37,6 +37,10 @@
 !item_mem_page1 = $0440
 !item_mem_page2 = $04C0
 !item_mem_page3 = $0540
+
+; Level Select
+!world_num = $0218 ; world index * 2 (0000 = world 1, 0002 = world 2, etc.)
+!level_num = $021A ; seems to store level index with the formula world*12+level, so 1-1 would be 0, 2-2 would be 13, 4-5 would be 40 ($28)
 
 ;Egg Inventory
 handle_egg_inv_routine = $01B2B7
@@ -89,6 +93,9 @@ handle_egg_inv_routine = $01B2B7
 
 !yoshi_x_speed = $60B4
 !yoshi_y_speed = $60AA
+
+; Yoshi Colour Palette
+!yoshi_colour = $0383
 
 ; SFX (see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Sound-IDs)
 !sound_immediate = $0053

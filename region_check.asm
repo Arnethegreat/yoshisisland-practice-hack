@@ -32,6 +32,12 @@ if read1($00FFD9) == $00
 
     world_map_new_fold_in = $17CEC5
 
+    save_eggs_to_wram = $01C4E9
+    
+    load_eggs_from_wram = $01C508
+
+    despawn_sprite_free_slot = $03A32E ; X: sprite slot
+
     vram_dma_01 = $00BC47
 
 elseif read1($00FFD9) == $01
@@ -56,6 +62,12 @@ elseif read1($00FFD9) == $01
     world_map_prev_fold_away = $17CD76
 
     world_map_new_fold_in = $17CEFB
+
+    save_eggs_to_wram = $01B2B7
+
+    load_eggs_from_wram = $01B2D6
+
+    despawn_sprite_free_slot = $03A32E ; X: sprite slot
 
     vram_dma_01 = $00BEA6
 

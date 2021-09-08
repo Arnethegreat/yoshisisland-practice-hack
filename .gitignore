@@ -1,0 +1,4 @@
+# Ignore anything in the ROMs folder that isn't the base supported versions
+/ROMs/*.*
+!JP_clean.sfc
+!NA_clean.sfc

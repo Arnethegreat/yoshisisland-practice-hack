@@ -3,61 +3,31 @@
 
 org level_load_camera
     autoclean JSL fix_camera
-    nop
+    NOP
 
-; freecode $FF
+org level_init_hijack
+    JSR level_init_hook
 
-; fix_camera:
-;     LDA !loaded_state
-;     BEQ .cont
-; .in_load_state
+org room_init_hijack ; end of game mode 0C when !level_load_type flag is set
+    JSR room_init_hook
 
-; ; camera moving direction
-;     LDA $7F4991
-;     BNE .moving_left
-; .moving_right
-;     LDA !save_camera_layer1_x
-; ; values will be 2 off for when normal gameplay starts
-;     CLC
-;     ADC #$0002
-;     STA !s_camera_layer1_x
-;     STA $0039
-;     BRA .y_camera
-; .moving_left
-;     LDA !save_camera_layer1_x
-; ; values will be 2 off for when normal gameplay starts
-;     SEC
-;     SBC #$0002
-;     STA !s_camera_layer1_x
-;     STA $0039
+org level_main_hijack
+    JSR level_main_hook
 
-; .y_camera
-;     LDA !save_camera_layer1_y
-;     SEC
-;     SBC #$0004
-;     STA !s_camera_layer1_y
-;     STA $003B
+; freespace in bank 01 - starts here in J, in the middle of a large block in U
+org $01FED2
 
-; .cont
+level_init_hook:
+    INC !gamemode
+    autoclean JSL level_init
+    RTS
 
-;     PHX
+room_init_hook:
+    STZ !level_load_type
+    autoclean JSL room_init
+    RTS
 
-;     LDA !item_mem_current_page
-;     ASL A
-;     TAX
-;     LDA item_memory_page_pointers,x
-;     STA $00
-
-;     LDY #$7E
-;     .save_item_memory
-;         LDA ($00),y
-;         STA $151C,y
-;         DEY
-;         DEY
-;         BPL .save_item_memory
-
-;     PLX
-; .ret
-;     LDA #$0061
-;     LDY #$00
-;     RTL
+level_main_hook:
+    STA $0B83
+    autoclean JSL level_tick
+    RTS

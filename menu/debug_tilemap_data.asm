@@ -94,6 +94,13 @@ option_10_tilemap:
 dw $0020, $000A, $001B, $0019, $003F, $0016, $000E, $0017, $001E
 
 
+!option_11_tilemap_size = #$0006
+!option_11_tilemap_dest = $05D4
+option_11_tilemap:
+;  H      U      D
+dw $0011, $001E, $000D
+
+
 ;====================================
 ; Warp Options
 ;
@@ -308,6 +315,15 @@ init_option_tilemaps:
         CPX !option_10_tilemap_size
         BNE -
 
+    LDX #$0000
+    -
+        LDA option_11_tilemap,x
+        STA !menu_tilemap_mirror+!option_11_tilemap_dest,x
+        INX
+        INX
+        CPX !option_11_tilemap_size
+        BNE -
+
 .ret
     RTS
 
@@ -475,4 +491,3 @@ init_warp_option_rooms_tilemaps:
 .ret
     PLD ; reset DP
     RTS
-

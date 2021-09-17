@@ -104,6 +104,11 @@ debug_menu_controls:
   dl $7E14A0
   dw $0542, $0001
 
+; HUD
+  db $04
+  dl $7E0000+!hud_enabled
+  dw $05C2, $0001
+
 
 !first_option_tilemap_dest = $00C2
 !tilemap_line_width = $0080

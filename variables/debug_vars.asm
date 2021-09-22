@@ -34,6 +34,7 @@
 !debug_controls_count = #$0012
 
 !skip_baby_bowser = $026A
+!skip_kamek = $026C
 
 !tilemap = $E9
 !tilemap_dest = $EB

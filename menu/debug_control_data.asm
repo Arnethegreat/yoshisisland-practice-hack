@@ -96,7 +96,7 @@ debug_menu_controls:
 
 ; DISABLE KAMEK AT BOSS
   db $04
-  dl $7E03AE
+  dl $7E0000+!skip_kamek
   dw $04C2, $0001
 
 ; WARP MENU

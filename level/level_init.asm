@@ -79,6 +79,7 @@ level_room_init_common:
     PHP
 
     JSR load_font
+    JSR handle_flags
 
     LDA !hud_enabled
     BNE .draw_hud
@@ -120,6 +121,22 @@ level_room_init_common:
     BPL -
 
     BRA .ret
+
+; we may use custom flags that control multiple game flags - update the game flags here
+; note that they may also need to be updated when leaving the menu
+handle_flags:
+    PHP
+    REP #$20
+    LDA !skip_kamek
+    AND #$00FF
+    STA !skip_kamek_flag_1
+    STA !skip_kamek_flag_2
+    LDA !skip_baby_bowser
+    BEQ .ret
+    STA !skip_kamek_flag_2 ; if skipping baby bowser, must also skip Kamek
+.ret
+    PLP
+    RTS
 
 hud_hdma_table_h_controls: db %00000010, $11, hud_hdma_table_h, hud_hdma_table_h>>8, $7E
 hud_hdma_table_v_controls: db %00000010, $12, hud_hdma_table_v, hud_hdma_table_v>>8, $7E

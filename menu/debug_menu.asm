@@ -314,6 +314,7 @@ exit_debug_menu:
     STA $0200
 
 .ret
+    JSR handle_flags
     JSR hud_sub
     RTS
 

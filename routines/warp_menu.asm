@@ -490,7 +490,6 @@ check_big_bowser:
   CMP #$05DD ; hacky but simple: just check that we're warping to this very slightly different x pos in bowser's room
   BNE .ret
   INC !skip_baby_bowser
-  LDA #$0001 : STA !skip_kamek_flag_2 ; ensure Kamek isn't loaded since it causes bugs
 .ret
   RTS
 

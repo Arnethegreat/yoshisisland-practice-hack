@@ -2,6 +2,8 @@
 
 !gamemode = $0118
 !level_load_type = $038C
+!skip_kamek_flag_1 = $03AE
+!skip_kamek_flag_2 = $03B0
 
 ; Screen exit data
 !screen_exit_level = $7F7E00

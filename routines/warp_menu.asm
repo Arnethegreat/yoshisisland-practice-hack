@@ -295,6 +295,7 @@ warp_data_level_68: ; 34
   dw $00D3, $0677  ; Door 4
   dw $236B, $000A  ; Kamek's Magic Autoscroller
   dw $04DD, $007A  ; Boss
+  dw $05DD, $007A  ; hack to load Big Baby Bowser
 warp_data_level_6E: ; 35
   dw $046C, $006A  ; 2nd Room
   dw $D435, $007A  ; 3rd Room
@@ -430,8 +431,6 @@ load_room_select:
 load_room:
   REP #$30
 
-  STZ !current_screen ; current index into screen exit data $7F7E00 - not sure how important this is since we set the data manually below
-
   ; set the world and level number
   LDA !warps_current_world_index
   ASL A
@@ -468,15 +467,30 @@ load_room:
   LDA ($01,s),y
   STA !screen_exit_level+2 ; screen exit data (type, ypos)
   PLA
+  STZ !current_screen ; zero the current index into !screen_exit_level so that the data we just set will be read
   LDA #$0001
 .load
   STA !level_load_type ; Flag to enter 0: start of level, 1: different room within level
   LDA #$000B : STA !gamemode ; Game-mode - see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Game-Modes
+  JSR check_big_bowser
   JSR set_min_10_stars
   JSR set_yoshi_colour
   LDA !debug_menu
   BEQ .ret
   JSR exit_debug_menu
+.ret
+  RTS
+
+;================================
+; If warping to big bowser, need to set a flag
+
+check_big_bowser:
+  STZ !skip_baby_bowser
+  LDA !screen_exit_level
+  CMP #$05DD ; hacky but simple: just check that we're warping to this very slightly different x pos in bowser's room
+  BNE .ret
+  INC !skip_baby_bowser
+  LDA #$0001 : STA !skip_kamek_flag_2 ; ensure Kamek isn't loaded since it causes bugs
 .ret
   RTS
 

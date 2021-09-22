@@ -1,3 +1,12 @@
+main_bowser:
+    LDY !s_spr_wildcard_5_lo_dp,x
+    LDA !skip_baby_bowser ; this will be set if the big bowser option was selected from the warps menu
+    BEQ .ret
+    LDY #$17 : STY !s_spr_wildcard_5_lo_dp,x ; state $17 = prepare big bowser fight after baby expands
+    STZ !skip_baby_bowser
+.ret
+    RTL
+
 ;==========================
 ; HUD rendering stuff
 

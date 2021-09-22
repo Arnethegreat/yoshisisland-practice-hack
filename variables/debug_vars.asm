@@ -26,9 +26,15 @@
 
 !warps_page_depth_index = $00DF   ; current page depth --  0: main menu,   1: world select,   2: level select,   3: room warp select
 
-!warps_current_world_index = $00E1
+!warps_current_world_index = $00E1 ; TODO these should be 1 byte
 !warps_current_level_index = $00E3
 !warps_current_world_level_index = $00E5
 
 !debug_controls_count_current = $00E7
 !debug_controls_count = #$0012
+
+!skip_baby_bowser = $026A
+
+!tilemap = $E9
+!tilemap_dest = $EB
+!tilemap_char_offset = $ED

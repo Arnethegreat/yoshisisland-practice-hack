@@ -323,11 +323,16 @@ hud_sub:
     ; disable whichever hdma channels are being used by the hud - they'll be re-enabled if the hud is on
     LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
 
-    ; possibly need to reset the hdma table for hookbill
+    ; possibly need to reset the hdma table for hookbill/bowser
     LDA !last_exit_1
     CMP #$86
     BNE +
     JSL hookbill_mode7_hdma
++
+    LDA !last_exit_1
+    CMP #$DD
+    BNE +
+    JSL bowser_mode7_hdma
 +
 
     ; if (hud was active before OR in-level) AND it's enabled, init hud, else proceed

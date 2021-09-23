@@ -13,13 +13,29 @@ main_bowser:
 bank noassume
 
 bowser_mode7_hdma:
+    PHP
+    SEP #$30
+
+    LDX #$09
     LDA !hud_enabled
     BNE .load_custom
+-
     LDA baby_bowser_hijack+$0F1C,x ; $D477,x - original HDMA table
+    STA $7E5040,x
+    LDA baby_bowser_hijack+$0F23,x ; $D47E,x
+    STA $7E51E4,x
+    DEX
+    BPL -
     BRA .ret
 .load_custom
     LDA hud_bowser_bgmode_hdma_table,x
+    STA $7E5040,x
+    LDA baby_bowser_hijack+$0F23,x ; $D47E,x
+    STA $7E51E4,x
+    DEX
+    BPL .load_custom
 .ret
+    PLP
     RTL
 
 hookbill_mode7_hdma: ; these both are only called during the boss init routine, so we need to also manually call them when enabling/disabling the hud

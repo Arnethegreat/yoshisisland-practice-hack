@@ -4,8 +4,10 @@ org baby_bowser_hijack
     NOP
 
 ; bowser mode7 hdma hijack
-org baby_bowser_hijack+$0FA2
+org baby_bowser_hijack+$0FA0
     JSR bowser_mode7_hdma_hook
+    NOP #2
+    JMP baby_bowser_hijack+$0FB3
 
 ; hijack the entire loop so it can be called manually from our code
 org hookbill_mode7_hdma_hijack

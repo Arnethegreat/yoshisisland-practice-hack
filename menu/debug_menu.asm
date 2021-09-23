@@ -1,14 +1,3 @@
-!bg1_backup = $D0
-!bg2_backup = $D2
-!hmda_backup = $D4
-!irq_mode_1_backup = $D6
-!irq_mode_2_backup = $D7
-!bg_color_backup = $D8
-!bg1_tilemap_backup = $DA
-!bg1_char_backup = $DB
-!bgmode_backup = $DC
-
-
 ; 32 bytes
 !palette_anim_timer = $026E
 !palette_backup = $0270
@@ -27,58 +16,20 @@ dw $0000, $001F, $0000, $001F
 .green_text
 dw $0000, $05E0, $0000, $001F
 
-; 28 rows
-; 1792 bytes
-!menu_tilemap_mirror = $7EB8E2
-!menu_tilemap_mirror_bank = #$7E7E
-!menu_tilemap_mirror_addr = #$B8E2
-!menu_tilemap_size = #$0700
-
-
-!warps_page_depth_index = $00DF   ; current page depth --  0: main menu,   1: world select,   2: level select,   3: room warp select
-
-!warps_current_world_index = $00E1
-!warps_current_level_index = $00E3
-!warps_current_world_level_index = $00E5
-
-!debug_controls_count_current = $00E7
-!debug_controls_count = #$0011
-
 ; handle initialization of debug menu
 init_debug_menu:
     SEP #$30
     PHK
     PLB
 
+    ; disable hud
+    LDA !hud_displayed : STA !hud_displayed_backup
+    STZ !hud_displayed
+
     ; turn screen off
     LDA #$8F
     STA !reg_inidisp
     STA $0200
-
-    ; save egg inventory if in a level
-    LDA $011C ; IRQ mode - could possibly use game mode, but it's way more granular and this seems to work
-    CMP #$02 ; normal level
-    BEQ .save_eggs
-    CMP #$04 ; tile-offset level
-    BEQ .save_eggs
-    CMP #$0A ; mode7 boss level
-    BNE .back_up
-.save_eggs
-    REP #$30
-    JSL save_eggs_to_wram ; in a level, save eggs SRAM -> WRAM
-
-    ; despawn current egg sprites when opening the debug menu so that a different set can be loaded when resuming gameplay
-    LDY !egg_inv_size_cur
-    BEQ .back_up
-    -
-        LDX !egg_inv_items_cur-2,y ; grab the sprite slot from egg memory and store it in x
-        PHY
-        JSL despawn_sprite_free_slot
-        PLY
-        DEY
-        DEY
-        BNE -
-    STZ !egg_inv_size_cur
 
 .back_up
     REP #$30
@@ -87,13 +38,8 @@ init_debug_menu:
     STA !bg1_backup
     LDA $3B
     STA !bg2_backup
-    LDA $0948
+    LDA !r_reg_coldata_mirror
     STA !bg_color_backup
-
-    LDA $095F
-    STA !bg1_tilemap_backup
-    LDA $0962
-    STA !bg1_char_backup
 
 ; save palette
     LDX !palette_backup_size
@@ -106,25 +52,30 @@ init_debug_menu:
 
     SEP #$30
 
-    LDA $095E
+    LDA !r_reg_bgmode_mirror
     STA !bgmode_backup
 
-    LDA $095F
+    LDA !r_reg_bg1sc_mirror
     STA !bg1_tilemap_backup
-    LDA $0962
+    LDA !r_reg_bg12nba_mirror
     STA !bg1_char_backup
 
-    LDA $094A
-    STA !hmda_backup
+    LDA !r_reg_hdmaen_mirror
+    STA !hdma_backup
     LDA $011C
     STA !irq_mode_1_backup
     LDA $0126
     STA !irq_mode_2_backup
 
+    ; save egg inventory if in a level
+    JSR is_in_level
+    CMP #$01
+    BNE .init_settings
+    JSR store_eggs
 
 .init_settings
     ; turn HDMA off
-    STZ $094A
+    STZ !r_reg_hdmaen_mirror
     STZ !reg_hdmaen
 
     ; mode 0, 8x8
@@ -146,12 +97,12 @@ init_debug_menu:
     ; BG1 tilemap 6400
     LDA #$64
     STA !reg_bg1sc
-    STA $095F
+    STA !r_reg_bg1sc_mirror
 
     ; BG1 character 6000
     LDA #$06
     STA !reg_bg12nba
-    STA $0962
+    STA !r_reg_bg12nba_mirror
 
     ; turn on BG1, everything else off
     LDA #$01
@@ -179,7 +130,7 @@ init_debug_menu:
     REP #$30
     ; background color mirror
     LDA #$30C5
-    STA $0948
+    STA !r_reg_coldata_mirror
 
     ; palettes
     LDA #$0003
@@ -195,13 +146,7 @@ init_debug_menu:
     ; flag on
     INC !debug_menu
 
-    ; DMA font into VRAM 6000
-    LDA #.font_gfx>>8
-    STA $00
-    LDX #.font_gfx
-    LDY #$6000
-    LDA #$0600
-    JSL vram_dma_01
+    JSR load_font
 
     ; set the page index and the controls count for the main page
     STZ !warps_page_depth_index
@@ -227,8 +172,28 @@ init_debug_menu:
     PLB
     RTL
 
-.font_gfx
-incbin "../gfx/font.bin":0-600
+;================================
+
+store_eggs:
+    PHP
+    REP #$30
+    JSL save_eggs_to_wram ; in a level, save eggs SRAM -> WRAM
+
+    ; despawn current egg sprites when opening the debug menu so that a different set can be loaded when resuming gameplay
+    LDY !egg_inv_size_cur
+    BEQ .ret
+    -
+        LDX !egg_inv_items_cur-2,y ; grab the sprite slot from egg memory and store it in x
+        PHY
+        JSL despawn_sprite_free_slot
+        PLY
+        DEY
+        DEY
+        BNE -
+    STZ !egg_inv_size_cur
+.ret
+    PLP
+    RTS
 
 ;================================
 
@@ -292,16 +257,10 @@ animate_palette:
 ;================================
 
 exit_debug_menu:
-    ; if in-level, load eggs
     SEP #$20
-    LDA !irq_mode_1_backup
-    CMP #$02 ; normal level
-    BEQ .load_eggs
-    CMP #$04 ; tile-offset level
-    BEQ .load_eggs
-    CMP #$0A ; mode7 boss level
+    JSR is_in_level
+    CMP #$01
     BNE .restore
-.load_eggs
     JSL load_eggs_from_wram ; spawn egg sprites WRAM -> SRAM
 .restore
     STZ !debug_menu
@@ -310,21 +269,21 @@ exit_debug_menu:
     STA $011C
     LDA !irq_mode_2_backup
     STA $0126
-    LDA !hmda_backup
-    STA $094A
+    LDA !hdma_backup
+    STA !r_reg_hdmaen_mirror
 
     LDA !bg1_tilemap_backup
-    STA $095F
+    STA !r_reg_bg1sc_mirror
     LDA !bg1_char_backup
-    STA $0962
+    STA !r_reg_bg12nba_mirror
     LDA !bgmode_backup
-    STA $095E
+    STA !r_reg_bgmode_mirror
 
 
     REP #$30
 
     LDA !bg_color_backup
-    STA $0948
+    STA !r_reg_coldata_mirror
     LDA !bg1_backup
     STA $39
     LDA !bg2_backup
@@ -355,4 +314,47 @@ exit_debug_menu:
     STA $0200
 
 .ret
+    JSR handle_flags
+    JSR hud_sub
+    RTS
+
+; change some HUD related settings when exiting the menu, since it may have been toggled on/off
+hud_sub:
+    ; disable whichever hdma channels are being used by the hud - they'll be re-enabled if the hud is on
+    LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
+
+    ; possibly need to reset the hdma table for hookbill
+    LDA !last_exit_1
+    CMP #$86
+    BNE +
+    JSL hookbill_mode7_hdma
++
+
+    ; if (hud was active before OR in-level) AND it's enabled, init hud, else proceed
+    LDA !hud_displayed_backup : STA !hud_displayed
+    JSR is_in_level
+    ORA !hud_displayed
+    AND !hud_enabled
+    BEQ .ret
+    JSR level_room_init_common
+.ret
+    RTS
+
+; on return: A=1 if in-level, 0 otherwise
+is_in_level:
+    PHP
+    SEP #$20
+    LDA !irq_mode_1_backup ; IRQ mode - could possibly use game mode, but it's way more granular and this seems to work
+    CMP #$02 ; normal level
+    BEQ .in_level
+    CMP #$04 ; tile-offset level
+    BEQ .in_level
+    CMP #$0A ; mode7 boss level
+    BEQ .in_level
+    LDA #$00
+    BRA .ret
+.in_level
+    LDA #$01
+.ret
+    PLP
     RTS

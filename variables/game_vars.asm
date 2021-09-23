@@ -2,6 +2,8 @@
 
 !gamemode = $0118
 !level_load_type = $038C
+!skip_kamek_flag_1 = $03AE
+!skip_kamek_flag_2 = $03B0
 
 ; Screen exit data
 !screen_exit_level = $7F7E00
@@ -104,6 +106,41 @@ handle_egg_inv_routine = $01B2B7
 !sfx_midway_tape = #$0019
 !sfx_poof = #$001D
 !sfx_yoshi = #$0043
+
+; IRQ
+!r_irq_count = $0125
+
+; RAM Mirrors
+!r_reg_coldata_mirror = $0948
+!r_reg_hdmaen_mirror = $094A
+!r_reg_obsel_mirror = $094B
+!r_reg_wbglog_mirror = $094C
+!r_reg_wobjlog_mirror = $094D
+!r_reg_m7sel_mirror = $094E
+!r_reg_m7a_mirror = $094F
+!r_reg_m7b_mirror = $0951
+!r_reg_m7c_mirror = $0953
+!r_reg_m7d_mirror = $0955
+!r_reg_m7x_mirror = $0957
+!r_reg_m7y_mirror = $0959
+!r_reg_mosaic_mirror = $095B
+!r_reg_bgmode_mirror = $095E
+!r_reg_bg1sc_mirror = $095F
+!r_reg_bg2sc_mirror = $0960
+!r_reg_bg3sc_mirror = $0961
+!r_reg_bg12nba_mirror = $0962
+!r_reg_bg34nba_mirror = $0963
+!r_reg_w12sel_mirror = $0964
+!r_reg_w34sel_mirror = $0965
+!r_reg_wobjsel_mirror = $0966
+!r_reg_tm_mirror = $0967
+!r_reg_ts_mirror = $0968
+!r_reg_tmw_mirror = $0969
+!r_reg_tsw_mirror = $096A
+!r_reg_cgwsel_mirror = $096B
+!r_reg_cgadsub_mirror = $096C
+
+!s_cgram_mirror = $702000
 
 ;Sprite Data
 ; $6F00 

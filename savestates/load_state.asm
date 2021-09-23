@@ -70,6 +70,8 @@ load_state:
 
     JSR load_dma_channel_settings
 
+    JSR preserve_hud
+
 ; Re-enable screen when finished loading
     LDA $0200
     AND #$FF7F
@@ -79,6 +81,22 @@ load_state:
     PLY
     PLX
     JMP game_mode_return
+
+preserve_hud: ; HUD settings shouldn't be affected by loading a state
+    PHP
+    PHB
+    PHK
+    PLB
+    SEP #$20
+
+    LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
+    LDA !hud_enabled
+    BEQ .ret
+    JSR level_room_init_common
+.ret
+    PLB
+    PLP
+    RTS
 
 ;=================================
 

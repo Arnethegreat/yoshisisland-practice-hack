@@ -12,6 +12,17 @@ endif
 if read1($00FFD9) == $00
     print "Japan 1.0 ROM"
 ;=================================
+    level_init_hijack = $01C420
+
+    room_init_hijack = $01C447
+
+    baby_bowser_hijack = $0DC8B0
+
+    hookbill_mode7_hdma_hijack = $019E50
+
+    level_main_hijack = $01D2BB
+
+    map_init_hijack = $17A83D
 ; save_level_hijack
     save_current_area = $01C2B6
 ; level_load_hijack
@@ -22,6 +33,8 @@ if read1($00FFD9) == $00
     file_select_check = $179890
         !file_select_check_jump = $992B
 
+    interrupt_freespace = $00CC89 ; targeting the credits text because freespace is limited in JP
+    
     free_movement = $04F5E7
 
     level_intro_wait = $01C3FA
@@ -43,6 +56,18 @@ if read1($00FFD9) == $00
 elseif read1($00FFD9) == $01
     print "North American 1.0 ROM"
 ;=================================
+    level_init_hijack = $01B1EE
+
+    room_init_hijack = $01B215
+
+    baby_bowser_hijack = $0DC55B
+
+    hookbill_mode7_hdma_hijack = $019E4E
+
+    level_main_hijack = $01C0DB
+
+    map_init_hijack = $17A877
+
 ; save_level_hijack
     save_current_area = $01B084
 ; level_load_hijack
@@ -52,6 +77,8 @@ elseif read1($00FFD9) == $01
 
     file_select_check = $179897
         !file_select_check_jump = $9932
+
+    interrupt_freespace = $00F7A7
 
     free_movement = $04F64C
 

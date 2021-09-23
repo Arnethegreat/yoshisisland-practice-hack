@@ -26,13 +26,11 @@ dw $001C, $000C, $001B, $0018
 dw $0015, $0015
 
 
-!option_2_tilemap_size = #$0018
+!option_2_tilemap_size = #$0012
 !option_2_tilemap_dest = $0142
 option_2_tilemap:
-; WARP TO BOSS
-dw $0020, $000A, $001B, $0019
-dw $003F, $001D, $0018, $003F
-dw $000B, $0018, $001C, $001C
+;  W      A      R      P      _      M      E      N      U
+dw $0020, $000A, $001B, $0019, $003F, $0016, $000E, $0017, $001E
 
 
 !option_3_tilemap_size = #$0018
@@ -87,11 +85,11 @@ dw $000D, $0012, $001C, $000A, $000B, $0015, $000E, $003F, $0014, $000A, $0016
 dw $000E, $0014, $003F, $000A, $001D, $003F, $000B, $0018, $001C, $001C
 
 
-!option_10_tilemap_size = #$0012
-!option_10_tilemap_dest = $0542
+!option_10_tilemap_size = #$0006
+!option_10_tilemap_dest = $0554
 option_10_tilemap:
-;  W      A      R      P      _      M      E      N      U
-dw $0020, $000A, $001B, $0019, $003F, $0016, $000E, $0017, $001E
+;  H      U      D
+dw $0011, $001E, $000D
 
 
 ;====================================
@@ -160,7 +158,7 @@ option_world3_tilemaps_addr_table:
     dw option_level31_tilemap, option_level32_tilemap, option_level33_tilemap, option_level34_tilemap
     dw option_level35_tilemap, option_level36_tilemap, option_level37_tilemap, option_level38_tilemap, option_level3E_tilemap
 
-option_level41_tilemap: dw "*BONUS* - CAVE", !null, "1ST ROOM - FROM BONUS", !null, "2ND ROOM", !null, "3RD ROOM", !null, !null
+option_level41_tilemap: dw "*BONUS* - CAVE", !null, "1ST ROOM - FROM BONUS", !null, "2ND ROOM - FUZZIES", !null, "3RD ROOM", !null, !null
 option_level42_tilemap: dw "2ND ROOM", !null, "*BONUS* - FALLING", !null, "2ND ROOM - FROM BONUS", !null, "3RD ROOM", !null, "*BONUS* - RED", !null, !null
 option_level43_tilemap: dw "*BONUS*", !null, "2ND ROOM", !null, !null
 option_level44_tilemap: dw "HUB", !null, "TOP RIGHT", !null, "BOTTOM RIGHT", !null, "BOTTOM RIGHT - 2ND ROOM", !null, "TOP LEFT", !null, "BOTTOM LEFT", !null, "1ST KEY-OPENED ROOM", !null, "2ND KEY-OPENED ROOM", !null, "3RD KEY-OPENED ROOM", !null, "BOSS", !null, !null
@@ -168,7 +166,7 @@ option_level45_tilemap: dw "2ND ROOM", !null, "*BONUS* - FLOWER", !null, !null
 option_level46_tilemap: dw "SMALL ROOM WITH TULIP", !null, "2ND ROOM", !null, "3RD ROOM", !null, "*BONUS* - DOUBLE ARROW LIFT", !null, "4TH ROOM", !null, !null
 option_level47_tilemap: dw "BALLOON PUMP ROOM", !null, "2ND ROOM", !null, !null
 option_level48_tilemap: dw "2ND ROOM - LEFT", !null, "2ND ROOM - MIDDLE", !null, "2ND ROOM - RIGHT", !null, "*BONUS* - GIANT MILDES", !null, "LAKITU ROOM", !null, "TETRIS ROOM", !null, "BOSS", !null, !null
-option_level4E_tilemap: dw "BRIGHT ROOM - MAIN MIDDLE DOOR", !null, "DARK ROOM - EGG POOL", !null, "BRIGHT ROOM - TOP LEFT", !null, "DARK ROOM - MOLE", !null, "BRIGHT ROOM - RED EGG BLOCKS", !null, "DARK ROOM - HELICOPTER", !null, "BRIGHT ROOM - FLASHING EGGS", !null, "DARK ROOM - END WATERFALL", !null, !null
+option_level4E_tilemap: dw "BRIGHT - MAIN MIDDLE DOOR", !null, "DARK - EGG POOL", !null, "BRIGHT - TOP LEFT", !null, "DARK - MOLE", !null, "BRIGHT - RED EGG BLOCKS", !null, "DARK - HELICOPTER", !null, "BRIGHT - FLASHING EGGS", !null, "DARK - END WATERFALL", !null, !null
 
 option_world4_tilemaps_addr_table:
     dw option_level41_tilemap, option_level42_tilemap, option_level43_tilemap, option_level44_tilemap
@@ -193,9 +191,9 @@ option_level62_tilemap: dw "2ND ROOM", !null, "3RD ROOM", !null, !null
 option_level63_tilemap: dw "2ND ROOM", !null, "*BONUS* - 5 ROOMS", !null, !null
 option_level64_tilemap: dw "PRE-SALVO ROOM", !null, "BIG SALVO ROOM", !null, "DARK ROOM - FROM SALVO", !null, "LAVA ROOM", !null, "BOSS", !null, !null
 option_level65_tilemap: dw "*BONUS*", !null, "2ND ROOM", !null, !null
-option_level66_tilemap: dw "BRIGHT ROOM - TOP LEFT", !null, "DARK ROOM - BOTTOM LEFT", !null, "BRIGHT ROOM - TOP RIGHT", !null, "BRIGHT ROOM - MID LEFT", !null, "GOAL ROOM", !null, !null
+option_level66_tilemap: dw "BRIGHT - TOP LEFT", !null, "DARK - BOTTOM LEFT", !null, "BRIGHT - TOP RIGHT", !null, "BRIGHT - MID LEFT", !null, "GOAL ROOM", !null, !null
 option_level67_tilemap: dw "2ND ROOM", !null, "3RD ROOM", !null, "*BONUS* - SWITCHES", !null, "GOAL ROOM", !null, !null
-option_level68_tilemap: dw "PICK A DOOR ROOM", !null, "DOOR 1", !null, "DOOR 2", !null, "DOOR 3", !null, "DOOR 4", !null, "KAMEK'S MAGIC AUTOSCROLLER", !null, "BOSS", !null, !null
+option_level68_tilemap: dw "PICK A DOOR ROOM", !null, "DOOR 1", !null, "DOOR 2", !null, "DOOR 3", !null, "DOOR 4", !null, "KAMEK'S MAGIC AUTOSCROLLER", !null, "BOSS - BABY BOWSER", !null, "BOSS - BIG BOWSER", !null, !null
 option_level6E_tilemap: dw "2ND ROOM", !null, "3RD ROOM", !null, "4TH ROOM - BASEBALL", !null, "5TH ROOM", !null, "6TH ROOM", !null, "7TH ROOM - WATER", !null, !null
 
 option_world6_tilemaps_addr_table:
@@ -314,9 +312,6 @@ init_option_tilemaps:
 
 math pri on
 
-!tilemap = $E9
-!tilemap_dest = $EB
-!tilemap_char_offset = $ED
 
 ; subroutine to load each char sequentially from tilemap into the mirror offset by tilemap_dest
 load_text_page:
@@ -475,4 +470,3 @@ init_warp_option_rooms_tilemaps:
 .ret
     PLD ; reset DP
     RTS
-

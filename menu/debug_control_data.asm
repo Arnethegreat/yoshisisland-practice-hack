@@ -22,17 +22,17 @@ debug_menu_controls:
 ; DISABLE AUTOSCROLL
   db $08
   dl $7E14A0
-  dw $00C2, $0001
+  dw $00C2, $0000
 
-; WARP TO BOSS
-  db $08
+; WARP MENU
+  db $0A
   dl $7E14A0
-  dw $0142, $0000
+  dw $0142, $0001
 
 ; MUSIC DISABLE
   db $08
   dl $7E14A0
-  dw $01C2, $0002
+  dw $01C2, $0001
 
 ; FREE MOVEMENT
   db $04
@@ -96,12 +96,12 @@ debug_menu_controls:
 
 ; DISABLE KAMEK AT BOSS
   db $04
-  dl $7E03AE
+  dl $7E0000+!skip_kamek
   dw $04C2, $0001
 
-; WARP MENU
-  db $0A
-  dl $7E14A0
+; HUD
+  db $04
+  dl $7E0000+!hud_enabled
   dw $0542, $0001
 
 
@@ -118,14 +118,13 @@ debug_menu_controls_warps_room_counts:
   db $04, $03, $06, $0B, $04, $04, $06, $05, $02 ; world 3
   db $05, $06, $03, $0B, $03, $06, $03, $08, $09 ; world 4
   db $05, $04, $08, $08, $04, $03, $04, $07, $05 ; world 5
-  db $04, $03, $03, $06, $03, $06, $05, $08, $07 ; world 6
+  db $04, $03, $03, $06, $03, $06, $05, $09, $07 ; world 6
 
 
 ;======================================
 
 ; indexed by wilcard for control type $08
 control_function_calls:
-  dw boss_room_warp
   dw disable_autoscroll
   dw toggle_music
 

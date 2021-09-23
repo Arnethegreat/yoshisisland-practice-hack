@@ -177,7 +177,7 @@ endmacro
 irq_2a:
     %next_hblank()
 
-    ; restore stuff (~40 cycles?)
+    ; restore stuff (~40 cycles) - seems to overrun H-blank, which isn't ideal, but the alternative is adding irq_2c
     LDA !r_reg_bgmode_mirror : STA !reg_bgmode
     LDA !r_reg_bg3sc_mirror : STA !reg_bg3sc
     LDA !r_reg_bg34nba_mirror : STA !reg_bg34nba
@@ -191,7 +191,11 @@ irq_2a:
 irq_2b:
     %next_hblank()
 
-    JSR restore_bg3_xy ; restore x/y scrolls (~32 cycles?)
+    ; inline restore_bg3_xy to save 12 cycles
+    LDA !bg3_cam_x_backup : STA !reg_bg3hofs
+    LDA !bg3_cam_x_backup+1 : STA !reg_bg3hofs
+    LDA !bg3_cam_y_backup : STA !reg_bg3vofs
+    LDA !bg3_cam_y_backup+1 : STA !reg_bg3vofs
 
     ; next IRQ
     LDA #!nmi_v

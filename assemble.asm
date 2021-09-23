@@ -43,7 +43,6 @@ incsrc level/level_tick.asm
 incsrc level/mode7_boss.asm
 ;=================================
 incsrc routines/frame_skip.asm
-incsrc routines/boss_room_warp.asm
 incsrc routines/warp_menu.asm
 incsrc routines/disable_autoscroll.asm
 incsrc routines/fix_camera.asm

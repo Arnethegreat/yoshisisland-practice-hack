@@ -31,7 +31,7 @@
 !warps_current_world_level_index = $00E5
 
 !debug_controls_count_current = $00E7
-!debug_controls_count = #$0012
+!debug_controls_count = #$0011
 
 !skip_baby_bowser = $026A
 !skip_kamek = $026C

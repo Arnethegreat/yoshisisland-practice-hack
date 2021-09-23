@@ -26,13 +26,11 @@ dw $001C, $000C, $001B, $0018
 dw $0015, $0015
 
 
-!option_2_tilemap_size = #$0018
+!option_2_tilemap_size = #$0012
 !option_2_tilemap_dest = $0142
 option_2_tilemap:
-; WARP TO BOSS
-dw $0020, $000A, $001B, $0019
-dw $003F, $001D, $0018, $003F
-dw $000B, $0018, $001C, $001C
+;  W      A      R      P      _      M      E      N      U
+dw $0020, $000A, $001B, $0019, $003F, $0016, $000E, $0017, $001E
 
 
 !option_3_tilemap_size = #$0018
@@ -87,16 +85,9 @@ dw $000D, $0012, $001C, $000A, $000B, $0015, $000E, $003F, $0014, $000A, $0016
 dw $000E, $0014, $003F, $000A, $001D, $003F, $000B, $0018, $001C, $001C
 
 
-!option_10_tilemap_size = #$0012
-!option_10_tilemap_dest = $0542
+!option_10_tilemap_size = #$0006
+!option_10_tilemap_dest = $0554
 option_10_tilemap:
-;  W      A      R      P      _      M      E      N      U
-dw $0020, $000A, $001B, $0019, $003F, $0016, $000E, $0017, $001E
-
-
-!option_11_tilemap_size = #$0006
-!option_11_tilemap_dest = $05D4
-option_11_tilemap:
 ;  H      U      D
 dw $0011, $001E, $000D
 
@@ -313,15 +304,6 @@ init_option_tilemaps:
         INX
         INX
         CPX !option_10_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_11_tilemap,x
-        STA !menu_tilemap_mirror+!option_11_tilemap_dest,x
-        INX
-        INX
-        CPX !option_11_tilemap_size
         BNE -
 
 .ret

@@ -76,7 +76,7 @@ nmi:
     BEQ .ret
     BRA .per_level_hacks
 .post_boss_hacks
-    LDA #$01 : TRB !r_reg_tm_mirror ; unset BG1 as a main screen so that we can see the score text BUGGED IN NORMAL LEVELS
+    LDA #$01 : TRB !r_reg_tm_mirror ; unset BG1 as a main screen so that we can see the score text
     JSR set_hud_palette
     BRA .ret
 

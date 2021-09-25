@@ -24,6 +24,7 @@
 !hud_hdma_table_v_channel = !vars_ram+22
 !hud_hdma_table_v_channel_dp = $00+22
 !hud_hdma_channels = !vars_ram+24
+!null_egg_mode_enabled = !vars_ram+25
 
 !hud_buffer = $1E00
 

@@ -1,6 +1,7 @@
 ; General Variables
 
 !gamemode = $0118
+!r_game_loop_complete = $011B
 !level_load_type = $038C
 !skip_kamek_flag_1 = $03AE
 !skip_kamek_flag_2 = $03B0
@@ -45,8 +46,6 @@
 !level_num = $021A ; seems to store level index with the formula world*12+level, so 1-1 would be 0, 2-2 would be 13, 4-5 would be 40 ($28)
 
 ;Egg Inventory
-handle_egg_inv_routine = $01B2B7
-
 !egg_inv_size = $7E5D98
 !egg_inv_items = $7E5D9A
 
@@ -88,10 +87,14 @@ handle_egg_inv_routine = $01B2B7
 !s_camera_layer3_y = $60A0
 !s_camera_layer4_y = $60A2
 
-;??
+; Save Data
+!save_file_cur = $707E7C
+
 ;Yoshi States / speed
 !yoshi_x_pos = $608C
+!yoshi_x_subpixel = $608A
 !yoshi_y_pos = $6090
+!yoshi_y_subpixel = $608E
 
 !yoshi_x_speed = $60B4
 !yoshi_y_speed = $60AA

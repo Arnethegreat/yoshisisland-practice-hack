@@ -132,14 +132,14 @@ restore_bg3_xy:
     RTS
 
 check_lag:
-    LDA $011B ; !r_game_loop_complete Full Game Mode completion flag - $00: Game Mode still running (set by NMI/IRQ), $FF: Game Mode complete (set by end of game loop)
+    LDA !r_game_loop_complete ; Full Game Mode completion flag - $00: Game Mode still running (set by NMI/IRQ), $FF: Game Mode complete (set by end of game loop)
     BNE .no_lag
     REP #$20
     INC !lag_counter
     SEP #$20
 .no_lag
     INC !frames_passed
-    LDA $011B
+    LDA !r_game_loop_complete
     RTS
 
 load_irq2_vcount:

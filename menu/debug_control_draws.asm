@@ -94,14 +94,7 @@ draw_all_egg_changer:
 
 .no_draw
   PLY
-  DEY
-  DEY
-  DEY
-  DEY
-  DEY
-  DEY
-  DEY
-  DEY
+  DEY #8
   BPL .loop
 
 

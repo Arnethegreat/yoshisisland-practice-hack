@@ -1,7 +1,7 @@
 ; 32 bytes
 !palette_anim_timer = $026E
 !palette_backup = $0270
-!palette_backup_size = #$0030
+!palette_backup_size = #$0038
 menu_palette:
 .flashing
 dw $0000, $FFFF, $0000, $789F
@@ -15,6 +15,8 @@ dw $0000, $FFFF, $0000, $001F
 dw $0000, $001F, $0000, $001F
 .green_text
 dw $0000, $05E0, $0000, $001F
+.blue
+dw $0000, $FFFF, $0000, $5DE2
 
 ; handle initialization of debug menu
 init_debug_menu:
@@ -44,7 +46,7 @@ init_debug_menu:
 ; save palette
     LDX !palette_backup_size
     ..loop
-        LDA $702000-2,x
+        LDA !s_cgram_mirror-2,x
         STA !palette_backup-2,x
         DEX
         DEX
@@ -138,7 +140,7 @@ init_debug_menu:
     LDX !palette_backup_size
     -
         LDA menu_palette-2,x
-        STA $702000-2,x
+        STA !s_cgram_mirror-2,x
         DEX
         DEX
         BNE -
@@ -249,7 +251,7 @@ animate_palette:
     ASL A 
     TAX
     LDA anim_palette_data,x
-    STA $702000+6
+    STA !s_cgram_mirror+6
 .ret
     SEP #$20
     RTS
@@ -292,7 +294,7 @@ exit_debug_menu:
     LDX !palette_backup_size
     ..loop
         LDA !palette_backup-2,x
-        STA $702000-2,x
+        STA !s_cgram_mirror-2,x
         DEX
         DEX
         BNE ..loop

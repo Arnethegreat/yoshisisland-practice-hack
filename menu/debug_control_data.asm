@@ -135,8 +135,8 @@ control_function_calls:
 egg_inv_tilemap:
 ; no egg
 dw $0000, $0039
-; boss key
-dw $0014, $C03D
+; huffin puffin
+dw $0028, $083C
 ; flashing egg
 dw $0022, $003A
 ; red egg
@@ -145,10 +145,16 @@ dw $0023, $0C3A
 dw $0024, $083A
 ; green egg
 dw $0025, $043A
+; Skull Mouser
+dw $01A3, $1843
+; See-saw Log
+dw $007F, $0844
+; Boss Explosion
+dw $0013, $0845
+; boss key
+dw $0014, $C03D
 ; key
 dw $0027, $083D
-; huffin puffin
-dw $0028, $083C
 ; Red Giant Egg
 dw $002A, $0C3B
 ; Green Giant Egg

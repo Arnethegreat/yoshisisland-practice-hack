@@ -23,16 +23,30 @@ level_tick:
     JSR tick_timers
     JSR count_active_sprites
 
+    LDA !hud_enabled
+    AND !hud_displayed
+    AND #$00FF
+    BEQ .ret
+
     JSR display_common
     JSR display_input
+    LDY !null_egg_mode_enabled
+    BNE +
     JSR display_items
+    BRA ++
++
+    JSR display_nullegg
+++
+
     JSR display_misc
 
+.ret
     PLB
     PLP
     RTL
 
 display_common:
+    REP #$20
     LDA !yoshi_x_speed
     LDY #$02
     JSR print_16_abs
@@ -83,8 +97,6 @@ display_common:
     LDY #$3F
 .draw_clock
     STY !hud_buffer+$1C
-
-    REP #$20
     RTS
 
 display_items:
@@ -106,11 +118,38 @@ display_items:
     LDA !flower_count
     LDY #$56
     JSR print_8_dec
+    RTS
 
+display_nullegg:
     REP #$20
+
+    ; clear some previously used hud tiles, where the icons used to be
+    LDA #$303F
+    STA !hud_buffer+$0C
+    STA !hud_buffer+$14
+    STA !hud_buffer+$54
+
+    ; yossy x pos
+    LDA !yoshi_x_pos
+    LDY #$0C
+    JSR print_16
+
+    ; bg3 y pos
+    LDA !s_camera_layer3_y
+    LDY #$54
+    JSR print_16
+
+    SEP #$20
+
+    ; yossy x subpixel
+    LDA !yoshi_x_subpixel
+    LDY #$16
+    JSR print_8
+
     RTS
 
 display_misc:
+    REP #$20
     LDA !s_spr_id+$5C
     CMP #$0045
     BNE .no_froggy
@@ -123,6 +162,7 @@ display_misc:
     RTS
 
 display_input:
+    REP #$20
     LDA #$7E00+(!hud_buffer>>8)
     STA $01
 
@@ -149,7 +189,6 @@ display_input:
     PLA
     DEX
     BPL .loop
-
     RTS
 
 input_tiles:

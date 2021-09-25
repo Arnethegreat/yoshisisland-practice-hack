@@ -224,10 +224,10 @@ main_egg_changer:
   AND #%10000000
   BEQ .check_decrement
 
-; wrap from 1-9
+; wrap from 1-12
   LDA !debug_egg_inv_mirror,x
   INC A
-  CMP #$0A
+  CMP #$0D
   BCC .inc
   LDA #$01
 
@@ -247,7 +247,7 @@ main_egg_changer:
   LDA !debug_egg_inv_mirror,x
   DEC A
   BNE .dec
-  LDA #$09
+  LDA #$0C
 
 .dec
   STA !debug_egg_inv_mirror,x

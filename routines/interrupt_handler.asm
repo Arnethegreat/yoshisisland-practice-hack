@@ -125,10 +125,10 @@ set_hud_palette:
 
 ; apply the scroll values from the BG3 camera into the BG3 offset registers
 restore_bg3_xy:
-	LDA !bg3_cam_x_backup : STA !reg_bg3hofs ; think using the backups has the side-effect of delaying updates by 1 frame, so cross-sections might look a bit jank
-    LDA !bg3_cam_x_backup+1 : STA !reg_bg3hofs
-    LDA !bg3_cam_y_backup : STA !reg_bg3vofs
-    LDA !bg3_cam_y_backup+1 : STA !reg_bg3vofs
+	LDA $41 : STA !reg_bg3hofs
+    LDA $42 : STA !reg_bg3hofs
+    LDA $43 : STA !reg_bg3vofs
+    LDA $44 : STA !reg_bg3vofs
     RTS
 
 check_lag:

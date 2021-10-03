@@ -1,6 +1,6 @@
 ; IRQ
-org $00C412
-    JMP irq
+org $00C465 ; hijack irq2 - have to skip the H-blank check but the IRQ timing works out so it's all good
+    JMP irq_2
 
 ; vcount for new IRQs
 org $00C452

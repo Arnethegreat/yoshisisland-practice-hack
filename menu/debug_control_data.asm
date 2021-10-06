@@ -161,3 +161,5 @@ dw $002A, $0C3B
 dw $002B, $043B
 ; Unknown
 dw $000D, $0026
+
+!egg_inv_tilemap_count = datasize(egg_inv_tilemap)/4 ; bytes -> index

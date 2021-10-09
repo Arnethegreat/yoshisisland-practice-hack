@@ -176,7 +176,6 @@ main_lownib_memchanger:
   JSR draw_lownib
 ; hacky because don't feel like doing a seperate egg count type
   JSR clean_egg_inv_mirror
-  JSR debug_inv_to_egg_inv
   JSR draw_all_egg_changer
   RTS
 
@@ -258,7 +257,6 @@ main_egg_changer:
 
 .ret
   JSR clean_egg_inv_mirror
-  JSR debug_inv_to_egg_inv
   JSR draw_all_egg_changer
   RTS
 
@@ -372,23 +370,23 @@ debug_inv_to_egg_inv:
   LDA !debug_egg_count_mirror
   ASL A
   STA !egg_inv_size
+  BEQ .ret
   TAY
   .loop
-    LDA !debug_egg_inv_mirror,y
+    LDA !debug_egg_inv_mirror-2,y
     ; if null egg/unknown index, don't set
-    CMP.w #!egg_inv_tilemap_count-2
+    CMP.w #!egg_inv_tilemap_count-1
     BCS +
     ASL A
     ASL A
     TAX
     LDA egg_inv_tilemap,x
     TYX
-    STA !egg_inv_items,x
+    STA !egg_inv_items-2,x
     +
     DEY
     DEY
-    BPL .loop
-
+    BNE .loop
 
 .ret
   RTS

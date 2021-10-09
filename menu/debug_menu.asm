@@ -259,6 +259,7 @@ animate_palette:
 ;================================
 
 exit_debug_menu:
+    JSR debug_inv_to_egg_inv ; egg editor -> WRAM
     SEP #$20
     JSR is_in_level
     CMP #$01

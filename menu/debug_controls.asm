@@ -111,9 +111,6 @@ main_controls:
   RTS
 
 macro copy_data(controls)
-  ; set DP
-  LDA #!debug_base
-  TCD
   ; just do 4 LDA/STA's
   LDA <controls>+0,y : STA $00
   LDA <controls>+2,y : STA $02
@@ -124,10 +121,6 @@ endmacro
 ; loads the currently selected option data
 ; the wildcard and tilemap address are the only things we need to adjust based on y
 macro copy_warpmenu_data()
-  ; set DP
-  LDA #!debug_base
-  TCD
-
   LDA #$A00A : STA $00 ; CONTROL TYPE (lo byte)
   LDA #$7E14 : STA $02 ; ADDRESS FOR R/W (top 2 bytes of the long?)
   
@@ -158,9 +151,12 @@ endmacro
 copy_control_data_dp:
   REP #$30
 
+  ; set DP
+  LDA #!debug_base
+  TCD
+
   LDA !warps_page_depth_index
-  CMP #$0001
-  BCS .warps_page
+  BNE .warps_page
 
 .main_page
   %copy_data(debug_menu_controls)

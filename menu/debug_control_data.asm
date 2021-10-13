@@ -9,7 +9,7 @@
 ; $0A: warp navigation (wildcard as index)
 !dbc_type = $00
 
-; [long] memory address to read / write from
+; [long] memory address to read / write from - currently only used for [lownib, highnib, toggle]
 !dbc_memory = $01
 
 ; [word] relative tilemap address (offset from start of tilemap mirror)
@@ -41,7 +41,7 @@ debug_menu_controls:
 
 ; Egg count
   db $00
-  dl $7E14A0
+  dl $7E0000+!debug_egg_count_mirror
   dw $02C2, $0006
 
 ; egg 1
@@ -86,7 +86,7 @@ debug_menu_controls:
 
 ; FULL LOAD AS DEFAULT
   db $04
-  dl $7E1412
+  dl $7E0000+!full_load_default
   dw $03C2, $0021
 
 ; SET TUTORIAL FLAGS

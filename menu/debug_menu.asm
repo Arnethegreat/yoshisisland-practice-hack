@@ -1,7 +1,3 @@
-; 32 bytes
-!palette_anim_timer = $026E
-!palette_backup = $0270
-!palette_backup_size = #$0038
 menu_palette:
 .flashing
 dw $0000, $FFFF, $0000, $789F
@@ -44,7 +40,7 @@ init_debug_menu:
     STA !bg_color_backup
 
 ; save palette
-    LDX !palette_backup_size
+    LDX #!palette_backup_size
     ..loop
         LDA !s_cgram_mirror-2,x
         STA !palette_backup-2,x
@@ -137,7 +133,7 @@ init_debug_menu:
     ; palettes
     LDA #$0003
     STA !palette_anim_timer
-    LDX !palette_backup_size
+    LDX #!palette_backup_size
     -
         LDA menu_palette-2,x
         STA !s_cgram_mirror-2,x
@@ -210,6 +206,7 @@ main_debug_menu:
     LDA !controller_2_data2_press
     ORA !controller_data2_press
     AND #$10
+    ORA !warping
     BEQ .ret
     JSR exit_debug_menu
 
@@ -223,10 +220,10 @@ main_debug_menu:
 ;================================
 
 draw_menu:
+    SEP #$20
+    LDA.b #!menu_tilemap_mirror>>16 : STA $01
     REP #$30
-    LDA !menu_tilemap_mirror_bank
-    STA $00
-    LDX !menu_tilemap_mirror_addr
+    LDX.w #!menu_tilemap_mirror
     LDY #$6400
     LDA !menu_tilemap_size
     JSL vram_dma_01
@@ -261,11 +258,13 @@ animate_palette:
 exit_debug_menu:
     JSR debug_inv_to_egg_inv ; egg editor -> WRAM
     SEP #$20
+    LDA !warping ; don't load eggs when warping since the loading screen will do it for us
+    BNE +
     JSR is_in_level
     CMP #$01
-    BNE .restore
+    BNE +
     JSL load_eggs_from_wram ; spawn egg sprites WRAM -> SRAM
-.restore
++
     STZ !debug_menu
 
     LDA !irq_mode_1_backup
@@ -285,6 +284,8 @@ exit_debug_menu:
 
     REP #$30
 
+    STZ !warping
+
     LDA !bg_color_backup
     STA !r_reg_coldata_mirror
     LDA !bg1_backup
@@ -292,13 +293,13 @@ exit_debug_menu:
     LDA !bg2_backup
     STA $3B
 ; palettes
-    LDX !palette_backup_size
-    ..loop
+    LDX #!palette_backup_size
+    -
         LDA !palette_backup-2,x
         STA !s_cgram_mirror-2,x
         DEX
         DEX
-        BNE ..loop
+        BNE -
 ; gamemode tests
     SEP #$30
     LDA !gamemode

@@ -375,11 +375,13 @@ warp_menu:
   LDA !warps_page_depth_index
   ASL A ; index --> offset
   TAX
-  JSR (menu_load_funcs,x)
-.ret
-  RTS
-
-menu_load_funcs: dw load_main_menu, load_world_select, load_level_select, load_room_select, load_room
+  JMP (.menu_load_funcs,x)
+.menu_load_funcs
+  dw load_main_menu
+  dw load_world_select
+  dw load_level_select
+  dw load_room_select
+  dw load_room
 
 load_main_menu:
   LDA !debug_controls_count : STA !debug_controls_count_current
@@ -475,10 +477,7 @@ load_room:
   JSR check_big_bowser
   JSR set_min_10_stars
   JSR set_yoshi_colour
-  LDA !debug_menu
-  BEQ .ret
-  JSR exit_debug_menu
-.ret
+  INC !warping
   RTS
 
 ;================================

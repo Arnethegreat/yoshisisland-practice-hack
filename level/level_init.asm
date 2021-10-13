@@ -82,10 +82,7 @@ level_room_init_common:
     JSR handle_flags
 
     LDA !hud_enabled
-    BNE .draw_hud
-.ret
-    PLP
-    RTS
+    BEQ .ret
 
 .draw_hud
     SEP #$30
@@ -96,23 +93,23 @@ level_room_init_common:
     ; e.g. 1-4 falling walls use channel 4 to set bg3vofs
     PHD
     REP #$20
-    LDA #!vars_ram
+    LDA #!hud_hdma_table_h_channel ; indirect indexed only available with DP
     TCD
     SEP #$20
     LDY #$04
 -
-    LDA hud_hdma_table_h_controls,y : STA (!hud_hdma_table_h_channel_dp),y ; indirect indexed only available with DP
-    LDA hud_hdma_table_v_controls,y : STA (!hud_hdma_table_v_channel_dp),y
+    LDA hud_hdma_table_h_controls,y : STA.b ($00),y ; !hud_hdma_table_h_channel
+    LDA hud_hdma_table_v_controls,y : STA.b ($02),y ; !hud_hdma_table_v_channel
     DEY
     BPL -
     PLD
 
     LDA !hud_hdma_channels : TSB !r_reg_hdmaen_mirror ; hdmaen gets started at the top of the screen
 
-    REP #$30
+    REP #$30 ; use 16-bit X since the buffer size is over $80 and will therefore set the N flag and break the BPL loop immediately
 
-    ; init hud buffer, 3 lines * 64 bytes per line = 192 ($C0) bytes from $1E00-$1EC0
-    LDX #$00BE
+    ; init hud buffer
+    LDX #!hud_buffer_size-2
 -
     LDA hud_tilemap,x
     STA !hud_buffer,x
@@ -120,7 +117,9 @@ level_room_init_common:
     DEX
     BPL -
 
-    BRA .ret
+.ret
+    PLP
+    RTS
 
 ; we may use custom flags that control multiple game flags - update the game flags here
 ; note that they may also need to be updated when leaving the menu

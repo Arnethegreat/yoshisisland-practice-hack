@@ -31,11 +31,11 @@ load_item_memory:
 ;=================================
 ;=================================
 save_sram_map16:   
-    LDX #$0400
+    LDX !sram_map16_size
     BEQ .ret
 .loop 
-    LDA $70409E-2,x
-    STA $7E2340-2,x
+    LDA !sram_map16_source-2,x
+    STA !sram_map16_savestate-2,x
     DEX
     DEX
     BNE .loop
@@ -43,11 +43,11 @@ save_sram_map16:
     RTS
 ;=================================
 load_sram_map16:
-    LDX #$0400
+    LDX !sram_map16_size
     BEQ .ret
 .loop 
-    LDA $7E2340-2,x
-    STA $70409E-2,x
+    LDA !sram_map16_savestate-2,x
+    STA !sram_map16_source-2,x
     DEX
     DEX
     BNE .loop
@@ -55,11 +55,11 @@ load_sram_map16:
     RTS
 ;=================================
 save_dyntile_buffer:   
-    LDX #$0800
+    LDX !sram_dyntile_size
     BEQ .ret
 .loop 
-    LDA $705800-2,x
-    STA $7E2740-2,x
+    LDA !sram_dyntile_source-2,x
+    STA !sram_dyntile_savestate-2,x
     DEX
     DEX
     BNE .loop
@@ -67,11 +67,11 @@ save_dyntile_buffer:
     RTS
 ;=================================
 load_dyntile_buffer:
-    LDX #$0800
+    LDX !sram_dyntile_size
     BEQ .ret
 .loop 
-    LDA $7E2740-2,x
-    STA $705800-2,x
+    LDA !sram_dyntile_savestate-2,x
+    STA !sram_dyntile_source-2,x
     DEX
     DEX
     BNE .loop
@@ -327,57 +327,20 @@ load_wram_block_03:
 ;=================================
 ;=================================
 
-; TODO: Make a nice tight loop
 save_dma_channel_settings:
     SEP #$30
     LDX #$0A
-.channel_0
-    LDA $4300,x
-    STA $1420,x
+-
+    LDA $4300,x : STA !dma_channel_0_savestate,x
+    LDA $4310,x : STA !dma_channel_1_savestate,x
+    LDA $4320,x : STA !dma_channel_2_savestate,x
+    LDA $4330,x : STA !dma_channel_3_savestate,x
+    LDA $4340,x : STA !dma_channel_4_savestate,x
+    LDA $4350,x : STA !dma_channel_5_savestate,x
+    LDA $4360,x : STA !dma_channel_6_savestate,x
+    LDA $4370,x : STA !dma_channel_7_savestate,x
     DEX
-    BPL .channel_0
-    LDX #$0A
-.channel_1
-    LDA $4310,x
-    STA $1430,x
-    DEX
-    BPL .channel_1
-    LDX #$0A
-.channel_2
-    LDA $4320,x
-    STA $1440,x
-    DEX
-    BPL .channel_2
-    LDX #$0A
-.channel_3
-    LDA $4330,x
-    STA $1450,x
-    DEX
-    BPL .channel_3
-    LDX #$0A
-.channel_4
-    LDA $4340,x
-    STA $1460,x
-    DEX
-    BPL .channel_4
-    LDX #$0A
-.channel_5
-    LDA $4350,x
-    STA $1470,x
-    DEX
-    BPL .channel_5
-    LDX #$0A
-.channel_6
-    LDA $4360,x
-    STA $1480,x
-    DEX
-    BPL .channel_6
-    LDX #$0A
-.channel_7
-    LDA $4370,x
-    STA $1490,x
-    DEX
-    BPL .channel_7
+    BPL -
 
 .ret
     REP #$30
@@ -386,53 +349,17 @@ save_dma_channel_settings:
 load_dma_channel_settings:
     SEP #$30
     LDX #$0A
-.channel_0
-    LDA $1420,x
-    STA $4300,x
+-
+    LDA !dma_channel_0_savestate,x : STA $4300,x
+    LDA !dma_channel_1_savestate,x : STA $4310,x
+    LDA !dma_channel_2_savestate,x : STA $4320,x
+    LDA !dma_channel_3_savestate,x : STA $4330,x
+    LDA !dma_channel_4_savestate,x : STA $4340,x
+    LDA !dma_channel_5_savestate,x : STA $4350,x
+    LDA !dma_channel_6_savestate,x : STA $4360,x
+    LDA !dma_channel_7_savestate,x : STA $4370,x
     DEX
-    BPL .channel_0
-    LDX #$0A
-.channel_1
-    LDA $1430,x
-    STA $4310,x
-    DEX
-    BPL .channel_1
-    LDX #$0A
-.channel_2
-    LDA $1440,x
-    STA $4320,x
-    DEX
-    BPL .channel_2
-    LDX #$0A
-.channel_3 
-    LDA $1450,x
-    STA $4330,x
-    DEX
-    BPL .channel_3
-    LDX #$0A
-.channel_4
-    LDA $1460,x
-    STA $4340,x
-    DEX
-    BPL .channel_4
-    LDX #$0A
-.channel_5
-    LDA $1470,x
-    STA $4350,x
-    DEX
-    BPL .channel_5
-    LDX #$0A
-.channel_6
-    LDA $1480,x
-    STA $4360,x
-    DEX
-    BPL .channel_6
-    LDX #$0A
-.channel_7
-    LDA $1490,x
-    STA $4370,x
-    DEX
-    BPL .channel_7
+    BPL -
 
 .ret
     REP #$30

@@ -1,12 +1,6 @@
 ; hijack at level load where it actually has the current save_current_area
 ; saving value because game never saves it while in level
 
-; !current_level = $1410
-; !last_exit_1 = $1414
-; !last_exit_2 = $1416
-; !last_exit_load_type = $150C
-; !last_exit_eggs = $151A
-
 org save_current_area            
     autoclean JSL set_level
 

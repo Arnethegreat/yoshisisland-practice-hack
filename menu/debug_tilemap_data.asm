@@ -313,13 +313,17 @@ init_option_tilemaps:
 math pri on
 
 
-; subroutine to load each char sequentially from tilemap into the mirror offset by tilemap_dest
+!tilemap_src = $00
+!tilemap_dest_start_offset = $02
+!tilemap_dest_char_offset = $04
+; subroutine to load each char sequentially from tilemap into the mirror offset by tilemap_dest_start_offset
+; takes a newline when a null char is encountered and stops writing when two nulls in a row
+; set tilemap_src and tilemap_dest_start_offset before calling
 load_text_page:
-    LDA #$0000
-    STA !tilemap_char_offset
+    STZ !tilemap_dest_char_offset
     LDY #$0000
     -
-        LDA (!tilemap),y
+        LDA (!tilemap_src),y
         CMP #!null ; if null, we reached the end of the line
         BEQ .eol
 
@@ -329,9 +333,9 @@ load_text_page:
         ; so we can use the mirror as the STA operand, with the relative dest + offset in x
         
         PHA ; save current tilemap on stack
-        LDA !tilemap_dest ; fetch the relative dest
+        LDA !tilemap_dest_start_offset ; fetch the relative dest
         PHA ; save the relative dest cos we can't just add registers directly (i think?)
-        LDA !tilemap_char_offset
+        LDA !tilemap_dest_char_offset
         CLC
         ADC $01,s ; add the stored relative dest to the offset
         TAX ; move the combined relative dest/offset into X
@@ -342,22 +346,21 @@ load_text_page:
     .eol
         INY
         INY
-        LDA (!tilemap),y
-        CMP #$0000 ; 2 nulls in a row, we reached the end of the page
+        LDA (!tilemap_src),y
+        CMP #!null ; 2 nulls in a row, we reached the end of the page
         BEQ .ret
         ; add 1 line width to tilemap_dest - basically a line feed
-        LDA !tilemap_dest
+        LDA !tilemap_dest_start_offset
         CLC
         ADC #!tilemap_line_width
-        STA !tilemap_dest
-        LDA #$0000
-        STA !tilemap_char_offset ; reset the char offset
+        STA !tilemap_dest_start_offset
+        STZ !tilemap_dest_char_offset ; reset the char offset
         BRA -
     .next
         INY
         INY
-        INC !tilemap_char_offset
-        INC !tilemap_char_offset
+        INC !tilemap_dest_char_offset
+        INC !tilemap_dest_char_offset
         BRA -
 .ret
     RTS
@@ -378,8 +381,7 @@ endmacro
 macro zero_dp()
     PHD
     LDA #$0000
-    PHA
-    PLD
+    TCD
 endmacro
 
 init_warp_option_worlds_tilemaps:
@@ -389,10 +391,8 @@ init_warp_option_worlds_tilemaps:
     
     %zero_dp()
 
-    LDA #option_worlds_tilemap
-    STA !tilemap
-    LDA #!first_option_tilemap_dest+!tilemap_line_width
-    STA !tilemap_dest
+    LDA #option_worlds_tilemap : STA !tilemap_src
+    LDA #!first_option_tilemap_dest+!tilemap_line_width : STA !tilemap_dest_start_offset
     JSR load_text_page
 
     PLD ; reset DP
@@ -408,10 +408,8 @@ init_warp_option_levels_tilemaps:
     LDA !warps_current_world_index
     ASL A ; offset is 2 bytes per index
     TAX
-    LDA option_world_tilemaps_addr_table,x
-    STA !tilemap
-    LDA #!first_option_tilemap_dest+!tilemap_line_width
-    STA !tilemap_dest
+    LDA option_world_tilemaps_addr_table,x : STA !tilemap_src
+    LDA #!first_option_tilemap_dest+!tilemap_line_width : STA !tilemap_dest_start_offset
     JSR load_text_page
 
     PLD ; reset DP
@@ -425,48 +423,18 @@ init_warp_option_rooms_tilemaps:
 
     %zero_dp()
     
-    LDA #!first_option_tilemap_dest+!tilemap_line_width*2
-    STA !tilemap_dest
+    LDA #!first_option_tilemap_dest+!tilemap_line_width*2 : STA !tilemap_dest_start_offset
+    LDA !warps_current_world_index
+    ASL A
+    TAX
+    LDA .world_ptrs,x : STA $06
     LDA !warps_current_level_index
     ASL A ; index --> offset
-    TAX
-    LDA !warps_current_world_index
-    CMP #$0000
-    BEQ .world1
-    CMP #$0001
-    BEQ .world2
-    CMP #$0002
-    BEQ .world3
-    CMP #$0003
-    BEQ .world4
-    CMP #$0004
-    BEQ .world5
-    CMP #$0005
-    BEQ .world6
-    BRA .ret
-
-.world1
-    LDA option_world1_tilemaps_addr_table,x
-    BRA .load
-.world2
-    LDA option_world2_tilemaps_addr_table,x
-    BRA .load
-.world3
-    LDA option_world3_tilemaps_addr_table,x
-    BRA .load
-.world4
-    LDA option_world4_tilemaps_addr_table,x
-    BRA .load
-.world5
-    LDA option_world5_tilemaps_addr_table,x
-    BRA .load
-.world6
-    LDA option_world6_tilemaps_addr_table,x
-    BRA .load
-
-.load
-    STA !tilemap
+    TAY
+    LDA ($06),y : STA !tilemap_src
     JSR load_text_page
 .ret
     PLD ; reset DP
     RTS
+.world_ptrs
+    dw option_world1_tilemaps_addr_table, option_world2_tilemaps_addr_table, option_world3_tilemaps_addr_table, option_world4_tilemaps_addr_table, option_world5_tilemaps_addr_table, option_world6_tilemaps_addr_table

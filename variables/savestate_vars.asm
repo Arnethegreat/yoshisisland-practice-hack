@@ -1,29 +1,26 @@
-!loaded_state = $140A
-!savestate_exists = $140C
-
-!disable_music = $140E
-
-!current_level = $1410
-
-!full_load_default = $1412
-
-!last_exit_1 = $1414
-!last_exit_2 = $1416
-
-!last_exit_item_page = $1418
-
-!last_exit_stars = $141A
-!last_exit_red_coins = $141C
-!last_exit_flowers = $141E
-
-; 14 bytes
-!last_exit_eggs = $150C
-; not useful?
-!last_exit_load_type = $151A
-
-!last_exit_loading_flag = $151C
-; 128 bytes
-!last_exit_item_mem_backup = $151E
+%var_1409(loaded_state, 2)
+%var_1409(savestate_exists, 2)
+%var_1409(disable_music, 2)
+%var_1409(current_level, 2)
+%var_1409(full_load_default, 2)
+%var_1409(dma_channel_0_savestate, 10)
+%var_1409(dma_channel_1_savestate, 10)
+%var_1409(dma_channel_2_savestate, 10)
+%var_1409(dma_channel_3_savestate, 10)
+%var_1409(dma_channel_4_savestate, 10)
+%var_1409(dma_channel_5_savestate, 10)
+%var_1409(dma_channel_6_savestate, 10)
+%var_1409(dma_channel_7_savestate, 10)
+%var_1409(last_exit_1, 2)
+%var_1409(last_exit_2, 2)
+%var_1409(last_exit_item_page, 2)
+%var_1409(last_exit_stars, 2)
+%var_1409(last_exit_red_coins, 2)
+%var_1409(last_exit_flowers, 2)
+%var_1409(last_exit_eggs, 14)
+%var_1409(last_exit_load_type, 2)
+%var_1409(last_exit_loading_flag, 2)
+%var_1409(last_exit_item_mem_backup, 128)
 
 ; persistent save data (keeps on reset)
 ; stuff used throughout
@@ -77,6 +74,14 @@
 !sram_block_04_source = $70449E
 !sram_block_04_savestate = $7F4B2C
 !sram_block_04_size = #$0080
+
+!sram_map16_source = $70409E
+!sram_map16_savestate = $7E2340
+!sram_map16_size = #$0400
+
+!sram_dyntile_source = $705800
+!sram_dyntile_savestate = $7E2740
+!sram_dyntile_size = #$0800
 
 ; WRAM blocks
 ;

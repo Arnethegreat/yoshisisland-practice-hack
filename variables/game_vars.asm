@@ -114,6 +114,7 @@
 !r_irq_count = $0125
 
 ; RAM Mirrors
+!r_reg_inidisp_mirror = $0200
 !r_reg_coldata_mirror = $0948
 !r_reg_hdmaen_mirror = $094A
 !r_reg_obsel_mirror = $094B

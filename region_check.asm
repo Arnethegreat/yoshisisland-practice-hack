@@ -33,7 +33,7 @@ if read1($00FFD9) == $00
     file_select_check = $179890
         !file_select_check_jump = $992B
 
-    interrupt_freespace = $00CC89 ; targeting the credits text because freespace is limited in JP
+    interrupt_freespace = $00CC8A ; targeting the credits text because freespace is limited in JP
     
     free_movement = $04F5E7
 

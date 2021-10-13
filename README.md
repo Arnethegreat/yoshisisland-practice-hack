@@ -1,4 +1,4 @@
-# YI Practice Hack 0.4.0
+# YI Practice Hack 0.4.1
 Practice hack for Yoshi's Island designed to be used on a SNES console
 Features:
 * Savestates
@@ -54,7 +54,7 @@ Current supported sprites:
 - Green/yellow/red/flashing eggs
 - Green/red giant eggs
 - Key
-- **NON-STANDARD** - boss key, seesaw log, skull mouser
+- **NON-STANDARD** - boss key, boss explosion, seesaw log, skull mouser
 - Chicken
 
 ### Savestates

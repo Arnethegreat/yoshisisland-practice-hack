@@ -72,6 +72,19 @@ load_state:
 
     JSR preserve_hud
 
+    SEP #$20
+
+    LDA !save_level_frames : STA !level_frames
+    LDA !save_level_seconds : STA !level_seconds
+    LDA !save_level_minutes : STA !level_minutes
+    LDA !save_room_frames : STA !room_frames
+    LDA !save_room_seconds : STA !room_seconds
+    LDA !save_room_minutes : STA !room_minutes
+
+    REP #$20
+
+    LDA !save_lag_counter : STA !lag_counter
+
 ; Re-enable screen when finished loading
     LDA $0200
     AND #$FF7F
@@ -251,6 +264,8 @@ load_last_exit:
     LDA !last_exit_flowers
     STA !flower_count
 
+    JSR calc_level_timer
+
     STZ !current_screen
     LDX #$000C
     .restore_eggs
@@ -281,4 +296,48 @@ load_last_exit:
     STA !gamemode
 .ret
     PLB
+    RTS
+
+calc_level_timer: ; reset the HUD level timer to whatever it was when entering the room by subtracting the room timer
+    PHP
+    SEP #$20
+
+    ; the tick_timers sub runs once after this, causing LF and RF to increment by 1. Then, RF is zeroed on room init, causing LF to increase each reset
+    ; luckily, disabling the timer stops this from happening
+    STZ !timer_enabled
+
+    ; first, subtract RF from LF
+    LDA !level_frames
+    SEC
+    SBC !room_frames
+    ; if carry bit set, no underflow occurred, proceed
+    BCS +
+    ; else, add 60, decrement LS
+    CLC
+    ADC #60
+    DEC !level_seconds
++
+    STA !level_frames
+
+    ; second, subtract RS from LS
+    LDA !level_seconds
+    SEC
+    SBC !room_seconds
+    ; if carry bit set, no underflow occurred, proceed
+    BCS +
+    ; else, add 60, decrement LM
+    CLC
+    ADC #60
+    DEC !level_minutes
++
+    STA !level_seconds
+
+    ; finally, subtract RM from LM
+    LDA !level_minutes
+    SEC
+    SBC !room_minutes
+    STA !level_minutes
+
+.ret
+    PLP
     RTS

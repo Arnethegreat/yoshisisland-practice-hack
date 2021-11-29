@@ -6,14 +6,20 @@
 
 %var_1409(frames_passed, 1)
 %var_1409(lag_counter, 2)
+%var_1409(save_lag_counter, 2)
 %var_1409(total_frames, 2)
-%var_1409(level_frames, 1)
-%var_1409(level_frames, 1)
+%var_1409(level_frames, 1) ; frames/seconds/minutes must be defined consecutively in this order due to the implementation of add_frames_to_timer
 %var_1409(level_seconds, 1)
 %var_1409(level_minutes, 1)
+%var_1409(save_level_frames, 1)
+%var_1409(save_level_seconds, 1)
+%var_1409(save_level_minutes, 1)
 %var_1409(room_frames, 1)
 %var_1409(room_seconds, 1)
 %var_1409(room_minutes, 1)
+%var_1409(save_room_frames, 1)
+%var_1409(save_room_seconds, 1)
+%var_1409(save_room_minutes, 1)
 %var_1409(timer_enabled, 1)
 %var_1409(hud_enabled, 1)
 %var_1409(hud_displayed, 1) ; the hud is not always shown even when it is enabled

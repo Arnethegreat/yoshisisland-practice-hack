@@ -125,9 +125,17 @@ prepare_load:
     BEQ .in_loading_mode
     CMP #$0020
     BEQ .in_loading_mode
-    BRA .check_savestate
+    BRA .test_reset_room
 .in_loading_mode
     BRA .fail_load
+
+; if user is holding R, do room reset of last room
+.test_reset_room
+    LDA !controller_data1
+    AND #$0010
+    BEQ .check_savestate
+    JSR load_last_exit
+    JMP .no_load
 
 .check_savestate
 ; Check if a savestate exists 
@@ -142,15 +150,7 @@ prepare_load:
 ; experimental states
     JSR fix_special_bosses
 ; if we're in hookbill/bowser, do experimental load
-    BCS .experimental_load
-
-; if user is holding R, do room reset of last room
-.test_reset_room
-    LDA !controller_data1
-    AND #$0010
-    BEQ .continue
-    JSR load_last_exit
-    JMP .no_load
+    BCC .continue
 
 .experimental_load
     LDA !gamemode

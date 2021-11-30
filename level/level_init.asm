@@ -128,6 +128,7 @@ handle_flags:
     REP #$20
     LDA !skip_kamek
     AND #$00FF
+    STA !skip_kamek ; in case the flag has some garbage in the high nibble initially
     STA !skip_kamek_flag_1
     STA !skip_kamek_flag_2
     LDA !skip_baby_bowser

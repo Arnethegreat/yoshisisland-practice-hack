@@ -33,7 +33,7 @@
 
 %var_026A(warping, 2) ; additional flag for signaling that the menu should quit out
 %var_026A(skip_baby_bowser, 2)
-%var_026A(skip_kamek, 2)
+%var_707E7E(skip_kamek, 2)
 
 ; palette
 %var_1409(palette_anim_timer, 2)

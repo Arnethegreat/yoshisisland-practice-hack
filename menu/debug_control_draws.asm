@@ -32,6 +32,7 @@ draw_toggle:
 
   LDX !dbc_tilemap
   LDA [!dbc_memory]
+  AND #$00FF
   BEQ .red_color
   LDA #$1428
   BRA .ret

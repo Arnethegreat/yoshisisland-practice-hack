@@ -12,6 +12,11 @@
 
 ; almost the first half of bank $7F is used for savestate data
 
+; $70 SRAM freespace
+; range       bytes
+; $7800-$7C00 1024  (cleared on boot/file select)
+; $7E7E-$8000 386
+
 
 macro def_var(id, size, region)
 	!<id> := !freeram_<region>+!freeram_<region>_used
@@ -40,6 +45,13 @@ macro var_1E00(id, size)
 	%def_var(<id>, <size>, 1E00)
 endmacro
 
+!freeram_707E7E = $707E7E
+!freeram_707E7E_used = 0
+!freeram_707E7E_max = $708000
+macro var_707E7E(id, size)
+	%def_var(<id>, <size>, 707E7E)
+endmacro
+
 
 incsrc variables/game_vars.asm
 incsrc variables/sprite_table_vars.asm
@@ -49,9 +61,10 @@ incsrc variables/savestate_vars.asm
 incsrc variables/hud_vars.asm
 
 
-assert !freeram_026A+!freeram_026A_used < !freeram_026A_max, "exceeded RAM freespace region $7E:026A"
-assert !freeram_1409+!freeram_1409_used < !freeram_1409_max, "exceeded RAM freespace region $7E:1409"
-assert !freeram_1E00+!freeram_1E00_used < !freeram_1E00_max, "exceeded RAM freespace region $7E:1E00"
+assert !freeram_026A+!freeram_026A_used < !freeram_026A_max, "exceeded WRAM freespace region $7E:026A"
+assert !freeram_1409+!freeram_1409_used < !freeram_1409_max, "exceeded WRAM freespace region $7E:1409"
+assert !freeram_1E00+!freeram_1E00_used < !freeram_1E00_max, "exceeded WRAM freespace region $7E:1E00"
+assert !freeram_707E7E+!freeram_707E7E_used < !freeram_707E7E_max, "exceeded SRAM freespace region $70:7E7E"
 
 if 0
     print "freespace $026A used: "
@@ -60,4 +73,6 @@ if 0
     print dec(!freeram_1409_used)
     print "freespace $1E00 used: "
     print dec(!freeram_1E00_used)
+    print "freespace $707E7E used: "
+    print dec(!freeram_707E7E_used)
 endif

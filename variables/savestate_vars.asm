@@ -2,7 +2,7 @@
 %var_1409(savestate_exists, 2)
 %var_1409(disable_music, 2)
 %var_1409(current_level, 2)
-%var_1409(full_load_default, 2)
+%var_707E7E(full_load_default, 2)
 %var_1409(dma_channel_0_savestate, 10)
 %var_1409(dma_channel_1_savestate, 10)
 %var_1409(dma_channel_2_savestate, 10)
@@ -24,12 +24,11 @@
 
 ; persistent save data (keeps on reset)
 ; stuff used throughout
-    !save_level = $707F0A
-    !save_x_pos = $707F0C
-    !save_y_pos = $707F0E
-
-    !save_camera_layer1_x = $707F10
-    !save_camera_layer1_y = $707F12
+%var_707E7E(save_level, 2)
+%var_707E7E(save_x_pos, 2)
+%var_707E7E(save_y_pos, 2)
+%var_707E7E(save_camera_layer1_x, 2)
+%var_707E7E(save_camera_layer1_y, 2)
 
 ;=================================
 

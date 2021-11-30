@@ -86,7 +86,7 @@ debug_menu_controls:
 
 ; FULL LOAD AS DEFAULT
   db $04
-  dl $7E0000+!full_load_default
+  dl !full_load_default
   dw $03C2, $0021
 
 ; SET TUTORIAL FLAGS

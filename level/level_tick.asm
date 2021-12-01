@@ -152,13 +152,23 @@ display_misc:
     REP #$20
     LDA !s_spr_id+$5C
     CMP #$0045
-    BNE .no_froggy
+    BNE +
 
     ; Prince Froggy current damage
-    LDA $7A94 ; $701A94
+    LDA $7A94
     LDY #$82
     JSR print_16
-.no_froggy
+    BRA .ret
++
+    LDA !last_exit_1
+    AND #$00FF
+    CMP #$0032 ; 6-6
+    BNE .ret
+    JSR rockless_trainer
+    LDA !trainer_result
+    LDY #$82
+    JSR print_16
+.ret
     RTS
 
 display_input:
@@ -167,10 +177,7 @@ display_input:
     STA $01
 
     LDA $35
-    LSR
-    LSR
-    LSR
-    LSR
+    LSR #4
     LDX #$0B
 .loop
     LDY input_locations,x

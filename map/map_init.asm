@@ -16,6 +16,8 @@ map_init:
 
     JSR detect_null_egg
 
+    STZ !trainer_state
+
     PLB
     PLP
     RTL

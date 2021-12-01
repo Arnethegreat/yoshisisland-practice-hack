@@ -32,6 +32,10 @@
 %var_1409(hud_hdma_channels, 1)
 %var_1409(null_egg_mode_enabled, 1)
 
+%var_1409(trainer_state, 2)
+%var_1409(trainer_timer, 2)
+%var_1409(trainer_result, 2)
+
 ; Custom HUD consts
 !irq_v = $20 ; scanline for custom irq 2 (bottom of the hud)
 !nmi_v = $D8 ; scanline for NMI

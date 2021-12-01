@@ -32,6 +32,7 @@ incsrc menu/debug_tilemap_data.asm
 ;=================================
 incsrc map/map_init.asm
 ;=================================
+incsrc level/trainers.asm
 incsrc level/level_init.asm
 incsrc level/level_tick.asm
 incsrc level/mode7_boss.asm

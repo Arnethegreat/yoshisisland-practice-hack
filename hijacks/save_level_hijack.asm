@@ -8,6 +8,14 @@ freecode $FF
 
 set_level:
 ; saves stuff for room reset function
+    ; if loading from state with full load, don't store anything cos it'll break room reset
+    LDY !loaded_state
+    CPY #$0001
+    BNE +
+    AND #$00FF
+    ASL A
+    BRA .ret
++
     STA !last_exit_1
     PHA
     LDA $7F7E02,x
@@ -41,4 +49,5 @@ set_level:
     AND #$00FF
     STA !current_level
     ASL A
+.ret
     RTL

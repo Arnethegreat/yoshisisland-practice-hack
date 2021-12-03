@@ -329,7 +329,7 @@ load_wram_block_03:
 
 save_dma_channel_settings:
     SEP #$30
-    LDX #$0A
+    LDX #$09
 -
     LDA $4300,x : STA !dma_channel_0_savestate,x
     LDA $4310,x : STA !dma_channel_1_savestate,x
@@ -348,7 +348,7 @@ save_dma_channel_settings:
 ;=================================
 load_dma_channel_settings:
     SEP #$30
-    LDX #$0A
+    LDX #$09
 -
     LDA !dma_channel_0_savestate,x : STA $4300,x
     LDA !dma_channel_1_savestate,x : STA $4310,x

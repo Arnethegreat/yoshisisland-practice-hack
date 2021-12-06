@@ -56,14 +56,10 @@ main_controls:
   ; cycle up and handle wrapping
   LDA !debug_index
   DEC A
-  BPL .store_index_up
+  BPL .store_index
   LDA !debug_controls_count_current
   DEC A
-.store_index_up
-  STA !debug_index
-  ; play cursor sound
-  LDA #$005C
-  STA $0053
+  BRA .store_index
 
 .check_down
   LDA !controller_data2_press
@@ -74,9 +70,10 @@ main_controls:
   LDA !debug_index
   INC A
   CMP !debug_controls_count_current
-  BCC .store_index_down
+  BCC .store_index
   LDA #$0000
-.store_index_down
+
+.store_index
   STA !debug_index
   ; play cursor sound
   LDA #$005C

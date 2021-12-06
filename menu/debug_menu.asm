@@ -13,6 +13,8 @@ dw $0000, $001F, $0000, $001F
 dw $0000, $05E0, $0000, $001F
 .blue
 dw $0000, $FFFF, $0000, $5DE2
+.highlight_text
+dw $0000, $FFFF, $498A, $0000
 
 ; handle initialization of debug menu
 init_debug_menu:

@@ -43,16 +43,53 @@ init_controls:
   PLD
   RTS
 
+; triggers repeat inputs after initial input + delay if the input is held
+; arg0 [word] in $7E0000: input code for controller_data2
+; returns zero in $7E0000 if an input should trigger
+held_input_repeater:
+  PHP
+  REP #$20
+
+  LDA !controller_data2_press ; pressed for the 1st time? do the initial single move and exit
+  AND $0000
+  BNE .single_input
+
+  LDA !controller_data2 ; is any button held? if not, reset the delay timer and exit
+  BNE +
+  LDA !input_repeat_delay_amount : STA !input_repeat_delay_timer
+  BRA .ret
++
+
+  LDA !controller_data2 ; is this specific button held? if not, exit
+  AND $0000
+  BEQ .ret
+  LDA !input_repeat_delay_timer ; has the delay timer expired? if yes, do repeat inputs
+  BEQ .repeat_input
+  DEC !input_repeat_delay_timer ; else, decrement the delay timer and exit
+  BRA .ret
+
+.repeat_input
+  LDA !frame_counter
+  AND #$0003 ; repeat every 4 frames
+  BNE .ret
+
+.single_input
+  STZ $0000
+.ret
+  PLP
+  RTS
+
 ; handles control processing & focus changes
 main_controls:
   PHK
   PLB
   REP #$20
-  ; pressing up?
-  LDA !controller_data2_press
-  AND #%0000000000001000
-  BEQ .check_down
 
+.check_up
+  LDA #%0000000000001000 : STA $0000
+  JSR held_input_repeater
+  LDA $0000
+  BNE .check_down
   ; cycle up and handle wrapping
   LDA !debug_index
   DEC A
@@ -62,10 +99,10 @@ main_controls:
   BRA .store_index
 
 .check_down
-  LDA !controller_data2_press
-  AND #%0000000000000100
-  BEQ .process_focused
-
+  LDA #%0000000000000100 : STA $0000
+  JSR held_input_repeater
+  LDA $0000
+  BNE .process_focused
   ; cycle down and handle wrapping
   LDA !debug_index
   INC A

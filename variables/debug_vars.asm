@@ -39,3 +39,7 @@
 %var_1409(palette_anim_timer, 2)
 !palette_backup_size = $0040
 %var_1409(palette_backup, !palette_backup_size)
+
+
+%var_1409(input_repeat_delay_timer, 2)
+!input_repeat_delay_amount = #$0012

@@ -1,5 +1,6 @@
 ; General Variables
 
+!frame_counter = $0030
 !gamemode = $0118
 !r_game_loop_complete = $011B
 !level_load_type = $038C

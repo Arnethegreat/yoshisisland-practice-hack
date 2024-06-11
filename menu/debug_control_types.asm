@@ -126,6 +126,7 @@ main_lownib_memchanger:
 
   ; compare to wild card (max)
   LDA $0000
+  AND #$0F ; make sure we're only comparing the low nibble
   CMP !dbc_wildcard
   BCC +
   LDA !dbc_wildcard+1

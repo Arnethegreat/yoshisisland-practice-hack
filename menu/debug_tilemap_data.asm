@@ -100,6 +100,8 @@ table "../misc/string_font_map.txt",ltr
 
 !null = $0000
 
+!warps_title_tilemap_dest = $004C
+
 option_back_tilemap: dw "BACK"
 
 option_worlds_tilemap: dw "WORLD 1", !null, "WORLD 2", !null, "WORLD 3", !null, "WORLD 4", !null, "WORLD 5", !null, "WORLD 6", !null, !null
@@ -409,6 +411,11 @@ init_warp_option_levels_tilemaps:
     ASL A ; offset is 2 bytes per index
     TAX
     LDA option_world_tilemaps_addr_table,x : STA !tilemap_src
+    
+    ; set page title to the first char of the world tilemap e.g. 1, 5, etc.
+    LDA (!tilemap_src)
+    STA !menu_tilemap_mirror+!warps_title_tilemap_dest
+
     LDA #!first_option_tilemap_dest+!tilemap_line_width : STA !tilemap_dest_start_offset
     JSR load_text_page
 
@@ -432,6 +439,28 @@ init_warp_option_rooms_tilemaps:
     ASL A ; index --> offset
     TAY
     LDA ($06),y : STA !tilemap_src
+
+    ; set page title using `world-level` notation
+    LDA !warps_current_world_index
+    INC
+    STA !menu_tilemap_mirror+!warps_title_tilemap_dest+0
+    LDA #$0027 ; hyphen
+    STA !menu_tilemap_mirror+!warps_title_tilemap_dest+2
+    ; this method runs into an issue when dealing with the extra levels, printing `x-9` instead of `x-E`
+    LDA !warps_current_level_index
+    ; check if A == 8
+    CMP #$0008
+    BNE +
+    { ; if true, it's an extra - set the tilemap to 'E'
+        LDA #$000E : STA !menu_tilemap_mirror+!warps_title_tilemap_dest+4
+        BRA ++
+    }
+    + { ; else, just print the number
+        INC
+        STA !menu_tilemap_mirror+!warps_title_tilemap_dest+4
+    }
+    ++
+
     JSR load_text_page
 .ret
     PLD ; reset DP

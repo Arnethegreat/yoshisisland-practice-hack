@@ -19,6 +19,8 @@
 !dbc_wildcard = $06
 
 debug_menu_controls:
+; the order of the following data determines the order in which they are selected by the cursor
+
 ; DISABLE AUTOSCROLL
   db $08
   dl $7E14A0

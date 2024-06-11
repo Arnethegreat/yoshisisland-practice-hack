@@ -292,8 +292,15 @@ main_warps_function:
 ; B/Y/X/A buttons
   AND #%11000000
   BEQ .ret
+  LDA !controller_data2_press ; if just B, go back
+  AND #%10000000
+  BEQ +
+  LDX #$00 ; set X to zero to indicate that we want to go back
+  BRA ++
++
   LDA !dbc_wildcard
   TAX
+++
   JSR warp_menu
 .ret
   RTS

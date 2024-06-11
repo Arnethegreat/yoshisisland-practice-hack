@@ -340,7 +340,6 @@ endmacro
 warp_menu:
   REP #$30
 
-  LDX !debug_index ; wildcard/index in x
   STZ !debug_index ; bring the cursor back up to the top
 
   ; if index == 0, back was clicked - decrement the depth index
@@ -384,12 +383,17 @@ warp_menu:
   dw load_room
 
 load_main_menu:
+  LDA #$0001 : STA !debug_index ; set the cursor index - awkward to hardcode it like this, but we don't store the order anywhere, it's just inferred from debug_menu_controls
   LDA !debug_controls_count : STA !debug_controls_count_current
   JSR init_controls
   JSR init_option_tilemaps
   RTS
 
 load_world_select:
+  LDA !warps_current_world_index ; load the old cursor position
+  INC A
+  STA !debug_index
+
   STZ !warps_current_world_index
   STZ !warps_current_level_index
   LDA !debug_menu_controls_warps_worlds_count : STA !debug_controls_count_current
@@ -397,6 +401,10 @@ load_world_select:
   RTS
 
 load_level_select:
+  LDA !warps_current_level_index ; load the old cursor position
+  INC A
+  STA !debug_index
+
   CPY #$FFFF
   BEQ .from_rooms
   ; do this if coming from world select
@@ -413,6 +421,8 @@ load_level_select:
   RTS
 
 load_room_select:
+  INC !debug_index
+
   STY !warps_current_level_index
 
   ; offset into debug_menu_controls_warps_room_counts is found by !warps_current_world_index*9+!warps_current_level_index

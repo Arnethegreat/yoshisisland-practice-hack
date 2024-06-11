@@ -162,7 +162,7 @@ macro copy_warpmenu_data()
   TYA
   LSR #3
   TAX
-  STX $06 ; WILDCARD (yeehaw)
+  STX !dbc_wildcard
   
   LDA #!first_option_tilemap_dest
   -
@@ -174,7 +174,7 @@ macro copy_warpmenu_data()
     BRA -
 
 .break
-  STA $04 ; RELATIVE TILEMAP ADDRESS
+  STA !dbc_tilemap
 endmacro
 
 ; sets DP and copies control data bytes into

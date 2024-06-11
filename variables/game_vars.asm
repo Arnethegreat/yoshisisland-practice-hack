@@ -15,8 +15,8 @@
 !current_screen = $038E
 
 ; Controller data
-!controller_data1 = $093C
-!controller_data2 = $093D
+!controller_data1 = $093C ; AXLR----
+!controller_data2 = $093D ; byetUDLR
 !controller_data1_dp = $35
 !controller_data2_dp = $36
 

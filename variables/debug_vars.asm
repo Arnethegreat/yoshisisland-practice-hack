@@ -29,7 +29,7 @@
 %var_026A(warps_current_world_level_index, 2)
 
 %var_026A(debug_controls_count_current, 2)
-!debug_controls_count = #$0011
+!debug_controls_count = #$0013
 
 %var_026A(warping, 2) ; additional flag for signaling that the menu should quit out
 %var_026A(skip_baby_bowser, 2)
@@ -43,3 +43,7 @@
 
 %var_1409(input_repeat_delay_timer, 2)
 !input_repeat_delay_amount = #$0012
+
+%var_1409(is_load_delay_timer_active, 1)
+%var_1409(load_delay_timer, 1)
+%var_707E7E(load_delay_timer_init, 1) ; keep in SRAM for persistence

@@ -92,6 +92,12 @@ option_10_tilemap:
 dw $0011, $001E, $000D
 
 
+!option_11_tilemap_dest = $05D4
+option_11_tilemap:
+;  L      O      A      D      _      D      E      L      A      Y
+dw $0015, $0018, $000A, $000D, $003F, $000D, $000E, $0015, $000A, $0022
+
+
 ;====================================
 ; Warp Options
 ;
@@ -306,6 +312,15 @@ init_option_tilemaps:
         INX
         INX
         CPX !option_10_tilemap_size
+        BNE -
+
+    LDX #$0000
+    -
+        LDA option_11_tilemap,x
+        STA !menu_tilemap_mirror+!option_11_tilemap_dest,x
+        INX
+        INX
+        CPX #datasize(option_11_tilemap)
         BNE -
 
 .ret

@@ -104,6 +104,15 @@ debug_menu_controls:
   dl $7E0000+!hud_enabled
   dw $0542, $0001
 
+; LOAD DELAY AMOUNT high
+  db $02
+  dl !load_delay_timer_init
+  dw $05C2, $00F0
+
+; LOAD DELAY AMOUNT low
+  db $00
+  dl !load_delay_timer_init
+  dw $05C4, $000F
 
 !first_option_tilemap_dest = $00C2
 !tilemap_line_width = $0080

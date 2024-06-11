@@ -81,6 +81,9 @@ load_state:
     LDA !save_room_seconds : STA !room_seconds
     LDA !save_room_minutes : STA !room_minutes
 
+    LDA #$01 : STA !is_load_delay_timer_active
+    LDA !load_delay_timer_init : STA !load_delay_timer
+
     REP #$20
 
     LDA !save_lag_counter : STA !lag_counter

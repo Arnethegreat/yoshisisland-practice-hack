@@ -10,6 +10,14 @@ continue_frame = $008130
 
 
 handle_frame_skip:
+  LDA !is_load_delay_timer_active ; if we're loading, don't apply slowdown - instead, skip to a subroutine that handles it
+  BEQ +
+  {
+    JMP load_delay
+    BRA frame_skip_main_ret
+  }
+  +
+
   LDA !controller_2_data1_press
   ; R controller 2
   BIT #$10

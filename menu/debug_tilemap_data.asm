@@ -106,7 +106,7 @@ table "../misc/string_font_map.txt",ltr
 
 !null = $0000
 
-!warps_title_tilemap_dest = $004C
+!warps_title_tilemap_dest = $009A
 
 option_back_tilemap: dw "BACK"
 

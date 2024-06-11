@@ -63,6 +63,8 @@ Press Select on controller 1 inside a level to save your current state
 Press X on controller 1 to load your state. Loading can be done from anywhere (but not always guaranteed to work)
 Hold L button while pressing X to do a full load (regenerate all terrain). This can be toggled to the opposite in menu.
 
+An after-load delay can be set from the debug menu. The byte value indicates the number of frames the game will be paused for when a savestate is finished loading.
+
 ### Room Reset
 Hold R while loading to reset to your last entrance. Your eggs and item memory is saved.
 

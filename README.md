@@ -31,8 +31,9 @@ N.B. The flashing upside down key in the egg editor is the boss key.
 ### HUD
 The heads-up display can be toggled on/off from the menu. It may cause some minor graphical glitches when enabled.
 It displays:
+
 Column 1 | Column 2 | Column 3 | Column 4 | Column 5
--------- | -------- | -------- | -------- | --------
+:------: | :------: | :------: | :------: | :------:
 Yoshi's horizontal velocity | Red coin amount | Stars amount | Level timer | 
 Most recent egg-aiming angle | Amount of sprites loaded | Flowers amount | Room timer | Input display
 Miscellaneous data | | | Lag frame counter | 
@@ -40,13 +41,15 @@ Miscellaneous data | | | Lag frame counter |
 The misc data only appears in certain rooms. Currently, it's just used to show Prince Froggy's damage value.
 
 If Yoshi's egg inventory contains a non-standard sprite (either by null egg manipulation, or via the debug menu editor), then the HUD will display different data:
+
 Column 1 | Column 2 | Column 3 | Column 4 | Column 5
--------- | -------- | -------- | -------- | --------
+:------: | :------: | :------: | :------: | :------:
 Yoshi's horizontal velocity | Yoshi x position | Yoshi x subpixel | Level timer | 
 Most recent egg-aiming angle | Amount of sprites loaded | BG3 vertical offset | Room timer | Input display
 Miscellaneous data | | | Lag frame counter | 
 
-N.B. The HUD data are currently only switched when visiting the world map.
+> [!NOTE]
+> The HUD data are currently only switched when visiting the world map.
 
 ### Egg Editor
 Use A/Y to cycle the sprite in the selected, loaded slot.
@@ -72,7 +75,9 @@ Hold R while loading to reset to your last entrance. Your eggs and item memory i
 Press A+X on controller 2 to warp to that levels Boss Room.
 
 ### Music Toggle
-Press Select on controller 2 to enable/disable. Note that enabling it makes it play the default track for that level which might not be correct (reload fixes this)
+Press Select on controller 2 to enable/disable. 
+> [!NOTE]
+> Enabling it makes it play the default track for that level which might not be correct (reload fixes this)
 
 ### Free Movement
 Press B on controller 2 to enable/disable. Holding A on controller 1 makes you move faster. Yoshi can't collide with terrain in this mode.
@@ -101,4 +106,4 @@ Run `build.sh` or `build.bat` with no args to build both, or `U` or `J`.
 
 Alternatively, run `asar.exe assemble.asm your_rom.sfc`.
 
-Or you can check the **Releases** for `.bps` patches, which you can apply to your clean ROMs with the beat patcher utility.
+Or you can check the [**Releases**](https://github.com/Arnethegreat/yoshisisland-practice-hack/releases) for `.bps` patches, which you can apply to your clean ROMs with the beat patcher utility.

@@ -38,7 +38,18 @@ Yoshi's horizontal velocity | Red coin amount | Stars amount | Level timer |
 Most recent egg-aiming angle | Amount of sprites loaded | Flowers amount | Room timer | Input display
 Miscellaneous data | | | Lag frame counter | 
 
-The misc data only appears in certain rooms. Currently, it's just used to show Prince Froggy's damage value.
+The misc. data only appear in certain rooms, showing:
+* Prince Froggy's damage value during the fight
+* A trainer for the rockless key clip in 6-6
+  * `[tongue frame | jump frame | move left frame | unused]`
+
+    The values indicate how early or late the input was, with 8 being frame-perfect (e.g. `8880`)
+    - starting from the left corner, begin holding right
+    - press tongue after 49 frames
+    - press jump after 3 frames
+    - stop holding right and start holding left after 6 frames
+
+---
 
 If Yoshi's egg inventory contains a non-standard sprite (either by null egg manipulation, or via the debug menu editor), then the HUD will display different data:
 

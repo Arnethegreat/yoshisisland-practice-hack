@@ -1,3 +1,5 @@
+; palette selection for 2bpp tiles is 3 bits, so we can choose from a selection of 8 groups of 4 colours each
+; each colour is represented by a 15-bit RGB word: xBBB BBGG GGGR RRRR
 menu_palette:
 .flashing
 dw $0000, $FFFF, $0000, $789F
@@ -236,6 +238,11 @@ draw_menu:
 ;================================
 anim_palette_data:
 dw $035F, $001F, $03E0, $5C1F
+dw $035F, $001F, $03E0, $5C1F
+
+anim_palette_data_selection:
+dw $498A, $498A, $498A, $498A
+dw $4567, $4567, $4567, $4567
 
 animate_palette:
     REP #$20
@@ -244,13 +251,15 @@ animate_palette:
     BPL .change_color
 .reset
     ; reset timer
-    LDA #$0003
+    LDA #$0007
     STA !palette_anim_timer
 .change_color
     ASL A 
     TAX
     LDA anim_palette_data,x
     STA !s_cgram_mirror+6
+    LDA anim_palette_data_selection,x
+    STA !s_cgram_mirror+60
 .ret
     SEP #$20
     RTS

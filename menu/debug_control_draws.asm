@@ -156,7 +156,7 @@ set_selected_option_palette: ; set palette for selected option tilemap row
 -
   LDA !menu_tilemap_mirror+1,x
   BNE +
-  LDA #$3C ; palette index 7
+  LDA #%00111100 ; $3C = palette index 7 (from menu_palette.highlight_text) with priority bit set
   STA !menu_tilemap_mirror+1,x
 +
   INX

@@ -160,7 +160,7 @@ display_misc:
     JSR print_16
     BRA .ret
 +
-    LDA !last_exit_1
+    LDA !current_level
     AND #$00FF
     CMP #$0032 ; 6-6
     BNE .ret

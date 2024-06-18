@@ -85,7 +85,7 @@ nmi:
     ; in the big bowser fight, main layers are disabled at bottom of screen and then re-enabled at the top, so disabled state is what gets restored
     ; resulting in bowser without a head
     ; hacky workaround here just sets the mirrors to what they should be on restore
-    LDA !last_exit_1
+    LDA !current_level
     CMP #$DD
     BEQ +
     CMP #$86
@@ -97,7 +97,7 @@ nmi:
 
     ; in the case of Raphael, the entire screen is mode7, so changing the hud region to mode1 just results in garbage underneath
     ; to fix this, prevent BG1 and 2 from being displayed and just show the hud tilemap over nothing
-    LDA !last_exit_1
+    LDA !current_level
     CMP #$CB
     BNE +
     LDA #%00010100 : STA $2C

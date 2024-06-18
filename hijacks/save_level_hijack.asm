@@ -8,14 +8,13 @@ freecode $FF
 
 set_level:
 ; saves stuff for room reset function
-    ; if loading from state with full load, don't store anything cos it'll break room reset
+    ; this is called when entering a sublevel normally, and also when loading a savestate with full load
+    ; in the latter case, we need to update the current sublevel ID, as we might be loading from another sublevel
+    ; don't store any other data, because loading a room via savestate is not the same as loading it traditionally
+    ; room reset should only respect normal gameplay and ignore savestate tomfoolery
     LDY !loaded_state
     CPY #$0001
-    BNE +
-    AND #$00FF
-    ASL A
-    BRA .ret
-+
+    BEQ .skip
     STA !last_exit_1
     PHA
     LDA $7F7E02,x
@@ -46,6 +45,7 @@ set_level:
     PLX
 
     PLA
+.skip
     AND #$00FF
     STA !current_level
     ASL A

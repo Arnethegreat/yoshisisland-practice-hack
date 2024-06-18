@@ -339,12 +339,12 @@ hud_sub:
     LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
 
     ; possibly need to reset the hdma table for hookbill/bowser
-    LDA !last_exit_1
+    LDA !current_level
     CMP #$86
     BNE +
     JSL hookbill_mode7_hdma
 +
-    LDA !last_exit_1
+    LDA !current_level
     CMP #$DD
     BNE +
     JSL bowser_mode7_hdma

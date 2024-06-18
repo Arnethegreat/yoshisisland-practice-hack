@@ -50,7 +50,7 @@ set_hud_hdma_channels:
     SEP #$10
 
     ; might have to do this more intelligently depending on how many rooms we need to switch out
-    LDA !last_exit_1
+    LDA !current_level
     AND #$00FF
     CMP #$00DD
     BEQ .bowser

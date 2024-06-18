@@ -24,16 +24,7 @@ save_state:
 .save_memory_blocks
     JSR save_item_memory
 
-    JSR save_sram_block_00
-    JSR save_sram_block_01
-    JSR save_sram_block_02
-    JSR save_sram_block_03
-    JSR save_sram_block_04
-
-    JSR save_wram_block_00
-    JSR save_wram_block_01
-    JSR save_wram_block_02
-    JSR save_wram_block_03
+    JSR save_ram
 
     JSR save_dyntile_buffer
 ; for experimental load

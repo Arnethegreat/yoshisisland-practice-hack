@@ -53,16 +53,7 @@ load_state:
 
     STZ !level_load_type
 
-    JSR load_sram_block_00
-    JSR load_sram_block_01
-    JSR load_sram_block_02
-    JSR load_sram_block_03
-    JSR load_sram_block_04
-
-    JSR load_wram_block_00
-    JSR load_wram_block_01
-    JSR load_wram_block_02
-    JSR load_wram_block_03
+    JSR load_ram
 
     JSR load_dyntile_buffer
 ; check if in cross section and empty BG3 if so

@@ -31,7 +31,7 @@ load_item_memory:
 ;=================================
 ;=================================
 save_sram_map16:   
-    LDX !sram_map16_size
+    LDX #!sram_map16_size
     BEQ .ret
 .loop 
     LDA !sram_map16_source-2,x
@@ -43,7 +43,7 @@ save_sram_map16:
     RTS
 ;=================================
 load_sram_map16:
-    LDX !sram_map16_size
+    LDX #!sram_map16_size
     BEQ .ret
 .loop 
     LDA !sram_map16_savestate-2,x
@@ -55,7 +55,7 @@ load_sram_map16:
     RTS
 ;=================================
 save_dyntile_buffer:   
-    LDX !sram_dyntile_size
+    LDX #!sram_dyntile_size
     BEQ .ret
 .loop 
     LDA !sram_dyntile_source-2,x
@@ -67,7 +67,7 @@ save_dyntile_buffer:
     RTS
 ;=================================
 load_dyntile_buffer:
-    LDX !sram_dyntile_size
+    LDX #!sram_dyntile_size
     BEQ .ret
 .loop 
     LDA !sram_dyntile_savestate-2,x
@@ -97,232 +97,90 @@ load_dyntile_buffer:
 .ret
     RTS
 
-; Generic SRAM blocks
-;
-;
+;=================================
+; Generic WRAM and SRAM blocks
+;=================================
+save_ram:
+{
+    PHP
+    %ai16()
+    PHB
+    PHK
+    PLB
 
-;=================================
-save_sram_block_00:   
-    LDX !sram_block_00_size
-    BEQ .ret
-.loop 
-    LDA !sram_block_00_source-2,x
-    STA !sram_block_00_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
+    LDX #datasize(ram_save_table)-8 ; X = index into the save table
+- {
+        LDY ram_save_table,x ; Y = index into the current block
+        DEY #2
+
+        ; store source pointer in $00-$02 and savestate pointer in $03-$05
+        LDA ram_save_table+2,x : STA $00
+        LDA ram_save_table+4,x : STA $02
+        LDA ram_save_table+6,x : STA $04
+
+        ; move data to savestate location
+    -- {
+            LDA [$00],y
+            STA [$03],y
+            DEY #2
+            BPL --
+        }
+
+        DEX #8
+        BPL -
+    }
 .ret
+    PLB
+    PLP
     RTS
-;=================================
-save_sram_block_01:
-    LDX !sram_block_01_size
-    BEQ .ret
-.loop
-    LDA !sram_block_01_source-2,x
-    STA !sram_block_01_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
+}
+
+load_ram:
+{
+    PHP
+    %ai16()
+    PHB
+    PHK
+    PLB
+
+    LDX #datasize(ram_save_table)-8 ; X = index into the save table
+- {
+        LDY ram_save_table,x ; Y = index into the current block
+        DEY #2
+
+        ; store source pointer in $00-$02 and savestate pointer in $03-$05
+        LDA ram_save_table+2,x : STA $00
+        LDA ram_save_table+4,x : STA $02
+        LDA ram_save_table+6,x : STA $04
+
+        ; move data from savestate to original location
+    -- {
+            LDA [$03],y
+            STA [$00],y
+            DEY #2
+            BPL --
+        }
+
+        DEX #8
+        BPL -
+    }
 .ret
+    PLB
+    PLP
     RTS
-;=================================
-save_sram_block_02:   
-    LDX !sram_block_02_size
-    BEQ .ret
-.loop 
-    LDA !sram_block_02_source-2,x
-    STA !sram_block_02_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-save_sram_block_03:
-    LDX !sram_block_03_size
-    BEQ .ret
-.loop
-    LDA !sram_block_03_source-2,x
-    STA !sram_block_03_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-save_sram_block_04:
-    LDX !sram_block_04_size
-    BEQ .ret
-.loop
-    LDA !sram_block_04_source-2,x
-    STA !sram_block_04_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-;=================================
-;=================================
-load_sram_block_00:
-    LDX !sram_block_00_size
-    BEQ .ret
-.loop 
-    LDA !sram_block_00_savestate-2,x
-    STA !sram_block_00_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-load_sram_block_01:
-    LDX !sram_block_01_size
-    BEQ .ret
-.loop
-    LDA !sram_block_01_savestate-2,x
-    STA !sram_block_01_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-load_sram_block_02:
-    LDX !sram_block_02_size
-    BEQ .ret
-.loop 
-    LDA !sram_block_02_savestate-2,x
-    STA !sram_block_02_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-load_sram_block_03:
-    LDX !sram_block_03_size
-    BEQ .ret
-.loop
-    LDA !sram_block_03_savestate-2,x
-    STA !sram_block_03_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-load_sram_block_04:
-    LDX !sram_block_04_size
-    BEQ .ret
-.loop
-    LDA !sram_block_04_savestate-2,x
-    STA !sram_block_04_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-;=================================
-;=================================
-save_wram_block_00: 
-    LDX !wram_block_00_size
-    BEQ .ret
-.loop 
-    LDA !wram_block_00_source-2,x
-    STA !wram_block_00_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-save_wram_block_01: 
-    LDX !wram_block_01_size
-    BEQ .ret
-.loop 
-    LDA !wram_block_01_source-2,x
-    STA !wram_block_01_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-save_wram_block_02: 
-    LDX !wram_block_02_size
-    BEQ .ret
-.loop 
-    LDA !wram_block_02_source-2,x
-    STA !wram_block_02_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-save_wram_block_03: 
-    LDX !wram_block_03_size
-    BEQ .ret
-.loop 
-    LDA !wram_block_03_source-2,x
-    STA !wram_block_03_savestate-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-;=================================
-;=================================
-load_wram_block_00: 
-    LDX !wram_block_00_size
-    BEQ .ret
-.loop 
-    LDA !wram_block_00_savestate-2,x
-    STA !wram_block_00_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-load_wram_block_01: 
-    LDX !wram_block_01_size
-    BEQ .ret
-.loop 
-    LDA !wram_block_01_savestate-2,x
-    STA !wram_block_01_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-load_wram_block_02: 
-    LDX !wram_block_02_size
-    BEQ .ret
-.loop 
-    LDA !wram_block_02_savestate-2,x
-    STA !wram_block_02_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
-;=================================
-load_wram_block_03: 
-    LDX !wram_block_03_size
-    BEQ .ret
-.loop 
-    LDA !wram_block_03_savestate-2,x
-    STA !wram_block_03_source-2,x
-    DEX
-    DEX
-    BNE .loop
-.ret
-    RTS
+}
+
+ram_save_table:
+    dw !sram_block_00_size : dl !sram_block_00_source, !sram_block_00_savestate
+    dw !sram_block_01_size : dl !sram_block_01_source, !sram_block_01_savestate
+    dw !sram_block_02_size : dl !sram_block_02_source, !sram_block_02_savestate
+    dw !sram_block_03_size : dl !sram_block_03_source, !sram_block_03_savestate
+    dw !sram_block_04_size : dl !sram_block_04_source, !sram_block_04_savestate
+    dw !wram_block_00_size : dl !wram_block_00_source, !wram_block_00_savestate
+    dw !wram_block_01_size : dl !wram_block_01_source, !wram_block_01_savestate
+    dw !wram_block_02_size : dl !wram_block_02_source, !wram_block_02_savestate
+    dw !wram_block_03_size : dl !wram_block_03_source, !wram_block_03_savestate
+
 ;=================================
 ;=================================
 ;=================================

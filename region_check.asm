@@ -16,6 +16,8 @@ if read1($00FFD9) == $00
 
     room_init_hijack = $01C447
 
+    room_init_music_hijack = $01C493
+
     baby_bowser_hijack = $0DC8B0
 
     hookbill_mode7_hdma_hijack = $019E50
@@ -59,6 +61,8 @@ elseif read1($00FFD9) == $01
     level_init_hijack = $01B1EE
 
     room_init_hijack = $01B215
+
+    room_init_music_hijack = $01B261
 
     baby_bowser_hijack = $0DC55B
 

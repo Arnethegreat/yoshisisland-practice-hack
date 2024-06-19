@@ -31,23 +31,12 @@ handle_loadstate:
     JMP load_state_after_load
 .next
 
-
-handle_music_toggle:
-    LDA !disable_music
-    BEQ .next
-; send music off command each frame (ugly)
-    LDA #$F0
-    STA $4D
-.next
-
-
 handle_debug_menu:
     LDA !debug_menu
     BEQ .next
 ; jump to debug menu processing code
     JMP main_debug_menu
 .next
-
 
 controller_checks:
 .load_button

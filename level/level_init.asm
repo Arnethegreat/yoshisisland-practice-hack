@@ -126,6 +126,7 @@ level_room_init_common:
 handle_flags:
     PHP
     REP #$20
+    JSR toggle_music
     LDA !skip_kamek
     AND #$00FF
     STA !skip_kamek ; in case the flag has some garbage in the high nibble initially

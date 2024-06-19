@@ -79,6 +79,7 @@ controller_checks:
     AND #$20
     BEQ .disable_autoscroll
 ; toggle music
+    %toggle_byte(!disable_music)
     JSR toggle_music
 
 .disable_autoscroll

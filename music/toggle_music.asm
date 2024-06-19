@@ -1,19 +1,17 @@
 toggle_music:
-    ; SEP #20
+    PHP
+    SEP #$20
     LDA !disable_music
-    BEQ .disable_music
+    BNE .disable_music
 
 .set_music
     LDA #$01
-    STA $004D
-    LDA #$00
-    STA !disable_music
+    STA !r_apu_io_0_mirror
     BRA .ret
 
 .disable_music
     LDA #$F1
-    STA $004D
-    LDA #$01
-    STA !disable_music
+    STA !r_apu_io_0_mirror
 .ret
+    PLP
     RTS

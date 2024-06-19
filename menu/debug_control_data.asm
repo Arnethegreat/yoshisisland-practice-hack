@@ -31,9 +31,9 @@ debug_menu_controls:
   dl $7E14A0
   dw $0142, $0001
 
-; MUSIC DISABLE
-  db $08
-  dl $7E14A0
+; DISABLE MUSIC
+  db $04
+  dl !disable_music
   dw $01C2, $0001
 
 ; FREE MOVEMENT
@@ -137,7 +137,6 @@ debug_menu_controls_warps_room_counts:
 ; indexed by wilcard for control type $08
 control_function_calls:
   dw disable_autoscroll
-  dw toggle_music
 
 ;======================================
 

@@ -21,3 +21,9 @@ endmacro
 macro ai16()
     REP #$30
 endmacro
+
+macro toggle_byte(address)
+    LDA <address>
+    EOR #$01
+    STA <address>
+endmacro

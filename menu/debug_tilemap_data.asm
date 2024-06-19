@@ -33,11 +33,11 @@ option_2_tilemap:
 dw $0020, $000A, $001B, $0019, $003F, $0016, $000E, $0017, $001E
 
 
-!option_3_tilemap_size = #$0018
-!option_3_tilemap_dest = $01C2
+!option_3_tilemap_size = #datasize(option_3_tilemap)
+!option_3_tilemap_dest = $01D4
 option_3_tilemap:
-; MUSIC TOGGLE
-dw $0016, $001E, $001C, $0012, $000C, $003F, $001D, $0018, $0010, $0010, $0015, $000E
+; DISABLE MUSIC
+dw $000D, $0012, $001C, $000A, $000B, $0015, $000E, $003F, $0016, $001E, $001C, $0012, $000C
 
 
 !option_4_tilemap_size = #$001A

@@ -102,7 +102,7 @@ dw $0015, $0018, $000A, $000D, $003F, $000D, $000E, $0015, $000A, $0022
 ; Warp Options
 ;
 
-table "../misc/string_font_map.txt",ltr
+incsrc "../resources/string_font_map.asm"
 
 !null = $0000
 
@@ -325,9 +325,6 @@ init_option_tilemaps:
 
 .ret
     RTS
-
-
-math pri on
 
 
 !tilemap_src = $00

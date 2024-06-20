@@ -5,7 +5,8 @@ lorom
 org $00815F
     autoclean JML game_loop_hijack
 
-freecode $FF
+freespacebyte $FF
+freecode
 
 game_loop_hijack:
 ; 8-bit mode

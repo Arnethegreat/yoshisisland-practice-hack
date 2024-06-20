@@ -1,3 +1,6 @@
 # Ignore anything in the ROMs folder
 /ROMs/*.*
 !.gitkeep
+
+# External tools
+asar.exe

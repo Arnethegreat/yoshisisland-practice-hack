@@ -63,10 +63,10 @@ nmi:
 
     ; set BG3 scroll to (0,-9) here even though HDMA usually makes it redundant
     ; this is mainly for the score screen, since HDMA gets reset a bunch of times when it loads
-    LDA.b !hud_hofs : STA.b !reg_bg3hofs
-    LDA.b !hud_hofs>>8 : STA.b !reg_bg3hofs
-    LDA.b !hud_vofs : STA.b !reg_bg3vofs
-    LDA.b !hud_vofs>>8 : STA.b !reg_bg3vofs
+    LDA.b #!hud_hofs : STA.b !reg_bg3hofs
+    LDA.b #!hud_hofs>>8 : STA.b !reg_bg3hofs
+    LDA.b #!hud_vofs : STA.b !reg_bg3vofs
+    LDA.b #!hud_vofs>>8 : STA.b !reg_bg3vofs
 
     ; if in score screen, skip the level-specific stuff
     LDA !gamemode
@@ -108,12 +108,16 @@ nmi:
 
 hud_hdma_table_h: ; put these tables here so they're available in work ram
     db $98 ; $80 (repeat bit) + 24 ($18) -> 3 lines of tiles, each 8 pixels tall
-    rep 24 : dw !hud_hofs ; 1 per line for $18 lines - kinda gross but necessary?
+    for i = 0..24
+        dw !hud_hofs  ; 1 per line for $18 lines - kinda gross but necessary?
+    endfor
     db $00
 
 hud_hdma_table_v:
     db $98
-    rep 24 : dw !hud_vofs
+    for i = 0..24
+        dw !hud_vofs
+    endfor
     db $00
 
 ; load palette into index 4 ($702020 mirror) so we can see the hud text
@@ -202,4 +206,4 @@ irq_2b:
     JMP $C431
 
 
-warnpc interrupt_freespace+$7F0
+assert pc() <= interrupt_freespace+!interrupt_freespace_size ; warn if our code overflows the freespace region

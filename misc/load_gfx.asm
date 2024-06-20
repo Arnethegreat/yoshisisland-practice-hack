@@ -11,4 +11,4 @@ load_font:
     RTS
 
 font_gfx:
-    incbin "../gfx/font.bin":0-600
+    incbin "../resources/gfx/font.bin":$0..$600

@@ -4,7 +4,8 @@
 org save_current_area            
     autoclean JSL set_level
 
-freecode $FF
+freespacebyte $FF
+freecode
 
 set_level:
 ; saves stuff for room reset function

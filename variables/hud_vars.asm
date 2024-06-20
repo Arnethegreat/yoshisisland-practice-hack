@@ -1,4 +1,4 @@
-@includeonce
+includeonce
 
 ; Custom HUD vars
 !hud_buffer_size = $00C0 ; 3 lines * 64 bytes per line = 192 ($C0) bytes
@@ -39,5 +39,5 @@
 ; Custom HUD consts
 !irq_v = $20 ; scanline for custom irq 2 (bottom of the hud)
 !nmi_v = $D8 ; scanline for NMI
-!hud_hofs = #$0000 ; 0
-!hud_vofs = #$FFF7 ; 1015 (effectively -9)
+!hud_hofs = $0000 ; 0
+!hud_vofs = $FFF7 ; 1015 (effectively -9)

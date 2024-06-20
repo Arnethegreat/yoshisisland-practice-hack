@@ -36,6 +36,7 @@ if read1($00FFD9) == $00
         !file_select_check_jump = $992B
 
     interrupt_freespace = $00CC8A ; targeting the credits text because freespace is limited in JP
+        !interrupt_freespace_size = $0432 ; credits pointers follow at $00D0BC-$00D0FF
     
     free_movement = $04F5E7
 
@@ -83,6 +84,7 @@ elseif read1($00FFD9) == $01
         !file_select_check_jump = $9932
 
     interrupt_freespace = $00F7A7
+        !interrupt_freespace_size = $07F0
 
     free_movement = $04F64C
 

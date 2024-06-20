@@ -26,7 +26,8 @@ To leave menu press Start on either controller.
 
 Press Up and Down to go between options, B and Y for setting values.
 
-N.B. The flashing upside down key in the egg editor is the boss key.
+> [!NOTE]
+> The flashing upside down key in the egg editor is the boss key.
 
 ### HUD
 The heads-up display can be toggled on/off from the menu. It may cause some minor graphical glitches when enabled.
@@ -111,10 +112,23 @@ Hold a button to load level as fast as possible.
 Press Y on controller 2 to disable an autoscroll.
 
 
+# How to assemble
+This project uses the [**asar**](https://github.com/RPGHacker/asar) assembler.
+
+Once downloaded, place the executable wherever you prefer and invoke it, with `assemble.asm` as the first argument and the filepath of your clean ROM as the second.
+
+> [!WARNING]
+> This will overwrite the clean ROM.
+
+See the build files for examples.
+
+
 # How to patch
-Place clean ROM(s) you wish to patch into the ROMs/ dir - they should be called `JP_clean.sfc` for `J1.0` and `NA_clean.sfc` for `U1.0`.
+Choose one of three options:
+
+1. Check the latest [**Releases**](https://github.com/Arnethegreat/yoshisisland-practice-hack/releases) for `.bps` patches, which you can apply to your clean ROMs with the beat patcher utility. This method does not require downloading the source code.
+
+2. Clone this repo and place the clean ROM(s) you wish to patch into the ROMs/ dir - they should be called `JP_clean.sfc` for `J1.0` and `NA_clean.sfc` for `U1.0`.
 Run `build.sh` or `build.bat` with no args to build both, or `U` or `J`.
 
-Alternatively, run `asar.exe assemble.asm your_rom.sfc`.
-
-Or you can check the [**Releases**](https://github.com/Arnethegreat/yoshisisland-practice-hack/releases) for `.bps` patches, which you can apply to your clean ROMs with the beat patcher utility.
+3. Clone this repo and place your clean ROM in the root directory and run `asar.exe assemble.asm your_rom.sfc`.

@@ -1,3 +1,6 @@
+asar 1.91
+check bankcross half
+
 print "YI Practice Hack 0.4.2"
 ;=================================
 incsrc region_check.asm

@@ -22,6 +22,9 @@ includeonce
 ; 1792 bytes
 !menu_tilemap_mirror = $7EB8E2
 !menu_tilemap_size = #$0700
+!tilemap_line_width_single = $0040
+!tilemap_line_width = !tilemap_line_width_single*2
+!first_option_tilemap_dest = $00C2
 
 %var_026A(warps_page_depth_index, 2) ; current page depth --  0: main menu,   1: world select,   2: level select,   3: room warp select
 %var_026A(warps_current_world_index, 2)

@@ -88,7 +88,7 @@ draw_all_egg_changer:
   ; fetch type and call init
   LDA !dbc_type
   AND #$00FF
-  CMP #$0006
+  CMP.w #!ct_egg
   BNE .no_draw
   JSR draw_egg_changer
 

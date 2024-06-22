@@ -360,16 +360,8 @@ warp_menu:
   LDA !sfx_poof : STA !sound_immediate
   DEC !warps_page_depth_index
 .next
+  JSR blank_tilemap
   TXY ; option index now in Y
-  ; initialize tilemap with blanktiles
-  LDX !menu_tilemap_size
-  -
-    LDA #$003F
-    STA !menu_tilemap_mirror-2,x
-    DEX
-    DEX
-    BNE -
-
   DEY ; if back was selected, then underflow
   LDA !warps_page_depth_index
   ASL A ; index --> offset
@@ -383,10 +375,10 @@ warp_menu:
   dw load_room
 
 load_main_menu:
+  JSR init_main_menu_tilemap
   LDA #$0001 : STA !debug_index ; set the cursor index - awkward to hardcode it like this, but we don't store the order anywhere, it's just inferred from debug_menu_controls
   LDA !debug_controls_count : STA !debug_controls_count_current
   JSR init_controls
-  JSR init_option_tilemaps
   RTS
 
 load_world_select:

@@ -1,13 +1,13 @@
 ; data structure for each control as follows:
 
 ; [byte] type of control:
-; $00: low nibble memory changer (wildcard $xxyy xx = min, yy = max)
-; $02: high nibble memory changer (wildcard $xxyy xx = min, yy = max)
-; $04: toggle (wildcard as value for enable)
-; $06: egg inventory editor (wildcard as egg number)
-; $08: call function (wildcard as what function)
-; $0A: warp navigation (wildcard as index)
 !dbc_type = $00
+!ct_lonib = $00 ; low nibble memory changer (wildcard $xxyy xx = min, yy = max)
+!ct_hinib = $02 ; high nibble memory changer (wildcard $xxyy xx = min, yy = max)
+!ct_toggle = $04 ; toggle (wildcard as value for enable)
+!ct_egg = $06 ; egg inventory editor (wildcard as egg number)
+!ct_func = $08 ; call function (wildcard as what function)
+!ct_warps = $0A ; warp navigation (wildcard as index)
 
 ; [long] memory address to read / write from - currently only used for [lownib, highnib, toggle]
 !dbc_memory = $01
@@ -18,106 +18,34 @@
 ; [word] wildcard
 !dbc_wildcard = $06
 
+macro define_menu_entry(type, addr, xpos, ypos, wildcard)
+  db <type>
+  dl <addr>
+  dw <ypos>*!tilemap_line_width+<xpos>*2+$40
+  dw <wildcard>
+endmacro
+
+
 debug_menu_controls:
-; the order of the following data determines the order in which they are selected by the cursor
-
-; DISABLE AUTOSCROLL
-  db $08
-  dl $7E14A0
-  dw $00C2, $0000
-
-; WARP MENU
-  db $0A
-  dl $7E14A0
-  dw $0142, $0001
-
-; DISABLE MUSIC
-  db $04
-  dl !disable_music
-  dw $01C2, $0001
-
-; FREE MOVEMENT
-  db $04
-  dl $7E10DA
-  dw $0242, $0001
-
-; Egg count
-  db $00
-  dl $7E0000+!debug_egg_count_mirror
-  dw $02C2, $0006
-
-; egg 1
-  db $06
-  dl $7E0379
-  dw $02C6, $0000
-
-; egg 2
-  db $06
-  dl $7E037B
-  dw $02C8, $0001
-
-; egg 3
-  db $06
-  dl $7E03B4
-  dw $02CA, $0002
-
-; egg 4 
-  db $06
-  dl $7E03B6
-  dw $02CC, $0003
-
-; egg 5
-  db $06
-  dl $7E03B8
-  dw $02CE, $0004
-
-; egg 6
-  db $06
-  dl $7E03B8
-  dw $02D0, $0005
-
-; SLOW DOWN AMOUNT high
-  db $02
-  dl $7E012F
-  dw $0342, $00F0
-
-; SLOW DOWN AMOUNT low
-  db $00
-  dl $7E012F
-  dw $0344, $000F
-
-; FULL LOAD AS DEFAULT
-  db $04
-  dl !full_load_default
-  dw $03C2, $0021
-
-; SET TUTORIAL FLAGS
-  db $04
-  dl $7E0372
-  dw $0442, $00E0
-
-; DISABLE KAMEK AT BOSS
-  db $04
-  dl !skip_kamek
-  dw $04C2, $0001
-
-; HUD
-  db $04
-  dl $7E0000+!hud_enabled
-  dw $0542, $0001
-
-; LOAD DELAY AMOUNT high
-  db $02
-  dl !load_delay_timer_init
-  dw $05C2, $00F0
-
-; LOAD DELAY AMOUNT low
-  db $00
-  dl !load_delay_timer_init
-  dw $05C4, $000F
-
-!first_option_tilemap_dest = $00C2
-!tilemap_line_width = $0080
+  %define_menu_entry(!ct_func, $7E0000, 1, 1, $0000) ; disable autoscroll
+  %define_menu_entry(!ct_warps, $7E0000, 1, 2, $0001) ; warp menu
+  %define_menu_entry(!ct_toggle, !disable_music, 1, 3, $0001) ; disable music
+  %define_menu_entry(!ct_toggle, $7E0000+!free_movement, 1, 4, $0001) ; free movement
+  %define_menu_entry(!ct_lonib, $7E0000+!debug_egg_count_mirror, 1, 5, $0006) ; egg count
+  %define_menu_entry(!ct_egg, $7E0000, 3, 5, $0000) ; egg 1
+  %define_menu_entry(!ct_egg, $7E0000, 4, 5, $0001) ; egg 2
+  %define_menu_entry(!ct_egg, $7E0000, 5, 5, $0002) ; egg 3
+  %define_menu_entry(!ct_egg, $7E0000, 6, 5, $0003) ; egg 4
+  %define_menu_entry(!ct_egg, $7E0000, 7, 5, $0004) ; egg 5
+  %define_menu_entry(!ct_egg, $7E0000, 8, 5, $0005) ; egg 6
+  %define_menu_entry(!ct_hinib, $7E012F, 1, 6, $00F0) ; slowdown amount high
+  %define_menu_entry(!ct_lonib, $7E012F, 2, 6, $000F) ; slowdown amount low
+  %define_menu_entry(!ct_toggle, !full_load_default, 1, 7, $0021) ; full load as default
+  %define_menu_entry(!ct_toggle, $7E0372, 1, 8, $00E0) ; set tutorial flags
+  %define_menu_entry(!ct_toggle, !skip_kamek, 1, 9, $0001) ; disable kamek at boss
+  %define_menu_entry(!ct_toggle, $7E0000+!hud_enabled, 1, 10, $0001) ; HUD
+  %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 11, $00F0) ; load delay amount high
+  %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 11, $000F) ; load delay amount low
 
 
 ; each control is the same, so just store a count for each page (max = $0B)

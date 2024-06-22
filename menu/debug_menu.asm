@@ -154,19 +154,12 @@ init_debug_menu:
     STZ !warps_page_depth_index
     LDA !debug_controls_count : STA !debug_controls_count_current
 
-   ; initialize tilemap with blanktiles
-    LDX !menu_tilemap_size
-    .test
-        LDA #$003F
-        STA !menu_tilemap_mirror-2,x
-        DEX
-        DEX
-        BNE .test
+    JSR blank_tilemap
+
+    JSR init_main_menu_tilemap 
 
     ; initialize controls
     JSR init_controls
-
-    JSR init_option_tilemaps
 
     SEP #$30
 

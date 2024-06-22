@@ -32,6 +32,7 @@ incsrc menu/debug_controls.asm
 incsrc menu/debug_control_types.asm
 incsrc menu/debug_control_draws.asm
 incsrc menu/debug_tilemap_data.asm
+incsrc menu/debug_tilemaps.asm
 ;=================================
 incsrc map/map_init.asm
 ;=================================
@@ -49,4 +50,4 @@ incsrc routines/interrupt_handler.asm
 ;=================================
 incsrc misc/save_file_init.asm
 
-print bytes
+print "Total bytes written: ", bytes

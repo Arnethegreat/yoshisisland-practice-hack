@@ -1,481 +1,127 @@
-; 25 bytes
-!title_tilemap_size = #$0032
 !title_tilemap_dest = $0006
 title_tilemap:
+incsrc "../resources/string_font_map.asm"
 ; CuteShrug
 dw $0040, $0041, $0042
-; PRACTICE HACK V
-dw $0019, $001b, $000a, $000c
-dw $001d, $0012, $000c, $000e
-dw $003f, $0011, $000a, $000c
-dw $0014, $003F 
-; 0.4.1
-dw $0000, $0024, $0004, $0024, $0002
+dw "PRACTICE HACK 0.4.2"
 ; CuteShrug
 dw $0040, $0041, $0042
 
-
-!option_1_tilemap_size = #$0024
-!option_1_tilemap_dest = $00C2
-option_1_tilemap:
-; DISABLE AUTOSCROLL
-dw $000D, $0012, $001C, $000A
-dw $000B, $0015, $000E, $003F
-dw $000A, $001E, $001D, $0018
-dw $001C, $000C, $001B, $0018
-dw $0015, $0015
-
-
-!option_2_tilemap_size = #$0012
-!option_2_tilemap_dest = $0142
-option_2_tilemap:
-;  W      A      R      P      _      M      E      N      U
-dw $0020, $000A, $001B, $0019, $003F, $0016, $000E, $0017, $001E
-
-
-!option_3_tilemap_size = #datasize(option_3_tilemap)
-!option_3_tilemap_dest = $01D4
-option_3_tilemap:
-; DISABLE MUSIC
-dw $000D, $0012, $001C, $000A, $000B, $0015, $000E, $003F, $0016, $001E, $001C, $0012, $000C
-
-
-!option_4_tilemap_size = #$001A
-!option_4_tilemap_dest = $0254
-option_4_tilemap:
-; FREE MOVEMENT
-dw $000F, $001B, $000E, $000E, $003F, $0016, $0018, $001F, $000E, $0016, $000E, $0017, $001D
-
-
-!option_5_tilemap_size = #$0014
-!option_5_tilemap_dest = $02D4
-option_5_tilemap:
-; EGG EDITOR
-dw $000E, $0010, $0010, $003F, $000E, $000D, $0012, $001D, $0018, $001B
-
-!option_6_tilemap_size = #$001E
-!option_6_tilemap_dest = $0354
-option_6_tilemap:
-; SLOWDOWN AMOUNT
-dw $001C, $0015, $0018, $0020, $000D, $0018, $0020
-dw $0017, $003F, $000A, $0016, $0018, $001E, $0017, $001D
-
-
-!option_7_tilemap_size = #$0028
-!option_7_tilemap_dest = $03D4
-option_7_tilemap:
-; FULL LOAD AS DEFAULT
-dw $000F, $001E, $0015, $0015, $003F, $0015, $0018, $000A, $000D
-dw $003F, $000A, $001C, $003F, $000D, $000E, $000F, $000A, $001E, $0015, $001D
-
-
-!option_8_tilemap_size = #$0024
-!option_8_tilemap_dest = $0454
-option_8_tilemap:
-; SET TUTORIAL FLAGS
-dw $001C, $000E, $001D, $003F, $001D, $001E, $001D, $0018
-dw $001B, $0012, $000A, $0015, $003F, $000F, $0015, $000A, $0010, $001C
-
-
-!option_9_tilemap_size = #$002A
-!option_9_tilemap_dest = $04D4
-option_9_tilemap:
-; DISABLE KAMEK AT BOSS
-dw $000D, $0012, $001C, $000A, $000B, $0015, $000E, $003F, $0014, $000A, $0016
-dw $000E, $0014, $003F, $000A, $001D, $003F, $000B, $0018, $001C, $001C
-
-
-!option_10_tilemap_size = #$0006
-!option_10_tilemap_dest = $0554
-option_10_tilemap:
-;  H      U      D
-dw $0011, $001E, $000D
-
-
-!option_11_tilemap_dest = $05D4
-option_11_tilemap:
-;  L      O      A      D      _      D      E      L      A      Y
-dw $0015, $0018, $000A, $000D, $003F, $000D, $000E, $0015, $000A, $0022
-
+option_mainmenu_tilemap:
+%store_text("DISABLE AUTOSCROLL", 
+            "WARP MENU",
+            "         DISABLE MUSIC",
+            "         FREE MOVEMENT",
+            "         EGG EDITOR",
+            "         SLOWDOWN AMOUNT",
+            "         FULL LOAD AS DEFAULT",
+            "         SET TUTORIAL FLAGS",
+            "         DISABLE KAMEK AT BOSS",
+            "         HUD",
+            "         LOAD DELAY")
+dw !lf
 
 ;====================================
 ; Warp Options
 ;
 
-incsrc "../resources/string_font_map.asm"
-
-!null = $0000
-
 !warps_title_tilemap_dest = $009A
 
 option_back_tilemap: dw "BACK"
+option_start_tilemap: dw "START"
 
-option_worlds_tilemap: dw "WORLD 1", !null, "WORLD 2", !null, "WORLD 3", !null, "WORLD 4", !null, "WORLD 5", !null, "WORLD 6", !null, !null
+option_worlds_tilemap: %store_text("WORLD 1", "WORLD 2", "WORLD 3", "WORLD 4", "WORLD 5", "WORLD 6") : dw !lf
 
-option_world1_tilemap: dw "1-1", !null, "1-2", !null, "1-3", !null, "1-4", !null, "1-5", !null, "1-6", !null, "1-7", !null, "1-8", !null, "1-E", !null, !null
-option_world2_tilemap: dw "2-1", !null, "2-2", !null, "2-3", !null, "2-4", !null, "2-5", !null, "2-6", !null, "2-7", !null, "2-8", !null, "2-E", !null, !null
-option_world3_tilemap: dw "3-1", !null, "3-2", !null, "3-3", !null, "3-4", !null, "3-5", !null, "3-6", !null, "3-7", !null, "3-8", !null, "3-E", !null, !null
-option_world4_tilemap: dw "4-1", !null, "4-2", !null, "4-3", !null, "4-4", !null, "4-5", !null, "4-6", !null, "4-7", !null, "4-8", !null, "4-E", !null, !null
-option_world5_tilemap: dw "5-1", !null, "5-2", !null, "5-3", !null, "5-4", !null, "5-5", !null, "5-6", !null, "5-7", !null, "5-8", !null, "5-E", !null, !null
-option_world6_tilemap: dw "6-1", !null, "6-2", !null, "6-3", !null, "6-4", !null, "6-5", !null, "6-6", !null, "6-7", !null, "6-8", !null, "6-E", !null, !null
+option_world1_tilemap: %store_text("1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-7", "1-8", "1-E") : dw !lf
+option_world2_tilemap: %store_text("2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8", "2-E") : dw !lf
+option_world3_tilemap: %store_text("3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8", "3-E") : dw !lf
+option_world4_tilemap: %store_text("4-1", "4-2", "4-3", "4-4", "4-5", "4-6", "4-7", "4-8", "4-E") : dw !lf
+option_world5_tilemap: %store_text("5-1", "5-2", "5-3", "5-4", "5-5", "5-6", "5-7", "5-8", "5-E") : dw !lf
+option_world6_tilemap: %store_text("6-1", "6-2", "6-3", "6-4", "6-5", "6-6", "6-7", "6-8", "6-E") : dw !lf
 
 option_world_tilemaps_addr_table:
     dw option_world1_tilemap, option_world2_tilemap, option_world3_tilemap, option_world4_tilemap, option_world5_tilemap, option_world6_tilemap
 
-option_start_tilemap: dw "START"
-
-option_level11_tilemap: dw "CAVE - LEFT", !null, !null
-option_level12_tilemap: dw "2ND ROOM", !null, "GOAL ROOM", !null, !null
-option_level13_tilemap: dw "2ND ROOM - CAVE", !null, "*BONUS*", !null, "2ND ROOM - FROM BONUS LEFT", !null, "GOAL ROOM", !null, !null
-option_level14_tilemap: dw "2ND ROOM", !null, "*BONUS*", !null, "2ND ROOM - FROM BONUS", !null, "PRE-BOSS ROOM", !null, "BOSS", !null, !null
-option_level15_tilemap: dw !null, !null
-option_level16_tilemap: dw "*BONUS* - CLOUD", !null, "2ND ROOM - CAVE", !null, "3RD ROOM", !null, "MOLE TANK ROOM", !null, "3RD ROOM - FROM MOLE TANK ROOM", !null, "4TH ROOM - CAVE", !null, "GOAL ROOM", !null, !null
-option_level17_tilemap: dw "2ND ROOM", !null, "*BONUS* - BEANSTALK", !null, !null
-option_level18_tilemap: dw "2ND ROOM - BOTTOM LEFT WATER", !null, "1ST ROOM - LEFT FROM WATER", !null, "3RD ROOM", !null, "PRE-BOSS ROOM", !null, "BOSS", !null, !null
-option_level1E_tilemap: dw !null, !null
+option_level11_tilemap: %store_text("CAVE - LEFT") : dw !lf
+option_level12_tilemap: %store_text("2ND ROOM", "GOAL ROOM") : dw !lf
+option_level13_tilemap: %store_text("2ND ROOM - CAVE", "*BONUS*", "2ND ROOM - FROM BONUS LEFT", "GOAL ROOM") : dw !lf
+option_level14_tilemap: %store_text("2ND ROOM", "*BONUS*", "2ND ROOM - FROM BONUS", "PRE-BOSS ROOM", "BOSS") : dw !lf
+option_level15_tilemap: dw !lf, !lf
+option_level16_tilemap: %store_text("*BONUS* - CLOUD", "2ND ROOM - CAVE", "3RD ROOM", "MOLE TANK ROOM", "3RD ROOM - FROM MOLE TANK ROOM", "4TH ROOM - CAVE", "GOAL ROOM") : dw !lf
+option_level17_tilemap: %store_text("2ND ROOM", "*BONUS* - BEANSTALK") : dw !lf
+option_level18_tilemap: %store_text("2ND ROOM - BOTTOM LEFT WATER", "1ST ROOM - LEFT FROM WATER", "3RD ROOM", "PRE-BOSS ROOM", "BOSS") : dw !lf
+option_level1E_tilemap: dw !lf, !lf
 
 option_world1_tilemaps_addr_table:
     dw option_level11_tilemap, option_level12_tilemap, option_level13_tilemap, option_level14_tilemap
     dw option_level15_tilemap, option_level16_tilemap, option_level17_tilemap, option_level18_tilemap, option_level1E_tilemap
 
-option_level21_tilemap: dw "MARIO STAR ROOM", !null, "2ND ROOM - POOCHEY", !null, "3RD ROOM - FALLING ROCKS", !null, "*BONUS*", !null, !null
-option_level22_tilemap: dw "2ND ROOM", !null, "3RD ROOM", !null, !null
-option_level23_tilemap: dw "2ND ROOM - CAVE", !null, "*BONUS*", !null, !null
-option_level24_tilemap: dw "2ND ROOM", !null, "BOO ROOM", !null, "3RD ROOM - PLATFORMS", !null, "2ND ROOM - FROM PLATFORMS", !null, "4TH ROOM - LAVA", !null, "5TH ROOM - EGGS", !null, "*BONUS* - DARK", !null, "PRE-BOSS ROOM", !null, "BOSS", !null, !null
-option_level25_tilemap: dw "TRAIN ROOM", !null, "1ST ROOM - FROM TRAIN", !null, "2ND ROOM", !null, "1ST *BONUS* - SPINNY LOGS", !null, "2ND *BONUS* - MARIO STAR", !null, !null
-option_level26_tilemap: dw "2ND ROOM", !null, "SMALL ROOM WITH REDS", !null, "SMALL ROOM WITH MIDRING", !null, "3RD ROOM", !null, "4TH ROOM", !null, !null
-option_level27_tilemap: dw "2ND ROOM - BIG SHYGUYS", !null, "1ST ROOM - FROM BIG SHYGUYS", !null, "3RD ROOM - FALLING STONES", !null, "4TH ROOM", !null, "*BONUS* - FOAM PIPE", !null, "4TH ROOM - FROM BONUS", !null, "5TH ROOM - CAR", !null, !null
-option_level28_tilemap: dw "2ND ROOM", !null, "3RD ROOM - ARROW LIFT", !null, "TRAIN ROOM", !null, "4TH ROOM - KEY", !null, "5TH ROOM - SPIKED LOG", !null, "*BONUS* - BURTS", !null, "6TH ROOM - ARROW LIFT", !null, "7TH ROOM - BANDITS", !null, "PRE-BOSS ROOM", !null, "BOSS", !null, !null
-option_level2E_tilemap: dw "*BONUS* - STAR CRATES", !null, !null
+option_level21_tilemap: %store_text("MARIO STAR ROOM", "2ND ROOM - POOCHEY", "3RD ROOM - FALLING ROCKS", "*BONUS*") : dw !lf
+option_level22_tilemap: %store_text("2ND ROOM", "3RD ROOM") : dw !lf
+option_level23_tilemap: %store_text("2ND ROOM - CAVE", "*BONUS*") : dw !lf
+option_level24_tilemap: %store_text("2ND ROOM", "BOO ROOM", "3RD ROOM - PLATFORMS", "2ND ROOM - FROM PLATFORMS", "4TH ROOM - LAVA", "5TH ROOM - EGGS", "*BONUS* - DARK", "PRE-BOSS ROOM", "BOSS") : dw !lf
+option_level25_tilemap: %store_text("TRAIN ROOM", "1ST ROOM - FROM TRAIN", "2ND ROOM", "1ST *BONUS* - SPINNY LOGS", "2ND *BONUS* - MARIO STAR") : dw !lf
+option_level26_tilemap: %store_text("2ND ROOM", "SMALL ROOM WITH REDS", "SMALL ROOM WITH MIDRING", "3RD ROOM", "4TH ROOM") : dw !lf
+option_level27_tilemap: %store_text("2ND ROOM - BIG SHYGUYS", "1ST ROOM - FROM BIG SHYGUYS", "3RD ROOM - FALLING STONES", "4TH ROOM", "*BONUS* - FOAM PIPE", "4TH ROOM - FROM BONUS", "5TH ROOM - CAR") : dw !lf
+option_level28_tilemap: %store_text("2ND ROOM", "3RD ROOM - ARROW LIFT", "TRAIN ROOM", "4TH ROOM - KEY", "5TH ROOM - SPIKED LOG", "*BONUS* - BURTS", "6TH ROOM - ARROW LIFT", "7TH ROOM - BANDITS", "PRE-BOSS ROOM", "BOSS") : dw !lf
+option_level2E_tilemap: %store_text("*BONUS* - STAR CRATES") : dw !lf
 
 option_world2_tilemaps_addr_table:
     dw option_level21_tilemap, option_level22_tilemap, option_level23_tilemap, option_level24_tilemap
     dw option_level25_tilemap, option_level26_tilemap, option_level27_tilemap, option_level28_tilemap, option_level2E_tilemap
 
-option_level31_tilemap: dw "2ND ROOM", !null, "*BONUS*", !null, "3RD ROOM", !null, !null
-option_level32_tilemap: dw "*BONUS* - REDS", !null, "*BONUS* - POOCHEY", !null, !null
-option_level33_tilemap: dw "2ND ROOM", !null, "*BONUS* - FLOWER", !null, "3RD ROOM - SUBMARINE", !null, "4TH ROOM", !null, "5TH ROOM", !null, !null
-option_level34_tilemap: dw "SUBMARINE ROOM", !null, "1ST ROOM - FROM SUBMARINE", !null, "2ND ROOM", !null, "SMALL CRAB ROOM", !null, "2ND ROOM - FROM SMALL CRAB", !null, "ROOM WITH 3 REDS", !null, "LARGE CRAB ROOM", !null, "3RD ROOM - SPIKES", !null, "PRE-BOSS ROOM", !null, "BOSS", !null, !null
-option_level35_tilemap: dw "2ND ROOM", !null, "*BONUS*", !null, "3RD ROOM", !null, !null
-option_level36_tilemap: dw "2ND ROOM - UPPER", !null, "*BONUS* - FLOWER", !null, "3RD ROOM", !null, !null
-option_level37_tilemap: dw "SUBMARINE ROOM", !null, "2ND ROOM", !null, "*BONUS* - CANOPY", !null, "2ND ROOM - FROM BONUS", !null, "ROOM WITH GOAL", !null, !null
-option_level38_tilemap: dw "2ND ROOM", !null, "3RD ROOM - PIPES", !null, "4TH ROOM", !null, "BOSS", !null, !null
-option_level3E_tilemap: dw "*BONUS* - STARS", !null, !null
+option_level31_tilemap: %store_text("2ND ROOM", "*BONUS*", "3RD ROOM") : dw !lf
+option_level32_tilemap: %store_text("*BONUS* - REDS", "*BONUS* - POOCHEY") : dw !lf
+option_level33_tilemap: %store_text("2ND ROOM", "*BONUS* - FLOWER", "3RD ROOM - SUBMARINE", "4TH ROOM", "5TH ROOM") : dw !lf
+option_level34_tilemap: %store_text("SUBMARINE ROOM", "1ST ROOM - FROM SUBMARINE", "2ND ROOM", "SMALL CRAB ROOM", "2ND ROOM - FROM SMALL CRAB", "ROOM WITH 3 REDS", "LARGE CRAB ROOM", "3RD ROOM - SPIKES", "PRE-BOSS ROOM", "BOSS") : dw !lf
+option_level35_tilemap: %store_text("2ND ROOM", "*BONUS*", "3RD ROOM") : dw !lf
+option_level36_tilemap: %store_text("2ND ROOM - UPPER", "*BONUS* - FLOWER", "3RD ROOM") : dw !lf
+option_level37_tilemap: %store_text("SUBMARINE ROOM", "2ND ROOM", "*BONUS* - CANOPY", "2ND ROOM - FROM BONUS", "ROOM WITH GOAL") : dw !lf
+option_level38_tilemap: %store_text("2ND ROOM", "3RD ROOM - PIPES", "4TH ROOM", "BOSS") : dw !lf
+option_level3E_tilemap: %store_text("*BONUS* - STARS") : dw !lf
 
 option_world3_tilemaps_addr_table:
     dw option_level31_tilemap, option_level32_tilemap, option_level33_tilemap, option_level34_tilemap
     dw option_level35_tilemap, option_level36_tilemap, option_level37_tilemap, option_level38_tilemap, option_level3E_tilemap
 
-option_level41_tilemap: dw "*BONUS* - CAVE", !null, "1ST ROOM - FROM BONUS", !null, "2ND ROOM - FUZZIES", !null, "3RD ROOM", !null, !null
-option_level42_tilemap: dw "2ND ROOM", !null, "*BONUS* - FALLING", !null, "2ND ROOM - FROM BONUS", !null, "3RD ROOM", !null, "*BONUS* - RED", !null, !null
-option_level43_tilemap: dw "*BONUS*", !null, "2ND ROOM", !null, !null
-option_level44_tilemap: dw "HUB", !null, "TOP RIGHT", !null, "BOTTOM RIGHT", !null, "BOTTOM RIGHT - 2ND ROOM", !null, "TOP LEFT", !null, "BOTTOM LEFT", !null, "1ST KEY-OPENED ROOM", !null, "2ND KEY-OPENED ROOM", !null, "3RD KEY-OPENED ROOM", !null, "BOSS", !null, !null
-option_level45_tilemap: dw "2ND ROOM", !null, "*BONUS* - FLOWER", !null, !null
-option_level46_tilemap: dw "SMALL ROOM WITH TULIP", !null, "2ND ROOM", !null, "3RD ROOM", !null, "*BONUS* - DOUBLE ARROW LIFT", !null, "4TH ROOM", !null, !null
-option_level47_tilemap: dw "BALLOON PUMP ROOM", !null, "2ND ROOM", !null, !null
-option_level48_tilemap: dw "2ND ROOM - LEFT", !null, "2ND ROOM - MIDDLE", !null, "2ND ROOM - RIGHT", !null, "*BONUS* - GIANT MILDES", !null, "LAKITU ROOM", !null, "TETRIS ROOM", !null, "BOSS", !null, !null
-option_level4E_tilemap: dw "BRIGHT - MAIN MIDDLE DOOR", !null, "DARK - EGG POOL", !null, "BRIGHT - TOP LEFT", !null, "DARK - MOLE", !null, "BRIGHT - RED EGG BLOCKS", !null, "DARK - HELICOPTER", !null, "BRIGHT - FLASHING EGGS", !null, "DARK - END WATERFALL", !null, !null
+option_level41_tilemap: %store_text("*BONUS* - CAVE", "1ST ROOM - FROM BONUS", "2ND ROOM - FUZZIES", "3RD ROOM") : dw !lf
+option_level42_tilemap: %store_text("2ND ROOM", "*BONUS* - FALLING", "2ND ROOM - FROM BONUS", "3RD ROOM", "*BONUS* - RED") : dw !lf
+option_level43_tilemap: %store_text("*BONUS*", "2ND ROOM") : dw !lf
+option_level44_tilemap: %store_text("HUB", "TOP RIGHT", "BOTTOM RIGHT", "BOTTOM RIGHT - 2ND ROOM", "TOP LEFT", "BOTTOM LEFT", "1ST KEY-OPENED ROOM", "2ND KEY-OPENED ROOM", "3RD KEY-OPENED ROOM", "BOSS") : dw !lf
+option_level45_tilemap: %store_text("2ND ROOM", "*BONUS* - FLOWER") : dw !lf
+option_level46_tilemap: %store_text("SMALL ROOM WITH TULIP", "2ND ROOM", "3RD ROOM", "*BONUS* - DOUBLE ARROW LIFT", "4TH ROOM") : dw !lf
+option_level47_tilemap: %store_text("BALLOON PUMP ROOM", "2ND ROOM") : dw !lf
+option_level48_tilemap: %store_text("2ND ROOM - LEFT", "2ND ROOM - MIDDLE", "2ND ROOM - RIGHT", "*BONUS* - GIANT MILDES", "LAKITU ROOM", "TETRIS ROOM", "BOSS") : dw !lf
+option_level4E_tilemap: %store_text("BRIGHT - MAIN MIDDLE DOOR", "DARK - EGG POOL", "BRIGHT - TOP LEFT", "DARK - MOLE", "BRIGHT - RED EGG BLOCKS", "DARK - HELICOPTER", "BRIGHT - FLASHING EGGS", "DARK - END WATERFALL") : dw !lf
 
 option_world4_tilemaps_addr_table:
     dw option_level41_tilemap, option_level42_tilemap, option_level43_tilemap, option_level44_tilemap
     dw option_level45_tilemap, option_level46_tilemap, option_level47_tilemap, option_level48_tilemap, option_level4E_tilemap
 
-option_level51_tilemap: dw "*BONUS* - HELICOPTER", !null, "2ND ROOM - CAVE", !null, "3RD ROOM", !null, "*BONUS* - TULIP", !null, !null
-option_level52_tilemap: dw "2ND ROOM", !null, "3RD ROOM", !null, "*BONUS* - ICE CORE", !null, !null
-option_level53_tilemap: dw "2ND ROOM", !null, "*BONUS* - COINS", !null, "3RD ROOM - DOOR", !null, "1ST SKIING", !null, "2ND SKIING", !null, "3RD SKIING", !null, "GOAL ROOM", !null, !null
-option_level54_tilemap: dw "1ST *BONUS* - FLOWER", !null, "2ND *BONUS* - MUDDY BUDDY ROOM", !null, "1ST ROOM - MID-RING", !null, "2ND ROOM", !null, "3RD ROOM - 5-4 SKIP", !null, "PRE-BOSS ROOM", !null, "BOSS", !null, !null
-option_level55_tilemap: dw "*BONUS* - PENGUINS", !null, "2ND ROOM - HELICOPTER", !null, "3RD ROOM", !null, !null
-option_level56_tilemap: dw "2ND ROOM", !null, "*BONUS* - PIPES", !null, !null
-option_level57_tilemap: dw "*BONUS* - FLOWER", !null, "2ND ROOM", !null, "3RD ROOM", !null, !null
-option_level58_tilemap: dw "2ND ROOM", !null, "3RD ROOM - ARROW LIFT", !null, "4TH ROOM", !null, "TRAIN ROOM", !null, "BOSS", !null, "BOSS - MOON", !null, !null
-option_level5E_tilemap: dw "1ST SKIING", !null, "2ND SKIING", !null, "3RD SKIING", !null, "GOAL ROOM", !null, !null
+option_level51_tilemap: %store_text("*BONUS* - HELICOPTER", "2ND ROOM - CAVE", "3RD ROOM", "*BONUS* - TULIP") : dw !lf
+option_level52_tilemap: %store_text("2ND ROOM", "3RD ROOM", "*BONUS* - ICE CORE") : dw !lf
+option_level53_tilemap: %store_text("2ND ROOM", "*BONUS* - COINS", "3RD ROOM - DOOR", "1ST SKIING", "2ND SKIING", "3RD SKIING", "GOAL ROOM") : dw !lf
+option_level54_tilemap: %store_text("1ST *BONUS* - FLOWER", "2ND *BONUS* - MUDDY BUDDY ROOM", "1ST ROOM - MID-RING", "2ND ROOM", "3RD ROOM - 5-4 SKIP", "PRE-BOSS ROOM", "BOSS") : dw !lf
+option_level55_tilemap: %store_text("*BONUS* - PENGUINS", "2ND ROOM - HELICOPTER", "3RD ROOM") : dw !lf
+option_level56_tilemap: %store_text("2ND ROOM", "*BONUS* - PIPES") : dw !lf
+option_level57_tilemap: %store_text("*BONUS* - FLOWER", "2ND ROOM", "3RD ROOM") : dw !lf
+option_level58_tilemap: %store_text("2ND ROOM", "3RD ROOM - ARROW LIFT", "4TH ROOM", "TRAIN ROOM", "BOSS", "BOSS - MOON") : dw !lf
+option_level5E_tilemap: %store_text("1ST SKIING", "2ND SKIING", "3RD SKIING", "GOAL ROOM") : dw !lf
 
 option_world5_tilemaps_addr_table:
     dw option_level51_tilemap, option_level52_tilemap, option_level53_tilemap, option_level54_tilemap
     dw option_level55_tilemap, option_level56_tilemap, option_level57_tilemap, option_level58_tilemap, option_level5E_tilemap
 
-option_level61_tilemap: dw "*BONUS* - CONVEYOR RIDE", !null, "2ND ROOM", !null, "3RD ROOM", !null, !null
-option_level62_tilemap: dw "2ND ROOM", !null, "3RD ROOM", !null, !null
-option_level63_tilemap: dw "2ND ROOM", !null, "*BONUS* - 5 ROOMS", !null, !null
-option_level64_tilemap: dw "PRE-SALVO ROOM", !null, "BIG SALVO ROOM", !null, "DARK ROOM - FROM SALVO", !null, "LAVA ROOM", !null, "BOSS", !null, !null
-option_level65_tilemap: dw "*BONUS*", !null, "2ND ROOM", !null, !null
-option_level66_tilemap: dw "BRIGHT - TOP LEFT", !null, "DARK - BOTTOM LEFT", !null, "BRIGHT - TOP RIGHT", !null, "BRIGHT - MID LEFT", !null, "GOAL ROOM", !null, !null
-option_level67_tilemap: dw "2ND ROOM", !null, "3RD ROOM", !null, "*BONUS* - SWITCHES", !null, "GOAL ROOM", !null, !null
-option_level68_tilemap: dw "PICK A DOOR ROOM", !null, "DOOR 1", !null, "DOOR 2", !null, "DOOR 3", !null, "DOOR 4", !null, "KAMEK'S MAGIC AUTOSCROLLER", !null, "BOSS - BABY BOWSER", !null, "BOSS - BIG BOWSER", !null, !null
-option_level6E_tilemap: dw "2ND ROOM", !null, "3RD ROOM", !null, "4TH ROOM - BASEBALL", !null, "5TH ROOM", !null, "6TH ROOM", !null, "7TH ROOM - WATER", !null, !null
+option_level61_tilemap: %store_text("*BONUS* - CONVEYOR RIDE", "2ND ROOM", "3RD ROOM") : dw !lf
+option_level62_tilemap: %store_text("2ND ROOM", "3RD ROOM") : dw !lf
+option_level63_tilemap: %store_text("2ND ROOM", "*BONUS* - 5 ROOMS") : dw !lf
+option_level64_tilemap: %store_text("PRE-SALVO ROOM", "BIG SALVO ROOM", "DARK ROOM - FROM SALVO", "LAVA ROOM", "BOSS") : dw !lf
+option_level65_tilemap: %store_text("*BONUS*", "2ND ROOM") : dw !lf
+option_level66_tilemap: %store_text("BRIGHT - TOP LEFT", "DARK - BOTTOM LEFT", "BRIGHT - TOP RIGHT", "BRIGHT - MID LEFT", "GOAL ROOM") : dw !lf
+option_level67_tilemap: %store_text("2ND ROOM", "3RD ROOM", "*BONUS* - SWITCHES", "GOAL ROOM") : dw !lf
+option_level68_tilemap: %store_text("PICK A DOOR ROOM", "DOOR 1", "DOOR 2", "DOOR 3", "DOOR 4", "KAMEK'S MAGIC AUTOSCROLLER", "BOSS - BABY BOWSER", "BOSS - BIG BOWSER") : dw !lf
+option_level6E_tilemap: %store_text("2ND ROOM", "3RD ROOM", "4TH ROOM - BASEBALL", "5TH ROOM", "6TH ROOM", "7TH ROOM - WATER") : dw !lf
 
 option_world6_tilemaps_addr_table:
     dw option_level61_tilemap, option_level62_tilemap, option_level63_tilemap, option_level64_tilemap
     dw option_level65_tilemap, option_level66_tilemap, option_level67_tilemap, option_level68_tilemap, option_level6E_tilemap
-
-
-;====================================
-; Absolute garbage, replacing with a single loop later
-;
-
-init_option_tilemaps:
-    REP #$30
-    LDX #$0000
-    .loop
-        LDA title_tilemap,x
-        STA !menu_tilemap_mirror+!title_tilemap_dest,x
-        INX
-        INX
-        CPX !title_tilemap_size
-        BNE .loop
-
-    LDX #$0000
-    -
-        LDA option_1_tilemap,x
-        STA !menu_tilemap_mirror+!option_1_tilemap_dest,x
-        INX
-        INX
-        CPX !option_1_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_2_tilemap,x
-        STA !menu_tilemap_mirror+!option_2_tilemap_dest,x
-        INX
-        INX
-        CPX !option_2_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_3_tilemap,x
-        STA !menu_tilemap_mirror+!option_3_tilemap_dest,x
-        INX
-        INX
-        CPX !option_3_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_4_tilemap,x
-        STA !menu_tilemap_mirror+!option_4_tilemap_dest,x
-        INX
-        INX
-        CPX !option_4_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_5_tilemap,x
-        STA !menu_tilemap_mirror+!option_5_tilemap_dest,x
-        INX
-        INX
-        CPX !option_5_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_6_tilemap,x
-        STA !menu_tilemap_mirror+!option_6_tilemap_dest,x
-        INX
-        INX
-        CPX !option_6_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_7_tilemap,x
-        STA !menu_tilemap_mirror+!option_7_tilemap_dest,x
-        INX
-        INX
-        CPX !option_7_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_8_tilemap,x
-        STA !menu_tilemap_mirror+!option_8_tilemap_dest,x
-        INX
-        INX
-        CPX !option_8_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_9_tilemap,x
-        STA !menu_tilemap_mirror+!option_9_tilemap_dest,x
-        INX
-        INX
-        CPX !option_9_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_10_tilemap,x
-        STA !menu_tilemap_mirror+!option_10_tilemap_dest,x
-        INX
-        INX
-        CPX !option_10_tilemap_size
-        BNE -
-
-    LDX #$0000
-    -
-        LDA option_11_tilemap,x
-        STA !menu_tilemap_mirror+!option_11_tilemap_dest,x
-        INX
-        INX
-        CPX #datasize(option_11_tilemap)
-        BNE -
-
-.ret
-    RTS
-
-
-!tilemap_src = $00
-!tilemap_dest_start_offset = $02
-!tilemap_dest_char_offset = $04
-; subroutine to load each char sequentially from tilemap into the mirror offset by tilemap_dest_start_offset
-; takes a newline when a null char is encountered and stops writing when two nulls in a row
-; set tilemap_src and tilemap_dest_start_offset before calling
-load_text_page:
-    STZ !tilemap_dest_char_offset
-    LDY #$0000
-    -
-        LDA (!tilemap_src),y
-        CMP #!null ; if null, we reached the end of the line
-        BEQ .eol
-
-        ; we need to combine two indices (line start offset, char offset) into the base tilemap mirror address
-        ; which is a long situated in bank 7E, plus the char offset (currently in y)
-        ; absolute long indexed (x) is the only addressing mode that works here
-        ; so we can use the mirror as the STA operand, with the relative dest + offset in x
-        
-        PHA ; save current tilemap on stack
-        LDA !tilemap_dest_start_offset ; fetch the relative dest
-        PHA ; save the relative dest cos we can't just add registers directly (i think?)
-        LDA !tilemap_dest_char_offset
-        CLC
-        ADC $01,s ; add the stored relative dest to the offset
-        TAX ; move the combined relative dest/offset into X
-        PLA ; pop the saved relative dest (not needed)
-        PLA ; pop the saved current tilemap
-        STA !menu_tilemap_mirror,x
-        BRA .next
-    .eol
-        INY
-        INY
-        LDA (!tilemap_src),y
-        CMP #!null ; 2 nulls in a row, we reached the end of the page
-        BEQ .ret
-        ; add 1 line width to tilemap_dest - basically a line feed
-        LDA !tilemap_dest_start_offset
-        CLC
-        ADC #!tilemap_line_width
-        STA !tilemap_dest_start_offset
-        STZ !tilemap_dest_char_offset ; reset the char offset
-        BRA -
-    .next
-        INY
-        INY
-        INC !tilemap_dest_char_offset
-        INC !tilemap_dest_char_offset
-        BRA -
-.ret
-    RTS
-
-; Loads each char sequentially from tilemap into the mirror offset by tilemap_dest
-macro load_text(tilemap, tilemap_dest)
-    LDX #$0000
-    -
-        LDA <tilemap>,x
-        STA !menu_tilemap_mirror+<tilemap_dest>,x
-        INX
-        INX
-        CPX #datasize(<tilemap>)
-        BNE -
-endmacro
-
-; pushes current DP onto the stack and sets it to 0
-macro zero_dp()
-    PHD
-    LDA #$0000
-    TCD
-endmacro
-
-init_warp_option_worlds_tilemaps:
-    REP #$30
-    %load_text(title_tilemap, !title_tilemap_dest)
-    %load_text(option_back_tilemap, !first_option_tilemap_dest)
-    
-    %zero_dp()
-
-    LDA #option_worlds_tilemap : STA !tilemap_src
-    LDA #!first_option_tilemap_dest+!tilemap_line_width : STA !tilemap_dest_start_offset
-    JSR load_text_page
-
-    PLD ; reset DP
-    RTS
-
-init_warp_option_levels_tilemaps:
-    REP #$30
-    %load_text(title_tilemap, !title_tilemap_dest)
-    %load_text(option_back_tilemap, !first_option_tilemap_dest)
-
-    %zero_dp()
-
-    LDA !warps_current_world_index
-    ASL A ; offset is 2 bytes per index
-    TAX
-    LDA option_world_tilemaps_addr_table,x : STA !tilemap_src
-    
-    ; set page title to the first char of the world tilemap e.g. 1, 5, etc.
-    LDA (!tilemap_src)
-    STA !menu_tilemap_mirror+!warps_title_tilemap_dest
-
-    LDA #!first_option_tilemap_dest+!tilemap_line_width : STA !tilemap_dest_start_offset
-    JSR load_text_page
-
-    PLD ; reset DP
-    RTS
-
-init_warp_option_rooms_tilemaps:
-    REP #$30
-    %load_text(title_tilemap, !title_tilemap_dest)
-    %load_text(option_back_tilemap, !first_option_tilemap_dest)
-    %load_text(option_start_tilemap, !first_option_tilemap_dest+!tilemap_line_width)
-
-    %zero_dp()
-    
-    LDA #!first_option_tilemap_dest+!tilemap_line_width*2 : STA !tilemap_dest_start_offset
-    LDA !warps_current_world_index
-    ASL A
-    TAX
-    LDA .world_ptrs,x : STA $06
-    LDA !warps_current_level_index
-    ASL A ; index --> offset
-    TAY
-    LDA ($06),y : STA !tilemap_src
-
-    ; set page title using `world-level` notation
-    LDA !warps_current_world_index
-    INC
-    STA !menu_tilemap_mirror+!warps_title_tilemap_dest+0
-    LDA #$0027 ; hyphen
-    STA !menu_tilemap_mirror+!warps_title_tilemap_dest+2
-    ; this method runs into an issue when dealing with the extra levels, printing `x-9` instead of `x-E`
-    LDA !warps_current_level_index
-    ; check if A == 8
-    CMP #$0008
-    BNE +
-    { ; if true, it's an extra - set the tilemap to 'E'
-        LDA #$000E : STA !menu_tilemap_mirror+!warps_title_tilemap_dest+4
-        BRA ++
-    }
-    + { ; else, just print the number
-        INC
-        STA !menu_tilemap_mirror+!warps_title_tilemap_dest+4
-    }
-    ++
-
-    JSR load_text_page
-.ret
-    PLD ; reset DP
-    RTS
-.world_ptrs
-    dw option_world1_tilemaps_addr_table, option_world2_tilemaps_addr_table, option_world3_tilemaps_addr_table, option_world4_tilemaps_addr_table, option_world5_tilemaps_addr_table, option_world6_tilemaps_addr_table

@@ -16,6 +16,19 @@
 !current_screen = $038E
 
 ; Controller data
+!controller_data1_A = %10000000
+!controller_data1_X = %01000000
+!controller_data1_L = %00100000
+!controller_data1_R = %00010000
+!controller_data2_B      = %10000000
+!controller_data2_Y      = %01000000
+!controller_data2_select = %00100000
+!controller_data2_start  = %00010000
+!controller_data2_up     = %00001000
+!controller_data2_down   = %00000100
+!controller_data2_left   = %00000010
+!controller_data2_right  = %00000001
+
 !controller_data1 = $093C ; AXLR----
 !controller_data2 = $093D ; byetUDLR
 !controller_data1_dp = $35
@@ -107,9 +120,13 @@
 ; SFX (see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Sound-IDs)
 !sound_immediate = $0053
 
+!sfx_collect_egg = $03
 !sfx_shell_01 = #$000B
-!sfx_midway_tape = #$0019
+!sfx_shell_06 = $10
+!sfx_shell_07 = $11
+!sfx_midway_tape = $19
 !sfx_poof = #$001D
+!sfx_key_chink = $1E
 !sfx_yoshi = #$0043
 
 ; IRQ

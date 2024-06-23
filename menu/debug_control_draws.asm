@@ -62,7 +62,8 @@ draw_egg_changer:
 
 
 draw_all_egg_changer:
-  REP #$30
+  PHP
+  %ai16()
 
 ; Push copy 
   PHD
@@ -109,7 +110,7 @@ draw_all_egg_changer:
   PLA
   STA $00
   PLD
-
+  PLP
   RTS
 
 

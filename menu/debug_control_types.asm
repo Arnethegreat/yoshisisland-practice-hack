@@ -40,7 +40,7 @@ main_highnib_memchanger:
 ; pressing A?
 .check_increment
   LDA !controller_data1_press
-  AND #%10000000
+  AND #!controller_data1_A
   BEQ .check_decrement
 
   ; increment only high nibble
@@ -63,15 +63,13 @@ main_highnib_memchanger:
   AND #$0F
   ORA $0002
   STA [!dbc_memory]
-
-  ; increase sound effect
-  LDA #$10
-  STA $0053
+  LDA #!sfx_shell_07
+  BRA .update_draw
 
 ; pressing Y?
 .check_decrement
   LDA !controller_data2_press
-  AND #%01000000
+  AND #!controller_data2_Y
   BEQ .ret
 
   ; decrement only high nibble
@@ -97,13 +95,13 @@ main_highnib_memchanger:
   AND #$0F
   ORA $0002
   STA [!dbc_memory]
+  LDA #!sfx_shell_06
 
-  ; decrease sound effect
-  LDA #$10
-  STA $0053
+.update_draw
+  STA !sound_immediate
+  JSR draw_highnib
 
 .ret
-  JSR draw_highnib
   RTS
 
 ;================================
@@ -114,7 +112,7 @@ main_lownib_memchanger:
 ; pressing A?
 .check_increment
   LDA !controller_data1_press
-  AND #%10000000
+  AND #!controller_data1_A
   BEQ .check_decrement
 
   ; increment only low nibble
@@ -136,16 +134,13 @@ main_lownib_memchanger:
   AND #$F0
   ORA $0002
   STA [!dbc_memory]
-
-  ; increase sound effect
-  LDA #$11
-  STA $0053
-
+  LDA #!sfx_shell_07
+  BRA .update_draw
 
 ; pressing Y?
 .check_decrement
   LDA !controller_data2_press
-  AND #%01000000
+  AND #!controller_data2_Y
   BEQ .ret
 
   ; decrement only low nibble
@@ -168,16 +163,16 @@ main_lownib_memchanger:
   AND #$F0
   ORA $0002
   STA [!dbc_memory]
+  LDA #!sfx_shell_06
 
-  ; decrease sound effect
-  LDA #$10
-  STA $0053
-
-.ret
+.update_draw
+  STA !sound_immediate
   JSR draw_lownib
 ; hacky because don't feel like doing a seperate egg count type
   JSR clean_egg_inv_mirror
   JSR draw_all_egg_changer
+
+.ret
   RTS
 
 ;================================
@@ -188,7 +183,7 @@ main_toggle_changer:
   LDA !controller_data1_press
   ORA !controller_data2_press
 ; B/Y/X/A buttons
-  AND #%11000000
+  AND #!controller_data1_A|!controller_data1_X
   BEQ .ret
 
   LDA [!dbc_memory]
@@ -200,13 +195,10 @@ main_toggle_changer:
   EOR !dbc_wildcard
 .reset
   STA [!dbc_memory]
-
-; Chink sound
-  LDA #$1E
-  STA $0053
+  LDA #!sfx_key_chink : STA !sound_immediate
+  JSR draw_toggle
 
 .ret
-  JSR draw_toggle
   RTS
 
 ;================================
@@ -221,7 +213,7 @@ main_egg_changer:
 ; pressing A?
 .check_increment
   LDA !controller_data1_press
-  AND #%10000000
+  AND #!controller_data1_A
   BEQ .check_decrement
 
 ; wrap from 1-12
@@ -233,15 +225,13 @@ main_egg_changer:
 
 .inc
   STA !debug_egg_inv_mirror,x
-; sound
-  LDA #$03
-  STA $0053
-  BRA .ret
+  LDA #!sfx_collect_egg
+  BRA .update_draw
 
 ; pressing Y?
 .check_decrement
   LDA !controller_data2_press
-  AND #%01000000
+  AND #!controller_data2_Y
   BEQ .ret
 
   LDA !debug_egg_inv_mirror,x
@@ -251,14 +241,14 @@ main_egg_changer:
 
 .dec
   STA !debug_egg_inv_mirror,x
-; sound
-  LDA #$03
-  STA $0053
-  BRA .ret
+  LDA #!sfx_collect_egg
 
-.ret
+.update_draw
+  STA !sound_immediate
   JSR clean_egg_inv_mirror
   JSR draw_all_egg_changer
+
+.ret
   RTS
 
 ;================================
@@ -268,17 +258,14 @@ main_call_function:
   LDA !controller_data1_press
   ORA !controller_data2_press
 ; B/Y/X/A buttons
-  AND #%11000000
+  AND #!controller_data1_A|!controller_data1_X
   BEQ .ret
 
   LDA !dbc_wildcard
   ASL A
   TAX
   JSR (control_function_calls,x)
-; Midway tape sound
-  REP #$30
-  LDA #$0019
-  STA $0053
+  LDA #!sfx_midway_tape : STA !sound_immediate
 
 .ret
   RTS
@@ -290,10 +277,10 @@ main_warps_function:
   LDA !controller_data1_press
   ORA !controller_data2_press
 ; B/Y/X/A buttons
-  AND #%11000000
+  AND #!controller_data1_A|!controller_data1_X
   BEQ .ret
   LDA !controller_data2_press ; if just B, go back
-  AND #%10000000
+  AND #!controller_data2_B
   BEQ +
   LDX #$00 ; set X to zero to indicate that we want to go back
   BRA ++

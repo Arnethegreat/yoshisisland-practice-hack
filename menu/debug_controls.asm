@@ -20,7 +20,7 @@ init_controls:
   REP #$30
   PHD
   ; loop through all controls
-  LDA !debug_controls_count_current
+  LDA !dbc_count_current
   ASL #3
   SEC
   SBC #$0008
@@ -44,7 +44,7 @@ init_controls:
   RTS
 
 ; triggers repeat inputs after initial input + delay if the input is held
-; arg0 [word] in $7E0000: input code for controller_data2
+; arg0 [word] in $7E0000: input code for controller_data2 (byetUDLR)
 ; returns zero in $7E0000 if an input should trigger
 held_input_repeater:
   PHP
@@ -91,28 +91,55 @@ main_controls:
   LDA $0000
   BNE .check_down
   ; cycle up and handle wrapping
-  LDA !debug_index
+  LDA !dbc_index_row
   DEC A
-  BPL .store_index
-  LDA !debug_controls_count_current
+  BPL .store_index_row
+  LDA !dbc_row_count_current
   DEC A
-  BRA .store_index
-
+  BRA .store_index_row
 .check_down
   LDA #%0000000000000100 : STA $0000
   JSR held_input_repeater
   LDA $0000
-  BNE .process_focused
+  BNE .check_left
   ; cycle down and handle wrapping
-  LDA !debug_index
+  LDA !dbc_index_row
   INC A
-  CMP !debug_controls_count_current
-  BCC .store_index
+  CMP !dbc_row_count_current
+  BCC .store_index_row
   LDA #$0000
+.store_index_row
+  STA !dbc_index_row
+  STZ !dbc_index_col ; reset the column when moving up/down
+  BRA .play_sound
 
-.store_index
-  STA !debug_index
-  ; play cursor sound
+.check_left
+  LDA #%0000000000000010 : STA $0000
+  JSR held_input_repeater
+  LDA $0000
+  BNE .check_right
+  ; cycle left and handle wrapping
+  LDA !dbc_index_col
+  DEC A
+  BPL .store_index_col
+  LDA !dbc_col_count_current
+  DEC A
+  BRA .store_index_col
+.check_right
+  LDA #%0000000000000001 : STA $0000
+  JSR held_input_repeater
+  LDA $0000
+  BNE .process_focused
+  ; cycle right and handle wrapping
+  LDA !dbc_index_col
+  INC A
+  CMP !dbc_col_count_current
+  BCC .store_index_col
+  LDA #$0000
+.store_index_col
+  STA !dbc_index_col
+
+.play_sound
   LDA #$005C
   STA $0053
 
@@ -124,11 +151,15 @@ main_controls:
 
   ; set up DP and copy data into DP range
   PHD
-  LDA !debug_index
-  ASL
-  ASL
-  ASL
+
+  LDA !warps_page_depth_index ; warps page data is handled differently than normal
+  BNE +
+  JSR get_main_menu_control_offset
   TAY
+  JSR get_main_menu_control_col_count
+  STA !dbc_col_count_current
+  +
+
   JSR copy_control_data_dp
 
   ; set new indicator with new debug_base
@@ -152,18 +183,17 @@ macro copy_data(controls)
   LDA <controls>+6,y : STA $06
 endmacro
 
-; loads the currently selected option data
-; the wildcard and tilemap address are the only things we need to adjust based on y
+; loads the currently selected warp option data
+; the wildcard and tilemap offset are the only things that matter
 macro copy_warpmenu_data()
-  LDA #$A00A : STA $00 ; CONTROL TYPE (lo byte)
-  LDA #$7E14 : STA $02 ; ADDRESS FOR R/W (top 2 bytes of the long?)
+  LDA.w #!ct_warps : STA !dbc_type
   
-  ; adjust the tilemap address based on index in y
-  TYA
-  LSR #3
+  ; store the current selection index in the wildcard
+  LDA !dbc_index_row
   TAX
   STX !dbc_wildcard
-  
+
+  ; adjust the tilemap offset based on index
   LDA #!first_option_tilemap_dest
   -
     CPX #$0000

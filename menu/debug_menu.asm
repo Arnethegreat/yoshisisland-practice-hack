@@ -152,7 +152,8 @@ init_debug_menu:
 
     ; set the page index and the controls count for the main page
     STZ !warps_page_depth_index
-    LDA !debug_controls_count : STA !debug_controls_count_current
+    LDA #!dbc_count : STA !dbc_count_current
+    LDA #!dbc_row_count : STA !dbc_row_count_current
 
     JSR blank_tilemap
 

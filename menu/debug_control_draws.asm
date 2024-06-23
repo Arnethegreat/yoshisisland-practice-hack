@@ -75,7 +75,7 @@ draw_all_egg_changer:
   LDA $06
   PHA
   ; loop through all controls
-  LDA !debug_controls_count_current
+  LDA !dbc_count_current
   ASL #3
   SEC
   SBC #$0008

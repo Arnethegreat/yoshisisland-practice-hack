@@ -4,7 +4,8 @@ includeonce
 %var_026A(debug_egg_inv_mirror, 12)
 
 %var_026A(debug_menu, 2)
-%var_026A(debug_index, 2)
+%var_026A(dbc_index_row, 2)
+%var_026A(dbc_index_col, 2)
 %var_026A(debug_base, 8)
 
 ; backups
@@ -31,8 +32,12 @@ includeonce
 %var_026A(warps_current_level_index, 2)
 %var_026A(warps_current_world_level_index, 2)
 
-%var_026A(debug_controls_count_current, 2)
-!debug_controls_count = #$0013
+%var_026A(current_menu_data_ptr, 2)
+%var_026A(dbc_count_current, 2)
+%var_026A(dbc_row_count_current, 2)
+%var_026A(dbc_col_count_current, 2)
+!dbc_count = datasize(debug_menu_controls)>>3
+!dbc_row_count = datasize(debug_menu_controls_row_offsets)
 
 %var_026A(warping, 2) ; additional flag for signaling that the menu should quit out
 %var_026A(skip_baby_bowser, 2)

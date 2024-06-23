@@ -25,6 +25,35 @@ macro define_menu_entry(type, addr, xpos, ypos, wildcard)
   dw <wildcard>
 endmacro
 
+; the control data is row-major and 8-byte-aligned
+; to retrieve specific control data, simply do (cumulative row offset + column offset) * 8
+; returns the offset into debug_menu_controls in A
+get_main_menu_control_offset:
+  PHX
+  PHD
+  PHP
+  %ai16()
+  LDX !dbc_index_row
+  LDA debug_menu_controls_row_offsets,x
+  AND #$00FF
+  CLC
+  ADC !dbc_index_col
+  ASL #3
+.ret
+  PLP
+  PLD
+  PLX
+  RTS
+
+; returns the column count for the current row in A
+get_main_menu_control_col_count:
+  PHX
+  LDX !dbc_index_row
+  LDA debug_menu_controls_row_column_counts,x
+  AND #$00FF
+.ret
+  PLX
+  RTS
 
 debug_menu_controls:
   %define_menu_entry(!ct_func, $7E0000, 1, 1, $0000) ; disable autoscroll
@@ -46,6 +75,10 @@ debug_menu_controls:
   %define_menu_entry(!ct_toggle, $7E0000+!hud_enabled, 1, 10, $0001) ; HUD
   %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 11, $00F0) ; load delay amount high
   %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 11, $000F) ; load delay amount low
+.row_column_counts
+  db $01, $01, $01, $01, $07, $02, $01, $01, $01, $01, $02
+.row_offsets
+  db $00, $01, $02, $03, $04, $0B, $0D, $0E, $0F, $10, $11
 
 
 ; each control is the same, so just store a count for each page (max = $0B)
@@ -62,7 +95,7 @@ debug_menu_controls_warps_room_counts:
 
 ;======================================
 
-; indexed by wilcard for control type $08
+; indexed by wilcard for control type !ct_func
 control_function_calls:
   dw disable_autoscroll
 

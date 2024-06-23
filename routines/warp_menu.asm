@@ -340,7 +340,8 @@ endmacro
 warp_menu:
   REP #$30
 
-  STZ !debug_index ; bring the cursor back up to the top
+  STZ !dbc_index_row ; bring the cursor back up to the top
+  STZ !dbc_index_col
 
   ; if index == 0, back was clicked - decrement the depth index
   CPX #$0000
@@ -376,26 +377,27 @@ warp_menu:
 
 load_main_menu:
   JSR init_main_menu_tilemap
-  LDA #$0001 : STA !debug_index ; set the cursor index - awkward to hardcode it like this, but we don't store the order anywhere, it's just inferred from debug_menu_controls
-  LDA !debug_controls_count : STA !debug_controls_count_current
+  LDA #$0001 : STA !dbc_index_row ; set the cursor index - awkward to hardcode it like this, but we don't store the order anywhere, it's just inferred from debug_menu_controls
+  LDA #!dbc_count : STA !dbc_count_current
+  LDA #!dbc_row_count : STA !dbc_row_count_current
   JSR init_controls
   RTS
 
 load_world_select:
   LDA !warps_current_world_index ; load the old cursor position
   INC A
-  STA !debug_index
+  STA !dbc_index_row
 
   STZ !warps_current_world_index
   STZ !warps_current_level_index
-  LDA !debug_menu_controls_warps_worlds_count : STA !debug_controls_count_current
+  LDA !debug_menu_controls_warps_worlds_count : STA !dbc_row_count_current : STA !dbc_count_current
   JSR init_warp_option_worlds_tilemaps
   RTS
 
 load_level_select:
   LDA !warps_current_level_index ; load the old cursor position
   INC A
-  STA !debug_index
+  STA !dbc_index_row
 
   CPY #$FFFF
   BEQ .from_rooms
@@ -408,12 +410,12 @@ load_level_select:
 
 .next
   STZ !warps_current_level_index
-  LDA !debug_menu_controls_warps_levels_count : STA !debug_controls_count_current
+  LDA !debug_menu_controls_warps_levels_count : STA !dbc_row_count_current : STA !dbc_count_current
   JSR init_warp_option_levels_tilemaps
   RTS
 
 load_room_select:
-  INC !debug_index
+  INC !dbc_index_row
 
   STY !warps_current_level_index
 
@@ -426,7 +428,7 @@ load_room_select:
   SEP #$20
   LDA debug_menu_controls_warps_room_counts,y
   INC A ; add 1 for the start option
-  STA !debug_controls_count_current
+  STA !dbc_row_count_current : STA !dbc_count_current
   JSR init_warp_option_rooms_tilemaps
   RTS
 

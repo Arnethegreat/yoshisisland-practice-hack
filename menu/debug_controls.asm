@@ -6,6 +6,7 @@ debug_control_inits:
   dw init_egg_changer
   dw init_call_function
   dw init_warps_function
+  dw init_submenu_loader
 
 ; indexed by control type
 debug_control_mains:
@@ -15,6 +16,7 @@ debug_control_mains:
   dw main_egg_changer
   dw main_call_function
   dw main_warps_function
+  dw main_submenu_loader
 
 init_controls:
   REP #$30
@@ -140,8 +142,7 @@ main_controls:
   STA !dbc_index_col
 
 .play_sound
-  LDA #$005C
-  STA $0053
+  LDA.w #!sfx_move_cursor : STA !sound_immediate
 
 .process_focused
 
@@ -154,16 +155,25 @@ main_controls:
 
   LDA !warps_page_depth_index ; warps page data is handled differently than normal
   BNE +
-  JSR get_main_menu_control_offset
-  TAY
-  JSR get_main_menu_control_col_count
-  STA !dbc_col_count_current
-  +
+  {
+    JSR get_current_menu_control_offset
+    TAY
+    JSR get_current_menu_control_col_count
+    STA !dbc_col_count_current
++ }
 
   JSR copy_control_data_dp
 
   ; set new indicator with new debug_base
   JSR set_position_indicator
+
+  ; if pressing B, try going back instead of running the control func
+  LDA !controller_data2_press : AND.w #!controller_data2_B
+  BEQ +
+  {
+    JSR submenu_go_back
+    BRA .ret
++ }
 
   ; fetch type and call main
   LDA !dbc_type
@@ -175,13 +185,71 @@ main_controls:
   PLD
   RTS
 
-macro copy_data(controls)
-  ; just do 4 LDA/STA's
-  LDA <controls>+0,y : STA $00
-  LDA <controls>+2,y : STA $02
-  LDA <controls>+4,y : STA $04
-  LDA <controls>+6,y : STA $06
-endmacro
+submenu_go_back:
+  PHP
+  %a16()
+
+  LDA !warps_page_depth_index
+  BEQ +
+  { ; if in a warps page, the warps function handles going back
+    JSR main_warps_function
+    BRA .ret
+  + }
+
+  LDA !parent_menu_data_ptr
+  BEQ .ret ; if prev menu == zero, we're on top-level main menu
+  {
+    STA !current_menu_data_ptr
+    JSR init_current_menu
+    LDA.w #!sfx_move_cursor : STA !sound_immediate
+  }
+.ret
+  PLP
+  RTS
+
+; returns the offset into the current menu data block for the currently selected option in A
+; _not_ adjusted for the metadata block so that we can loop over all controls easily
+; and only add the size of the metadata block as the last step
+get_current_menu_control_offset:
+  PHX
+  PHD
+  PHP
+  %ai16()
+  LDX !current_menu_data_ptr
+  LDA.w !dbc_meta_colcounts_offset,x ; get the start of the column counts segment
+  CLC : ADC !dbc_index_row : ADC !dbc_index_row ; get the specific column count offset
+  ADC !current_menu_data_ptr
+  TAX
+  LDA $0000,x
+  AND #$FF00 ; cumulative index is in the high byte
+  XBA
+  ADC !dbc_index_col ; now offset by which column we're on
+  ASL #3 ; each control is 8 bytes wide
+.ret
+  PLP
+  PLD
+  PLX
+  RTS
+
+; returns the column count for the current row in the current menu in A
+get_current_menu_control_col_count:
+  PHX
+  PHD
+  PHP
+  %ai16()
+  LDX !current_menu_data_ptr
+  LDA.w !dbc_meta_colcounts_offset,x ; get the offset of the column count data
+  AND #$00FF
+  CLC : ADC !dbc_index_row : ADC !dbc_index_row ; add (rowindex*2) to get offset for the specific row
+  ADC !current_menu_data_ptr
+  TAX
+  LDA $0000,x
+  AND #$00FF ; column count is in the low byte
+.ret
+  PLP
+  PLD
+  PLX
+  RTS
 
 ; loads the currently selected warp option data
 ; the wildcard and tilemap offset are the only things that matter
@@ -211,7 +279,7 @@ endmacro
 ; this DP range to access these bytes easily
 ; needs 16-bit m
 ; parameters:
-; y = entry index into debug_menu_controls
+; y = offset into current menu data for current row (not adjusted for metadata)
 copy_control_data_dp:
   REP #$30
 
@@ -223,7 +291,13 @@ copy_control_data_dp:
   BNE .warps_page
 
 .main_page
-  %copy_data(debug_menu_controls)
+  TYA
+  CLC : ADC !current_menu_data_ptr : ADC #!dbc_meta_size
+  TAX
+  LDA $0000,x : STA $00
+  LDA $0002,x : STA $02
+  LDA $0004,x : STA $04
+  LDA $0006,x : STA $06
   BRA .ret
 .warps_page
   %copy_warpmenu_data()

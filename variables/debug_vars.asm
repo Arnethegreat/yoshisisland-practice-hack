@@ -32,12 +32,12 @@ includeonce
 %var_026A(warps_current_level_index, 2)
 %var_026A(warps_current_world_level_index, 2)
 
+%var_026A(parent_menu_data_ptr, 2)
 %var_026A(current_menu_data_ptr, 2)
+%var_026A(current_menu_tilemap_ptr, 2)
 %var_026A(dbc_count_current, 2)
 %var_026A(dbc_row_count_current, 2)
 %var_026A(dbc_col_count_current, 2)
-!dbc_count = datasize(debug_menu_controls)>>3
-!dbc_row_count = datasize(debug_menu_controls_row_offsets)
 
 %var_026A(warping, 2) ; additional flag for signaling that the menu should quit out
 %var_026A(skip_baby_bowser, 2)

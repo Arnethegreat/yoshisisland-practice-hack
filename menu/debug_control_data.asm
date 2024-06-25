@@ -8,6 +8,7 @@
 !ct_egg = $06 ; egg inventory editor (wildcard as egg number)
 !ct_func = $08 ; call function (wildcard as what function)
 !ct_warps = $0A ; warp navigation (wildcard as index)
+!ct_submenu = $0C ; submenu
 
 ; [long] memory address to read / write from - currently only used for [lownib, highnib, toggle]
 !dbc_memory = $01
@@ -25,37 +26,36 @@ macro define_menu_entry(type, addr, xpos, ypos, wildcard)
   dw <wildcard>
 endmacro
 
-; the control data is row-major and 8-byte-aligned
-; to retrieve specific control data, simply do (cumulative row offset + column offset) * 8
-; returns the offset into debug_menu_controls in A
-get_main_menu_control_offset:
-  PHX
-  PHD
+!dbc_meta_size = datasize(mainmenu_ctrl_metadata)
+!dbc_meta_colcounts_offset = $00
+!dbc_meta_ctrlcount = $02
+!dbc_meta_rowcount = $03
+!dbc_meta_tilemap_ptr = $04
+!dbc_meta_parent_ptr = $06
+macro define_menu_metadata(label, tilemap_label, parent_data)
+  dw <label>_column_counts-<label> ; offset of column counts from the start of the menu block
+  db datasize(<label>_data)>>3     ; total ctrl count
+  db datasize(<label>_column_counts)>>1 ; total row count
+  dw <tilemap_label> ; address of the tilemap data associated with this set of controls
+  dw <parent_data> ; address of the data "above" this submenu
+endmacro
+
+store_current_menu_metadata:
   PHP
   %ai16()
-  LDX !dbc_index_row
-  LDA debug_menu_controls_row_offsets,x
-  AND #$00FF
-  CLC
-  ADC !dbc_index_col
-  ASL #3
+  LDX !current_menu_data_ptr
+  LDA.w !dbc_meta_ctrlcount,x : AND #$00FF : STA !dbc_count_current
+  LDA.w !dbc_meta_rowcount,x : AND #$00FF : STA !dbc_row_count_current
+  LDA.w !dbc_meta_tilemap_ptr,x : STA !current_menu_tilemap_ptr
+  LDA.w !dbc_meta_parent_ptr,x : STA !parent_menu_data_ptr
 .ret
   PLP
-  PLD
-  PLX
   RTS
 
-; returns the column count for the current row in A
-get_main_menu_control_col_count:
-  PHX
-  LDX !dbc_index_row
-  LDA debug_menu_controls_row_column_counts,x
-  AND #$00FF
-.ret
-  PLX
-  RTS
-
-debug_menu_controls:
+mainmenu_ctrl:
+.metadata
+  %define_menu_metadata(mainmenu_ctrl, mainmenu_tilemap, $0000)
+.data
   %define_menu_entry(!ct_func, $7E0000, 1, 1, $0000) ; disable autoscroll
   %define_menu_entry(!ct_warps, $7E0000, 1, 2, $0001) ; warp menu
   %define_menu_entry(!ct_toggle, !disable_music, 1, 3, $0001) ; disable music
@@ -75,10 +75,8 @@ debug_menu_controls:
   %define_menu_entry(!ct_toggle, $7E0000+!hud_enabled, 1, 10, $0001) ; HUD
   %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 11, $00F0) ; load delay amount high
   %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 11, $000F) ; load delay amount low
-.row_column_counts
-  db $01, $01, $01, $01, $07, $02, $01, $01, $01, $01, $02
-.row_offsets
-  db $00, $01, $02, $03, $04, $0B, $0D, $0E, $0F, $10, $11
+.column_counts ; low byte = number of columns per row index, high byte = cumulative sum
+  dw $0001, $0101, $0201, $0301, $0407, $0B02, $0D01, $0E01, $0F01, $1001, $1102
 
 
 ; each control is the same, so just store a count for each page (max = $0B)

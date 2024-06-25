@@ -128,6 +128,7 @@
 !sfx_poof = #$001D
 !sfx_key_chink = $1E
 !sfx_yoshi = #$0043
+!sfx_move_cursor = $5C
 
 ; IRQ
 !r_irq_count = $0125

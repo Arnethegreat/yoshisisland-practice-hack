@@ -31,6 +31,10 @@ init_warps_function:
 .ret
   RTS
 
+init_submenu_loader:
+.ret
+  RTS
+
 ;================================
 ; Control type main routines
 
@@ -289,6 +293,23 @@ main_warps_function:
   TAX
 ++
   JSR warp_menu
+.ret
+  RTS
+
+;================================
+
+main_submenu_loader:
+  %ai8()
+  LDA !controller_data1_press
+  ORA !controller_data2_press
+; B/Y/X/A buttons
+  AND #!controller_data1_A|!controller_data1_X
+  BEQ .ret
+  { ; load submenu
+    %a16()
+    LDA !dbc_wildcard : STA !current_menu_data_ptr
+    JSR init_current_menu
+  }
 .ret
   RTS
 

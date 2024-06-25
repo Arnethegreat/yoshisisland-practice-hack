@@ -7,7 +7,7 @@ dw "PRACTICE HACK 0.4.2"
 ; CuteShrug
 dw $0040, $0041, $0042
 
-option_mainmenu_tilemap:
+mainmenu_tilemap:
 %store_text("DISABLE AUTOSCROLL", 
             "WARP MENU",
             "         DISABLE MUSIC",

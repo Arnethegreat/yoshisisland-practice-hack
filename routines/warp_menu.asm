@@ -376,11 +376,8 @@ warp_menu:
   dw load_room
 
 load_main_menu:
-  JSR init_main_menu_tilemap
-  LDA #$0001 : STA !dbc_index_row ; set the cursor index - awkward to hardcode it like this, but we don't store the order anywhere, it's just inferred from debug_menu_controls
-  LDA #!dbc_count : STA !dbc_count_current
-  LDA #!dbc_row_count : STA !dbc_row_count_current
-  JSR init_controls
+  LDA #mainmenu_ctrl : STA !current_menu_data_ptr
+  JSR init_current_menu
   RTS
 
 load_world_select:

@@ -81,7 +81,7 @@ load_text_page:
 .ret
     RTS
 
-init_main_menu_tilemap:
+init_current_menu_tilemap:
     PHD
     PHP
     %ai16()
@@ -89,7 +89,7 @@ init_main_menu_tilemap:
 
     %load_text(title_tilemap, !title_tilemap_dest)
 
-    LDA #option_mainmenu_tilemap : STA !tilemap_src
+    LDA !current_menu_tilemap_ptr : STA !tilemap_src
     LDA #!first_option_tilemap_dest : STA !tilemap_dest_start_offset
     JSR load_text_page
 .ret

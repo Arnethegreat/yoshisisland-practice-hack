@@ -56,28 +56,36 @@ mainmenu_ctrl:
 .metadata
   %define_menu_metadata(mainmenu_ctrl, mainmenu_tilemap, $0000)
 .data
-  %define_menu_entry(!ct_func, $7E0000, 1, 1, $0000) ; disable autoscroll
-  %define_menu_entry(!ct_warps, $7E0000, 1, 2, $0001) ; warp menu
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, submenu_gameflags_ctrl) ; gameplay mods submenu
+  %define_menu_entry(!ct_warps, $7E0000, 1, 2, $0001) ; warps submenu
+  %define_menu_entry(!ct_lonib, $7E0000+!debug_egg_count_mirror, 1, 3, $0006) ; egg count
+  %define_menu_entry(!ct_egg, $7E0000, 3, 3, $0000) ; egg 1
+  %define_menu_entry(!ct_egg, $7E0000, 4, 3, $0001) ; egg 2
+  %define_menu_entry(!ct_egg, $7E0000, 5, 3, $0002) ; egg 3
+  %define_menu_entry(!ct_egg, $7E0000, 6, 3, $0003) ; egg 4
+  %define_menu_entry(!ct_egg, $7E0000, 7, 3, $0004) ; egg 5
+  %define_menu_entry(!ct_egg, $7E0000, 8, 3, $0005) ; egg 6
+  %define_menu_entry(!ct_hinib, $7E012F, 1, 4, $00F0) ; slowdown amount high
+  %define_menu_entry(!ct_lonib, $7E012F, 2, 4, $000F) ; slowdown amount low
+  %define_menu_entry(!ct_toggle, !full_load_default, 1, 5, $0021) ; full load as default
+  %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 6, $00F0) ; load delay amount high
+  %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 6, $000F) ; load delay amount low
+  %define_menu_entry(!ct_toggle, $7E0000+!hud_enabled, 1, 7, $0001) ; HUD
+.column_counts ; low byte = number of columns per row index, high byte = cumulative sum
+  dw $0001, $0101, $0207, $0902, $0B01, $0C02, $0E01
+
+submenu_gameflags_ctrl:
+.metadata
+  %define_menu_metadata(submenu_gameflags_ctrl, submenu_gameflags_tilemap, mainmenu_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $0000) ; back
+  %define_menu_entry(!ct_func, $7E0000, 1, 2, $0000) ; disable autoscroll
   %define_menu_entry(!ct_toggle, !disable_music, 1, 3, $0001) ; disable music
   %define_menu_entry(!ct_toggle, $7E0000+!free_movement, 1, 4, $0001) ; free movement
-  %define_menu_entry(!ct_lonib, $7E0000+!debug_egg_count_mirror, 1, 5, $0006) ; egg count
-  %define_menu_entry(!ct_egg, $7E0000, 3, 5, $0000) ; egg 1
-  %define_menu_entry(!ct_egg, $7E0000, 4, 5, $0001) ; egg 2
-  %define_menu_entry(!ct_egg, $7E0000, 5, 5, $0002) ; egg 3
-  %define_menu_entry(!ct_egg, $7E0000, 6, 5, $0003) ; egg 4
-  %define_menu_entry(!ct_egg, $7E0000, 7, 5, $0004) ; egg 5
-  %define_menu_entry(!ct_egg, $7E0000, 8, 5, $0005) ; egg 6
-  %define_menu_entry(!ct_hinib, $7E012F, 1, 6, $00F0) ; slowdown amount high
-  %define_menu_entry(!ct_lonib, $7E012F, 2, 6, $000F) ; slowdown amount low
-  %define_menu_entry(!ct_toggle, !full_load_default, 1, 7, $0021) ; full load as default
-  %define_menu_entry(!ct_toggle, $7E0372, 1, 8, $00E0) ; set tutorial flags
-  %define_menu_entry(!ct_toggle, !skip_kamek, 1, 9, $0001) ; disable kamek at boss
-  %define_menu_entry(!ct_toggle, $7E0000+!hud_enabled, 1, 10, $0001) ; HUD
-  %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 11, $00F0) ; load delay amount high
-  %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 11, $000F) ; load delay amount low
-.column_counts ; low byte = number of columns per row index, high byte = cumulative sum
-  dw $0001, $0101, $0201, $0301, $0407, $0B02, $0D01, $0E01, $0F01, $1001, $1102
-
+  %define_menu_entry(!ct_toggle, $7E0372, 1, 5, $00E0) ; set tutorial flags
+  %define_menu_entry(!ct_toggle, !skip_kamek, 1, 6, $0001) ; disable kamek at boss
+.column_counts
+  dw $0001, $0101, $0201, $0301, $0401
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !debug_menu_controls_warps_worlds_count = #$0007

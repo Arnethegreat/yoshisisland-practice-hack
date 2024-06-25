@@ -307,7 +307,12 @@ main_submenu_loader:
   BEQ .ret
   { ; load submenu
     %a16()
-    LDA !dbc_wildcard : STA !current_menu_data_ptr
+    LDA !dbc_wildcard
+    BNE +
+    { ; wildcard == zero means back
+      LDA !parent_menu_data_ptr
+  + }
+    STA !current_menu_data_ptr
     JSR init_current_menu
   }
 .ret

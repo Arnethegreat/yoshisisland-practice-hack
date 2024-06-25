@@ -8,17 +8,22 @@ dw "PRACTICE HACK 0.4.2"
 dw $0040, $0041, $0042
 
 mainmenu_tilemap:
-%store_text("DISABLE AUTOSCROLL", 
-            "WARP MENU",
-            "         DISABLE MUSIC",
-            "         FREE MOVEMENT",
+%store_text("GAME FLAGS/",
+            "WARPS",
             "         EGG EDITOR",
             "         SLOWDOWN AMOUNT",
             "         FULL LOAD AS DEFAULT",
+            "         LOAD DELAY",
+            "         HUD")
+dw !lf
+
+submenu_gameflags_tilemap:
+%store_text("BACK",
+            "DISABLE AUTOSCROLL",
+            "         DISABLE MUSIC",
+            "         FREE MOVEMENT",
             "         SET TUTORIAL FLAGS",
-            "         DISABLE KAMEK AT BOSS",
-            "         HUD",
-            "         LOAD DELAY")
+            "         DISABLE KAMEK AT BOSS")
 dw !lf
 
 ;====================================

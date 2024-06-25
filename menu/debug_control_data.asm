@@ -115,7 +115,7 @@ dw $0000, $0039
 ; huffin puffin
 dw $0028, $083C
 ; flashing egg
-dw $0022, $003A
+dw $0022, $203A
 ; red egg
 dw $0023, $0C3A
 ; yellow egg

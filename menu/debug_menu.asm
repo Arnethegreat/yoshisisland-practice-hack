@@ -150,6 +150,9 @@ init_debug_menu:
 
     JSR load_font
 
+    ; copy the real egg inventory to our mirror once when opening the menu
+    JSR egg_inv_to_debug_mirror
+
     ; set the page index and the controls count for the main page
     STZ !warps_page_depth_index
     LDA #mainmenu_ctrl : STA !current_menu_data_ptr

@@ -17,7 +17,6 @@ init_toggle_changer:
   RTS
 
 init_egg_changer:
-  JSR egg_inv_to_debug_mirror
   JSR clean_egg_inv_mirror
   JSR draw_egg_changer
 .ret

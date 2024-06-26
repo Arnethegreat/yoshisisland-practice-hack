@@ -84,8 +84,9 @@ submenu_gameflags_ctrl:
   %define_menu_entry(!ct_toggle, $7E0000+!free_movement, 1, 4, $0001) ; free movement
   %define_menu_entry(!ct_toggle, $7E0372, 1, 5, $00E0) ; set tutorial flags
   %define_menu_entry(!ct_toggle, !skip_kamek, 1, 6, $0001) ; disable kamek at boss
+  %define_menu_entry(!ct_func, $7E0000, 1, 7, $0001) ; switch patient/hasty
 .column_counts
-  dw $0001, $0101, $0201, $0301, $0401
+  dw $0001, $0101, $0201, $0301, $0401, $0501, $0601
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !debug_menu_controls_warps_worlds_count = #$0007
@@ -104,6 +105,7 @@ debug_menu_controls_warps_room_counts:
 ; indexed by wilcard for control type !ct_func
 control_function_calls:
   dw disable_autoscroll
+  dw toggle_control_scheme
 
 ;======================================
 

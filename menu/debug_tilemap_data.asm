@@ -23,7 +23,8 @@ submenu_gameflags_tilemap:
             "         DISABLE MUSIC",
             "         FREE MOVEMENT",
             "         SET TUTORIAL FLAGS",
-            "         DISABLE KAMEK AT BOSS")
+            "         DISABLE KAMEK AT BOSS",
+            "TOGGLE PATIENT/HASTY")
 dw !lf
 
 ;====================================

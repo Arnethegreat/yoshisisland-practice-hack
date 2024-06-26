@@ -18,6 +18,15 @@ debug_control_mains:
   dw main_warps_function
   dw main_submenu_loader
 
+debug_control_cleanups:
+  dw cleanup_lownib_memchanger
+  dw cleanup_highnib_memchanger
+  dw cleanup_toggle_changer
+  dw cleanup_egg_changer
+  dw cleanup_call_function
+  dw cleanup_warps_function
+  dw cleanup_submenu_loader
+
 init_controls:
   REP #$30
   PHD
@@ -113,7 +122,7 @@ main_controls:
 .store_index_row
   STA !dbc_index_row
   STZ !dbc_index_col ; reset the column when moving up/down
-  BRA .play_sound
+  BRA .index_updated
 
 .check_left
   LDA #%0000000000000010 : STA $0000
@@ -141,8 +150,10 @@ main_controls:
 .store_index_col
   STA !dbc_index_col
 
-.play_sound
+.index_updated
   LDA.w #!sfx_move_cursor : STA !sound_immediate
+  LDA !debug_base+!dbc_type : AND #$00FF : TAX
+  JSR (debug_control_cleanups,x)
 
 .process_focused
 

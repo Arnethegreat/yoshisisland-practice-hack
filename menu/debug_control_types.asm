@@ -36,6 +36,45 @@ init_submenu_loader:
   RTS
 
 ;================================
+; Control type cleanups
+
+cleanup_highnib_memchanger:
+.ret
+  RTS
+
+cleanup_lownib_memchanger:
+.ret
+  RTS
+
+cleanup_toggle_changer:
+.ret
+  RTS
+
+cleanup_egg_changer:
+  PHP
+  %ai16()
+  ; remove old egg helper tiles
+  LDX !debug_base+!dbc_tilemap
+  LDA #$003F
+  STA !menu_tilemap_mirror-!tilemap_line_width_single-2,x
+  STA !menu_tilemap_mirror-!tilemap_line_width_single+2,x
+.ret
+  PLP
+  RTS
+
+cleanup_call_function:
+.ret
+  RTS
+
+cleanup_warps_function:
+.ret
+  RTS
+
+cleanup_submenu_loader:
+.ret
+  RTS
+
+;================================
 ; Control type main routines
 
 main_highnib_memchanger:
@@ -209,6 +248,9 @@ main_toggle_changer:
 
 main_egg_changer:
   SEP #$20
+
+  JSR draw_egg_selection_helpers ; this runs every frame in order to trigger on initial select, not ideal
+
   ; egg inventory number
   LDA !dbc_wildcard
   ASL A
@@ -250,7 +292,7 @@ main_egg_changer:
 .update_draw
   STA !sound_immediate
   JSR clean_egg_inv_mirror
-  JSR draw_all_egg_changer
+  JSR draw_egg_changer
 
 .ret
   RTS

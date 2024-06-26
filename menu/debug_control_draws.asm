@@ -113,6 +113,52 @@ draw_all_egg_changer:
   PLP
   RTS
 
+; display prev/next eggs to be selected above this egg
+draw_egg_selection_helpers:
+  PHX
+  PHP
+  %ai16()
+
+  LDA !dbc_wildcard : ASL : TAX
+  LDA !debug_egg_inv_mirror,x
+  BEQ .ret ; if it's an empty egg slot, don't show anything
+
+  PHA
+
+  ; if type=1 (chicken), prev slot wraps around to giant green egg
+  CMP #$0001
+  BNE +
+  {
+    LDA egg_inv_tilemap_green_giant_egg+2
+    BRA ++
++ } 
+  { ; else, normal
+    ASL #2
+    TAY
+    LDA egg_inv_tilemap-2,y
+++ }
+  LDX !dbc_tilemap
+  STA !menu_tilemap_mirror-!tilemap_line_width_single-2,x
+
+  ; if type=12 (big green egg), next slot wraps around to chicken
+  PLA
+  CMP #$000C
+  BNE +
+  {
+    LDA egg_inv_tilemap_huffin_puffin+2
+    BRA ++
++ }
+  { ; else
+      ASL #2
+      TAY
+      LDA egg_inv_tilemap+6,y
+++ }
+  LDX !dbc_tilemap
+  STA !menu_tilemap_mirror-!tilemap_line_width_single+2,x
+.ret
+  PLP
+  PLX
+  RTS
 
 clear_position_indicator:
   REP #$10

@@ -112,33 +112,33 @@ control_function_calls:
 ; word 1: sprite ID
 ; word 2: tilemap ID
 egg_inv_tilemap:
-; no egg
+.no_egg
 dw $0000, $0039
-; huffin puffin
+.huffin_puffin
 dw $0028, $083C
-; flashing egg
+.flashing_egg
 dw $0022, $203A
-; red egg
+.red_egg
 dw $0023, $0C3A
-; yellow egg
+.yellow_egg
 dw $0024, $083A
-; green egg
+.green_egg
 dw $0025, $043A
-; Skull Mouser
+.skull_mouser
 dw $01A3, $1843
-; See-saw Log
+.seesaw_log
 dw $007F, $0844
-; Boss Explosion
+.boss_explosion
 dw $0013, $0845
-; boss key
+.boss_key
 dw $0014, $C03D
-; key
+.key
 dw $0027, $083D
-; Red Giant Egg
+.red_giant_egg
 dw $002A, $0C3B
-; Green Giant Egg
+.green_giant_egg
 dw $002B, $043B
-; Unknown
+.unknown
 dw $000D, $0026
 
-!egg_inv_tilemap_count = datasize(egg_inv_tilemap)/4 ; bytes -> index
+!egg_inv_tilemap_count = $000E

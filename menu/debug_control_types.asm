@@ -348,12 +348,16 @@ main_submenu_loader:
   BEQ .ret
   { ; load submenu
     %a16()
+    LDA.w #!sfx_move_cursor : STA !sound_immediate
     LDA !dbc_wildcard
     BNE +
     { ; wildcard == zero means back
+      LDA.w !sfx_poof : STA !sound_immediate
       LDA !parent_menu_data_ptr
   + }
     STA !current_menu_data_ptr
+    STZ !dbc_index_row
+    STZ !dbc_index_col
     JSR init_current_menu
   }
 .ret

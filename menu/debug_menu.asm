@@ -155,7 +155,10 @@ init_debug_menu:
 
     ; set the page index and the controls count for the main page
     STZ !warps_page_depth_index
+    LDA !current_menu_data_ptr
+    BNE + ; first time opening the menu, just load the main menu
     LDA #mainmenu_ctrl : STA !current_menu_data_ptr
+    +
     JSR init_current_menu
 
     SEP #$30
@@ -168,8 +171,6 @@ init_debug_menu:
 
 ; set !current_menu_data_ptr to the address of the menu to load before calling
 init_current_menu:
-    STZ !dbc_index_row
-    STZ !dbc_index_col
     JSR store_current_menu_metadata
     JSR blank_tilemap
     JSR init_current_menu_tilemap

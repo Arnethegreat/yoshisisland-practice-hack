@@ -211,8 +211,10 @@ submenu_go_back:
   BEQ .ret ; if prev menu == zero, we're on top-level main menu
   {
     STA !current_menu_data_ptr
+    STZ !dbc_index_row
+    STZ !dbc_index_col
+    LDA.w !sfx_poof : STA !sound_immediate
     JSR init_current_menu
-    LDA.w #!sfx_move_cursor : STA !sound_immediate
   }
 .ret
   PLP

@@ -58,7 +58,7 @@ mainmenu_ctrl:
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, submenu_gameflags_ctrl) ; gameplay mods submenu
   %define_menu_entry(!ct_warps, $7E0000, 1, 2, $0001) ; warps submenu
-  %define_menu_entry(!ct_lonib, $7E0000+!debug_egg_count_mirror, 1, 3, $0006) ; egg count
+  %define_menu_entry(!ct_lonib, !debug_egg_count_mirror_l, 1, 3, $0006) ; egg count
   %define_menu_entry(!ct_egg, $7E0000, 3, 3, $0000) ; egg 1
   %define_menu_entry(!ct_egg, $7E0000, 4, 3, $0001) ; egg 2
   %define_menu_entry(!ct_egg, $7E0000, 5, 3, $0002) ; egg 3
@@ -70,9 +70,15 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_toggle, !full_load_default, 1, 5, $0021) ; full load as default
   %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 6, $00F0) ; load delay amount high
   %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 6, $000F) ; load delay amount low
-  %define_menu_entry(!ct_toggle, $7E0000+!hud_enabled, 1, 7, $0001) ; HUD
+  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 7, $0001) ; HUD
+  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+2, 1, 8, $00F0) ; ramwatch bank
+  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+2, 2, 8, $000F) ; ramwatch bank
+  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+1, 3, 8, $00F0) ; ramwatch high
+  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+1, 4, 8, $000F) ; ramwatch high
+  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+0, 5, 8, $00F0) ; ramwatch low
+  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+0, 6, 8, $000F) ; ramwatch low
 .column_counts ; low byte = number of columns per row index, high byte = cumulative sum
-  dw $0001, $0101, $0207, $0902, $0B01, $0C02, $0E01
+  dw $0001, $0101, $0207, $0902, $0B01, $0C02, $0E01, $0F06
 
 submenu_gameflags_ctrl:
 .metadata
@@ -81,7 +87,7 @@ submenu_gameflags_ctrl:
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $0000) ; back
   %define_menu_entry(!ct_func, $7E0000, 1, 2, $0000) ; disable autoscroll
   %define_menu_entry(!ct_toggle, !disable_music, 1, 3, $0001) ; disable music
-  %define_menu_entry(!ct_toggle, $7E0000+!free_movement, 1, 4, $0001) ; free movement
+  %define_menu_entry(!ct_toggle, !free_movement_l, 1, 4, $0001) ; free movement
   %define_menu_entry(!ct_toggle, $7E0372, 1, 5, $00E0) ; set tutorial flags
   %define_menu_entry(!ct_toggle, !skip_kamek, 1, 6, $0001) ; disable kamek at boss
   %define_menu_entry(!ct_func, $7E0000, 1, 7, $0001) ; switch patient/hasty

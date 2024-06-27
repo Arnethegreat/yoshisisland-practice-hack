@@ -14,7 +14,8 @@ mainmenu_tilemap:
             "         SLOWDOWN AMOUNT",
             "         FULL LOAD AS DEFAULT",
             "         LOAD DELAY",
-            "         HUD")
+            "         HUD",
+            "         RAMWATCH")
 dw !lf
 
 submenu_gameflags_tilemap:

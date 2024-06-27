@@ -38,6 +38,11 @@ level_tick:
     JSR display_nullegg
 ++
 
+    LDA !ramwatch_addr : ORA !ramwatch_addr+1 : ORA !ramwatch_addr+2
+    BEQ + ; don't show when set to $000000
+    JSR display_ramwatch
+    +
+
     JSR display_misc
 
 .ret
@@ -118,6 +123,17 @@ display_items:
     LDA !flower_count
     LDY #$56
     JSR print_8_dec
+    RTS
+
+display_ramwatch:
+    %a16()
+    PHD
+    LDA #!ramwatch_addr : TCD
+    LDA [$00]
+    PLD
+    LDY #$8E
+    JSR print_16
+.ret
     RTS
 
 display_nullegg:

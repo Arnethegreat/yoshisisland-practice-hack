@@ -1,6 +1,7 @@
 includeonce
 
 %var_026A(debug_egg_count_mirror, 2)
+!debug_egg_count_mirror_l = $7E0000+!debug_egg_count_mirror
 %var_026A(debug_egg_inv_mirror, 12)
 
 %var_026A(debug_menu, 2)
@@ -42,6 +43,9 @@ includeonce
 %var_026A(warping, 2) ; additional flag for signaling that the menu should quit out
 %var_026A(skip_baby_bowser, 2)
 %var_707E7E(skip_kamek, 2)
+
+%var_026A(ramwatch_addr, 3)
+!ramwatch_addr_l = $7E0000+!ramwatch_addr
 
 ; palette
 %var_1409(palette_anim_timer, 2)

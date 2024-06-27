@@ -7,6 +7,7 @@
 !skip_kamek_flag_1 = $03AE
 !skip_kamek_flag_2 = $03B0
 !free_movement = $10DA
+!free_movement_l = $7E10DA
 !s_control_scheme = $6082
 !s_control_scheme_l = $700082
 

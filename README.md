@@ -19,15 +19,19 @@ Supports J1.0 and U1.0 versions.
 Planned features:
 * Button configuration
 
+
+# How to patch
+Acquire a Yoshi's Island `J1.0` and/or `U1.0` ROM.
+
+Then, check the latest [**Releases**](https://github.com/Arnethegreat/yoshisisland-practice-hack/releases) for `.bps` patches, which you can apply to your clean ROMs with the [**beat**](https://www.romhacking.net/utilities/893) patcher utility.
+
+
 # How to use
 ### Debug Menu
 To enter menu press Start while holding L & R on controller 1 or just press Start on controller 2.
 To leave menu press Start on either controller.
 
-Press Up and Down to go between options, B and Y for setting values.
-
-> [!NOTE]
-> The flashing upside down key in the egg editor is the boss key.
+Use the d-pad to navigate, B to go back, and Y/A to select options and set values.
 
 ### HUD
 The heads-up display can be toggled on/off from the menu. It may cause some minor graphical glitches when enabled.
@@ -37,7 +41,7 @@ Column 1 | Column 2 | Column 3 | Column 4 | Column 5
 :------: | :------: | :------: | :------: | :------:
 Yoshi's horizontal velocity | Red coin amount | Stars amount | Level timer | 
 Most recent egg-aiming angle | Amount of sprites loaded | Flowers amount | Room timer | Input display
-Miscellaneous data | | | Lag frame counter | 
+Miscellaneous data | RAM watch | | Lag frame counter | 
 
 The misc. data only appear in certain rooms, showing:
 * Prince Froggy's damage value during the fight
@@ -49,6 +53,8 @@ The misc. data only appear in certain rooms, showing:
     - press tongue after 49 frames
     - press jump after 3 frames
     - stop holding right and start holding left after 6 frames
+
+RAM watch reads from an arbitrary little-endian address set from the debug menu. The read value appears in the indicated HUD position when the address is set to a value other than `$000000`.
 
 ---
 
@@ -64,12 +70,12 @@ Miscellaneous data | | | Lag frame counter |
 > The HUD data are currently only switched when visiting the world map.
 
 ### Egg Editor
-Use A/Y to cycle the sprite in the selected, loaded slot.
+Use A/Y to cycle the sprite in the selected, loaded slot. The previous/next eggs in the cycle are displayed beside the cursor.
 Current supported sprites:
 - Green/yellow/red/flashing eggs
 - Green/red giant eggs
 - Key
-- **NON-STANDARD** - boss key, boss explosion, seesaw log, skull mouser
+- **NON-STANDARD** - boss key (flashing upside-down key), boss explosion, seesaw log, skull mouser
 - Chicken
 
 ### Savestates
@@ -113,22 +119,13 @@ Press Y on controller 2 to disable an autoscroll.
 
 
 # How to assemble
-This project uses the [**asar**](https://github.com/RPGHacker/asar) assembler.
+First, clone this repo.
 
-Once downloaded, place the executable wherever you prefer and invoke it, with `assemble.asm` as the first argument and the filepath of your clean ROM as the second.
+This project uses the [**asar**](https://github.com/RPGHacker/asar) assembler, so download it if you need to.
 
+Run `asar.exe assemble.asm path/to/your_rom.sfc` from the root directory to apply the patch.
 > [!WARNING]
 > This will overwrite the clean ROM.
 
-See the build files for examples.
-
-
-# How to patch
-Choose one of three options:
-
-1. Check the latest [**Releases**](https://github.com/Arnethegreat/yoshisisland-practice-hack/releases) for `.bps` patches, which you can apply to your clean ROMs with the beat patcher utility. This method does not require downloading the source code.
-
-2. Clone this repo and place the clean ROM(s) you wish to patch into the ROMs/ dir - they should be called `JP_clean.sfc` for `J1.0` and `NA_clean.sfc` for `U1.0`.
-Run `build.sh` or `build.bat` with no args to build both, or `U` or `J`.
-
-3. Clone this repo and place your clean ROM in the root directory and run `asar.exe assemble.asm your_rom.sfc`.
+Alternatively, place the clean ROM(s) you wish to patch into the `ROMs/` dir (they should be called `JP_clean.sfc` for `J1.0` and `NA_clean.sfc` for `U1.0`)
+then run `build.sh` or `build.bat` with no args to build both, or `U` or `J`. The build scripts preserve the clean ROMs by copying them before patching.

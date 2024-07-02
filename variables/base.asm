@@ -21,10 +21,15 @@ includeonce
 ; $7800-$7BFF  1024   cleared on boot/file select - not useful for persistent data
 ; $7E7E-$7FFF  386
 
+!DEBUG_VARS = 0 ; set to 1 when defining variables to print debug info
 
 macro def_var(id, size, region)
 	!<id> := !freeram_<region>+!freeram_<region>_used
 	!freeram_<region>_used #= !freeram_<region>_used+<size>
+	if !DEBUG_VARS
+		print "ID: <id>, region: <region>, size: $", hex(<size>)
+		print "!", "<id> = $", hex(!<id>)
+	endif
 endmacro
 
 

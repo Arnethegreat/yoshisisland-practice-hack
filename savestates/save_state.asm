@@ -55,7 +55,7 @@ save_state:
     PLP
     PLY
     PLX
-    JMP game_mode_return
+    RTS
 .save_timers
     SEP #$20
     LDA !level_frames : STA !save_level_frames

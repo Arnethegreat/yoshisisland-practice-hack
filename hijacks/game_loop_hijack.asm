@@ -8,6 +8,8 @@ org $00815F
 freespacebyte $FF
 freecode
 
+incsrc "cfg/config.asm" ; include this ASAP so we can use its defines
+
 game_loop_hijack:
 ; 8-bit mode
 ; Hijacked right before jumping into game mode
@@ -40,20 +42,6 @@ handle_debug_menu:
 .next
 
 controller_checks:
-.load_button
-    LDA !controller_data1_press
-; X-button
-    AND #$40
-    BEQ .save_button
-    JMP prepare_load
-
-.save_button
-    LDA !controller_data2_press
-; select
-    AND #$20
-    BEQ .debug_menu_button
-    JMP save_state
-
 .debug_menu_button
 ; Pressing start while holding L & R
     LDA !controller_data1
@@ -63,34 +51,17 @@ controller_checks:
     LDA !controller_data2_press
     AND #$10
     BEQ ..controller_2
-    JMP init_debug_menu 
+    JMP init_debug_menu
 
     ..controller_2
         LDA !controller_2_data2_press
     ; controller 2 data 2 on press
     ; start
         AND #$10
-        BEQ .disable_music
+        BEQ +
         JMP init_debug_menu
-
-.disable_music
-; controller 2 data 2 on press
-; select
-    LDA !controller_2_data2_press
-    AND #$20
-    BEQ .disable_autoscroll
-; toggle music
-    %toggle_byte(!disable_music)
-    JSR toggle_music
-
-.disable_autoscroll
-; controller 2 data 2 on press
-; Y-button
-    LDA !controller_2_data2_press
-    AND #$40
-    BEQ game_mode_return
-; clear out autoscroll flags
-    JSR disable_autoscroll
+    +
+    JSR check_controllers
 
 game_mode_return:
 ; Setting up gamemode pointer to stack as per original routine
@@ -99,3 +70,108 @@ game_mode_return:
     LDA $00816A,x
     PHA
     RTL
+
+; check the custom input bindings:
+; loop through the list of bindings we built earlier and stop if we find one that matches the gamepad input
+; use the associated control byte as an index into a func pointer table
+; repeat for both controllers
+check_controllers:
+    PHX
+    PHP
+    %a16()
+    %i8()
+
+.check_controller_1
+    LDA !controller_data1 : BEQ .check_controller_2 ; skip if controller 1 has no inputs
+
+    ; loop through the bindings in priority order (right to left)
+    LDX #!binding_count
+  - {
+        LDY !input_bindings_1_offsets,x
+        LDA !input_bindings_1+2,y : BEQ + ; if no hold bind, check press
+        ORA !input_bindings_1+4,y : CMP !controller_data1 : BNE ++ ; else, if ALL buttons held, check press, else, try next
+        +
+
+        LDA !input_bindings_1+4,y : BEQ ++ ; if no press bind, try next
+        AND !controller_data1_press : BEQ ++ ; else, if button pressed, run action, else, try next
+
+        LDX !input_bindings_1+0,y ; control byte
+        JSR (.pointers,x)
+        BRA .ret
+
+    ++
+        DEX
+        BPL -
+    }
+
+.check_controller_2
+    LDA !controller_2_data1 : BEQ .ret ; skip if controller 2 has no inputs
+
+    ; loop through the bindings in priority order (right to left)
+    LDX #!binding_count
+  - {
+        LDY !input_bindings_2_offsets,x
+        LDA !input_bindings_2+2,y : BEQ + ; if no hold bind, check press
+        ORA !input_bindings_2+4,y : CMP !controller_2_data1 : BNE ++ ; else, if ALL buttons held, check press, else, try next
+        +
+
+        LDA !input_bindings_2+4,y : BEQ ++ ; if no press bind, try next
+        AND !controller_2_data1_press : BEQ ++ ; else, if button pressed, run action, else, try next
+
+        LDX !input_bindings_2+0,y ; control byte
+        JSR (.pointers,x)
+        BRA .ret
+
+    ++
+        DEX
+        BPL -
+    }
+.ret
+    PLP
+    PLX
+    RTS
+.pointers
+    dw save_state
+    dw .default_load
+    dw .full_load
+    dw .room_load
+    dw .toggle_music
+    dw disable_autoscroll
+    dw .toggle_free_movement
+    dw .slowdown_dec
+    dw .slowdown_inc
+.default_load
+    %a8()
+    STZ !load_mode
+    JSR prepare_load
+    RTS
+.full_load
+    %a8()
+    LDA #$01 : STA !load_mode
+    JSR prepare_load
+    RTS
+.room_load
+    %a8()
+    LDA #$02 : STA !load_mode
+    JSR prepare_load
+    RTS
+.toggle_music
+    %a8()
+    %toggle_byte(!disable_music)
+    JSR toggle_music
+    RTS
+.toggle_free_movement
+    %a8()
+    %toggle_byte(!free_movement)
+    RTS
+.slowdown_dec
+    %a8()
+    DEC !frame_skip
+    BPL +
+    STZ !frame_skip
+    +
+    RTS
+.slowdown_inc
+    %a8()
+    INC !frame_skip
+    RTS

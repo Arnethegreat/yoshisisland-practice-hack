@@ -67,7 +67,7 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_egg, $7E0000, 8, 3, $0005) ; egg 6
   %define_menu_entry(!ct_hinib, $7E012F, 1, 4, $00F0) ; slowdown amount high
   %define_menu_entry(!ct_lonib, $7E012F, 2, 4, $000F) ; slowdown amount low
-  %define_menu_entry(!ct_toggle, !full_load_default, 1, 5, $0021) ; full load as default
+  %define_menu_entry(!ct_toggle, !full_load_default, 1, 5, $0001) ; full load as default
   %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 6, $00F0) ; load delay amount high
   %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 6, $000F) ; load delay amount low
   %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 7, $0001) ; HUD

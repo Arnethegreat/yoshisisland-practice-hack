@@ -3,6 +3,7 @@
 %var_707E7E(disable_music, 2)
 %var_1409(current_level, 2)
 %var_707E7E(full_load_default, 2)
+%var_1409(load_mode, 1)
 %var_1409(dma_channel_0_savestate, 10)
 %var_1409(dma_channel_1_savestate, 10)
 %var_1409(dma_channel_2_savestate, 10)
@@ -21,6 +22,9 @@
 %var_1409(last_exit_load_type, 2)
 %var_1409(last_exit_loading_flag, 2)
 %var_1409(last_exit_item_mem_backup, 128)
+%var_1409(is_load_delay_timer_active, 1)
+%var_1409(load_delay_timer, 1)
+%var_707E7E(load_delay_timer_init, 1) ; keep in SRAM for persistence
 
 ; persistent save data (keeps on reset)
 ; stuff used throughout

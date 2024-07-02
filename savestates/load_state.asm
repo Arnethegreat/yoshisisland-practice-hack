@@ -123,10 +123,9 @@ prepare_load:
 .in_loading_mode
     BRA .fail_load
 
-; if user is holding R, do room reset of last room
 .test_reset_room
-    LDA !controller_data1
-    AND #$0010
+    LDA !load_mode
+    AND #$0002
     BEQ .check_savestate
     JSR load_last_exit
     JMP .no_load
@@ -163,7 +162,8 @@ prepare_load:
     BRA .fail_load
 +
     JSR load_sram_map16
-    JMP load_state_after_load_entry
+    LDA #$0001 : STA !loaded_state
+    BRA .no_load
 
 .continue
 ; Flag for us to use later
@@ -181,10 +181,10 @@ prepare_load:
     CMP !save_level
     BNE .different_level
 
-; override fast load if user is pressing L
-    LDA !controller_data1
+    ; mode 1 = full load binding triggered, but if fullloaddefault then we want to do the opposite, effectively mode 0
+    LDA !load_mode
     EOR !full_load_default
-    AND #$0020
+    AND #$0001
     BNE .different_level
 
 .same_level
@@ -227,7 +227,7 @@ prepare_load:
     PLP
     PLY
     PLX
-    JMP game_mode_return
+    RTS
 
 ;=================================
 ; restore data from last exit and load

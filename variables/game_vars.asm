@@ -19,6 +19,19 @@
 !current_screen = $038E
 
 ; Controller data
+!controller_B      = %1000000000000000
+!controller_Y      = %0100000000000000
+!controller_select = %0010000000000000
+!controller_start  = %0001000000000000
+!controller_up     = %0000100000000000
+!controller_down   = %0000010000000000
+!controller_left   = %0000001000000000
+!controller_right  = %0000000100000000
+!controller_A      = %0000000010000000
+!controller_X      = %0000000001000000
+!controller_L      = %0000000000100000
+!controller_R      = %0000000000010000
+
 !controller_data1_A = %10000000
 !controller_data1_X = %01000000
 !controller_data1_L = %00100000

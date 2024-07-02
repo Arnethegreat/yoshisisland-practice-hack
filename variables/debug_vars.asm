@@ -56,6 +56,8 @@ includeonce
 %var_1409(input_repeat_delay_timer, 2)
 !input_repeat_delay_amount = #$0012
 
-%var_1409(is_load_delay_timer_active, 1)
-%var_1409(load_delay_timer, 1)
-%var_707E7E(load_delay_timer_init, 1) ; keep in SRAM for persistence
+%var_026A(prep_binds_flag, 1)
+
+; 2 bytes of undocumented (free?) WRAM space
+!frame_skip = $012F
+!frame_skip_timer = $0130

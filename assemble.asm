@@ -8,6 +8,7 @@ incsrc misc/macros.asm
 ;=================================
 incsrc variables/base.asm
 ;=================================
+incsrc hijacks/boot_hijack.asm
 incsrc hijacks/interrupt_hijack.asm
 incsrc hijacks/save_level_hijack.asm
 incsrc hijacks/map_hijack.asm

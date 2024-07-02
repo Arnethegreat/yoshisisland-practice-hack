@@ -39,26 +39,6 @@ org file_select_check
 ; Change branch so it returns completely if user isn't holding L or R
     BEQ $F2
 ;=================================
-; Toggle Free Movement debug by pressing B on controller 2
-; Press A+X on controller 2 to warp to boss room
-;
-org free_movement-$4C
-; use controller 2 instead
-    LDA !controller_2_data1
-; A + X
-    CMP #$00C0
 
 org free_movement
-    NOP
-    NOP
-
-    JSR free_movement-$4C
-
-; If B button on pressed on controller 2
-    LDA !controller_2_data2_press
-    AND #$0080
-    BEQ $0F
-    NOP #6
-
-;=================================
-
+    BRA $1A ; .check_free_movement .. skip past warptoboss (don't need it) and flag toggling (we handle it)

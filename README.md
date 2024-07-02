@@ -89,9 +89,6 @@ An after-load delay can be set from the debug menu. The byte value indicates the
 ### Room Reset
 Hold R while loading to reset to your last entrance. Your eggs and item memory is saved.
 
-### Warp to Boss Room
-Press A+X on controller 2 to warp to that levels Boss Room.
-
 ### Music Toggle
 Press Select on controller 2 to enable/disable. 
 > [!NOTE]

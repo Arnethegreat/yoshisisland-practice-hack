@@ -23,9 +23,9 @@ fix_cross_section:
 
 fix_special_bosses:
     SEP #$30
-    LDA !controller_data1
-    AND #$20
-    BNE .no_special_boss
+    LDA !load_mode
+    EOR !full_load_default
+    BNE .no_special_boss ; do nothing if full load
     LDA !special_boss_flag_save
 ; Check if flag is either 02 or 07 (hookbill/bowser)
 ; Else just return

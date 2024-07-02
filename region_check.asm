@@ -12,6 +12,8 @@ endif
 if read1($00FFD9) == $00
     print "Japan 1.0 ROM"
 ;=================================
+    savefile_check_hijack = $0080A8
+
     level_init_hijack = $01C420
 
     room_init_hijack = $01C447
@@ -56,9 +58,13 @@ if read1($00FFD9) == $00
 
     vram_dma_01 = $00BC47
 
+    r_gsu_init_1 = $7EDC3C
+
 elseif read1($00FFD9) == $01
     print "North American 1.0 ROM"
 ;=================================
+    savefile_check_hijack = $0080BB
+
     level_init_hijack = $01B1EE
 
     room_init_hijack = $01B215
@@ -103,6 +109,8 @@ elseif read1($00FFD9) == $01
     despawn_sprite_free_slot = $03A32E ; X: sprite slot
 
     vram_dma_01 = $00BEA6
+
+    r_gsu_init_1 = $7EDE44
 
 ;=================================
 else

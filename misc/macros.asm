@@ -29,6 +29,7 @@ endmacro
 
 macro toggle_byte(address)
     LDA <address>
+    AND #%00000001
     EOR #$01
     STA <address>
 endmacro

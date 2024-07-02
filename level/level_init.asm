@@ -125,7 +125,15 @@ level_room_init_common:
 ; note that they may also need to be updated when leaving the menu
 handle_flags:
     PHP
-    REP #$20
+    %a16()
+    %i8()
+
+    ; if input bindings have not yet been loaded, or if they have been modified, load them here
+    LDX !prep_binds_flag : BNE + ; zero = flag on (leverage WRAM clear on boot)
+    JSR prepare_input_bindings
+    INC !prep_binds_flag
+    +
+
     JSR toggle_music
     LDA !skip_kamek
     AND #$00FF

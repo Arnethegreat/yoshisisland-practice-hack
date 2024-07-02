@@ -1,12 +1,8 @@
-!frame_skip = $012F
-!frame_skip_timer = $0130
-
 !controller_on_press_store = $CC
 !controller_2_on_press_store = $CE
 
 end_frame = $00813A
 continue_frame = $008130
-
 
 
 handle_frame_skip:
@@ -18,20 +14,6 @@ handle_frame_skip:
   }
   +
 
-  LDA !controller_2_data1_press
-  ; R controller 2
-  BIT #$10
-  BEQ .test_l
-.inc_skip
-  INC !frame_skip
-.test_l
-  BIT #$20
-  BEQ .continue
-.dec_skip
-  DEC !frame_skip
-  BPL .continue
-  STZ !frame_skip
-.continue
   LDA !frame_skip
   BEQ frame_skip_main_ret
 

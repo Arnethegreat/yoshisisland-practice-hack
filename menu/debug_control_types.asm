@@ -361,7 +361,7 @@ main_submenu_loader:
     LDA !dbc_wildcard
     BNE +
     { ; wildcard == zero means back
-      LDA.w #!sfx_poof : STA !sound_immediate
+      LDA.w #!sfx_move_cursor : STA !sound_immediate
       LDA !parent_menu_data_ptr
   + }
     STA !current_menu_data_ptr

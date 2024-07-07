@@ -344,23 +344,20 @@ warp_menu:
   STZ !dbc_index_col
 
   ; if index == 0, back was clicked - decrement the depth index
-  CPX #$0000
-  BEQ .go_back
-  LDA !sfx_shell_01 : STA !sound_immediate
+  CPX #$0000 : BEQ .go_back
   INC !warps_page_depth_index
+  LDA.w #!sfx_move_cursor
 
-  CMP #$0004
-  BEQ .play_warp_sound
-  LDA !sfx_shell_01 : STA !sound_immediate
-  BRA .next
+  LDY !warps_page_depth_index : CPY #$0004 : BNE .next
 .play_warp_sound
-  LDA !sfx_yoshi : STA !sound_immediate
+  LDA.w #!sfx_yoshi
   BRA .next
 
 .go_back
-  LDA.w #!sfx_poof : STA !sound_immediate
   DEC !warps_page_depth_index
+  LDA.w #!sfx_move_cursor
 .next
+  STA !sound_immediate
   JSR blank_tilemap
   TXY ; option index now in Y
   DEY ; if back was selected, then underflow

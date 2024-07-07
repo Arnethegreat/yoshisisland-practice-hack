@@ -143,7 +143,7 @@
 !sfx_midway_tape = $19
 !sfx_poof = $1D
 !sfx_key_chink = $1E
-!sfx_yoshi = #$0043
+!sfx_yoshi = $43
 !sfx_move_cursor = $5C
 !sfx_correct = $8F
 !sfx_incorrect = $90

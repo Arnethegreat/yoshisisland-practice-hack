@@ -36,6 +36,7 @@ includeonce
 %var_026A(parent_menu_data_ptr, 2)
 %var_026A(current_menu_data_ptr, 2)
 %var_026A(current_menu_tilemap_ptr, 2)
+%var_026A(current_menu_palette_ptr, 2)
 %var_026A(dbc_count_current, 2)
 %var_026A(dbc_row_count_current, 2)
 %var_026A(dbc_col_count_current, 2)

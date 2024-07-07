@@ -34,6 +34,7 @@ incsrc menu/debug_control_types.asm
 incsrc menu/debug_control_draws.asm
 incsrc menu/debug_tilemap_data.asm
 incsrc menu/debug_tilemaps.asm
+incsrc menu/debug_palettes.asm
 ;=================================
 incsrc map/map_init.asm
 ;=================================

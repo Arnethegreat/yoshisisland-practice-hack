@@ -32,12 +32,14 @@ endmacro
 !dbc_meta_ctrlcount = $02
 !dbc_meta_rowcount = $03
 !dbc_meta_tilemap_ptr = $04
-!dbc_meta_parent_ptr = $06
-macro define_menu_metadata(label, tilemap_label, parent_data)
+!dbc_meta_palette_ptr = $06
+!dbc_meta_parent_ptr = $08
+macro define_menu_metadata(label, tilemap_label, palette_label, parent_data)
   dw <label>_column_counts-<label> ; offset of column counts from the start of the menu block
   db datasize(<label>_data)>>3     ; total ctrl count
   db datasize(<label>_column_counts)>>1 ; total row count
   dw <tilemap_label> ; address of the tilemap data associated with this set of controls
+  dw <palette_label> ; address of the palette data associated with this set of controls (if any)
   dw <parent_data> ; address of the data "above" this submenu
 endmacro
 
@@ -48,6 +50,7 @@ store_current_menu_metadata:
   LDA.w !dbc_meta_ctrlcount,x : AND #$00FF : STA !dbc_count_current
   LDA.w !dbc_meta_rowcount,x : AND #$00FF : STA !dbc_row_count_current
   LDA.w !dbc_meta_tilemap_ptr,x : STA !current_menu_tilemap_ptr
+  LDA.w !dbc_meta_palette_ptr,x : STA !current_menu_palette_ptr
   LDA.w !dbc_meta_parent_ptr,x : STA !parent_menu_data_ptr
 .ret
   PLP
@@ -55,7 +58,7 @@ store_current_menu_metadata:
 
 mainmenu_ctrl:
 .metadata
-  %define_menu_metadata(mainmenu_ctrl, mainmenu_tilemap, $0000)
+  %define_menu_metadata(mainmenu_ctrl, mainmenu_tilemap, $0000, $0000)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, submenu_gameflags_ctrl) ; gameplay mods submenu
   %define_menu_entry(!ct_warps, $7E0000, 1, 2, $0001) ; warps submenu
@@ -84,7 +87,7 @@ mainmenu_ctrl:
 
 submenu_gameflags_ctrl:
 .metadata
-  %define_menu_metadata(submenu_gameflags_ctrl, submenu_gameflags_tilemap, mainmenu_ctrl)
+  %define_menu_metadata(submenu_gameflags_ctrl, submenu_gameflags_tilemap, $0000, mainmenu_ctrl)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $0000) ; back
   %define_menu_entry(!ct_func, $7E0000, 1, 2, $0000) ; disable autoscroll
@@ -98,7 +101,7 @@ submenu_gameflags_ctrl:
 
 submenu_config_ctrl:
 .metadata
-  %define_menu_metadata(submenu_config_ctrl, submenu_config_tilemap, mainmenu_ctrl)
+  %define_menu_metadata(submenu_config_ctrl, submenu_config_tilemap, submenu_config_palette, mainmenu_ctrl)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $0000) ; back
   %define_menu_entry(!ct_func, $7E0000, 18, 1, $0002) ; reset to default

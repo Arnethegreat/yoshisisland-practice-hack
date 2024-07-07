@@ -1,23 +1,3 @@
-; palette selection for 2bpp tiles is 3 bits, so we can choose from a selection of 8 groups of 4 colours each
-; each colour is represented by a 15-bit RGB word: xBBB BBGG GGGR RRRR
-menu_palette:
-.flashing
-dw $0000, $FFFF, $0000, $789F
-.green_egg
-dw $0000, $FFFF, $0000, $05E0
-.yellow
-dw $0000, $FFFF, $0000, $033F
-.red
-dw $0000, $FFFF, $0000, $001F
-.red_text
-dw $0000, $001F, $0000, $001F
-.green_text
-dw $0000, $05E0, $0000, $001F
-.blue
-dw $0000, $FFFF, $0000, $5DE2
-.highlight_text
-dw $0000, $FFFF, $498A, $0000
-
 ; handle initialization of debug menu
 init_debug_menu:
     SEP #$30
@@ -137,13 +117,6 @@ init_debug_menu:
     ; palettes
     LDA #$0003
     STA !palette_anim_timer
-    LDX #!palette_backup_size
-    -
-        LDA menu_palette-2,x
-        STA !s_cgram_mirror-2,x
-        DEX
-        DEX
-        BNE -
 
     ; flag on
     INC !debug_menu
@@ -174,6 +147,7 @@ init_current_menu:
     JSR store_current_menu_metadata
     JSR blank_tilemap
     JSR init_current_menu_tilemap
+    JSR init_current_menu_palette
     JSR init_controls
     RTS
 

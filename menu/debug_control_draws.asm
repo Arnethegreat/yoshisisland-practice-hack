@@ -135,8 +135,8 @@ translate_single_input_code:
 input_lookup_tbl:
 incsrc "../resources/string_font_map.asm"
   db "-", $00
-  db "B", $00, "Y", $14, "s", $00, "S", $00, "^", $00, "v", $00
-  db "<", $00, ">", $00, "A", $10, "X", $00, "L", $00, "R", $00
+  db "B", $0C, "Y", $08, "s", $00, "S", $00, "^", $00, "v", $00
+  db "<", $00, ">", $00, "A", $04, "X", $10, "L", $00, "R", $00
 
 draw_egg_changer:
 ; which egg in inventory

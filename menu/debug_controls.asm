@@ -7,6 +7,7 @@ debug_control_inits:
   dw init_call_function
   dw init_warps_function
   dw init_submenu_loader
+  dw init_config_changer
 
 ; indexed by control type
 debug_control_mains:
@@ -17,6 +18,7 @@ debug_control_mains:
   dw main_call_function
   dw main_warps_function
   dw main_submenu_loader
+  dw main_config_changer
 
 debug_control_cleanups:
   dw cleanup_lownib_memchanger
@@ -26,8 +28,10 @@ debug_control_cleanups:
   dw cleanup_call_function
   dw cleanup_warps_function
   dw cleanup_submenu_loader
+  dw cleanup_config_changer
 
 init_controls:
+  PHP
   REP #$30
   PHD
   ; loop through all controls
@@ -52,6 +56,7 @@ init_controls:
   BPL .loop
 
   PLD
+  PLP
   RTS
 
 ; triggers repeat inputs after initial input + delay if the input is held
@@ -94,12 +99,15 @@ held_input_repeater:
 main_controls:
   PHK
   PLB
-  REP #$20
+  %a16()
+  %i8()
+
+  LDX !recording_bind_state : BNE .process_focused ; if recording input, don't allow moving the cursor
 
 .check_up
-  LDA #%0000000000001000 : STA $0000
+  LDA #%0000000000001000 : STA $00
   JSR held_input_repeater
-  LDA $0000
+  LDA $00
   BNE .check_down
   ; cycle up and handle wrapping
   LDA !dbc_index_row
@@ -109,9 +117,9 @@ main_controls:
   DEC A
   BRA .store_index_row
 .check_down
-  LDA #%0000000000000100 : STA $0000
+  LDA #%0000000000000100 : STA $00
   JSR held_input_repeater
-  LDA $0000
+  LDA $00
   BNE .check_left
   ; cycle down and handle wrapping
   LDA !dbc_index_row
@@ -125,9 +133,9 @@ main_controls:
   BRA .index_updated
 
 .check_left
-  LDA #%0000000000000010 : STA $0000
+  LDA #%0000000000000010 : STA $00
   JSR held_input_repeater
-  LDA $0000
+  LDA $00
   BNE .check_right
   ; cycle left and handle wrapping
   LDA !dbc_index_col
@@ -137,9 +145,9 @@ main_controls:
   DEC A
   BRA .store_index_col
 .check_right
-  LDA #%0000000000000001 : STA $0000
+  LDA #%0000000000000001 : STA $00
   JSR held_input_repeater
-  LDA $0000
+  LDA $00
   BNE .process_focused
   ; cycle right and handle wrapping
   LDA !dbc_index_col
@@ -179,17 +187,16 @@ main_controls:
   JSR set_position_indicator
 
   ; if pressing B, try going back instead of running the control func
-  LDA !controller_data2_press : AND.w #!controller_data2_B
+  LDA !controller_data1_press : AND #!controller_B
   BEQ +
   {
+    LDX !recording_bind_state : BNE + ; ignore B when recording
     JSR submenu_go_back
     BRA .ret
 + }
 
   ; fetch type and call main
-  LDA !dbc_type
-  AND #$00FF
-  TAX
+  LDX !dbc_type
   JSR (debug_control_mains,x)
 
 .ret
@@ -213,7 +220,7 @@ submenu_go_back:
     STA !current_menu_data_ptr
     STZ !dbc_index_row
     STZ !dbc_index_col
-    LDA.w !sfx_poof : STA !sound_immediate
+    LDA.w #!sfx_poof : STA !sound_immediate
     JSR init_current_menu
   }
 .ret

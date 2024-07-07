@@ -9,6 +9,7 @@
 !ct_func = $08 ; call function (wildcard as what function)
 !ct_warps = $0A ; warp navigation (wildcard as index)
 !ct_submenu = $0C ; submenu
+!ct_binding = $0E ; input binding changer (wildcard indicates which controller)
 
 ; [long] memory address to read / write from - currently only used for [lownib, highnib, toggle]
 !dbc_memory = $01
@@ -77,8 +78,9 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_lonib, !ramwatch_addr_l+1, 4, 8, $000F) ; ramwatch high
   %define_menu_entry(!ct_hinib, !ramwatch_addr_l+0, 5, 8, $00F0) ; ramwatch low
   %define_menu_entry(!ct_lonib, !ramwatch_addr_l+0, 6, 8, $000F) ; ramwatch low
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 9, submenu_config_ctrl) ; input config submenu
 .column_counts ; low byte = number of columns per row index, high byte = cumulative sum
-  dw $0001, $0101, $0207, $0902, $0B01, $0C02, $0E01, $0F06
+  dw $0001, $0101, $0207, $0902, $0B01, $0C02, $0E01, $0F06, $1501
 
 submenu_gameflags_ctrl:
 .metadata
@@ -93,6 +95,33 @@ submenu_gameflags_ctrl:
   %define_menu_entry(!ct_func, $7E0000, 1, 7, $0001) ; switch patient/hasty
 .column_counts
   dw $0001, $0101, $0201, $0301, $0401, $0501, $0601
+
+submenu_config_ctrl:
+.metadata
+  %define_menu_metadata(submenu_config_ctrl, submenu_config_tilemap, mainmenu_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $0000) ; back
+  %define_menu_entry(!ct_func, $7E0000, 18, 1, $0002) ; reset to default
+  %define_menu_entry(!ct_binding, !bind_savestate_1, 1, 3, $0000)
+  %define_menu_entry(!ct_binding, !bind_savestate_2, 9, 3, $0001)
+  %define_menu_entry(!ct_binding, !bind_loadstate_1, 1, 4, $0000)
+  %define_menu_entry(!ct_binding, !bind_loadstate_2, 9, 4, $0001)
+  %define_menu_entry(!ct_binding, !bind_loadstatefull_1, 1, 5, $0000)
+  %define_menu_entry(!ct_binding, !bind_loadstatefull_2, 9, 5, $0001)
+  %define_menu_entry(!ct_binding, !bind_loadstateroom_1, 1, 6, $0000)
+  %define_menu_entry(!ct_binding, !bind_loadstateroom_2, 9, 6, $0001)
+  %define_menu_entry(!ct_binding, !bind_musictoggle_1, 1, 7, $0000)
+  %define_menu_entry(!ct_binding, !bind_musictoggle_2, 9, 7, $0001)
+  %define_menu_entry(!ct_binding, !bind_freemovement_1, 1, 8, $0000)
+  %define_menu_entry(!ct_binding, !bind_freemovement_2, 9, 8, $0001)
+  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_1, 1, 9, $0000)
+  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_2, 9, 9, $0001)
+  %define_menu_entry(!ct_binding, !bind_slowdownincrease_1, 1, 10, $0000)
+  %define_menu_entry(!ct_binding, !bind_slowdownincrease_2, 9, 10, $0001)
+  %define_menu_entry(!ct_binding, !bind_disableautoscroll_1, 1, 11, $0000)
+  %define_menu_entry(!ct_binding, !bind_disableautoscroll_2, 9, 11, $0001)
+.column_counts
+  dw $0002, $0202, $0402, $0602, $0802, $0A02, $0C02, $0E02, $1002, $1202
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !debug_menu_controls_warps_worlds_count = #$0007
@@ -112,6 +141,15 @@ debug_menu_controls_warps_room_counts:
 control_function_calls:
   dw disable_autoscroll
   dw toggle_control_scheme
+  dw set_default_input_bindings_and_draw
+
+;======================================
+
+set_default_input_bindings_and_draw:
+  JSR default_input_bindings
+  STZ !prep_binds_flag
+  JSR init_controls ; re-draw
+  RTS
 
 ;======================================
 

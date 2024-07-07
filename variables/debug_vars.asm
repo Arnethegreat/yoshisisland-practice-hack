@@ -57,6 +57,7 @@ includeonce
 !input_repeat_delay_amount = #$0012
 
 %var_026A(prep_binds_flag, 1)
+%var_026A(recording_bind_state, 1)
 
 ; 2 bytes of undocumented (free?) WRAM space
 !frame_skip = $012F

@@ -11,13 +11,11 @@ Features:
 * Music on/off toggle
 * Removal of slow world map animations
 * Enabling built-in Debug functions
+* Button configuration
 
 Bug reports highly appreciated!
 
 Supports J1.0 and U1.0 versions.
-
-Planned features:
-* Button configuration
 
 
 # How to patch
@@ -69,6 +67,10 @@ Miscellaneous data | | | Lag frame counter |
 > [!NOTE]
 > The HUD data are currently only switched when visiting the world map.
 
+### Warps
+> [!WARNING]
+> You can warp immediately after the game starts, but it is recommended to load a file first in order to avoid an audio bug that can crash your game when dying or entering a goal ring.
+
 ### Egg Editor
 Use A/Y to cycle the sprite in the selected, loaded slot. The previous/next eggs in the cycle are displayed beside the cursor.
 Current supported sprites:
@@ -79,23 +81,24 @@ Current supported sprites:
 - Chicken
 
 ### Savestates
-Press Select on controller 1 inside a level to save your current state
+Save your current state while in a level.
 
-Press X on controller 1 to load your state. Loading can be done from anywhere (but not always guaranteed to work)
-Hold L button while pressing X to do a full load (regenerate all terrain). This can be toggled to the opposite in menu.
+Normal (fast) load: works while in the same level as the savestate. 
+Full load: re-loads the room, regenerates all terrain. This can be toggled to the opposite in menu.
 
+Loading can be done from anywhere (but not always guaranteed to work).
 An after-load delay can be set from the debug menu. The byte value indicates the number of frames the game will be paused for when a savestate is finished loading.
 
 ### Room Reset
-Hold R while loading to reset to your last entrance. Your eggs and item memory is saved.
+Reset to your last entrance. Your eggs and item memory is saved.
 
 ### Music Toggle
-Press Select on controller 2 to enable/disable. 
+Enable/disable in-level music (sound effects play as normal). 
 > [!NOTE]
 > Enabling it makes it play the default track for that level which might not be correct (reload fixes this)
 
 ### Free Movement
-Press B on controller 2 to enable/disable. Holding A on controller 1 makes you move faster. Yoshi can't collide with terrain in this mode.
+Enable noclip. Holding A on controller 1 makes you move faster. Yoshi can't collide with terrain in this mode.
 
 ### File 3 Complete Save
 Hold L or R while entering File 3 to enter a fully unlocked save file. Note that the file 3 save can get strange (copy file over and erase it fixes this)
@@ -104,15 +107,39 @@ Hold L or R while entering File 3 to enter a fully unlocked save file. Note that
 Hold L while pressing select in pause menu and you'll leave any level as well as mark it as cleared. This doesn't save until you beat a level legit.
 
 ### Frame Skip (slow down)
-Press R to increase frames to skip per frame (amount of slow down). Press L to decreas. Game will run at 1/n speed where n is frame skip amount. 
+Increase or decrease frames to skip per frame (amount of slow down). Game will run at 1/n speed where n is frame skip amount. 
 
 ### Stage Intro (with the level text)
 Stage intro now begins as soon as there's user input (if finished loading).
 
-Hold a button to load level as fast as possible.
+Hold any button to load level as fast as possible.
 
 ### Disable Autoscroll
-Press Y on controller 2 to disable an autoscroll.
+Frees the camera if used during an autoscroller.
+
+### Button Configuration
+Practice functions can be bound to combinations of buttons on both controllers.
+- Press X to remove a binding.
+- Press A to start recording a binding.
+- Once recording begins, press and hold the desired buttons **in sequential order**, then release them to stop recording.
+- The last button in the sequence is the final trigger, meaning you must hold the other buttons (in any order) and then press the last one to trigger the function.
+- This also means that you should avoid pressing more than one button on a frame when recording.
+- Bindings must be unique for a given function and controller, e.g. you can't bind X on controller 1 to both Save and Load.
+- Note that bindings for controller 2 are recorded using controller 1.
+
+The default bindings are shown below, and may be restored at any time by selecting "reset default":
+
+Controller 1 | Controller 2 | Function
+:------: | :------: | :------
+Select | - | Save
+X | - | Load
+L+X | - | Load full
+R+X | - | Room reset
+\- | Select | Toggle music
+\- | B | Free movement
+\- | L | Slowdown decrease
+\- | R | Slowdown increase
+\- | Y | Disable autoscroll
 
 
 # How to assemble

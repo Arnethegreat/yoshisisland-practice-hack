@@ -13,13 +13,8 @@ save_state:
     BNE .ret
 
 .prepare_save
-;
     LDA #$0001
     STA !savestate_exists
-
-; play 1-up sound for cue that you saved
-    LDA #$008F
-    STA $0053
 
 .save_memory_blocks
     JSR save_item_memory
@@ -32,6 +27,9 @@ save_state:
 
 
     JSR save_dma_channel_settings
+
+; play 1-up sound for cue that you saved
+    LDA.w #!sfx_correct : STA !sound_immediate
 
 .save_position
     LDA !current_level

@@ -19,18 +19,18 @@
 !current_screen = $038E
 
 ; Controller data
-!controller_B      = %1000000000000000
-!controller_Y      = %0100000000000000
-!controller_select = %0010000000000000
-!controller_start  = %0001000000000000
-!controller_up     = %0000100000000000
-!controller_down   = %0000010000000000
-!controller_left   = %0000001000000000
-!controller_right  = %0000000100000000
-!controller_A      = %0000000010000000
-!controller_X      = %0000000001000000
-!controller_L      = %0000000000100000
-!controller_R      = %0000000000010000
+!controller_B      = %1000000000000000 ; $8000
+!controller_Y      = %0100000000000000 ; $4000
+!controller_select = %0010000000000000 ; $2000
+!controller_start  = %0001000000000000 ; $1000
+!controller_up     = %0000100000000000 ; $0800
+!controller_down   = %0000010000000000 ; $0400
+!controller_left   = %0000001000000000 ; $0200
+!controller_right  = %0000000100000000 ; $0100
+!controller_A      = %0000000010000000 ; $0080
+!controller_X      = %0000000001000000 ; $0040
+!controller_L      = %0000000000100000 ; $0020
+!controller_R      = %0000000000010000 ; $0010
 
 !controller_data1_A = %10000000
 !controller_data1_X = %01000000
@@ -141,10 +141,12 @@
 !sfx_shell_06 = $10
 !sfx_shell_07 = $11
 !sfx_midway_tape = $19
-!sfx_poof = #$001D
+!sfx_poof = $1D
 !sfx_key_chink = $1E
 !sfx_yoshi = #$0043
 !sfx_move_cursor = $5C
+!sfx_correct = $8F
+!sfx_incorrect = $90
 
 ; IRQ
 !r_irq_count = $0125

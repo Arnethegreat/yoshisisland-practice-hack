@@ -210,9 +210,11 @@ main_debug_menu:
     JSR animate_palette
     JSR draw_menu
 
+    LDA !recording_bind_state : BNE .ret ; don't exit menu in the middle of recording a bind
+
     LDA !controller_2_data2_press
     ORA !controller_data2_press
-    AND #$10
+    AND #!controller_data2_start
     ORA !warping
     BEQ .ret
     JSR exit_debug_menu

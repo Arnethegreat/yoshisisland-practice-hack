@@ -358,7 +358,7 @@ warp_menu:
   BRA .next
 
 .go_back
-  LDA !sfx_poof : STA !sound_immediate
+  LDA.w #!sfx_poof : STA !sound_immediate
   DEC !warps_page_depth_index
 .next
   JSR blank_tilemap

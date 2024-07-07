@@ -15,7 +15,8 @@ mainmenu_tilemap:
             "         FULL LOAD AS DEFAULT",
             "         LOAD DELAY",
             "         HUD",
-            "         RAMWATCH")
+            "         RAMWATCH",
+            "INPUT CONFIG/")
 dw !lf
 
 submenu_gameflags_tilemap:
@@ -26,6 +27,20 @@ submenu_gameflags_tilemap:
             "         SET TUTORIAL FLAGS",
             "         DISABLE KAMEK AT BOSS",
             "TOGGLE PATIENT/HASTY")
+dw !lf
+
+submenu_config_tilemap:
+%store_text("BACK             RESET DEFAULT",
+            "PAD 1 : PAD 2",
+            "                 SAVE",
+            "                 LOAD",
+            "                 LOAD FULL",
+            "                 LOAD ROOM",
+            "                 TOGGLE MUSIC",
+            "                 FREE MOVEMENT",
+            "                 SLOWDOWN -",
+            "                 SLOWDOWN +",
+            "                 NO AUTOSCROLL")
 dw !lf
 
 ;====================================

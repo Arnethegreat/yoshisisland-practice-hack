@@ -42,6 +42,101 @@ draw_toggle:
   STA !menu_tilemap_mirror,x
   RTS
 
+draw_config_changer:
+  %ai16()
+
+  LDX !dbc_tilemap
+
+  ; clear any existing tile data
+  LDA #$003F
+  STA !menu_tilemap_mirror+2,x : STA !menu_tilemap_mirror+4,x
+  STA !menu_tilemap_mirror+6,x : STA !menu_tilemap_mirror+8,x : STA !menu_tilemap_mirror+10,x
+
+  LDA !recording_bind_state : AND #$00FF : BNE .is_recording
+
+  LDA [!dbc_memory] : BEQ +
+  JSR translate_combined_input_code ; held
+- {
+    LDA $0010,y : STA !menu_tilemap_mirror,x
+    INX #2
+    DEY #2
+    BPL -
+  }
+
+  LDA #$0046 : STA !menu_tilemap_mirror,x ; +
+  INX #2
+  +
+
+  LDY #$0002
+  LDA [!dbc_memory],y
+  JSR translate_single_input_code : STA !menu_tilemap_mirror,x ; press
+  BRA .ret
+.is_recording ; draw an ellipsis while recording
+  LDA #$0048 : STA !menu_tilemap_mirror,x
+.ret
+  RTS
+
+; slower than the single bit translator but works for the general case combined codes
+; INPUT: A = a 2-byte input code e.g. $00A0 (A+L, $0080 (A) + $0020 (L))
+; RETURNS: Y = out array length
+; RETURNS: $0010 (!out) = array of 2-byte tilemap entries for font.bin
+translate_combined_input_code:
+!out = $0010
+  PHX
+  PHP
+  %a16()
+  %i8()
+  STZ !out
+  LDY #$3F : STY !out
+  LDY #$00
+  CMP #$0000 : BEQ .ret
+  LDX #$00
+- {
+    INX #2
+    ASL
+    BCC -
+    ; carry bit set -> lookup the char and push it to the array, and incr array counter
+    PHA
+    LDA input_lookup_tbl,x : STA !out,y
+    PLA
+    BEQ .ret ; jesus wept, for there were no more bits left to conquer
+    INY #2
+    BRA -
+  }
+.ret
+  PLP
+  PLX
+  RTS
+undef "out"
+
+; INPUT: A = a 2-byte power of 2 input code e.g. $0040 (X)
+; RETURNS: A = a 2-byte tilemap entry for a font.bin char e.g. $0021 (X)
+translate_single_input_code:
+  PHX
+  PHP
+  %a16()
+  %i8()
+  ; get position of the set bit, essentially log base2
+  ; except we shift left because the rightmost 4 bits of the code are unused
+  LDX #$00
+- {
+    CMP #$0000 : BEQ +
+    ASL
+    INX #2
+    BRA -
+  }
+  +
+  LDA input_lookup_tbl,x
+.ret
+  PLP
+  PLX
+  RTS
+
+input_lookup_tbl:
+incsrc "../resources/string_font_map.asm"
+  db "-", $00
+  db "B", $00, "Y", $14, "s", $00, "S", $00, "^", $00, "v", $00
+  db "<", $00, ">", $00, "A", $10, "X", $00, "L", $00, "R", $00
 
 draw_egg_changer:
 ; which egg in inventory

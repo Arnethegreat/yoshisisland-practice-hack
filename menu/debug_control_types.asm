@@ -34,6 +34,11 @@ init_submenu_loader:
 .ret
   RTS
 
+init_config_changer:
+  JSR draw_config_changer
+.ret
+  RTS
+
 ;================================
 ; Control type cleanups
 
@@ -70,6 +75,10 @@ cleanup_warps_function:
   RTS
 
 cleanup_submenu_loader:
+.ret
+  RTS
+
+cleanup_config_changer:
 .ret
   RTS
 
@@ -352,7 +361,7 @@ main_submenu_loader:
     LDA !dbc_wildcard
     BNE +
     { ; wildcard == zero means back
-      LDA.w !sfx_poof : STA !sound_immediate
+      LDA.w #!sfx_poof : STA !sound_immediate
       LDA !parent_menu_data_ptr
   + }
     STA !current_menu_data_ptr
@@ -362,6 +371,126 @@ main_submenu_loader:
   }
 .ret
   RTS
+
+;================================
+
+%var_026A(recording_held_value, 2)
+%var_026A(recording_pressed_value, 2)
+%var_026A(recording_btn_count, 1)
+!temp_sound = $002E
+main_config_changer:
+  %a16()
+  %i8()
+  LDX !recording_bind_state : BNE .is_recording
+
+.not_recording
+  LDA !controller_data1_press : CMP #!controller_X : BNE + ; press X to clear a binding
+  LDY #$02
+  LDA #$0000 : STA [!dbc_memory] : STA [!dbc_memory],y
+  LDY #$00 : STY !prep_binds_flag
+  JSR draw_config_changer
+  LDA.w #!sfx_poof : STA !temp_sound
+  BRA .play_sound
+  +
+
+  AND #!controller_A|!controller_Y : BEQ .ret ; press A/Y to start recording
+  INC !recording_bind_state
+  STZ !recording_held_value
+  STZ !recording_pressed_value
+  LDY #$00 : STY !recording_btn_count
+  JSR draw_config_changer
+  LDA.w #!sfx_correct : STA !temp_sound
+  BRA .play_sound
+
+.is_recording
+  LDA !recording_bind_state : DEC : ASL : TAX
+  JSR (.recording_ptrs,x) : BNE .ret ; if Y=0, we're done
+  JSR init_controls ; re-draw all controls in case a dupe was overwritten, kinda hacky, sorry :\
+
+.play_sound
+  LDA !temp_sound : STA !sound_immediate
+.ret
+  RTS
+.recording_ptrs
+  dw handle_recording_start
+  dw handle_recording_preloop
+  dw handle_recording_mainloop
+  dw handle_recording_done
+
+; wait for an input to begin on controller 1
+; record each new press sequentially until the input stops (becomes zero)
+; RETURNS: Y = state
+handle_recording_start:
+  LDA !controller_data1 : BNE .ret ; wait for inputs to stop
+  INC !recording_bind_state ; advance state
+.ret
+  LDY !recording_bind_state
+  RTS
+
+handle_recording_preloop:
+  LDA !controller_data1 : BEQ .ret ; wait for inputs to start
+  STA !recording_pressed_value ; store the first input
+  INC !recording_bind_state ; advance state
+.ret
+  LDY !recording_bind_state
+  RTS
+
+handle_recording_mainloop:
+  LDA !controller_data1 : BNE + ; wait for inputs to stop
+  INC !recording_bind_state : BRA .ret ; advance state
+  +
+  LDA !controller_data1_press : BEQ .ret ; wait for a new input
+
+  ; this routine requires inputs to be sequential, it breaks if the user presses multiple buttons on the same frame
+  ; so if we detect a multi-button press, stop recording and let them try again
+  DEC : AND !controller_data1_press : BEQ + ; check by unsetting the leftmost bit (x & (x-1))
+  LDY #$00 : STY !recording_bind_state
+  LDA.w #!sfx_incorrect : STA !temp_sound
+  BRA .ret
+  +
+
+  ; merge previous press into held and then store the new input in press
+  ; this means pressed will always hold the latest input, and everything else is in held
+  LDA !recording_pressed_value : ORA !recording_held_value : STA !recording_held_value
+  LDA !controller_data1_press : STA !recording_pressed_value
+
+  ; limit number of buttons to something sensible
+  INC !recording_btn_count
+  LDY !recording_btn_count : CPY #$03 : BCC .ret
+  INC !recording_bind_state
+.ret
+  LDY !recording_bind_state
+  RTS
+
+handle_recording_done:
+  ; if an identical bind for this controller already exists, remove it to avoid collisions
+  LDA !dbc_wildcard ; controller number in wildcard
+  ASL #2
+  CLC : ADC.w #!binding_size_sram*2-8
+  TAX ; X=index into SRAM block
+- {
+    LDA !binding_startaddr_sram+2,x : CMP !recording_pressed_value : BNE +
+    ; press bind match found, check the corresponding hold bind
+    LDA !binding_startaddr_sram+0,x : CMP !recording_held_value : BNE +
+    ; hold bind also matches, clear them both and break out of the loop
+    LDA #$0000 : STA !binding_startaddr_sram+0,x : STA !binding_startaddr_sram+2,x
+    BRA ++
+    +
+    TXA : SEC : SBC #$0008 : TAX
+    BPL -
+  }
+++
+  ; store SRAM, calculate a new checksum, reset recording state, and set the prep flag
+  LDA !recording_held_value : STA [!dbc_memory]
+  LDY #$02
+  LDA !recording_pressed_value : STA [!dbc_memory],y
+  JSR get_input_bindings_checksum : STA !bind_checksum
+  LDY #$00 : STY !prep_binds_flag : STY !recording_bind_state
+  LDA.w #!sfx_correct : STA !temp_sound
+.ret
+  LDY !recording_bind_state
+  RTS
+undef "temp_sound"
 
 ;================================
 ; Loop through egg inventory

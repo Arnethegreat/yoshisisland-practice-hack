@@ -1,10 +1,5 @@
 ; NOP out branch past frame advance code
 ; Start on controller 2 enables frame advance
-;=================================
-; L and R to advance (L faster, R slower)
-;
-; TODO: Add button config
-;       Fix so one advance toggles buttons on press
 org $0080F6
     JML handle_frame_skip
 

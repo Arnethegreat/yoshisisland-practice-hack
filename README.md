@@ -6,6 +6,8 @@ Features:
 * Debug Menu
 * HUD
 * Warp to (almost) any room entrance
+> [!WARNING]
+> You can warp immediately after the game starts, but it is recommended to load a file first in order to avoid an audio bug that can crash your game when dying or entering a goal ring.
 * Egg editor
 * Slowdown
 * Music on/off toggle
@@ -62,14 +64,10 @@ Column 1 | Column 2 | Column 3 | Column 4 | Column 5
 :------: | :------: | :------: | :------: | :------:
 Yoshi's horizontal velocity | Yoshi x position | Yoshi x subpixel | Level timer | 
 Most recent egg-aiming angle | Amount of sprites loaded | BG3 vertical offset | Room timer | Input display
-Miscellaneous data | | | Lag frame counter | 
+Miscellaneous data | RAM watch | | Lag frame counter | 
 
 > [!NOTE]
 > The HUD data are currently only switched when visiting the world map.
-
-### Warps
-> [!WARNING]
-> You can warp immediately after the game starts, but it is recommended to load a file first in order to avoid an audio bug that can crash your game when dying or entering a goal ring.
 
 ### Egg Editor
 Use A/Y to cycle the sprite in the selected, loaded slot. The previous/next eggs in the cycle are displayed beside the cursor.

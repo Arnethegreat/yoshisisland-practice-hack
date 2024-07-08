@@ -102,7 +102,8 @@ main_controls:
   %a16()
   %i8()
 
-  LDX !recording_bind_state : BNE .process_focused ; if recording input, don't allow moving the cursor
+  LDX !recording_bind_state : BEQ .check_up
+  JMP .process_focused ; if recording input, don't allow moving the cursor
 
 .check_up
   LDA #%0000000000001000 : STA $00
@@ -129,7 +130,10 @@ main_controls:
   LDA #$0000
 .store_index_row
   STA !dbc_index_row
-  STZ !dbc_index_col ; reset the column when moving up/down
+  JSR get_current_menu_control_col_count ; fetch the col count for the new row
+  CMP !dbc_index_col : BCS + ; clamp the colindex to the new colcount
+  STA !dbc_index_col
+  +
   BRA .index_updated
 
 .check_left
@@ -142,7 +146,6 @@ main_controls:
   DEC A
   BPL .store_index_col
   LDA !dbc_col_count_current
-  DEC A
   BRA .store_index_col
 .check_right
   LDA #%0000000000000001 : STA $00
@@ -153,7 +156,7 @@ main_controls:
   LDA !dbc_index_col
   INC A
   CMP !dbc_col_count_current
-  BCC .store_index_col
+  BCC .store_index_col : BEQ .store_index_col
   LDA #$0000
 .store_index_col
   STA !dbc_index_col

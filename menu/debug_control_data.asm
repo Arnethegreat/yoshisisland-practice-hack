@@ -82,8 +82,8 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_hinib, !ramwatch_addr_l+0, 5, 8, $00F0) ; ramwatch low
   %define_menu_entry(!ct_lonib, !ramwatch_addr_l+0, 6, 8, $000F) ; ramwatch low
   %define_menu_entry(!ct_submenu, $7E0000, 1, 9, submenu_config_ctrl) ; input config submenu
-.column_counts ; low byte = number of columns per row index, high byte = cumulative sum
-  dw $0001, $0101, $0207, $0902, $0B01, $0C02, $0E01, $0F06, $1501
+.column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
+  dw $0000, $0100, $0206, $0901, $0B00, $0C01, $0E00, $0F05, $1500
 
 submenu_gameflags_ctrl:
 .metadata
@@ -97,7 +97,7 @@ submenu_gameflags_ctrl:
   %define_menu_entry(!ct_toggle, !skip_kamek, 1, 6, $0001) ; disable kamek at boss
   %define_menu_entry(!ct_func, $7E0000, 1, 7, $0001) ; switch patient/hasty
 .column_counts
-  dw $0001, $0101, $0201, $0301, $0401, $0501, $0601
+  dw $0000, $0100, $0200, $0300, $0400, $0500, $0600
 
 submenu_config_ctrl:
 .metadata
@@ -124,7 +124,7 @@ submenu_config_ctrl:
   %define_menu_entry(!ct_binding, !bind_disableautoscroll_1, 1, 11, $0000)
   %define_menu_entry(!ct_binding, !bind_disableautoscroll_2, 9, 11, $0001)
 .column_counts
-  dw $0002, $0202, $0402, $0602, $0802, $0A02, $0C02, $0E02, $1002, $1202
+  dw $0001, $0201, $0401, $0601, $0801, $0A01, $0C01, $0E01, $1001, $1201
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !debug_menu_controls_warps_worlds_count = #$0007

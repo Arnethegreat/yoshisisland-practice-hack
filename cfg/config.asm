@@ -65,6 +65,7 @@ action_binding_table:
 
 ; initialise the bindings for use in the main game loop
 prepare_input_bindings:
+    PHP
     JSR copy_bindings_to_wram ; SRAM -> WRAM
 
     %ai8()
@@ -92,6 +93,7 @@ prepare_input_bindings:
     LDA #!input_bindings_2_offsets+1 : STA $06 ; 2nd offset
     JSR sort_bindings
 .ret
+    PLP
     RTS
 
 copy_bindings_to_wram:
@@ -158,8 +160,7 @@ undef "temp"
 !offsets_1 = $04
 !offsets_2 = $06
 sort_bindings:
-!array = $30
-!flag = $32
+!flag = $08
     PHP
     %ai8()
 .start_of_list
@@ -199,7 +200,6 @@ undef "table_1"
 undef "table_2"
 undef "offsets_1"
 undef "offsets_2"
-undef "array"
 undef "flag"
 
 default_input_bindings:

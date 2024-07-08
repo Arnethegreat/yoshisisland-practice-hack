@@ -4,13 +4,15 @@ load_state:
     PHX
     PHY
     PHP
-    REP #$30
+    %a8()
 
     ; Clear APU I/O to fix audio queue choking up
-    STZ $2140
-    STZ $2141
-    STZ $2142
-    STZ $2143
+    STZ !reg_apu_port0
+    STZ !reg_apu_port1
+    STZ !reg_apu_port2
+    STZ !reg_apu_port3
+
+    %ai16()
 
     LDA !save_x_pos
     STA !yoshi_x_pos

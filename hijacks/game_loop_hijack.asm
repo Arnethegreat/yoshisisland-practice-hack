@@ -83,13 +83,14 @@ check_controllers:
 
 .check_controller_1
     LDA !controller_data1 : BEQ .check_controller_2 ; skip if controller 1 has no inputs
+    EOR #$FFFF : STA $00 ; else, store the inverted input
 
     ; loop through the bindings in priority order (right to left)
     LDX #!binding_count
   - {
         LDY !input_bindings_1_offsets,x
         LDA !input_bindings_1+2,y : BEQ + ; if no hold bind, check press
-        ORA !input_bindings_1+4,y : CMP !controller_data1 : BNE ++ ; else, if ALL buttons held, check press, else, try next
+        AND $00 : BNE ++ ; else, if AT LEAST ALL buttons for this bind are held (bind & ~input), check press, else, try next
         +
 
         LDA !input_bindings_1+4,y : BEQ ++ ; if no press bind, try next
@@ -106,13 +107,14 @@ check_controllers:
 
 .check_controller_2
     LDA !controller_2_data1 : BEQ .ret ; skip if controller 2 has no inputs
+    EOR #$FFFF : STA $00 ; else, store the inverted input
 
     ; loop through the bindings in priority order (right to left)
     LDX #!binding_count
   - {
         LDY !input_bindings_2_offsets,x
         LDA !input_bindings_2+2,y : BEQ + ; if no hold bind, check press
-        ORA !input_bindings_2+4,y : CMP !controller_2_data1 : BNE ++ ; else, if ALL buttons held, check press, else, try next
+        AND $00 : BNE ++ ; else, if AT LEAST ALL buttons for this bind are held (bind & ~input), check press, else, try next
         +
 
         LDA !input_bindings_2+4,y : BEQ ++ ; if no press bind, try next

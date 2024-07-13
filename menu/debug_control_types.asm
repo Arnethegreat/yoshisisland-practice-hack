@@ -374,9 +374,6 @@ main_submenu_loader:
 
 ;================================
 
-%var_026A(recording_held_value, 2)
-%var_026A(recording_pressed_value, 2)
-%var_026A(recording_btn_count, 1)
 !temp_sound = $002E
 main_config_changer:
   %a16()

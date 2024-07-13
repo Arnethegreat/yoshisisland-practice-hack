@@ -4,7 +4,7 @@ includeonce
 ; range(inc)   bytes  notes
 ; $0000-$002F  48     scratch
 ; $00CC-$0100  53     wiped every loading screen
-; $026A-$02B7  78
+; $0272-$02B7  70
 ; $1409-$19D9  1488
 ; $19DA-$1DFF  1063   !undocumented mystery bytes not on the disassembly wiki!
 ; $1E00-$213F  832    only first 512 bytes are mirrored - up to $1FFF
@@ -33,11 +33,11 @@ macro def_var(id, size, region)
 endmacro
 
 
-!freeram_026A = $026A
-!freeram_026A_used = 0
-!freeram_026A_max = $02B7
-macro var_026A(id, size)
-	%def_var(<id>, <size>, 026A)
+!freeram_0272 = $0272
+!freeram_0272_used = 0
+!freeram_0272_max = $02B7
+macro var_0272(id, size)
+	%def_var(<id>, <size>, 0272)
 endmacro
 
 !freeram_1409 = $1409
@@ -84,7 +84,7 @@ incsrc variables/savestate_vars.asm
 incsrc variables/hud_vars.asm
 
 
-assert !freeram_026A+!freeram_026A_used <= !freeram_026A_max+1, "exceeded WRAM freespace region $7E:026A"
+assert !freeram_0272+!freeram_0272_used <= !freeram_0272_max+1, "exceeded WRAM freespace region $7E:0272"
 assert !freeram_1409+!freeram_1409_used <= !freeram_1409_max+1, "exceeded WRAM freespace region $7E:1409"
 assert !freeram_1E00+!freeram_1E00_used <= !freeram_1E00_max+1, "exceeded WRAM freespace region $7E:1E00"
 assert !freeram_7E40BA+!freeram_7E40BA_used <= !freeram_7E40BA_max+1, "exceeded WRAM freespace region $7E:40BA"
@@ -92,7 +92,7 @@ assert !freeram_7E499C+!freeram_7E499C_used <= !freeram_7E499C_max+1, "exceeded 
 assert !freeram_707E7E+!freeram_707E7E_used <= !freeram_707E7E_max+1, "exceeded SRAM freespace region $70:7E7E"
 
 if 0
-    print "freespace $7E026A used: ", dec(!freeram_026A_used), ", remaining: ", dec(!freeram_026A_max-!freeram_026A_used-!freeram_026A+1)
+    print "freespace $7E0272 used: ", dec(!freeram_0272_used), ", remaining: ", dec(!freeram_0272_max-!freeram_0272_used-!freeram_0272+1)
     print "freespace $7E1409 used: ", dec(!freeram_1409_used), ", remaining: ", dec(!freeram_1409_max-!freeram_1409_used-!freeram_1409+1)
     print "freespace $7E1E00 used: ", dec(!freeram_1E00_used), ", remaining: ", dec(!freeram_1E00_max-!freeram_1E00_used-!freeram_1E00+1)
     print "freespace $7E40BA used: ", dec(!freeram_7E40BA_used), ", remaining: ", dec(!freeram_7E40BA_max-!freeram_7E40BA_used-!freeram_7E40BA+1)

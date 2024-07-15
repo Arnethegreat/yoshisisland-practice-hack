@@ -463,7 +463,7 @@ handle_recording_done:
   ; if an identical bind for this controller already exists, remove it to avoid collisions
   LDA !dbc_wildcard ; controller number in wildcard
   ASL #2
-  CLC : ADC.w #!binding_size_sram*2-8
+  CLC : ADC.w #!binding_size_sram-8
   TAX ; X=index into SRAM block
 - {
     LDA !binding_startaddr_sram+2,x : CMP !recording_pressed_value : BNE +

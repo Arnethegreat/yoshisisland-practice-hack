@@ -18,6 +18,8 @@ incsrc hijacks/downtime_edits.asm
 incsrc hijacks/debug_hijacks.asm
 incsrc hijacks/game_loop_hijack.asm
 ;=================================
+incsrc superfx/base.asm
+;=================================
 incsrc savestates/save_state.asm
 incsrc savestates/load_state.asm
 incsrc savestates/upload_routines.asm

@@ -18,7 +18,6 @@
 ; |             pad 1             |             pad 2             |
 ; |      held     |     press     |      held     |     press     |
 ; | data1 | data2 | data1 | data2 | data1 | data2 | data1 | data2 |
-%var_707E7E(bind_evenalign, 1) ; take an extra byte here because the superfx is dumb and needs word addrs to be even
 %var_707E7E(bind_savestate_1, 4)
 %var_707E7E(bind_savestate_2, 4)
 %var_707E7E(bind_loadstate_1, 4)
@@ -38,7 +37,7 @@
 %var_707E7E(bind_disableautoscroll_1, 4)
 %var_707E7E(bind_disableautoscroll_2, 4)
 !binding_startaddr_sram = !bind_savestate_1
-!binding_size_sram = 18*2 ; size in words
+!binding_size_sram = 18*4
 %var_707E7E(bind_checksum, 2)
 
 ; helper table for copying the bindings and assigning the control bytes
@@ -250,35 +249,12 @@ get_input_bindings_checksum:
     PHP
     %a16()
     %i8()
-assert (!binding_startaddr_sram)%2 == 0, "The bindings block must start on an even address"
-    LDA #!binding_startaddr_sram : STA !gsu_r10 ; input: r10 = starting address. MUST be even - if address is odd, the high byte will be located at address-1
-    LDA.w #!binding_size_sram : STA !gsu_r12 ; input: r12 = size of data in words (bytes/2)
+    LDA #!binding_startaddr_sram : STA !gsu_r10 ; input: r10 = starting address
+    LDA.w #!binding_size_sram : STA !gsu_r12 ; input: r12 = size of data in bytes
     LDX.b #<:generic_checksum ; PBR address
     LDA #generic_checksum ; PC address
     JSL r_gsu_init_1
-    LDA !gsu_r1 ; outputs: r1 = checksum of data, r0 = $7777 - checksum
+    LDA !gsu_r0 ; outputs: r0 = checksum of data
 .ret
     PLP
     RTS
-
-arch superfx
-
-generic_checksum:
-    cache
-    iwt r13,#.loop ; start of the loop
-    ibt r1,#0
-.loop ; loop through and sum each value, improve this if possible
-    {
-        ldw (r10)
-        to r1
-        add r1
-        inc r10
-        loop
-    }
-    inc r10
-    iwt r0,#$7777
-    sub r1 ; also store $7777 - checksum in r0
-    stop
-    nop
-
-arch 65816

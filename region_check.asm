@@ -14,6 +14,8 @@ if read1($00FFD9) == $00
 ;=================================
     savefile_check_hijack = $0080A8
 
+    level_room_preinit_hijack = $01C1CE
+
     level_init_hijack = $01C420
 
     room_init_hijack = $01C447
@@ -56,6 +58,9 @@ if read1($00FFD9) == $00
 
     despawn_sprite_free_slot = $03A32E ; X: sprite slot
 
+    upload_data_to_spc = $0085A9
+        !music_overworld = hirom_mirror($1EC122)
+
     vram_dma_01 = $00BC47
 
     r_gsu_init_1 = $7EDC3C
@@ -64,6 +69,8 @@ elseif read1($00FFD9) == $01
     print "North American 1.0 ROM"
 ;=================================
     savefile_check_hijack = $0080BB
+
+    level_room_preinit_hijack = $01AF9C
 
     level_init_hijack = $01B1EE
 
@@ -107,6 +114,9 @@ elseif read1($00FFD9) == $01
     load_eggs_from_wram = $01B2D6
 
     despawn_sprite_free_slot = $03A32E ; X: sprite slot
+
+    upload_data_to_spc = $0085A9
+        !music_overworld = hirom_mirror($1EC122)
 
     vram_dma_01 = $00BEA6
 

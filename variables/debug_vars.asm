@@ -64,6 +64,8 @@ includeonce
 %var_1409(recording_pressed_value, 2)
 %var_1409(recording_btn_count, 1)
 
+%var_1409(is_audio_fixed, 1)
+
 ; 2 bytes of undocumented (free?) WRAM space
 !frame_skip = $012F
 !frame_skip_timer = $0130

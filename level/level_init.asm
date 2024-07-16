@@ -1,3 +1,29 @@
+level_room_preinit:
+    JSR load_required_audio
+    RTL
+
+; when warping before the map screen has loaded, we won't have death/goal ring sound data prepared
+; the music header is used to lookup a set of max 4 SPC data blocks to load
+; track $12 is used for the overworld and gives blocks $25, $22, $1C
+; $1C : $1EC122 is overworld music data
+; $22 : $1EEE5A is intro, map, castle/fort samples
+; $25 : $1F82E6 is default music track
+; I think we only need $1C, so it's faster to ignore the 2 unnecessary blocks and go straight to .UploadDataToSPC
+load_required_audio:
+    PHP
+    %ai8()
+    LDA !is_audio_fixed : BNE .ret ; only do this once per power-on
+    LDA.b #!music_overworld : STA $00
+    LDA.b #!music_overworld>>8 : STA $01
+    LDA.b #!music_overworld>>16 : STA $02
+    STZ $0C ; block counter, 0 = 1 block
+    STZ $0D
+    JSL upload_data_to_spc
+    INC !is_audio_fixed
+.ret
+    PLP
+    RTS
+
 level_init:
     PHP
     REP #$30

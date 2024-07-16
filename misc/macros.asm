@@ -46,3 +46,8 @@ incsrc "../resources/string_font_map.asm"
         dw !lf
     endfor
 endmacro
+
+; Functions
+; ===================
+
+function hirom_mirror(label) = $400000+(((bank(label))*$8000)+((label&$FFFF)-$8000))

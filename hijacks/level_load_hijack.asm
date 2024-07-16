@@ -5,6 +5,9 @@ org level_load_camera
     autoclean JSL fix_camera
     NOP
 
+org level_room_preinit_hijack ; start of game mode 0C before checking !level_load_type flag
+    JSR level_room_preinit_hook
+
 org level_init_hijack
     JSR level_init_hook
 
@@ -19,6 +22,11 @@ org level_main_hijack
 
 ; freespace in bank 01 - starts here in J, in the middle of a large block in U
 org $01FED2
+
+level_room_preinit_hook:
+    autoclean JSL level_room_preinit
+    LDA !level_load_type
+    RTS
 
 level_init_hook:
     INC !gamemode

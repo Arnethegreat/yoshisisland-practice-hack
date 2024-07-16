@@ -7,6 +7,8 @@ map_init:
 
     LDA #$21 : STA !gamemode ; mode = fade into overworld
 
+    LDA #$01 : STA !is_audio_fixed ; the overworld automatically loads some audio required for normal gameplay
+
     STZ !hud_displayed
     STZ !timer_enabled
     STZ !level_frames

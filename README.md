@@ -7,7 +7,7 @@ Features:
 * HUD
 * Warp to (almost) any room entrance
 > [!WARNING]
-> You can warp immediately after the game starts, but it is recommended to load a file first in order to avoid an audio bug that can crash your game when dying or entering a goal ring.
+> It is recommended to load a file before warping, it may be buggy otherwise
 * Egg editor
 * Slowdown
 * Music on/off toggle

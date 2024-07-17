@@ -27,25 +27,26 @@ nmi:
 
 .nmi_with_hud
     ; set 8x8 BG3 tile size, BG3 priority, mode 1
-    LDA !r_reg_bgmode_mirror
+    LDA !r_reg_bgmode_mirror : STA !bgmode_backup
     AND #%10110000 ; DCBA emmm, D/C/B/A = BG4/3/2/1 tile size (0=8x8; 1=16x16), e = mode 1 BG3 priority bit, mmm = BG mode
     ORA #%00001001
     STA.b !reg_bgmode
 
     ; set BG3 tile character address to word $6000 ($C000)
-    LDA !r_reg_bg34nba_mirror
+    LDA !r_reg_bg34nba_mirror : STA !bg34nba_backup
     AND #%11110000 ; bbbb aaaa, bbbb = Base address for BG4, aaaa = Base address for BG3
     ORA #%00000110
     STA.b !reg_bg34nba
 
     ; set BG3 tilemap address to word $6400 ($C800)
+    LDA !r_reg_bg3sc_mirror : STA !bg3sc_backup
     LDA #$64 ; !r_reg_bg3sc_mirror  aaaa aayx, a = map address>>10, x = horizontal flip, y = vertical flip
     STA.b !reg_bg3sc
 
     REP #$20
 
     ; set BG3 as a main screen
-    LDA !r_reg_tm_mirror
+    LDA !r_reg_tm_mirror : STA !tm_backup ; tm and ts are adjacent in memory, so this sets both
     ORA #$0004 ; ---o 4321, 1/2/3/4/o = Enable BG1/2/3/4/OBJ for display on the main screen
     AND #~$0400 ; unset BG3 as a subscreen
     STA.b !reg_tm
@@ -181,12 +182,12 @@ endmacro
 irq_2a:
     ; %next_hblank() ; don't really need this due to how the IRQ timing works out - which is good because it wastes valuable processing time
 
-    ; restore stuff (~40 cycles) - changing 5 registers during 1 H-blank isn't ideal, but the alternative is adding irq_2c
-    LDA !r_reg_bgmode_mirror : STA !reg_bgmode
-    LDA !r_reg_bg3sc_mirror : STA !reg_bg3sc
-    LDA !r_reg_bg34nba_mirror : STA !reg_bg34nba
-    LDA !r_reg_tm_mirror : STA !reg_tm
-    LDA !r_reg_ts_mirror : STA !reg_ts
+    ; restore stuff, 35 cycles (270 master) - changing 5 registers during 1 H-blank isn't ideal, but the alternative is adding irq_2c
+    LDA.b !bgmode_backup : STA !reg_bgmode
+    LDA.b !bg3sc_backup : STA !reg_bg3sc
+    LDA.b !bg34nba_backup : STA !reg_bg34nba
+    LDA.b !tm_backup : STA !reg_tm
+    LDA.b !ts_backup : STA !reg_ts
 
     ; next IRQ
     LDA #!irq_v+2 ; so irq_2a runs at the bottom of the hud, and irq_2b runs 2 scanlines later
@@ -195,11 +196,11 @@ irq_2a:
 irq_2b:
     ; %next_hblank()
 
-    ; ~32 cycles
-    LDA !bg3_cam_x_backup : STA !reg_bg3hofs
-    LDA !bg3_cam_x_backup+1 : STA !reg_bg3hofs
-    LDA !bg3_cam_y_backup : STA !reg_bg3vofs
-    LDA !bg3_cam_y_backup+1 : STA !reg_bg3vofs
+    ; 28 cycles (216 master)
+    LDA.b !bg3_cam_x_backup : STA !reg_bg3hofs
+    LDA.b !bg3_cam_x_backup+1 : STA !reg_bg3hofs
+    LDA.b !bg3_cam_y_backup : STA !reg_bg3vofs
+    LDA.b !bg3_cam_y_backup+1 : STA !reg_bg3vofs
 
     ; next IRQ
     LDA #!nmi_v

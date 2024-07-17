@@ -26,8 +26,14 @@ includeonce
 %var_1409(hud_displayed, 1) ; the hud is not always shown even when it is enabled
 %var_1409(hud_displayed_backup, 1)
 %var_1409(active_sprites, 1)
-%var_1409(bg3_cam_x_backup, 2)
-%var_1409(bg3_cam_y_backup, 2)
+; use freespace in page $00 for DP optimisation
+!bg3_cam_x_backup = $0049
+!bg3_cam_y_backup = $004B
+!bgmode_backup = $00CC
+!bg3sc_backup = $00CD
+!bg34nba_backup = $00CE
+!tm_backup = $00CF
+!ts_backup = $00D0
 %var_1409(hud_hdma_table_h_channel, 2)
 %var_1409(hud_hdma_table_v_channel, 2)
 %var_1409(hud_hdma_channels, 1)

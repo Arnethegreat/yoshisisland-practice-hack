@@ -110,6 +110,7 @@ set_hud_hdma_channels:
 
 level_room_init_common:
     PHP
+    %ai8()
 
     JSR load_font
     JSR handle_flags
@@ -118,8 +119,6 @@ level_room_init_common:
     BEQ .ret
 
 .draw_hud
-    SEP #$30
-
     LDA #$01 : STA !hud_displayed
 
     ; hdma to override any other hdmas in a given level which mess with BG3 offsets, in the hud region only

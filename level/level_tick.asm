@@ -3,22 +3,8 @@ level_tick:
     PHB
     PHK
     PLB
-    SEP #$30
-
-    LDA !gamemode
-    CMP #$0F
-    BNE +
-    LDA #$01
-    STA !timer_enabled
-    BRA ++
-+
-    LDA !gamemode
-    CMP #$10
-    BNE ++
-    STZ !timer_enabled
-++
-
-    REP #$20
+    %a16()
+    %i8()
 
     JSR tick_timers
     JSR count_active_sprites
@@ -235,8 +221,7 @@ count_active_sprites:
 
 ; ticks all timers
 tick_timers:
-    LDY !timer_enabled
-    BEQ .skip_tick
+    LDY !gamemode : CPY #$0F : BNE .skip_tick
 
     PHP
     LDA !frames_passed

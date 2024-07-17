@@ -475,6 +475,7 @@ load_room:
   JSR check_big_bowser
   JSR set_min_10_stars
   JSR set_yoshi_colour
+  JSR reset_hud
   INC !warping
   RTS
 

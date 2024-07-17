@@ -33,20 +33,27 @@ level_init:
 
     JSR set_hud_hdma_channels
     JSR level_room_init_common
+    JSR reset_hud
 
+    PLB
+    PLP
+    RTL
+
+reset_hud:
+    PHP
+    %a16()
     STZ !total_frames
     STZ !lag_counter
-    SEP #$20
+    %a8()
     STZ !level_frames
     STZ !level_seconds
     STZ !level_minutes
     STZ !room_frames
     STZ !room_seconds
     STZ !room_minutes
-
-    PLB
+.ret
     PLP
-    RTL
+    RTS
 
 room_init:
     PHP

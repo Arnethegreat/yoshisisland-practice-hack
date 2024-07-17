@@ -298,10 +298,6 @@ calc_level_timer: ; reset the HUD level timer to whatever it was when entering t
     PHP
     SEP #$20
 
-    ; the tick_timers sub runs once after this, causing LF and RF to increment by 1. Then, RF is zeroed on room init, causing LF to increase each reset
-    ; luckily, disabling the timer stops this from happening
-    STZ !timer_enabled
-
     ; first, subtract RF from LF
     LDA !level_frames
     SEC

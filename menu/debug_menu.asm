@@ -274,8 +274,6 @@ exit_debug_menu:
 
     REP #$30
 
-    STZ !warping
-
     LDA !bg_color_backup
     STA !r_reg_coldata_mirror
     LDA !bg1_backup
@@ -310,6 +308,7 @@ exit_debug_menu:
 .ret
     JSR handle_flags
     JSR hud_sub
+    STZ !warping
     RTS
 
 ; change some HUD related settings when exiting the menu, since it may have been toggled on/off
@@ -329,7 +328,8 @@ hud_sub:
     JSL bowser_mode7_hdma
 +
 
-    ; if (hud was active before OR in-level) AND it's enabled, init hud, else proceed
+    ; if (hud was active before OR in-level) AND it's enabled AND we aren't warping, init hud
+    LDA !warping : BNE .ret ; warping will load a room, so the init sub will be called there instead
     LDA !hud_displayed_backup : STA !hud_displayed
     JSR is_in_level
     ORA !hud_displayed

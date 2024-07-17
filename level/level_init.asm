@@ -112,7 +112,6 @@ level_room_init_common:
     PHP
     %ai8()
 
-    JSR load_font
     JSR handle_flags
 
     LDA !hud_enabled
@@ -120,6 +119,7 @@ level_room_init_common:
 
 .draw_hud
     LDA #$01 : STA !hud_displayed
+    JSR load_font ; guarantee the HUD font is available e.g. if we load a savestate, VRAM can change
 
     ; hdma to override any other hdmas in a given level which mess with BG3 offsets, in the hud region only
     ; e.g. 1-4 falling walls use channel 4 to set bg3vofs

@@ -6,8 +6,6 @@ Features:
 * Debug Menu
 * HUD
 * Warp to (almost) any room entrance
-> [!WARNING]
-> It is recommended to load a file before warping, it may be buggy otherwise
 * Egg editor
 * Slowdown
 * Music on/off toggle
@@ -100,6 +98,7 @@ Enable noclip. Holding A on controller 1 makes you move faster. Yoshi can't coll
 
 ### File 3 Complete Save
 Hold L or R while entering File 3 to enter a fully unlocked save file. Note that the file 3 save can get strange (copy file over and erase it fixes this)
+Warping before selecting a file will automatically load this save file.
 
 ### Start-Select to clear a level
 Hold L while pressing select in pause menu and you'll leave any level as well as mark it as cleared. This doesn't save until you beat a level legit.

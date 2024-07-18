@@ -471,6 +471,10 @@ load_room:
   LDA #$0001
 .load
   STA !level_load_type ; Flag to enter 0: start of level, 1: different room within level
+  ; if warping before a file has been loaded, load the debug file 3
+  LDA !is_audio_fixed : BNE + ; this flag is set when loading the map or a level, so this can only trigger once
+  JSL load_file3_debug
+  +
   LDA #$000B : STA !gamemode ; Game-mode - see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Game-Modes
   JSR check_big_bowser
   JSR set_min_10_stars

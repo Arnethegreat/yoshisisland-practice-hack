@@ -119,7 +119,7 @@
 !s_camera_layer4_y = $60A2
 
 ; Save Data
-!save_file_cur = $707E7C
+!r_cur_save_file = $030E
 
 ;Yoshi States / speed
 !yoshi_x_pos = $608C

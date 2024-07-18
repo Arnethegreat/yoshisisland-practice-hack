@@ -37,3 +37,14 @@ org file_select_check
 
 org free_movement
     BRA $1A ; .check_free_movement .. skip past warptoboss (don't need it) and flag toggling (we handle it)
+
+org $17FD73 ; freespace in bank $17
+
+load_file3_debug:
+    PHP
+    %ai8()
+    LDA #$04 : STA !r_cur_save_file ; file 3
+    JSR file_select_check+$18 ; post-controller check
+.ret
+    PLP
+    RTL

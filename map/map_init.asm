@@ -5,7 +5,7 @@ map_init:
     PLB
     SEP #$30
 
-    LDA #$21 : STA !gamemode ; mode = fade into overworld
+    LDA #$21 : STA !gamemode ; mode = fade into overworld (overwritten by hijack)
 
     LDA #$01 : STA !is_audio_fixed ; the overworld automatically loads some audio required for normal gameplay
 
@@ -23,6 +23,10 @@ map_init:
     PLP
     RTL
 
+map_init_final:
+    JSR toggle_music ; gamemode $20 sets some audio to play after map_init, so disabling needs to be done at the end
+    LDA #$FE : STA !r_reg_hdmaen_mirror ; overwritten by hijack
+    RTL
 
 ; if at least one null egg "egg-sists" in the inventory, enable the null egg hud
 ; retrieve sprite IDs from WRAM egg inventory and check each sprite slot in $701360 for anything that shouldn't be there

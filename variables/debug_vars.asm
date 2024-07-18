@@ -20,6 +20,11 @@ includeonce
 %var_0272(bg1_char_backup, 1)
 %var_0272(bgmode_backup, 1)
 
+!debug_bg1_tilemap_dest = $64 ; VRAM word address $6400
+!debug_bg1_tilemap_dest_full = !debug_bg1_tilemap_dest<<8
+!debug_bg1_tile_dest = $06 ; VRAM word address $6000
+!debug_bg1_tile_dest_full = !debug_bg1_tile_dest<<12
+
 ; 28 rows
 ; 1792 bytes
 !menu_tilemap_mirror = $7EB8E2

@@ -29,6 +29,9 @@ if read1($00FFD9) == $00
     level_main_hijack = $01D2BB
 
     map_init_hijack = $17A83D
+
+    map_init_final_hijack = $17A7E3
+
 ; save_level_hijack
     save_current_area = $01C2B6
 ; level_load_hijack
@@ -85,6 +88,8 @@ elseif read1($00FFD9) == $01
     level_main_hijack = $01C0DB
 
     map_init_hijack = $17A877
+
+    map_init_final_hijack = $17A81D
 
 ; save_level_hijack
     save_current_area = $01B084

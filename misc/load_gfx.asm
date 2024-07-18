@@ -4,7 +4,7 @@ load_font:
     ; DMA font tile data to VRAM $6000 ($C000)
     LDA #font_gfx>>8 : STA $00
     LDX #font_gfx ; source address
-    LDY #$6000 ; VRAM destination
+    LDY.w #!debug_bg1_tile_dest_full ; VRAM destination
     LDA #$0600 ; DMA size
     JSL vram_dma_01
     PLP

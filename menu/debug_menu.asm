@@ -76,13 +76,13 @@ init_debug_menu:
     STZ $3C
 
 
-    ; BG1 tilemap 6400
-    LDA #$64
+    ; BG1 tilemap
+    LDA #!debug_bg1_tilemap_dest
     STA !reg_bg1sc
     STA !r_reg_bg1sc_mirror
 
-    ; BG1 character 6000
-    LDA #$06
+    ; BG1 character
+    LDA #!debug_bg1_tile_dest
     STA !reg_bg12nba
     STA !r_reg_bg12nba_mirror
 
@@ -94,14 +94,6 @@ init_debug_menu:
     ; NMI & IRQ modes: Nintendo Presents
     STZ $011C
     STZ $0126
-
-    ; background color register
-    ; LDA #$25
-    ; STA $0990
-    ; LDA #$46
-    ; STA $0992 
-    ; LDA #$8C
-    ; STA $0994
 
     ; disable window clipping
     STZ $2130
@@ -207,7 +199,7 @@ draw_menu:
     LDA.b #!menu_tilemap_mirror>>16 : STA $01
     REP #$30
     LDX.w #!menu_tilemap_mirror
-    LDY #$6400
+    LDY.w #!debug_bg1_tilemap_dest_full
     LDA !menu_tilemap_size
     JSL vram_dma_01
 .ret
@@ -293,7 +285,7 @@ exit_debug_menu:
     LDA !gamemode
     CMP #$22
     BNE +
-; if world map, go to prepare world map mode
+; if world map, go to prepare world map mode since we have to overwrite some VRAM when loading the menu
     LDA #$20
     STA !gamemode
     BRA .ret

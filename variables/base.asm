@@ -24,6 +24,7 @@ includeonce
 !DEBUG_VARS = 0 ; set to 1 when defining variables to print debug info
 
 macro def_var(id, size, region)
+	assert defined("<id>") == 0, "Duplicate variable ID"
 	!<id> := !freeram_<region>+!freeram_<region>_used
 	!freeram_<region>_used #= !freeram_<region>_used+<size>
 	if !DEBUG_VARS

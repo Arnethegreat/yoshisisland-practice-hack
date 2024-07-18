@@ -95,7 +95,7 @@ submenu_gameflags_ctrl:
   %define_menu_entry(!ct_toggle, !free_movement_l, 1, 4, $0001) ; free movement
   %define_menu_entry(!ct_toggle, $7E0372, 1, 5, $00E0) ; set tutorial flags
   %define_menu_entry(!ct_toggle, !skip_kamek, 1, 6, $0001) ; disable kamek at boss
-  %define_menu_entry(!ct_func, $7E0000, 1, 7, $0001) ; switch patient/hasty
+  %define_menu_entry(!ct_toggle, !debug_control_scheme, 1, 7, $0002) ; force hasty
 .column_counts
   dw $0000, $0100, $0200, $0300, $0400, $0500, $0600
 
@@ -104,7 +104,7 @@ submenu_config_ctrl:
   %define_menu_metadata(submenu_config_ctrl, submenu_config_tilemap, submenu_config_palette, mainmenu_ctrl)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $0000) ; back
-  %define_menu_entry(!ct_func, $7E0000, 18, 1, $0002) ; reset to default
+  %define_menu_entry(!ct_func, $7E0000, 18, 1, $0001) ; reset to default
   %define_menu_entry(!ct_binding, !bind_savestate_1, 1, 3, $0000)
   %define_menu_entry(!ct_binding, !bind_savestate_2, 9, 3, $0001)
   %define_menu_entry(!ct_binding, !bind_loadstate_1, 1, 4, $0000)
@@ -143,7 +143,6 @@ debug_menu_controls_warps_room_counts:
 ; indexed by wilcard for control type !ct_func
 control_function_calls:
   dw disable_autoscroll
-  dw toggle_control_scheme
   dw set_default_input_bindings_and_draw
 
 ;======================================

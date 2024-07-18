@@ -44,6 +44,7 @@ includeonce
 %var_0272(warping, 2) ; additional flag for signaling that the menu should quit out
 %var_0272(skip_baby_bowser, 2)
 %var_707E7E(skip_kamek, 2)
+%var_707E7E(debug_control_scheme, 1)
 
 %var_0272(ramwatch_addr, 3)
 !ramwatch_addr_l = $7E0000+!ramwatch_addr

@@ -1,5 +1,6 @@
 # YI Practice Hack 0.4.4
 Practice hack for Yoshi's Island designed to be used on a SNES console
+
 Features:
 * Savestates
 * Room Reset
@@ -12,6 +13,8 @@ Features:
 * Removal of slow world map animations
 * Enabling built-in Debug functions
 * Button configuration
+
+and more.
 
 Bug reports highly appreciated!
 
@@ -113,6 +116,9 @@ Hold any button to load level as fast as possible.
 
 ### Disable Autoscroll
 Frees the camera if used during an autoscroller.
+
+### Force Hasty
+Sets the control scheme to hasty while enabled, otherwise, the controls can be changed in-game as usual.
 
 ### Button Configuration
 Practice functions can be bound to combinations of buttons on both controllers.

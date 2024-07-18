@@ -26,7 +26,7 @@ submenu_gameflags_tilemap:
             "         FREE MOVEMENT",
             "         SET TUTORIAL FLAGS",
             "         DISABLE KAMEK AT BOSS",
-            "TOGGLE PATIENT/HASTY")
+            "         FORCE HASTY")
 dw !lf
 
 submenu_config_tilemap:

@@ -41,6 +41,9 @@ handle_debug_menu:
     JMP main_debug_menu
 .next
 
+force_hasty: ; hacky, just set it every frame
+    LDA !s_control_scheme : ORA !debug_control_scheme : STA !s_control_scheme
+
 controller_checks:
 .debug_menu_button
 ; Pressing start while holding L & R

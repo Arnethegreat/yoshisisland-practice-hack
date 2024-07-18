@@ -49,7 +49,6 @@ incsrc routines/frame_skip.asm
 incsrc routines/load_delay.asm
 incsrc routines/warp_menu.asm
 incsrc routines/disable_autoscroll.asm
-incsrc routines/toggle_control_scheme.asm
 incsrc routines/fix_camera.asm
 incsrc routines/interrupt_handler.asm
 ;=================================

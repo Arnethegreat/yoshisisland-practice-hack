@@ -45,6 +45,15 @@ if read1($00FFD9) == $00
     interrupt_freespace = $00CC8A ; targeting the credits text because freespace is limited in JP
         !interrupt_freespace_size = $0432 ; credits pointers follow at $00D0BC-$00D0FF
     
+    irq_1_set_vcount = $00C452
+    irq_2_start = $00C465
+    irqmode_02 = $00C48D
+    irqmode_02_regupd_general = $00C584
+    irqmode_02_regupd_bg3 = $00C567
+    irqmode_04 = $00C5FE
+    irqmode_08 = $00C8A8
+    irqmode_0A = $00C641
+    
     free_movement = $04F5E7
 
     level_intro_wait = $01C3FA
@@ -103,6 +112,15 @@ elseif read1($00FFD9) == $01
 
     interrupt_freespace = $00F7A7
         !interrupt_freespace_size = $07F0
+    
+    irq_1_set_vcount = $00C452
+    irq_2_start = $00C465
+    irqmode_02 = $00C48D
+    irqmode_02_regupd_general = $00C584
+    irqmode_02_regupd_bg3 = $00C567
+    irqmode_04 = $00C5FE
+    irqmode_08 = $00C87A
+    irqmode_0A = $00C641
 
     free_movement = $04F64C
 
@@ -131,5 +149,4 @@ elseif read1($00FFD9) == $01
 else
     print "Unknown Region"
     error "Bad Region"
-
 endif

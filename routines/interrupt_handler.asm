@@ -153,12 +153,12 @@ load_irq2_vcount:
     AND !hud_displayed
     BEQ .skip_hud_irq2
     LDA #!irq_v
-    JMP $C457
+    JMP irq_1_set_vcount+$05
 .skip_hud_irq2
     LDA #$03
     STA !r_irq_count ; increase the counter to skip over our custom IRQs
     LDA #!nmi_v
-    JMP $C457
+    JMP irq_1_set_vcount+$05
 
 irq_2:
     LDA !r_irq_count

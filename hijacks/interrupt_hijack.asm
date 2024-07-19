@@ -1,22 +1,22 @@
 ; IRQ
-org $00C465 ; hijack irq2 - have to skip the H-blank check but the IRQ timing works out so it's all good
+org irq_2_start
     JMP irq_2
 
 ; vcount for new IRQs
-org $00C452
+org irq_1_set_vcount
     JMP load_irq2_vcount
 
 ; defer BG3 x/y scroll updates in NMI if hud enabled until after the hud has rendered, in irq_2b
-org $00C567
+org irqmode_02_regupd_bg3
     LDA !hud_enabled
     AND !hud_displayed
     BNE +
     JSR restore_bg3_xy
 +
-    JMP $C57B
+    BRA $07 ; -> $C57B
 
 ; no updates of things to override (commented lines), also hijack
-org $00C584
+org irqmode_02_regupd_general
 ;   LDA !r_reg_tm_mirror : STA $2C
     LDA !r_reg_tmw_mirror : STA $2E
     LDA !r_reg_bg12nba_mirror : STA $0B
@@ -32,14 +32,14 @@ org $00C584
     NOP #15
 +
 
-org $00C48D
+org irqmode_02 ; normal level
     JSR check_lag
 
-org $00C5FE
+org irqmode_04 ; offset-per-tile level
     JSR check_lag
 
-org $00C641
+org irqmode_0A ; mode7 bosses
     JSR check_lag
 
-org $00C87A
+org irqmode_08 ; story cutscene/credits
     JSR check_lag

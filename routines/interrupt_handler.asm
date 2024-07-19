@@ -6,10 +6,10 @@ nmi:
 
     ; backup the BG3 camera after the game code has run (e.g. for falling walls in 1-4 which modify $41)
     ; also, modifying the BG3 camera can break OPT rendering, which this avoids
-    LDA $0041 : STA !irq_bg3_cam_x_backup
-    LDA $0042 : STA !irq_bg3_cam_x_backup+1
-    LDA $0043 : STA !irq_bg3_cam_y_backup
-    LDA $0044 : STA !irq_bg3_cam_y_backup+1
+    LDA !r_camera_layer3_x : STA !irq_bg3_cam_x_backup
+    LDA !r_camera_layer3_x+1 : STA !irq_bg3_cam_x_backup+1
+    LDA !r_camera_layer3_y : STA !irq_bg3_cam_y_backup
+    LDA !r_camera_layer3_y+1 : STA !irq_bg3_cam_y_backup+1
 
     LDA !hud_displayed : BNE .nmi_with_hud
 
@@ -128,10 +128,10 @@ set_hud_palette:
 
 ; apply the scroll values from the BG3 camera into the BG3 offset registers
 restore_bg3_xy:
-	LDA $41 : STA !reg_bg3hofs
-    LDA $42 : STA !reg_bg3hofs
-    LDA $43 : STA !reg_bg3vofs
-    LDA $44 : STA !reg_bg3vofs
+	LDA.b !r_camera_layer3_x : STA !reg_bg3hofs
+    LDA.b !r_camera_layer3_x+1 : STA !reg_bg3hofs
+    LDA.b !r_camera_layer3_y : STA !reg_bg3vofs
+    LDA.b !r_camera_layer3_y+1 : STA !reg_bg3vofs
     RTS
 
 check_lag:

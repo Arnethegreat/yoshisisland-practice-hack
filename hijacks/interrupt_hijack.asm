@@ -11,7 +11,7 @@ org irqmode_02_regupd_bg3
     LDA !hud_displayed : BNE +
     JSR restore_bg3_xy
 +
-    BRA $07 ; -> $C57B
+    JMP $C57B
 
 ; no updates of things to override (commented lines), also hijack
 org irqmode_02_regupd_general

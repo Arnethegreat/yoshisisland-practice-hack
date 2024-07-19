@@ -23,7 +23,6 @@ includeonce
 %var_1409(hud_enabled, 1)
 !hud_enabled_l = $7E0000+!hud_enabled
 %var_1409(hud_displayed, 1) ; the hud is not always shown even when it is enabled
-%var_1409(hud_displayed_backup, 1)
 %var_1409(active_sprites, 1)
 ; use freespace in page $00 for DP optimisation
 !irq_bg3_cam_x_backup = $0049

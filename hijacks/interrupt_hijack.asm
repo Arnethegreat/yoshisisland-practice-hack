@@ -8,9 +8,7 @@ org irq_1_set_vcount
 
 ; defer BG3 x/y scroll updates in NMI if hud enabled until after the hud has rendered, in irq_2b
 org irqmode_02_regupd_bg3
-    LDA !hud_enabled
-    AND !hud_displayed
-    BNE +
+    LDA !hud_displayed : BNE +
     JSR restore_bg3_xy
 +
     BRA $07 ; -> $C57B

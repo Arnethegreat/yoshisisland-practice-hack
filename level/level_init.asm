@@ -114,11 +114,10 @@ level_room_init_common:
 
     JSR handle_flags
 
-    LDA !hud_enabled
-    BEQ .ret
+    LDA !hud_enabled : BEQ .ret
+    STA !hud_displayed
 
 .draw_hud
-    LDA #$01 : STA !hud_displayed
     JSR load_font ; guarantee the HUD font is available e.g. if we load a savestate, VRAM can change
 
     ; hdma to override any other hdmas in a given level which mess with BG3 offsets, in the hud region only

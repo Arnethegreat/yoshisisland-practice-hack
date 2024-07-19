@@ -9,10 +9,7 @@ level_tick:
     JSR tick_timers
     JSR count_active_sprites
 
-    LDA !hud_enabled
-    AND !hud_displayed
-    AND #$00FF
-    BEQ .ret
+    LDY !hud_displayed : BEQ .ret
 
     JSR display_common
     JSR display_input

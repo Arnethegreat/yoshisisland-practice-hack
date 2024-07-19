@@ -4,8 +4,7 @@ init_debug_menu:
     PHK
     PLB
 
-    ; disable hud
-    LDA !hud_displayed : STA !hud_displayed_backup
+    ; don't draw hud while in menu - it will be reactivated on exit if we're in-level or warping
     STZ !hud_displayed
 
     ; turn screen off
@@ -320,13 +319,9 @@ hud_sub:
     JSL bowser_mode7_hdma
 +
 
-    ; if (hud was active before OR in-level) AND it's enabled AND we aren't warping, init hud
+    ; if hud enabled AND in-level AND we aren't warping, init hud
     LDA !warping : BNE .ret ; warping will load a room, so the init sub will be called there instead
-    LDA !hud_displayed_backup : STA !hud_displayed
-    JSR is_in_level
-    ORA !hud_displayed
-    AND !hud_enabled
-    BEQ .ret
+    JSR is_in_level : AND !hud_enabled : BEQ .ret
     JSR level_room_init_common
 .ret
     RTS

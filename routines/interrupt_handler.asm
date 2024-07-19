@@ -11,9 +11,7 @@ nmi:
     LDA $0043 : STA !irq_bg3_cam_y_backup
     LDA $0044 : STA !irq_bg3_cam_y_backup+1
 
-    LDA !hud_enabled
-    AND !hud_displayed
-    BNE .nmi_with_hud
+    LDA !hud_displayed : BNE .nmi_with_hud
 
     ; no HUD, so just set the registers that were skipped in the hijack and return
     REP #$20
@@ -149,9 +147,7 @@ check_lag:
 
 load_irq2_vcount:
     STA !reg_htimel
-    LDA !hud_enabled
-    AND !hud_displayed
-    BEQ .skip_hud_irq2
+    LDA !hud_displayed : BEQ .skip_hud_irq2
     LDA #!irq_v
     JMP irq_1_set_vcount+$05
 .skip_hud_irq2

@@ -160,7 +160,7 @@ check_controllers:
     RTS
 .toggle_music
     %toggle_byte(!disable_music)
-    JSR toggle_music
+    JSR update_music
     RTS
 .toggle_free_movement
     %toggle_byte(!free_movement)

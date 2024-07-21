@@ -165,9 +165,6 @@ handle_flags:
     INC !prep_binds_flag
     +
 
-    LDY !gamemode : CPY #$20 : BEQ + ; don't run on world map, map_init handles it
-    JSR toggle_music
-    +
     LDA !skip_kamek
     AND #$00FF
     STA !skip_kamek ; in case the flag has some garbage in the high nibble initially

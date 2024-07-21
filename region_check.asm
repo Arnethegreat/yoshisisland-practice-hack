@@ -20,8 +20,6 @@ if read1($00FFD9) == $00
 
     room_init_hijack = $01C447
 
-    room_init_music_hijack = $01C493
-
     baby_bowser_hijack = $0DC8B0
 
     hookbill_mode7_hdma_hijack = $019E50
@@ -29,8 +27,6 @@ if read1($00FFD9) == $00
     level_main_hijack = $01D2BB
 
     map_init_hijack = $17A83D
-
-    map_init_final_hijack = $17A7E3
 
 ; save_level_hijack
     save_current_area = $01C2B6
@@ -55,6 +51,8 @@ if read1($00FFD9) == $00
     irqmode_0A = $00C641
     
     free_movement = $04F5E7
+
+    play_music_track = $00C024
 
     level_intro_wait = $01C3FA
     
@@ -88,8 +86,6 @@ elseif read1($00FFD9) == $01
 
     room_init_hijack = $01B215
 
-    room_init_music_hijack = $01B261
-
     baby_bowser_hijack = $0DC55B
 
     hookbill_mode7_hdma_hijack = $019E4E
@@ -97,8 +93,6 @@ elseif read1($00FFD9) == $01
     level_main_hijack = $01C0DB
 
     map_init_hijack = $17A877
-
-    map_init_final_hijack = $17A81D
 
 ; save_level_hijack
     save_current_area = $01B084
@@ -123,6 +117,8 @@ elseif read1($00FFD9) == $01
     irqmode_0A = $00C641
 
     free_movement = $04F64C
+
+    play_music_track = $00C024
 
     level_intro_wait = $01B1C8
 

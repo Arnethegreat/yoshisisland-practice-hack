@@ -71,6 +71,7 @@ includeonce
 %var_1409(recording_btn_count, 1)
 
 %var_1409(is_audio_fixed, 1)
+%var_1409(current_music_track, 1)
 
 ; 2 bytes of undocumented (free?) WRAM space
 !frame_skip = $012F

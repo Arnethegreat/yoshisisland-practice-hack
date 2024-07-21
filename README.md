@@ -92,9 +92,7 @@ An after-load delay can be set from the debug menu. The byte value indicates the
 Reset to your last entrance. Your eggs and item memory is saved.
 
 ### Music Toggle
-Enable/disable in-level music (sound effects play as normal). 
-> [!NOTE]
-> Enabling it makes it play the default track for that level which might not be correct (reload fixes this)
+Enable/disable music (sound effects play as normal).
 
 ### Free Movement
 Enable noclip. Holding A on controller 1 makes you move faster. Yoshi can't collide with terrain in this mode.

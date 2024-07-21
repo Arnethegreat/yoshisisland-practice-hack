@@ -248,6 +248,9 @@ main_toggle_changer:
   STA [!dbc_memory]
   LDA #!sfx_key_chink : STA !sound_immediate
   JSR draw_toggle
+  LDA !dbc_memory : CMP #!disable_music : BNE +
+  JSR update_music ; if toggling disable music through the menu, send an update
+  +
 
 .ret
   RTS

@@ -97,8 +97,6 @@ held_input_repeater:
 
 ; handles control processing & focus changes
 main_controls:
-  PHK
-  PLB
   %a16()
   %i8()
 

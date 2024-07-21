@@ -22,7 +22,6 @@
 %var_1409(last_exit_load_type, 2)
 %var_1409(last_exit_loading_flag, 2)
 %var_1409(last_exit_item_mem_backup, 128)
-%var_1409(is_load_delay_timer_active, 1)
 %var_1409(load_delay_timer, 1)
 %var_707E7E(load_delay_timer_init, 1) ; keep in SRAM for persistence
 
@@ -99,10 +98,10 @@
 !wram_block_01_savestate = $7F40BE
 !wram_block_01_size = $086E
 
-; $0200 -> $0222
-!wram_block_02_source = $7E0200
+; $0202 -> $0222
+!wram_block_02_source = $7E0202
 !wram_block_02_savestate = $7F492C
-!wram_block_02_size = $0022
+!wram_block_02_size = $0020
 
 ; $0030 -> $015E
 !wram_block_03_source = $7E0030

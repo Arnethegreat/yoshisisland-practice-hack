@@ -14,8 +14,7 @@ set_level:
     ; don't store any other data, because loading a room via savestate is not the same as loading it traditionally
     ; room reset should only respect normal gameplay and ignore savestate tomfoolery
     LDY !loaded_state
-    CPY #$0001
-    BEQ .skip
+    BNE .skip ; loading a savestate, don't save stuff
     STA !last_exit_1
     PHA
     LDA $7F7E02,x

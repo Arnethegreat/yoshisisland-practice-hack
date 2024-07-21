@@ -1,8 +1,6 @@
 ; handle initialization of debug menu
 init_debug_menu:
     SEP #$30
-    PHK
-    PLB
 
     ; don't draw hud while in menu - it will be reactivated on exit if we're in-level or warping
     STZ !hud_displayed
@@ -126,10 +124,7 @@ init_debug_menu:
     JSR init_current_menu
 
     SEP #$30
-
-    PLB
-    PLB
-    RTL
+    JMP game_loop_skip
 
 ;================================
 
@@ -185,11 +180,8 @@ main_debug_menu:
     JSR exit_debug_menu
 
 .ret
-    ; back out of game mode completely, leaving frame
     SEP #$30
-    PLB
-    PLB
-    RTL
+    JMP game_loop_skip ; don't execute any other code while in the menu
 
 ;================================
 

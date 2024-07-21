@@ -18,14 +18,10 @@ save_state:
 
 .save_memory_blocks
     JSR save_item_memory
-
     JSR save_ram
-
     JSR save_dyntile_buffer
 ; for experimental load
     JSR save_sram_map16
-
-
     JSR save_dma_channel_settings
 
 ; play 1-up sound for cue that you saved

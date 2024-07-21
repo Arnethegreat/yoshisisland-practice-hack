@@ -104,9 +104,6 @@ save_ram:
 {
     PHP
     %ai16()
-    PHB
-    PHK
-    PLB
 
     LDX #datasize(ram_save_table)-8 ; X = index into the save table
 - {
@@ -130,7 +127,6 @@ save_ram:
         BPL -
     }
 .ret
-    PLB
     PLP
     RTS
 }
@@ -139,9 +135,6 @@ load_ram:
 {
     PHP
     %ai16()
-    PHB
-    PHK
-    PLB
 
     LDX #datasize(ram_save_table)-8 ; X = index into the save table
 - {
@@ -165,7 +158,6 @@ load_ram:
         BPL -
     }
 .ret
-    PLB
     PLP
     RTS
 }

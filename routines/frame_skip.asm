@@ -1,16 +1,13 @@
 !controller_on_press_store = $CC
 !controller_2_on_press_store = $CE
 
-end_frame = $00813A
-continue_frame = $008130
-
 
 handle_frame_skip:
-  LDA !is_load_delay_timer_active ; if we're loading, don't apply slowdown - instead, skip to a subroutine that handles it
+  LDA !load_delay_timer
   BEQ +
   {
-    JMP load_delay
-    BRA frame_skip_main_ret
+    DEC !load_delay_timer
+    JMP game_loop_skip
   }
   +
 
@@ -36,7 +33,7 @@ frame_skip_main:
 
   SEP #$20
   DEC !frame_skip_timer
-  JML end_frame
+  JMP game_loop_skip
 
 .reset_timer
   LDA !frame_skip
@@ -58,4 +55,4 @@ frame_skip_main:
   SEP #$20
 
 .ret
-  JML continue_frame
+  JMP game_loop_continue

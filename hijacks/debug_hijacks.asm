@@ -1,9 +1,3 @@
-; NOP out branch past frame advance code
-; Start on controller 2 enables frame advance
-org $0080F6
-    JML handle_frame_skip
-
-;=================================
 ; NOP out branch past save-select debug code
 ; Edit code so it works on all files if you hold L
 ; "finish" a level by holding L while doing start-select

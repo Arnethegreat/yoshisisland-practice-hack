@@ -1,10 +1,11 @@
 load_state:
 .before_load
 ; This part will be run just before entering gamemode 0C
-    PHX
-    PHY
     PHP
     %a8()
+
+    ; force blank on
+    LDA #%10000000 : TSB !r_reg_inidisp_mirror
 
     ; Clear APU I/O to fix audio queue choking up
     STZ !reg_apu_port0
@@ -23,21 +24,10 @@ load_state:
     JSR load_item_memory
 
     PLP
-    PLY
-    PLX
-    ; Hack gamemode to 0E to skip fade-out for next frame
-    LDA #$0E
-    STA $0118
-    ; really hacky fix to avoid gamemode being written over from previous frame
-    ; sets this frame mode to 0C
-    LDX #$24
-    JMP game_mode_return
+    JMP game_loop_continue
 
 .after_load
 ; First frame after load
-
-    PHX
-    PHY
     PHP
     REP #$30
 
@@ -47,23 +37,16 @@ load_state:
     LDA !save_y_pos
     STA !yoshi_y_pos
 
-
-; Turn off screen while loading
-    LDA $0200
-    ORA #$0080
-    STA $0200
-
     STZ !level_load_type
 
-    JSR load_ram
-
+    JSR load_ram ; note that this loads the saved !gamemode, which will be $0F
     JSR load_dyntile_buffer
 ; check if in cross section and empty BG3 if so
     JSR fix_cross_section
-
     JSR load_dma_channel_settings
-
     JSR preserve_hud
+
+    LDA !save_lag_counter : STA !lag_counter
 
     SEP #$20
 
@@ -74,28 +57,16 @@ load_state:
     LDA !save_room_seconds : STA !room_seconds
     LDA !save_room_minutes : STA !room_minutes
 
-    LDA #$01 : STA !is_load_delay_timer_active
     LDA !load_delay_timer_init : STA !load_delay_timer
 
-    REP #$20
-
-    LDA !save_lag_counter : STA !lag_counter
-
 ; Re-enable screen when finished loading
-    LDA $0200
-    AND #$FF7F
-    STA $0200
+    LDA #%10000000 : TRB !r_reg_inidisp_mirror
 
     PLP
-    PLY
-    PLX
-    JMP game_mode_return
+    JMP game_loop_continue
 
 preserve_hud: ; HUD settings shouldn't be affected by loading a state
     PHP
-    PHB
-    PHK
-    PLB
     SEP #$20
 
     LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
@@ -103,15 +74,12 @@ preserve_hud: ; HUD settings shouldn't be affected by loading a state
     BEQ .ret
     JSR level_room_init_common
 .ret
-    PLB
     PLP
     RTS
 
 ;=================================
 
 prepare_load:
-    PHX
-    PHY
     PHP
     REP #$30
 
@@ -225,10 +193,10 @@ prepare_load:
     STZ $37
     STZ $093C
     STZ $093E
+    PLP
+    RTS
 .no_load
     PLP
-    PLY
-    PLX
     RTS
 
 ;=================================
@@ -239,11 +207,6 @@ item_memory_page_pointers:
   dw $03C0, $0440, $04C0, $0540
 
 load_last_exit:
-    PHB
-
-    PHK
-    PLB
-
     ; word sized
     LDA !last_exit_1
     STA !screen_exit_level
@@ -291,7 +254,6 @@ load_last_exit:
     LDA #$000B
     STA !gamemode
 .ret
-    PLB
     RTS
 
 calc_level_timer: ; reset the HUD level timer to whatever it was when entering the room by subtracting the room timer

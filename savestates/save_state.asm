@@ -6,7 +6,7 @@ save_state:
 
 ; Only save if we're in gamemode 0F
     LDA !gamemode
-    CMP #$000F
+    CMP.w #!gm_level
     BNE .ret
 ; Check pause flag too (don't wanna save at start-select)
     LDA $0B0F

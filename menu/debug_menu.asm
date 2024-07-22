@@ -256,16 +256,16 @@ exit_debug_menu:
 ; gamemode tests
     SEP #$30
     LDA !gamemode
-    CMP #$22
+    CMP #!gm_overworld
     BNE +
 ; if world map, go to prepare world map mode since we have to overwrite some VRAM when loading the menu
-    LDA #$20
+    LDA #!gm_overworldloading
     STA !gamemode
     BRA .ret
 +
-    CMP #$0A
+    CMP #!gm_title
     BNE .ret
-    LDA #$08
+    LDA #!gm_cutscenefadeout
     STA !gamemode
     LDA #$00
     STA $0200

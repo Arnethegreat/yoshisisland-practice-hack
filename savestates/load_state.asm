@@ -90,9 +90,9 @@ prepare_load:
 
 ; Do some checks for already loading game modes
     LDA !gamemode
-    CMP #$000C
+    CMP.w #!gm_levelloading
     BEQ .in_loading_mode
-    CMP #$0020
+    CMP.w #!gm_overworldloading
     BEQ .in_loading_mode
     BRA .test_reset_room
 .in_loading_mode
@@ -124,15 +124,15 @@ prepare_load:
     LDA !gamemode
 ; Only allow experimental load for certain gamemodes
 ; mainly in-level, death and retry screen
-    CMP #$000F
+    CMP.w #!gm_level
     BEQ +
-    CMP #$0011
+    CMP.w #!gm_death
     BEQ +
-    CMP #$0035
+    CMP.w #!gm_midringrestart
     BEQ +
-    CMP #$0012
+    CMP.w #!gm_starlessdeath
     BEQ +
-    CMP #$003D
+    CMP.w #!gm_retry
     BEQ +
     BRA .fail_load
 +
@@ -192,7 +192,7 @@ prepare_load:
     STA !screen_exit_ypos
 
 .ret
-    LDA #$000C
+    LDA.w #!gm_levelloading
     STA !gamemode
     STZ $35
     STZ $37
@@ -256,7 +256,7 @@ load_last_exit:
     LDA #$0001
     STA !last_exit_loading_flag
 
-    LDA #$000B
+    LDA.w #!gm_levelfadeout
     STA !gamemode
 .ret
     RTS

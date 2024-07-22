@@ -11,6 +11,22 @@
 !s_control_scheme = $6082
 !s_control_scheme_l = $700082
 
+; Game modes
+!gm_cutscenefadeout = $08
+!gm_title = $0A
+!gm_levelfadeout = $0B
+!gm_levelloading = $0C
+!gm_level = $0F
+!gm_goalring = $10
+!gm_death = $11
+!gm_starlessdeath = $12
+!gm_overworldloading = $20
+!gm_overworldfadein = $21
+!gm_overworld = $22
+!gm_postboss = $31
+!gm_midringrestart = $35
+!gm_retry = $3D
+
 ; Screen exit data
 !screen_exit_level = $7F7E00
 !screen_exit_xpos = $7F7E01

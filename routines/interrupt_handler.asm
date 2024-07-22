@@ -69,9 +69,9 @@ nmi:
 
     ; if in score screen, skip the level-specific stuff
     LDA !gamemode
-    CMP #$31
+    CMP #!gm_postboss
     BEQ .post_boss_hacks
-    CMP #$10
+    CMP #!gm_goalring
     BEQ .ret
     BRA .per_level_hacks
 .post_boss_hacks

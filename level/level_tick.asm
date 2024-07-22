@@ -218,7 +218,7 @@ count_active_sprites:
 
 ; ticks all timers
 tick_timers:
-    LDY !gamemode : CPY #$0F : BNE .skip_tick
+    LDY !gamemode : CPY #!gm_level : BNE .skip_tick
 
     PHP
     LDA !frames_passed

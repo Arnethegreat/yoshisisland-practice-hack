@@ -5,7 +5,7 @@ map_init:
     PLB
     SEP #$30
 
-    LDA #$21 : STA !gamemode ; mode = fade into overworld (overwritten by hijack)
+    LDA #!gm_overworldfadein : STA !gamemode ; overwritten by hijack
 
     LDA #$01 : STA !is_audio_fixed ; the overworld automatically loads some audio required for normal gameplay
 

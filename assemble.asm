@@ -28,6 +28,7 @@ incsrc savestates/hard_fixes.asm
 incsrc music/toggle_music.asm
 incsrc misc/load_gfx.asm
 incsrc misc/level_intro_skip.asm
+incsrc misc/egg_inventory.asm
 ;=================================
 incsrc menu/debug_menu.asm
 incsrc menu/debug_control_data.asm

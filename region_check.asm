@@ -63,8 +63,11 @@ if read1($00FFD9) == $00
     world_map_new_fold_in = $17CEC5
 
     save_eggs_to_wram = $01C4E9
-    
     load_eggs_from_wram = $01C508
+
+    spawn_sprite = $03A377
+
+    acquire_egg = $03BEC4
 
     despawn_sprite_free_slot = $03A32E ; X: sprite slot
 
@@ -129,8 +132,11 @@ elseif read1($00FFD9) == $01
     world_map_new_fold_in = $17CEFB
 
     save_eggs_to_wram = $01B2B7
-
     load_eggs_from_wram = $01B2D6
+
+    spawn_sprite = $03A377
+
+    acquire_egg = $03BEB9
 
     despawn_sprite_free_slot = $03A32E ; X: sprite slot
 

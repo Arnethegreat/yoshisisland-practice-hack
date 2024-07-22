@@ -152,39 +152,3 @@ set_default_input_bindings_and_draw:
   STZ !prep_binds_flag
   JSR init_controls ; re-draw
   RTS
-
-;======================================
-
-; word 1: sprite ID
-; word 2: tilemap ID
-egg_inv_tilemap:
-.no_egg
-dw $0000, $0039
-.huffin_puffin
-dw $0028, $083C
-.flashing_egg
-dw $0022, $203A
-.red_egg
-dw $0023, $0C3A
-.yellow_egg
-dw $0024, $083A
-.green_egg
-dw $0025, $043A
-.skull_mouser
-dw $01A3, $1843
-.seesaw_log
-dw $007F, $0844
-.boss_explosion
-dw $0013, $0845
-.boss_key
-dw $0014, $C03D
-.key
-dw $0027, $083D
-.red_giant_egg
-dw $002A, $0C3B
-.green_giant_egg
-dw $002B, $043B
-.unknown
-dw $000D, $0026
-
-!egg_inv_tilemap_count = $000E

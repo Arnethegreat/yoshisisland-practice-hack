@@ -50,9 +50,13 @@ init_debug_menu:
     JSR is_in_level
     CMP #$01
     BNE .init_settings
-    JSR store_eggs
+    JSL save_eggs_to_wram
+    JSR despawn_egg_sprites
 
 .init_settings
+    ; copy egg inventory from WRAM to our debug mirror
+    JSR egg_inv_wram_to_debug
+
     ; turn HDMA off
     STZ !r_reg_hdmaen_mirror
     STZ !reg_hdmaen
@@ -112,9 +116,6 @@ init_debug_menu:
 
     JSR load_font
 
-    ; copy the real egg inventory to our mirror once when opening the menu
-    JSR egg_inv_to_debug_mirror
-
     ; set the page index and the controls count for the main page
     STZ !warps_page_depth_index
     LDA !current_menu_data_ptr
@@ -135,29 +136,6 @@ init_current_menu:
     JSR init_current_menu_tilemap
     JSR init_current_menu_palette
     JSR init_controls
-    RTS
-
-;================================
-
-store_eggs:
-    PHP
-    REP #$30
-    JSL save_eggs_to_wram ; in a level, save eggs SRAM -> WRAM
-
-    ; despawn current egg sprites when opening the debug menu so that a different set can be loaded when resuming gameplay
-    LDY !egg_inv_size_cur
-    BEQ .ret
-    -
-        LDX !egg_inv_items_cur-2,y ; grab the sprite slot from egg memory and store it in x
-        PHY
-        JSL despawn_sprite_free_slot
-        PLY
-        DEY
-        DEY
-        BNE -
-    STZ !egg_inv_size_cur
-.ret
-    PLP
     RTS
 
 ;================================
@@ -229,7 +207,7 @@ animate_palette:
 ;================================
 
 exit_debug_menu:
-    JSR debug_inv_to_egg_inv ; egg editor -> WRAM
+    JSR egg_inv_debug_to_wram
     SEP #$20
     LDA !warping ; don't load eggs when warping since the loading screen will do it for us
     BNE +
@@ -237,6 +215,10 @@ exit_debug_menu:
     CMP #$01
     BNE +
     JSL load_eggs_from_wram ; spawn egg sprites WRAM -> SRAM
+    LDA !s_player_form : CMP #$10 : BNE + ; super baby mario state?
+    ; Infinite super baby mario bug: if in baby mario mode, egg inv will contain the big yoshi egg
+    ; load_eggs_from_wram ignores this sprite ID, so do it manually here
+    JSR spawn_big_yoshi_egg
 +
     STZ !debug_menu
 

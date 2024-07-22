@@ -122,6 +122,9 @@
 !r_cur_save_file = $030E
 
 ;Yoshi States / speed
+!s_player_form = $60AE
+!s_player_form_l = $7000AE
+
 !yoshi_x_pos = $608C
 !yoshi_x_subpixel = $608A
 !yoshi_y_pos = $6090

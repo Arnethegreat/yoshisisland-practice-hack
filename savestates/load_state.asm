@@ -39,12 +39,17 @@ load_state:
 
     STZ !level_load_type
 
+    ; prevent the slowdown setting from being overwritten
+    LDA !frame_skip : PHA
+
     JSR load_ram ; note that this loads the saved !gamemode, which will be $0F
     JSR load_dyntile_buffer
 ; check if in cross section and empty BG3 if so
     JSR fix_cross_section
     JSR load_dma_channel_settings
     JSR preserve_hud
+
+    PLA : STA !frame_skip
 
     LDA !save_lag_counter : STA !lag_counter
 

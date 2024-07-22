@@ -34,6 +34,8 @@
 %var_707E7E(bind_slowdowndecrease_2, 4)
 %var_707E7E(bind_slowdownincrease_1, 4)
 %var_707E7E(bind_slowdownincrease_2, 4)
+%var_707E7E(bind_frameadvance_1, 4)
+%var_707E7E(bind_frameadvance_2, 4)
 %var_707E7E(bind_disableautoscroll_1, 4)
 %var_707E7E(bind_disableautoscroll_2, 4)
 !binding_startaddr_sram = !bind_savestate_1
@@ -51,9 +53,12 @@ action_binding_table:
     dw $000C, !bind_freemovement_1, !bind_freemovement_2
     dw $000E, !bind_slowdowndecrease_1, !bind_slowdowndecrease_2
     dw $0010, !bind_slowdownincrease_1, !bind_slowdownincrease_2
+    dw $0012, !bind_frameadvance_1, !bind_frameadvance_2
 
-!binding_count = $08 ; number of elements in the table minus 1
-!binding_last_el = $30 ; index of the last element in the table
+!binding_count = $09 ; number of elements in the table minus 1
+!binding_last_el = $36 ; index of the last element in the table
+assert !binding_count == (!binding_last_el/6)
+assert !binding_last_el == datasize(action_binding_table)-6
 
 ; WRAM vars
 %var_1409(input_bindings_1, (!binding_count+1)*6) ; 6 bytes per binding (control byte + complexity + held binding + press binding)
@@ -222,6 +227,8 @@ default_input_bindings:
     LDA #$0000 : STA !bind_slowdowndecrease_2 : LDA #!controller_L : STA !bind_slowdowndecrease_2+2
     LDA #$0000 : STA !bind_slowdownincrease_1 : STA !bind_slowdownincrease_1+2
     LDA #$0000 : STA !bind_slowdownincrease_2 : LDA #!controller_R : STA !bind_slowdownincrease_2+2
+    LDA #$0000 : STA !bind_frameadvance_1 : STA !bind_frameadvance_1+2
+    LDA #$0000 : STA !bind_frameadvance_2 : LDA #!controller_A : STA !bind_frameadvance_2+2
     LDA #$0000 : STA !bind_disableautoscroll_1 : STA !bind_disableautoscroll_1+2
     LDA #$0000 : STA !bind_disableautoscroll_2 : LDA #!controller_Y : STA !bind_disableautoscroll_2+2
 

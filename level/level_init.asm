@@ -113,6 +113,7 @@ level_room_init_common:
     %ai8()
 
     JSR handle_flags
+    STZ !frame_skip_pause ; don't want to be paused on level start
 
     LDA !hud_enabled : BEQ .ret
     STA !hud_displayed

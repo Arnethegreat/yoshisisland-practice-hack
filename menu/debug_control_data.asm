@@ -71,19 +71,20 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_egg, $7E0000, 8, 3, $0005) ; egg 6
   %define_menu_entry(!ct_hinib, $7E012F, 1, 4, $00F0) ; slowdown amount high
   %define_menu_entry(!ct_lonib, $7E012F, 2, 4, $000F) ; slowdown amount low
-  %define_menu_entry(!ct_toggle, !full_load_default, 1, 5, $0001) ; full load as default
-  %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 6, $00F0) ; load delay amount high
-  %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 6, $000F) ; load delay amount low
-  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 7, $0001) ; HUD
-  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+2, 1, 8, $00F0) ; ramwatch bank
-  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+2, 2, 8, $000F) ; ramwatch bank
-  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+1, 3, 8, $00F0) ; ramwatch high
-  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+1, 4, 8, $000F) ; ramwatch high
-  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+0, 5, 8, $00F0) ; ramwatch low
-  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+0, 6, 8, $000F) ; ramwatch low
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 9, submenu_config_ctrl) ; input config submenu
+  %define_menu_entry(!ct_toggle, !frame_skip_pause_l, 1, 5, $0001) ; frame advance
+  %define_menu_entry(!ct_toggle, !full_load_default, 1, 6, $0001) ; full load as default
+  %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 7, $00F0) ; load delay amount high
+  %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 7, $000F) ; load delay amount low
+  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 8, $0001) ; HUD
+  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+2, 1, 9, $00F0) ; ramwatch bank
+  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+2, 2, 9, $000F) ; ramwatch bank
+  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+1, 3, 9, $00F0) ; ramwatch high
+  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+1, 4, 9, $000F) ; ramwatch high
+  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+0, 5, 9, $00F0) ; ramwatch low
+  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+0, 6, 9, $000F) ; ramwatch low
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 10, submenu_config_ctrl) ; input config submenu
 .column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
-  dw $0000, $0100, $0206, $0901, $0B00, $0C01, $0E00, $0F05, $1500
+  dw $0000, $0100, $0206, $0901, $0B00, $0C00, $0D01, $0F00, $1005, $1600
 
 submenu_gameflags_ctrl:
 .metadata
@@ -121,10 +122,12 @@ submenu_config_ctrl:
   %define_menu_entry(!ct_binding, !bind_slowdowndecrease_2, 9, 9, $0001)
   %define_menu_entry(!ct_binding, !bind_slowdownincrease_1, 1, 10, $0000)
   %define_menu_entry(!ct_binding, !bind_slowdownincrease_2, 9, 10, $0001)
-  %define_menu_entry(!ct_binding, !bind_disableautoscroll_1, 1, 11, $0000)
-  %define_menu_entry(!ct_binding, !bind_disableautoscroll_2, 9, 11, $0001)
+  %define_menu_entry(!ct_binding, !bind_frameadvance_1, 1, 11, $0000)
+  %define_menu_entry(!ct_binding, !bind_frameadvance_2, 9, 11, $0001)
+  %define_menu_entry(!ct_binding, !bind_disableautoscroll_1, 1, 12, $0000)
+  %define_menu_entry(!ct_binding, !bind_disableautoscroll_2, 9, 12, $0001)
 .column_counts
-  dw $0001, $0201, $0401, $0601, $0801, $0A01, $0C01, $0E01, $1001, $1201
+  dw $0001, $0201, $0401, $0601, $0801, $0A01, $0C01, $0E01, $1001, $1201, $1401
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !debug_menu_controls_warps_worlds_count = #$0007

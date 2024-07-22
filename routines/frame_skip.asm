@@ -2,6 +2,25 @@
 !controller_2_on_press_store = $CE
 
 
+slowdown_dec:
+  STZ !frame_skip_pause
+  DEC !slowdown_mag
+  BPL +
+  STZ !slowdown_mag
+  +
+  RTS
+
+slowdown_inc:
+  STZ !frame_skip_pause
+  INC !slowdown_mag
+  RTS
+
+frame_advance:
+  LDA #$01 : STA !frame_skip_pause
+  DEC #2
+  STA !frame_skip_timer ; set timer to -1 so that the next frame runs
+  RTS
+
 handle_frame_skip:
   LDA !load_delay_timer
   BEQ +
@@ -11,13 +30,9 @@ handle_frame_skip:
   }
   +
 
-  LDA !frame_skip
-  BEQ frame_skip_main_ret
-
-frame_skip_main:
-  LDA !debug_menu
-  BNE .ret
   LDA !frame_skip_timer
+  CLC : ADC !frame_skip_pause ; pause prevents the timer from decreasing, so it never advances a frame
+  STA !frame_skip_timer
   BEQ .reset_timer
 
 .skip_a_frame
@@ -36,7 +51,7 @@ frame_skip_main:
   JMP game_loop_skip
 
 .reset_timer
-  LDA !frame_skip
+  LDA !slowdown_mag
   STA !frame_skip_timer
 
   REP #$20

@@ -73,6 +73,7 @@ includeonce
 %var_1409(is_audio_fixed, 1)
 %var_1409(current_music_track, 1)
 
-; 2 bytes of undocumented (free?) WRAM space
-!frame_skip = $012F
+!slowdown_mag = $012F
 !frame_skip_timer = $0130
+%var_1409(frame_skip_pause, 1)
+!frame_skip_pause_l = $7E0000+!frame_skip_pause

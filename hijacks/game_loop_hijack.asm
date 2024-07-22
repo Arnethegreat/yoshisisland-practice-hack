@@ -68,6 +68,9 @@ game_loop:
 
 .frame_skip
 {
+    ; only run the frameskip code if either slowdown or frame advance is active and we're in-level
+    LDA !slowdown_mag : ORA !frame_skip_pause : BEQ .continue
+    LDA !gamemode : CMP #$0F : BNE .continue
     JMP handle_frame_skip
 }
 
@@ -144,8 +147,9 @@ check_controllers:
     dw .toggle_music
     dw disable_autoscroll
     dw .toggle_free_movement
-    dw .slowdown_dec
-    dw .slowdown_inc
+    dw slowdown_dec
+    dw slowdown_inc
+    dw frame_advance
 .default_load
     STZ !load_mode
     JSR prepare_load
@@ -164,13 +168,4 @@ check_controllers:
     RTS
 .toggle_free_movement
     %toggle_byte(!free_movement)
-    RTS
-.slowdown_dec
-    DEC !frame_skip
-    BPL +
-    STZ !frame_skip
-    +
-    RTS
-.slowdown_inc
-    INC !frame_skip
     RTS

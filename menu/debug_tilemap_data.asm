@@ -12,6 +12,7 @@ mainmenu_tilemap:
             "WARPS",
             "         EGG EDITOR",
             "         SLOWDOWN AMOUNT",
+            "         FRAME ADVANCE",
             "         FULL LOAD AS DEFAULT",
             "         LOAD DELAY",
             "         HUD",
@@ -40,6 +41,7 @@ submenu_config_tilemap:
             "                 FREE MOVEMENT",
             "                 SLOWDOWN -",
             "                 SLOWDOWN +",
+            "                 FRAME ADVANCE",
             "                 NO AUTOSCROLL")
 dw !lf
 

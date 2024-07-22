@@ -8,7 +8,7 @@ Features:
 * HUD
 * Warp to (almost) any room entrance
 * Egg editor
-* Slowdown
+* Frame advance/slowdown
 * Music on/off toggle
 * Removal of slow world map animations
 * Enabling built-in Debug functions
@@ -104,8 +104,9 @@ Warping before selecting a file will automatically load this save file.
 ### Start-Select to clear a level
 Hold L while pressing select in pause menu and you'll leave any level as well as mark it as cleared. This doesn't save until you beat a level legit.
 
-### Frame Skip (slow down)
+### Frame Skip
 Increase or decrease frames to skip per frame (amount of slow down). Game will run at 1/n speed where n is frame skip amount. 
+Frame advance pauses the game and advances a single frame each time it is activated thereafter. It can be disabled via the menu option or by using a bind to change the slow down value. Inputs are buffered in between frames.
 
 ### Stage Intro (with the level text)
 Stage intro now begins as soon as there's user input (if finished loading).
@@ -140,6 +141,7 @@ R+X | - | Room reset
 \- | B | Free movement
 \- | L | Slowdown decrease
 \- | R | Slowdown increase
+\- | A | Frame advance
 \- | Y | Disable autoscroll
 
 

@@ -39,7 +39,7 @@
 %var_707E7E(bind_disableautoscroll_1, 4)
 %var_707E7E(bind_disableautoscroll_2, 4)
 !binding_startaddr_sram = !bind_savestate_1
-!binding_size_sram = 18*4
+!binding_size_sram = 20*4
 %var_707E7E(bind_checksum, 2)
 
 ; helper table for copying the bindings and assigning the control bytes

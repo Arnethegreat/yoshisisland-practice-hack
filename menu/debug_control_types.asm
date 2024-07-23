@@ -387,6 +387,7 @@ main_config_changer:
   LDA !controller_data1_press : CMP #!controller_X : BNE + ; press X to clear a binding
   LDY #$02
   LDA #$0000 : STA [!dbc_memory] : STA [!dbc_memory],y
+  JSR get_input_bindings_checksum : STA !bind_checksum
   LDY #$00 : STY !prep_binds_flag
   JSR draw_config_changer
   LDA.w #!sfx_poof : STA !temp_sound

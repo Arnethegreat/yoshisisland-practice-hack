@@ -72,6 +72,7 @@ includeonce
 
 %var_1409(is_audio_fixed, 1)
 %var_1409(current_music_track, 1)
+%var_707E7E(disable_music, 1)
 
 !slowdown_mag = $012F
 !frame_skip_timer = $0130

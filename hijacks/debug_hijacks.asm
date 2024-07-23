@@ -28,14 +28,6 @@ org file_select_check
 ; Change branch so it returns completely if user isn't holding L or R
     BEQ $F2
 
-;=================================
-; Hijack music routine so we can disable if needed
-; $7EC019 runs every frame; if music track to be played (r_apu_io_0_mirror != 0) then go here
-; contents of !r_apu_io_0_mirror in A, 8-bit AI
-org play_music_track
-    autoclean JSL prevent_music_change
-    NOP #3
-
 org free_movement
     BRA $1A ; .check_free_movement .. skip past warptoboss (don't need it) and flag toggling (we handle it)
 

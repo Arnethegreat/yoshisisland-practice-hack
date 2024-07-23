@@ -202,5 +202,6 @@ irq_2b:
     LDA #!nmi_v
     JMP $C431
 
+incsrc "music/prevent_change.asm"
 
 assert pc() <= interrupt_freespace+!interrupt_freespace_size ; warn if our code overflows the freespace region

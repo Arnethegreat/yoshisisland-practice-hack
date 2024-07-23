@@ -41,3 +41,11 @@ org irqmode_0A ; mode7 bosses
 
 org irqmode_08 ; story cutscene/credits
     JSR check_lag
+
+;=================================
+; Hijack music routine so we can disable if needed
+; $7EC019 runs every frame; if music track to be played (r_apu_io_0_mirror != 0) then go here
+; contents of !r_apu_io_0_mirror in A, 8-bit AI
+org play_music_track
+    JMP prevent_music_change
+    NOP #3

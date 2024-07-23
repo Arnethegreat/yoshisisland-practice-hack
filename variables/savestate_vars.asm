@@ -1,6 +1,5 @@
 %var_1409(loaded_state, 2)
 %var_1409(savestate_exists, 2)
-%var_707E7E(disable_music, 2)
 %var_1409(current_level, 2)
 %var_707E7E(full_load_default, 2)
 %var_1409(load_mode, 1)

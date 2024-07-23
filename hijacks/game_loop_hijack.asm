@@ -68,8 +68,8 @@ game_loop:
 
 .frame_skip
 {
-    ; only run the frameskip code if either slowdown or frame advance is active and we're in-level
-    LDA !slowdown_mag : ORA !frame_skip_pause : BEQ .continue
+    ; only run the frameskip code if slowdown/frame advanc/load delay is active and we're in-level
+    LDA !slowdown_mag : ORA !frame_skip_pause : ORA !load_delay_timer : BEQ .continue
     LDA !gamemode : CMP #!gm_level : BNE .continue
     JMP handle_frame_skip
 }

@@ -141,6 +141,7 @@ init_current_menu:
 ;================================
 
 main_debug_menu:
+    PHP
     LDA #$0F
     STA $0200
 
@@ -158,7 +159,9 @@ main_debug_menu:
     JSR exit_debug_menu
 
 .ret
-    SEP #$30
+    %a16()
+    INC !frame_counter
+    PLP
     JMP game_loop_skip ; don't execute any other code while in the menu
 
 ;================================

@@ -238,7 +238,7 @@ exit_debug_menu:
     STA !r_reg_bg12nba_mirror
     LDA !bgmode_backup
     STA !r_reg_bgmode_mirror
-
+    LDA !slowdown_mag : STA !frame_skip_timer ; so we don't need to wait for the timer to run out before it updates
 
     REP #$30
 

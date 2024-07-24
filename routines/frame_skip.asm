@@ -48,6 +48,9 @@ handle_frame_skip:
 
   SEP #$20
   DEC !frame_skip_timer
+  ; the HUD uses a timer that increments during interrupt in order to tick during lag frames
+  ; so it needs to be corrected when deliberately skipping frames
+  DEC !frames_passed
   JMP game_loop_skip
 
 .reset_timer

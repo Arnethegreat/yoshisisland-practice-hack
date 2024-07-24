@@ -299,7 +299,7 @@ hud_sub:
     ; if hud enabled AND in-level AND we aren't warping, init hud
     LDA !warping : BNE .ret ; warping will load a room, so the init sub will be called there instead
     JSR is_in_level : AND !hud_enabled : BEQ .ret
-    JSR level_room_init_common
+    JSR init_hud
 .ret
     RTS
 

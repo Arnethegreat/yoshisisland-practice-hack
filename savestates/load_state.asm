@@ -75,9 +75,8 @@ preserve_hud: ; HUD settings shouldn't be affected by loading a state
     SEP #$20
 
     LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
-    LDA !hud_enabled
-    BEQ .ret
-    JSR level_room_init_common
+    LDA !hud_enabled : BEQ .ret
+    JSR init_hud
 .ret
     PLP
     RTS

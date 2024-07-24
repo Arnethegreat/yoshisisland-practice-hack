@@ -110,24 +110,29 @@ set_hud_hdma_channels:
 
 level_room_init_common:
     PHP
-    %ai8()
+    %a8()
 
     JSR handle_flags
     STZ !frame_skip_pause ; don't want to be paused on level start
 
     LDA !hud_enabled : BEQ .ret
-    STA !hud_displayed
+    JSR init_hud
+.ret
+    PLP
+    RTS
 
-.draw_hud
+init_hud:
+    PHP
+    %a16()
+    %i8()
+    LDY #$01 : STY !hud_displayed
     JSR load_font ; guarantee the HUD font is available e.g. if we load a savestate, VRAM can change
 
     ; hdma to override any other hdmas in a given level which mess with BG3 offsets, in the hud region only
     ; e.g. 1-4 falling walls use channel 4 to set bg3vofs
     PHD
-    REP #$20
-    LDA #!hud_hdma_table_h_channel ; indirect indexed only available with DP
-    TCD
-    SEP #$20
+    LDA #!hud_hdma_table_h_channel : TCD ; indirect indexed only available with DP
+    %a8()
     LDY #$04
 -
     LDA hud_hdma_table_h_controls,y : STA.b ($00),y ; !hud_hdma_table_h_channel
@@ -138,7 +143,7 @@ level_room_init_common:
 
     LDA !hud_hdma_channels : TSB !r_reg_hdmaen_mirror ; hdmaen gets started at the top of the screen
 
-    REP #$30 ; use 16-bit X since the buffer size is over $80 and will therefore set the N flag and break the BPL loop immediately
+    %ai16() ; use 16-bit X since the buffer size is over $80 and will therefore set the N flag and break the BPL loop immediately
 
     ; init hud buffer
     LDX #!hud_buffer_size-2
@@ -148,7 +153,6 @@ level_room_init_common:
     DEX
     DEX
     BPL -
-
 .ret
     PLP
     RTS

@@ -93,13 +93,15 @@ cleanup_config_changer:
 ; Control type main routines
 
 main_highnib_memchanger:
-  SEP #$20
+  PHP
+  %a8()
+  %i16()
 
 ; pressing A?
 .check_increment
-  LDA !controller_data1_press
-  AND #!controller_data1_A
-  BEQ .check_decrement
+  LDX #!controller_A : STX $0000
+  JSR held_input_repeater
+  LDX $0000 : BNE .check_decrement
 
   ; increment only high nibble
   LDA [!dbc_memory]
@@ -126,9 +128,9 @@ main_highnib_memchanger:
 
 ; pressing Y?
 .check_decrement
-  LDA !controller_data2_press
-  AND #!controller_data2_Y
-  BEQ .ret
+  LDX #!controller_Y : STX $0000
+  JSR held_input_repeater
+  LDX $0000 : BNE .ret
 
   ; decrement only high nibble
   LDA [!dbc_memory]
@@ -160,18 +162,21 @@ main_highnib_memchanger:
   JSR draw_highnib
 
 .ret
+  PLP
   RTS
 
 ;================================
 
 main_lownib_memchanger:
-  SEP #$20
+  PHP
+  %a8()
+  %i16()
 
 ; pressing A?
 .check_increment
-  LDA !controller_data1_press
-  AND #!controller_data1_A
-  BEQ .check_decrement
+  LDX #!controller_A : STX $0000
+  JSR held_input_repeater
+  LDX $0000 : BNE .check_decrement
 
   ; increment only low nibble
   LDA [!dbc_memory]
@@ -197,9 +202,9 @@ main_lownib_memchanger:
 
 ; pressing Y?
 .check_decrement
-  LDA !controller_data2_press
-  AND #!controller_data2_Y
-  BEQ .ret
+  LDX #!controller_Y : STX $0000
+  JSR held_input_repeater
+  LDX $0000 : BNE .ret
 
   ; decrement only low nibble
   LDA [!dbc_memory]
@@ -231,6 +236,7 @@ main_lownib_memchanger:
   JSR draw_all_egg_changer
 
 .ret
+  PLP
   RTS
 
 ;================================

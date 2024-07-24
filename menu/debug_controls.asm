@@ -60,23 +60,23 @@ init_controls:
   RTS
 
 ; triggers repeat inputs after initial input + delay if the input is held
-; arg0 [word] in $7E0000: input code for controller_data2 (byetUDLR)
+; arg0 [word] in $7E0000: input code for controller_data (byetUDLRaxlr----)
 ; returns zero in $7E0000 if an input should trigger
 held_input_repeater:
   PHP
-  REP #$20
+  %a16()
 
-  LDA !controller_data2_press ; pressed for the 1st time? do the initial single move and exit
+  LDA !controller_data1_press ; pressed for the 1st time? do the initial single move and exit
   AND $0000
   BNE .single_input
 
-  LDA !controller_data2 ; is any button held? if not, reset the delay timer and exit
+  LDA !controller_data1 ; is any button held? if not, reset the delay timer and exit
   BNE +
   LDA !input_repeat_delay_amount : STA !input_repeat_delay_timer
   BRA .ret
 +
 
-  LDA !controller_data2 ; is this specific button held? if not, exit
+  LDA !controller_data1 ; is this specific button held? if not, exit
   AND $0000
   BEQ .ret
   LDA !input_repeat_delay_timer ; has the delay timer expired? if yes, do repeat inputs
@@ -104,7 +104,7 @@ main_controls:
   JMP .process_focused ; if recording input, don't allow moving the cursor
 
 .check_up
-  LDA #%0000000000001000 : STA $00
+  LDA #!controller_up : STA $00
   JSR held_input_repeater
   LDA $00
   BNE .check_down
@@ -116,7 +116,7 @@ main_controls:
   DEC A
   BRA .store_index_row
 .check_down
-  LDA #%0000000000000100 : STA $00
+  LDA #!controller_down : STA $00
   JSR held_input_repeater
   LDA $00
   BNE .check_left
@@ -135,7 +135,7 @@ main_controls:
   BRA .index_updated
 
 .check_left
-  LDA #%0000000000000010 : STA $00
+  LDA #!controller_left : STA $00
   JSR held_input_repeater
   LDA $00
   BNE .check_right
@@ -146,7 +146,7 @@ main_controls:
   LDA !dbc_col_count_current
   BRA .store_index_col
 .check_right
-  LDA #%0000000000000001 : STA $00
+  LDA #!controller_right : STA $00
   JSR held_input_repeater
   LDA $00
   BNE .process_focused

@@ -1,5 +1,5 @@
-!controller_on_press_store = $CC
-!controller_2_on_press_store = $CE
+%var_00CC(controller_on_press_store, 2)
+%var_00CC(controller_2_on_press_store, 2)
 
 
 slowdown_dec:
@@ -38,13 +38,13 @@ handle_frame_skip:
 .skip_a_frame
   REP #$20
 
-  LDA !controller_on_press_store
-  ORA !controller_data1_press_dp
-  STA !controller_on_press_store
+  LDA.b !controller_on_press_store
+  ORA.b !controller_data1_press
+  STA.b !controller_on_press_store
 
-  LDA !controller_2_on_press_store
+  LDA.b !controller_2_on_press_store
   ORA !controller_2_data1_press
-  STA !controller_2_on_press_store
+  STA.b !controller_2_on_press_store
 
   SEP #$20
   DEC !frame_skip_timer
@@ -56,16 +56,16 @@ handle_frame_skip:
 
   REP #$20
 
-  LDA !controller_data1_press_dp
-  ORA !controller_on_press_store
-  STA !controller_data1_press_dp
-  STA !controller_data1_press
-  STZ !controller_on_press_store
+  LDA.b !controller_data1_press
+  ORA.b !controller_on_press_store
+  STA.b !controller_data1_press
+  STA.b !controller_data1_press
+  STZ.b !controller_on_press_store
 
   LDA !controller_2_data1_press
-  ORA !controller_2_on_press_store
+  ORA.b !controller_2_on_press_store
   STA !controller_2_data1_press
-  STZ !controller_2_on_press_store
+  STZ.b !controller_2_on_press_store
 
   SEP #$20
 

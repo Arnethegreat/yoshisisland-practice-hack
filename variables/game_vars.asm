@@ -62,15 +62,10 @@
 !controller_data2_left   = %00000010
 !controller_data2_right  = %00000001
 
-!controller_data1 = $093C ; AXLR----
-!controller_data2 = $093D ; byetUDLR
-!controller_data1_dp = $35
-!controller_data2_dp = $36
-
-!controller_data1_press = $093E
-!controller_data2_press = $093F
-!controller_data1_press_dp = $37
-!controller_data2_press_dp = $38
+!controller_data1 = $0035 ; AXLR----
+!controller_data2 = $0036 ; byetUDLR
+!controller_data1_press = $0037
+!controller_data2_press = $0038
 
 !controller_2_data1 = $0940
 !controller_2_data2 = $0941

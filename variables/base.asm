@@ -34,6 +34,13 @@ macro def_var(id, size, region)
 endmacro
 
 
+!freeram_00CC = $00CC
+!freeram_00CC_used = 0
+!freeram_00CC_max = $0100
+macro var_00CC(id, size)
+	%def_var(<id>, <size>, 00CC)
+endmacro
+
 !freeram_0272 = $0272
 !freeram_0272_used = 0
 !freeram_0272_max = $02B7
@@ -85,6 +92,7 @@ incsrc variables/savestate_vars.asm
 incsrc variables/hud_vars.asm
 
 
+assert !freeram_00CC+!freeram_00CC_used <= !freeram_00CC_max+1, "exceeded WRAM freespace region $7E:00CC"
 assert !freeram_0272+!freeram_0272_used <= !freeram_0272_max+1, "exceeded WRAM freespace region $7E:0272"
 assert !freeram_1409+!freeram_1409_used <= !freeram_1409_max+1, "exceeded WRAM freespace region $7E:1409"
 assert !freeram_1E00+!freeram_1E00_used <= !freeram_1E00_max+1, "exceeded WRAM freespace region $7E:1E00"
@@ -93,6 +101,7 @@ assert !freeram_7E499C+!freeram_7E499C_used <= !freeram_7E499C_max+1, "exceeded 
 assert !freeram_707E7E+!freeram_707E7E_used <= !freeram_707E7E_max+1, "exceeded SRAM freespace region $70:7E7E"
 
 if 0
+    print "freespace $7E00CC used: ", dec(!freeram_00CC_used), ", remaining: ", dec(!freeram_00CC_max-!freeram_00CC_used-!freeram_00CC+1)
     print "freespace $7E0272 used: ", dec(!freeram_0272_used), ", remaining: ", dec(!freeram_0272_max-!freeram_0272_used-!freeram_0272+1)
     print "freespace $7E1409 used: ", dec(!freeram_1409_used), ", remaining: ", dec(!freeram_1409_max-!freeram_1409_used-!freeram_1409+1)
     print "freespace $7E1E00 used: ", dec(!freeram_1E00_used), ", remaining: ", dec(!freeram_1E00_max-!freeram_1E00_used-!freeram_1E00+1)

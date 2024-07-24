@@ -3,7 +3,7 @@
 ; "finish" a level by holding L while doing start-select
 org start_select_check
     NOP #3
-    LDA !controller_data1_dp
+    LDA.b !controller_data1
     AND #$20
     BEQ $05
 
@@ -23,7 +23,7 @@ org file_select_check
 
     LDA #$63
     STA $037B
-    LDA !controller_data1_dp
+    LDA.b !controller_data1
     AND #$30
 ; Change branch so it returns completely if user isn't holding L or R
     BEQ $F2

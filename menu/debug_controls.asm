@@ -1,7 +1,7 @@
 ; indexed by control type
 debug_control_inits:
-  dw init_lownib_memchanger
-  dw init_highnib_memchanger
+  dw init_nib_changer
+  dw init_eggcount_changer
   dw init_toggle_changer
   dw init_egg_changer
   dw init_call_function
@@ -11,8 +11,8 @@ debug_control_inits:
 
 ; indexed by control type
 debug_control_mains:
-  dw main_lownib_memchanger
-  dw main_highnib_memchanger
+  dw main_nib_changer
+  dw main_eggcount_changer
   dw main_toggle_changer
   dw main_egg_changer
   dw main_call_function
@@ -21,8 +21,8 @@ debug_control_mains:
   dw main_config_changer
 
 debug_control_cleanups:
-  dw cleanup_lownib_memchanger
-  dw cleanup_highnib_memchanger
+  dw cleanup_nib_changer
+  dw cleanup_eggcount_changer
   dw cleanup_toggle_changer
   dw cleanup_egg_changer
   dw cleanup_call_function

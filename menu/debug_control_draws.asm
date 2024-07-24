@@ -1,4 +1,4 @@
-draw_lownib:
+draw_eggcount:
   REP #$10
   SEP #$20
 
@@ -11,18 +11,17 @@ draw_lownib:
   STA !menu_tilemap_mirror,x
   RTS
 
+draw_nib:
+  %a8()
+  %i16()
 
-draw_highnib:
-  REP #$10
-  SEP #$20
-
-  ; read tilemap address
   LDX !dbc_tilemap
 
-  ; read memory address
-  LDA [!dbc_memory]
-  AND #$F0
+  ; map stored value to char
+  LDA [!dbc_memory] : AND !dbc_wildcard
+  LDY !dbc_wildcard : CPY #$000F : BEQ +
   LSR #4
+  +
   STA !menu_tilemap_mirror,x
   RTS
 

@@ -2,8 +2,8 @@
 
 ; [byte] type of control:
 !dbc_type = $00
-!ct_lonib = $00 ; low nibble memory changer (wildcard $xxyy xx = min, yy = max)
-!ct_hinib = $02 ; high nibble memory changer (wildcard $xxyy xx = min, yy = max)
+!ct_nib = $00 ; nibble memory changer (wildcard as hi ($F0) or lo ($0F))
+!ct_eggcount = $02 ; egg count memory changer, max 6
 !ct_toggle = $04 ; toggle (wildcard as value for enable)
 !ct_egg = $06 ; egg inventory editor (wildcard as egg number)
 !ct_func = $08 ; call function (wildcard as what function)
@@ -11,7 +11,7 @@
 !ct_submenu = $0C ; submenu
 !ct_binding = $0E ; input binding changer (wildcard indicates which controller)
 
-; [long] memory address to read / write from - currently only used for [lownib, highnib, toggle]
+; [long] memory address to read / write from - currently only used for [nib, toggle, binding]
 !dbc_memory = $01
 
 ; [word] relative tilemap address (offset from start of tilemap mirror)
@@ -61,27 +61,27 @@ mainmenu_ctrl:
   %define_menu_metadata(mainmenu_ctrl, mainmenu_tilemap, $0000, $0000)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, submenu_gameflags_ctrl) ; gameplay mods submenu
-  %define_menu_entry(!ct_warps, $7E0000, 1, 2, $0001) ; warps submenu
-  %define_menu_entry(!ct_lonib, !debug_egg_count_mirror_l, 1, 3, $0006) ; egg count
-  %define_menu_entry(!ct_egg, $7E0000, 3, 3, $0000) ; egg 1
-  %define_menu_entry(!ct_egg, $7E0000, 4, 3, $0001) ; egg 2
-  %define_menu_entry(!ct_egg, $7E0000, 5, 3, $0002) ; egg 3
-  %define_menu_entry(!ct_egg, $7E0000, 6, 3, $0003) ; egg 4
-  %define_menu_entry(!ct_egg, $7E0000, 7, 3, $0004) ; egg 5
-  %define_menu_entry(!ct_egg, $7E0000, 8, 3, $0005) ; egg 6
-  %define_menu_entry(!ct_hinib, $7E012F, 1, 4, $00F0) ; slowdown amount high
-  %define_menu_entry(!ct_lonib, $7E012F, 2, 4, $000F) ; slowdown amount low
-  %define_menu_entry(!ct_toggle, !frame_skip_pause_l, 1, 5, $0001) ; frame advance
-  %define_menu_entry(!ct_toggle, !full_load_default, 1, 6, $0001) ; full load as default
-  %define_menu_entry(!ct_hinib, !load_delay_timer_init, 1, 7, $00F0) ; load delay amount high
-  %define_menu_entry(!ct_lonib, !load_delay_timer_init, 2, 7, $000F) ; load delay amount low
-  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 8, $0001) ; HUD
-  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+2, 1, 9, $00F0) ; ramwatch bank
-  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+2, 2, 9, $000F) ; ramwatch bank
-  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+1, 3, 9, $00F0) ; ramwatch high
-  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+1, 4, 9, $000F) ; ramwatch high
-  %define_menu_entry(!ct_hinib, !ramwatch_addr_l+0, 5, 9, $00F0) ; ramwatch low
-  %define_menu_entry(!ct_lonib, !ramwatch_addr_l+0, 6, 9, $000F) ; ramwatch low
+  %define_menu_entry(!ct_warps, $7E0000, 1, 2, $01) ; warps submenu
+  %define_menu_entry(!ct_eggcount, !debug_egg_count_mirror_l, 1, 3, $00) ; egg count
+  %define_menu_entry(!ct_egg, $7E0000, 3, 3, $00) ; egg 1
+  %define_menu_entry(!ct_egg, $7E0000, 4, 3, $01) ; egg 2
+  %define_menu_entry(!ct_egg, $7E0000, 5, 3, $02) ; egg 3
+  %define_menu_entry(!ct_egg, $7E0000, 6, 3, $03) ; egg 4
+  %define_menu_entry(!ct_egg, $7E0000, 7, 3, $04) ; egg 5
+  %define_menu_entry(!ct_egg, $7E0000, 8, 3, $05) ; egg 6
+  %define_menu_entry(!ct_nib, $7E012F, 1, 4, $F0) ; slowdown amount high
+  %define_menu_entry(!ct_nib, $7E012F, 2, 4, $0F) ; slowdown amount low
+  %define_menu_entry(!ct_toggle, !frame_skip_pause_l, 1, 5, $01) ; frame advance
+  %define_menu_entry(!ct_toggle, !full_load_default, 1, 6, $01) ; full load as default
+  %define_menu_entry(!ct_nib, !load_delay_timer_init, 1, 7, $F0) ; load delay amount high
+  %define_menu_entry(!ct_nib, !load_delay_timer_init, 2, 7, $0F) ; load delay amount low
+  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 8, $01) ; HUD
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 1, 9, $F0) ; ramwatch bank
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 2, 9, $0F) ; ramwatch bank
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 3, 9, $F0) ; ramwatch high
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 4, 9, $0F) ; ramwatch high
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 5, 9, $F0) ; ramwatch low
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 6, 9, $0F) ; ramwatch low
   %define_menu_entry(!ct_submenu, $7E0000, 1, 10, submenu_config_ctrl) ; input config submenu
 .column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
   dw $0000, $0100, $0206, $0901, $0B00, $0C00, $0D01, $0F00, $1005, $1600
@@ -90,13 +90,13 @@ submenu_gameflags_ctrl:
 .metadata
   %define_menu_metadata(submenu_gameflags_ctrl, submenu_gameflags_tilemap, $0000, mainmenu_ctrl)
 .data
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $0000) ; back
-  %define_menu_entry(!ct_func, $7E0000, 1, 2, $0000) ; disable autoscroll
-  %define_menu_entry(!ct_toggle, !disable_music, 1, 3, $0001) ; disable music
-  %define_menu_entry(!ct_toggle, !free_movement_l, 1, 4, $0001) ; free movement
-  %define_menu_entry(!ct_toggle, $7E0372, 1, 5, $00E0) ; set tutorial flags
-  %define_menu_entry(!ct_toggle, !skip_kamek, 1, 6, $0001) ; disable kamek at boss
-  %define_menu_entry(!ct_toggle, !debug_control_scheme, 1, 7, $0002) ; force hasty
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
+  %define_menu_entry(!ct_func, $7E0000, 1, 2, $00) ; disable autoscroll
+  %define_menu_entry(!ct_toggle, !disable_music, 1, 3, $01) ; disable music
+  %define_menu_entry(!ct_toggle, !free_movement_l, 1, 4, $01) ; free movement
+  %define_menu_entry(!ct_toggle, $7E0372, 1, 5, $E0) ; set tutorial flags
+  %define_menu_entry(!ct_toggle, !skip_kamek, 1, 6, $01) ; disable kamek at boss
+  %define_menu_entry(!ct_toggle, !debug_control_scheme, 1, 7, $02) ; force hasty
 .column_counts
   dw $0000, $0100, $0200, $0300, $0400, $0500, $0600
 
@@ -104,28 +104,28 @@ submenu_config_ctrl:
 .metadata
   %define_menu_metadata(submenu_config_ctrl, submenu_config_tilemap, submenu_config_palette, mainmenu_ctrl)
 .data
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $0000) ; back
-  %define_menu_entry(!ct_func, $7E0000, 18, 1, $0001) ; reset to default
-  %define_menu_entry(!ct_binding, !bind_savestate_1, 1, 3, $0000)
-  %define_menu_entry(!ct_binding, !bind_savestate_2, 9, 3, $0001)
-  %define_menu_entry(!ct_binding, !bind_loadstate_1, 1, 4, $0000)
-  %define_menu_entry(!ct_binding, !bind_loadstate_2, 9, 4, $0001)
-  %define_menu_entry(!ct_binding, !bind_loadstatefull_1, 1, 5, $0000)
-  %define_menu_entry(!ct_binding, !bind_loadstatefull_2, 9, 5, $0001)
-  %define_menu_entry(!ct_binding, !bind_loadstateroom_1, 1, 6, $0000)
-  %define_menu_entry(!ct_binding, !bind_loadstateroom_2, 9, 6, $0001)
-  %define_menu_entry(!ct_binding, !bind_musictoggle_1, 1, 7, $0000)
-  %define_menu_entry(!ct_binding, !bind_musictoggle_2, 9, 7, $0001)
-  %define_menu_entry(!ct_binding, !bind_freemovement_1, 1, 8, $0000)
-  %define_menu_entry(!ct_binding, !bind_freemovement_2, 9, 8, $0001)
-  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_1, 1, 9, $0000)
-  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_2, 9, 9, $0001)
-  %define_menu_entry(!ct_binding, !bind_slowdownincrease_1, 1, 10, $0000)
-  %define_menu_entry(!ct_binding, !bind_slowdownincrease_2, 9, 10, $0001)
-  %define_menu_entry(!ct_binding, !bind_frameadvance_1, 1, 11, $0000)
-  %define_menu_entry(!ct_binding, !bind_frameadvance_2, 9, 11, $0001)
-  %define_menu_entry(!ct_binding, !bind_disableautoscroll_1, 1, 12, $0000)
-  %define_menu_entry(!ct_binding, !bind_disableautoscroll_2, 9, 12, $0001)
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
+  %define_menu_entry(!ct_func, $7E0000, 18, 1, $01) ; reset to default
+  %define_menu_entry(!ct_binding, !bind_savestate_1, 1, 3, $00)
+  %define_menu_entry(!ct_binding, !bind_savestate_2, 9, 3, $01)
+  %define_menu_entry(!ct_binding, !bind_loadstate_1, 1, 4, $00)
+  %define_menu_entry(!ct_binding, !bind_loadstate_2, 9, 4, $01)
+  %define_menu_entry(!ct_binding, !bind_loadstatefull_1, 1, 5, $00)
+  %define_menu_entry(!ct_binding, !bind_loadstatefull_2, 9, 5, $01)
+  %define_menu_entry(!ct_binding, !bind_loadstateroom_1, 1, 6, $00)
+  %define_menu_entry(!ct_binding, !bind_loadstateroom_2, 9, 6, $01)
+  %define_menu_entry(!ct_binding, !bind_musictoggle_1, 1, 7, $00)
+  %define_menu_entry(!ct_binding, !bind_musictoggle_2, 9, 7, $01)
+  %define_menu_entry(!ct_binding, !bind_freemovement_1, 1, 8, $00)
+  %define_menu_entry(!ct_binding, !bind_freemovement_2, 9, 8, $01)
+  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_1, 1, 9, $00)
+  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_2, 9, 9, $01)
+  %define_menu_entry(!ct_binding, !bind_slowdownincrease_1, 1, 10, $00)
+  %define_menu_entry(!ct_binding, !bind_slowdownincrease_2, 9, 10, $01)
+  %define_menu_entry(!ct_binding, !bind_frameadvance_1, 1, 11, $00)
+  %define_menu_entry(!ct_binding, !bind_frameadvance_2, 9, 11, $01)
+  %define_menu_entry(!ct_binding, !bind_disableautoscroll_1, 1, 12, $00)
+  %define_menu_entry(!ct_binding, !bind_disableautoscroll_2, 9, 12, $01)
 .column_counts
   dw $0001, $0201, $0401, $0601, $0801, $0A01, $0C01, $0E01, $1001, $1201, $1401
 

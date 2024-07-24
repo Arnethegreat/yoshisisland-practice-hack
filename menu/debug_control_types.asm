@@ -1,13 +1,13 @@
 ; Control type inits
 ;
 
-init_highnib_memchanger:
-  JSR draw_highnib
+init_nib_changer:
+  JSR draw_nib
 .ret
   RTS
 
-init_lownib_memchanger:
-  JSR draw_lownib
+init_eggcount_changer:
+  JSR draw_eggcount
 .ret
   RTS
 
@@ -49,11 +49,11 @@ init_config_changer:
 ;================================
 ; Control type cleanups
 
-cleanup_highnib_memchanger:
+cleanup_nib_changer:
 .ret
   RTS
 
-cleanup_lownib_memchanger:
+cleanup_eggcount_changer:
 .ret
   RTS
 
@@ -92,7 +92,7 @@ cleanup_config_changer:
 ;================================
 ; Control type main routines
 
-main_highnib_memchanger:
+main_nib_changer:
   PHP
   %a8()
   %i16()
@@ -103,26 +103,23 @@ main_highnib_memchanger:
   JSR held_input_repeater
   LDX $0000 : BNE .check_decrement
 
-  ; increment only high nibble
-  LDA [!dbc_memory]
-  STA $0000
-  CLC
-  ADC #$10
-  AND #$F0
-  STA $0002
+  ; split the nibbles
+  LDA !dbc_wildcard : AND [!dbc_memory] : STA $0000 ; nibble to change
+  LDA !dbc_wildcard : EOR #$FF : AND [!dbc_memory] : STA $0002 ; other nibble
 
-  ; compare to wild card (max)
-  LDA $0000
-  CMP !dbc_wildcard
-  BCC +
-  LDA !dbc_wildcard+1
-  STA $0002
-
+  ; if the original nibble was at the max (F- or -F) then set it to zero
+  LDA $0000 : CMP !dbc_wildcard : BNE +
+  STZ $0000
+  BRA ++
 +
-  LDA $0000
-  AND #$0F
-  ORA $0002
-  STA [!dbc_memory]
+  ; else, increment nibble
+  LDA #$11 : AND !dbc_wildcard ; 01 or 10
+  CLC : ADC $0000
+  STA $0000
+++
+
+  ; combine the nibbles back together and store
+  LDA $0000 : ORA $0002 : STA [!dbc_memory]
   LDA #!sfx_shell_07
   BRA .update_draw
 
@@ -132,34 +129,28 @@ main_highnib_memchanger:
   JSR held_input_repeater
   LDX $0000 : BNE .ret
 
-  ; decrement only high nibble
-  LDA [!dbc_memory]
+  ; split the nibbles
+  LDA !dbc_wildcard : AND [!dbc_memory] : STA $0000 ; nibble to change
+  LDA !dbc_wildcard : EOR #$FF : AND [!dbc_memory] : STA $0002 ; other nibble
+
+  ; if the original nibble was at zero then set it to the wildcard (max)
+  LDA $0000 : AND !dbc_wildcard : BNE +
+  ORA !dbc_wildcard : STA $0000
+  BRA ++
++
+  ; else, decrement nibble (by adding a negative)
+  LDA #$FF : AND !dbc_wildcard ; 0F or F0
+  CLC : ADC $0000
   STA $0000
-  AND #$F0
+++
 
-  ; compare to wild card (min)
-  CMP !dbc_wildcard+1
-  BNE .normal_dec
-  LDA !dbc_wildcard
-  STA $0002
-  BRA .wrap
-
-.normal_dec
-  LDA $0000
-  AND #$F0
-  SEC
-  SBC #$10
-  STA $0002
-.wrap
-  LDA $0000
-  AND #$0F
-  ORA $0002
-  STA [!dbc_memory]
+  ; combine the nibbles back together and store
+  LDA $0000 : ORA $0002 : STA [!dbc_memory]
   LDA #!sfx_shell_06
 
 .update_draw
   STA !sound_immediate
-  JSR draw_highnib
+  JSR draw_nib
 
 .ret
   PLP
@@ -167,7 +158,7 @@ main_highnib_memchanger:
 
 ;================================
 
-main_lownib_memchanger:
+main_eggcount_changer:
   PHP
   %a8()
   %i16()
@@ -178,25 +169,9 @@ main_lownib_memchanger:
   JSR held_input_repeater
   LDX $0000 : BNE .check_decrement
 
-  ; increment only low nibble
-  LDA [!dbc_memory]
-  STA $0000
-  INC A
-  AND #$0F
-  STA $0002
-
-  ; compare to wild card (max)
-  LDA $0000
-  AND #$0F ; make sure we're only comparing the low nibble
-  CMP !dbc_wildcard
-  BCC +
-  LDA !dbc_wildcard+1
-  STA $0002
-+
-  LDA $0000
-  AND #$F0
-  ORA $0002
-  STA [!dbc_memory]
+  ; if at max, no increment
+  LDA [!dbc_memory] : CMP #$06 : BCS .ret
+  INC : STA [!dbc_memory]
   LDA #!sfx_shell_07
   BRA .update_draw
 
@@ -206,35 +181,16 @@ main_lownib_memchanger:
   JSR held_input_repeater
   LDX $0000 : BNE .ret
 
-  ; decrement only low nibble
-  LDA [!dbc_memory]
-  STA $0000
-  AND #$0F
-
-  ; compare to wild card (min)
-  CMP !dbc_wildcard+1
-  BNE .normal_dec
-  LDA !dbc_wildcard
-  STA $0002
-  BRA .wrap
-
-.normal_dec
-  DEC A
-  STA $0002
-.wrap
-  LDA $0000
-  AND #$F0
-  ORA $0002
-  STA [!dbc_memory]
+  ; if at zero, no decrement
+  LDA [!dbc_memory] : BEQ .ret
+  DEC : STA [!dbc_memory]
   LDA #!sfx_shell_06
 
 .update_draw
   STA !sound_immediate
-  JSR draw_lownib
-; hacky because don't feel like doing a seperate egg count type
+  JSR draw_eggcount
   JSR clean_egg_inv_mirror
   JSR draw_all_egg_changer
-
 .ret
   PLP
   RTS

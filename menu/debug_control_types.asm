@@ -12,8 +12,15 @@ init_lownib_memchanger:
   RTS
 
 init_toggle_changer:
-  JSR draw_toggle
+  PHP
+  %a8()
+  ; reset corrupt toggle values, mostly useful for SRAM
+  LDA [!dbc_memory] : BEQ .ret
+  CMP !dbc_wildcard : BEQ .ret
+  LDA #$00 : STA [!dbc_memory]
 .ret
+  JSR draw_toggle
+  PLP
   RTS
 
 init_egg_changer:

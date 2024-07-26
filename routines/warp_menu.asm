@@ -476,6 +476,7 @@ load_room:
   JSL load_file3_debug
   +
   LDA.w #!gm_levelfadeout : STA !gamemode
+  STZ !r_level_music_playing ; levels check this is zero before loading new music
   JSR check_big_bowser
   JSR set_min_10_stars
   JSR set_yoshi_colour

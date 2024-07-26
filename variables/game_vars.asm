@@ -150,6 +150,7 @@
 
 ; SFX (see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Sound-IDs)
 !sound_immediate = $0053
+!r_level_music_playing = $0205
 
 !sfx_collect_egg = $03
 !sfx_shell_01 = #$000B

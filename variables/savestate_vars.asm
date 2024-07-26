@@ -97,10 +97,10 @@
 !wram_block_01_savestate = $7F40BE
 !wram_block_01_size = $086E
 
-; $0202 -> $0222
-!wram_block_02_source = $7E0202
+; $0200 -> $0222
+!wram_block_02_source = $7E0200
 !wram_block_02_savestate = $7F492C
-!wram_block_02_size = $0020
+!wram_block_02_size = $0022
 
 ; $0030 -> $004D (avoid sound stuff since we don't save APU state)
 !wram_block_03_source = $7E0030
@@ -111,5 +111,3 @@
 !wram_block_04_source = $7E0069
 !wram_block_04_savestate = $7F496B
 !wram_block_04_size = $00F5
-
-

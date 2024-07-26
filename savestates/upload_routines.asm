@@ -172,6 +172,7 @@ ram_save_table:
     dw !wram_block_01_size : dl !wram_block_01_source, !wram_block_01_savestate
     dw !wram_block_02_size : dl !wram_block_02_source, !wram_block_02_savestate
     dw !wram_block_03_size : dl !wram_block_03_source, !wram_block_03_savestate
+    dw !wram_block_04_size : dl !wram_block_04_source, !wram_block_04_savestate
 
 ;=================================
 ;=================================

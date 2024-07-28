@@ -101,6 +101,11 @@ prepare_load:
     LDA !load_mode
     AND #$0002
     BEQ .check_savestate
+    ; check if level or room reset
+    LDA !zone_reset_flag : AND #$00FF : BEQ +
+    JSR reload_current_level
+    JMP .no_load
+    +
     JSR load_last_exit
     JMP .no_load
 
@@ -257,6 +262,27 @@ load_last_exit:
 
     LDA.w #!gm_levelfadeout
     STA !gamemode
+.ret
+    RTS
+
+reload_current_level:
+    ; set up the warp to the beginning of the current stage
+    LDA !current_level : STA !screen_exit_level
+    STZ !current_screen
+
+    STZ !level_load_type ; start of level flag
+    STZ !red_coin_count
+    STZ !star_count
+    STZ !flower_count
+
+    ; set eggs to whatever they were the last time a stage was started
+    LDX #$000C
+    -
+        LDA !last_level_eggs_size,x : STA !egg_inv_size,x
+        DEX #2
+        BPL -
+
+    LDA.w #!gm_levelfadeout : STA !gamemode
 .ret
     RTS
 

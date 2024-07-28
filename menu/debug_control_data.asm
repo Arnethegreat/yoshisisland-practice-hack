@@ -69,22 +69,23 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_egg, $7E0000, 6, 3, $03) ; egg 4
   %define_menu_entry(!ct_egg, $7E0000, 7, 3, $04) ; egg 5
   %define_menu_entry(!ct_egg, $7E0000, 8, 3, $05) ; egg 6
-  %define_menu_entry(!ct_nib, $7E012F, 1, 4, $F0) ; slowdown amount high
-  %define_menu_entry(!ct_nib, $7E012F, 2, 4, $0F) ; slowdown amount low
+  %define_menu_entry(!ct_nib, !slowdown_mag_l, 1, 4, $F0) ; slowdown amount high
+  %define_menu_entry(!ct_nib, !slowdown_mag_l, 2, 4, $0F) ; slowdown amount low
   %define_menu_entry(!ct_toggle, !frame_skip_pause_l, 1, 5, $01) ; frame advance
   %define_menu_entry(!ct_toggle, !full_load_default, 1, 6, $01) ; full load as default
-  %define_menu_entry(!ct_nib, !load_delay_timer_init, 1, 7, $F0) ; load delay amount high
-  %define_menu_entry(!ct_nib, !load_delay_timer_init, 2, 7, $0F) ; load delay amount low
-  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 8, $01) ; HUD
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 1, 9, $F0) ; ramwatch bank
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 2, 9, $0F) ; ramwatch bank
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 3, 9, $F0) ; ramwatch high
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 4, 9, $0F) ; ramwatch high
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 5, 9, $F0) ; ramwatch low
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 6, 9, $0F) ; ramwatch low
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 10, submenu_config_ctrl) ; input config submenu
+  %define_menu_entry(!ct_toggle, !zone_reset_flag_l, 1, 7, $01) ; level or room reset
+  %define_menu_entry(!ct_nib, !load_delay_timer_init, 1, 8, $F0) ; load delay amount high
+  %define_menu_entry(!ct_nib, !load_delay_timer_init, 2, 8, $0F) ; load delay amount low
+  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 9, $01) ; HUD
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 1, 10, $F0) ; ramwatch bank
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 2, 10, $0F) ; ramwatch bank
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 3, 10, $F0) ; ramwatch high
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 4, 10, $0F) ; ramwatch high
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 5, 10, $F0) ; ramwatch low
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 6, 10, $0F) ; ramwatch low
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 11, submenu_config_ctrl) ; input config submenu
 .column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
-  dw $0000, $0100, $0206, $0901, $0B00, $0C00, $0D01, $0F00, $1005, $1600
+  dw $0000, $0100, $0206, $0901, $0B00, $0C00, $0D00, $0E01, $1000, $1105, $1700
 
 submenu_gameflags_ctrl:
 .metadata

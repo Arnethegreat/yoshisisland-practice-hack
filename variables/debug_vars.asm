@@ -75,6 +75,7 @@ includeonce
 %var_707E7E(disable_music, 1)
 
 !slowdown_mag = $012F
+!slowdown_mag_l = $7E012F
 !frame_skip_timer = $0130
 %var_1409(frame_skip_pause, 1)
 !frame_skip_pause_l = $7E0000+!frame_skip_pause

@@ -17,7 +17,7 @@ set_level:
     BNE .skip ; loading a savestate, don't save stuff
     STA !last_exit_1
     PHA
-    LDA $7F7E02,x
+    LDA !screen_exit_ypos,x
     STA !last_exit_2
 
     LDA !level_load_type

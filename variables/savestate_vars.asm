@@ -2,6 +2,8 @@
 %var_1409(savestate_exists, 2)
 %var_1409(current_level, 2)
 %var_707E7E(full_load_default, 1)
+%var_1409(zone_reset_flag, 1)
+!zone_reset_flag_l = $7E0000+!zone_reset_flag
 %var_1409(load_mode, 1)
 %var_1409(dma_channel_0_savestate, 10)
 %var_1409(dma_channel_1_savestate, 10)
@@ -18,6 +20,8 @@
 %var_1409(last_exit_red_coins, 2)
 %var_1409(last_exit_flowers, 2)
 %var_1409(last_exit_eggs, 14)
+%var_1409(last_level_eggs_size, 2)
+%var_1409(last_level_eggs, 12)
 %var_1409(last_exit_load_type, 2)
 %var_1409(last_exit_loading_flag, 2)
 %var_1409(last_exit_item_mem_backup, 128)

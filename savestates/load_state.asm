@@ -104,9 +104,11 @@ prepare_load:
     ; check if level or room reset
     LDA !zone_reset_flag : AND #$00FF : BEQ +
     JSR reload_current_level
-    JMP .no_load
+    BRA ++
     +
     JSR load_last_exit
+    ++
+    LDA !hud_displayed : AND #$FF00 : STA !hud_displayed ; temporarily hide HUD in order to prevent lag on level intro
     JMP .no_load
 
 .check_savestate

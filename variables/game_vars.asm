@@ -13,6 +13,7 @@
 
 ; Game modes
 !gm_npresentsload = $01
+!gm_npresentsfadein = $02
 !gm_cutscenefadeout = $08
 !gm_title = $0A
 !gm_levelfadeout = $0B

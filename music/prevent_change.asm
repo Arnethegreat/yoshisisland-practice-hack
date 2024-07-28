@@ -2,6 +2,20 @@
 prevent_music_change:
     TAX ; save track ID in X
 
+    ; if music disable is on from boot, the first level transition will hang the SPC:
+    ; the SPC tempo ($53) gets updated to whatever the stored tempo ($03CF) is during music changes (level transitions etc.)
+    ; $03CF is initially zero, which gets written to $53, causing an infinite loop ($04A6)
+    ; we force $03CF to be initialised by writing a value to port0 once on boot
+    LDA !gamemode : CMP #!gm_npresentsload : BNE +
+    LDX #$01
+    BRA .send_track
+    +
+    ; then turn off the audio during the nintendo presents fade in so that the track doesn't play
+    CMP #!gm_npresentsfadein : BNE +
+    LDX #$F1
+    BRA .send_track
+    +
+
     ; if we load a state while music disable is active, gamemode $0C will DMA zero to $4D/F
     ; this causes the game to attempt to change music track, reach this code, and set !current_music_track
     ; thankfully, track 0 doesn't play anything, so we can safely skip past and avoid messing it up
@@ -21,15 +35,6 @@ prevent_music_change:
     +
 
     TYA : BEQ .send_track ; is disable music active?
-
-    ; if music disable is always on from boot, the first level transition will hang the SPC:
-    ; the SPC tempo ($53) gets updated to whatever the stored tempo ($03CF) is during music changes (level transitions etc.)
-    ; $03CF is initially zero, which gets written to $53, causing an infinite loop ($04A6)
-    ; we force $03CF to be initialised by writing a value to port0 once on boot
-    LDA !gamemode : CMP #!gm_npresentsload : BNE +
-    LDX #$01
-    BRA .send_track
-    +
 
     ; if we're preventing a music change, store the track it was trying to play
     ; unless the change was triggered by us, in which case we've already stored the track

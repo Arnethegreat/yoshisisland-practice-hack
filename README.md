@@ -3,7 +3,7 @@ Practice hack for Yoshi's Island designed to be used on a SNES console
 
 Features:
 * Savestates
-* Room Reset
+* Re-zone to last room/level
 * Debug Menu
 * HUD
 * Warp to (almost) any room entrance
@@ -88,8 +88,8 @@ Full load: re-loads the room, regenerates all terrain. This can be toggled to th
 Loading can be done from anywhere (but not always guaranteed to work).
 An after-load delay can be set from the debug menu. The byte value indicates the number of frames the game will be paused for when a savestate is finished loading.
 
-### Room Reset
-Reset to your last entrance. Your eggs and item memory is saved.
+### Re-zone
+Reset to your last room or level entrance depending on the "RE-ZONE LEVEL" menu option. Your eggs are saved.
 
 ### Music Toggle
 Enable/disable music (sound effects play as normal).
@@ -136,7 +136,7 @@ Controller 1 | Controller 2 | Function
 Select | - | Save
 X | - | Load
 L+X | - | Load full
-R+X | - | Room reset
+R+X | - | Re-zone
 \- | Select | Toggle music
 \- | B | Free movement
 \- | L | Slowdown decrease
@@ -145,7 +145,7 @@ R+X | - | Room reset
 \- | Y | Disable autoscroll
 
 
-# How to assemble
+# How to assemble manually
 First, clone this repo.
 
 This project uses the [**asar**](https://github.com/RPGHacker/asar) assembler, so download it if you need to.

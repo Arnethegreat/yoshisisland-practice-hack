@@ -19,7 +19,8 @@ item_memory_page_pointers:
 
 load_last_exit:
     PHP
-    %ai16()
+    %a16()
+    %i8()
 
     ; set up the warp to the last exit
     LDA !last_exit_1 : STA !screen_exit_level
@@ -27,29 +28,28 @@ load_last_exit:
     STZ !current_screen
     LDA !last_exit_load_type : STA !level_load_type ; room entrance or level intro
 
-    ; restore collectibles
+    ; restore collectible counts
     LDA !last_exit_red_coins : STA !red_coin_count
     LDA !last_exit_stars : STA !star_count
     LDA !last_exit_flowers : STA !flower_count
 
     JSR calc_level_timer
 
-    LDX #$000C
+    ; restore eggs
+    LDX #$0C
     -
         LDA !last_exit_eggs,x : STA !egg_inv_size,x
         DEX #2
         BPL -
 
+    ; restore in-level collectible items (stars, red coins, etc.)
     LDA !item_mem_current_page : ASL : TAX
     LDA item_memory_page_pointers,x : STA $00
-; TODO: save and restore item memory? 
-    LDY #$007E
+    LDY #$7E
     -
         LDA !last_exit_item_mem_backup,y : STA ($00),y
         DEY #2
         BPL -
-
-    LDA #$0001 : STA !last_exit_loading_flag
 
     LDA.w #!gm_levelfadeout : STA !gamemode
 .ret
@@ -58,20 +58,21 @@ load_last_exit:
 
 reload_current_level:
     PHP
-    %ai16()
+    %a16()
+    %i8()
 
     ; set up the warp to the beginning of the current stage
     LDA !current_level : STA !screen_exit_level
     STZ !current_screen
     STZ !level_load_type ; start of level flag
 
-    ; reset collectibles
+    ; reset collectible counts
     STZ !red_coin_count
     STZ !star_count
     STZ !flower_count
 
-    ; set eggs to whatever they were the last time a stage was started
-    LDX #$000C
+    ; restore eggs to whatever they were the last time a stage was started
+    LDX #$0C
     -
         LDA !last_level_eggs_size,x : STA !egg_inv_size,x
         DEX #2

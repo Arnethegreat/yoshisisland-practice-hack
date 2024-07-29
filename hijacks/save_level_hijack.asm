@@ -30,10 +30,8 @@ set_level:
     LDA !flower_count
     STA !last_exit_flowers
 
-    LDA !item_mem_current_page
-    STA !last_exit_item_page
-
     PHX
+    PHY
     LDX #$000C
     .save_eggs
         LDA !egg_inv_size,x
@@ -42,6 +40,15 @@ set_level:
         DEX
         BPL .save_eggs
 
+    ; save in-level collectibles
+    LDA !item_mem_current_page : ASL : TAX
+    LDA item_memory_page_pointers,x : STA $00
+    LDY #$007E
+    -
+        LDA ($00),y : STA !last_exit_item_mem_backup,y
+        DEY #2
+        BPL -
+    PLY
     PLX
 
     PLA

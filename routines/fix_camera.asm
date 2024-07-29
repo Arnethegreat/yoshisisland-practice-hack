@@ -1,6 +1,6 @@
 fix_camera:
     LDA !loaded_state
-    BEQ .last_exit_setup
+    BEQ .ret
 .in_load_state
 
 ; camera moving direction
@@ -29,33 +29,7 @@ fix_camera:
     STA !s_camera_layer1_y
     STA $003B
 
-.last_exit_setup
-
-    LDA !last_exit_loading_flag
-    BNE .ret
-    PHX
-    PHB
-    PHK
-    PLB
-
-    LDA !item_mem_current_page
-    ASL A
-    TAX
-    LDA item_memory_page_pointers,x
-    STA $00
-
-    LDY #$7E
-    .save_item_memory
-        LDA ($00),y
-        STA !last_exit_item_mem_backup,y
-        DEY
-        DEY
-        BPL .save_item_memory
-        
-    PLB
-    PLX
 .ret
-    STZ !last_exit_loading_flag
     LDA #$0061
     LDY #$00
     RTL

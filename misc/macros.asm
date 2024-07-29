@@ -38,13 +38,15 @@ endmacro
 ; ===================
 
 !lf = $FFFF ; used as lf char
-; writes an array of strings, each terminated by a sentinel value, with each char as a two-byte tile
+; writes an array of strings, with each char as a two-byte tile
+; each string and the entire array are terminated by a sentinel newline value
 macro store_text(...)
 incsrc "../resources/string_font_map.asm"
     for i = 0..sizeof(...)
         dw "<...[!i]>"
         dw !lf
     endfor
+    dw !lf
 endmacro
 
 ; Functions

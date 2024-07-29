@@ -90,34 +90,15 @@ prepare_load:
 ; Do some checks for already loading game modes
     LDA !gamemode
     CMP.w #!gm_levelloading
-    BEQ .in_loading_mode
+    BEQ .fail_load
     CMP.w #!gm_overworldloading
-    BEQ .in_loading_mode
-    BRA .test_reset_room
-.in_loading_mode
-    BRA .fail_load
+    BEQ .fail_load
 
-.test_reset_room
-    LDA !load_mode
-    AND #$0002
-    BEQ .check_savestate
-    ; check if level or room reset
-    LDA !zone_reset_flag : AND #$00FF : BEQ +
-    JSR reload_current_level
-    BRA ++
-    +
-    JSR load_last_exit
-    ++
-    LDA !hud_displayed : AND #$FF00 : STA !hud_displayed ; temporarily hide HUD in order to prevent lag on level intro
-    JMP .no_load
-
-.check_savestate
 ; Check if a savestate exists 
     LDA !savestate_exists
     BNE .test_experimental_state
 .fail_load
-    LDA #$0090
-    STA $0053
+    LDA.w #!sfx_incorrect : STA !sound_immediate
     JMP .no_load
 
 .test_experimental_state
@@ -207,123 +188,5 @@ prepare_load:
     PLP
     RTS
 .no_load
-    PLP
-    RTS
-
-;=================================
-; restore data from last exit and load
-;
-
-item_memory_page_pointers:
-  dw $03C0, $0440, $04C0, $0540
-
-load_last_exit:
-    ; word sized
-    LDA !last_exit_1
-    STA !screen_exit_level
-    LDA !last_exit_2
-    STA !screen_exit_ypos
-
-    LDA !last_exit_load_type
-    STA !level_load_type
-
-    LDA !last_exit_red_coins
-    STA !red_coin_count
-    LDA !last_exit_stars
-    STA !star_count
-    LDA !last_exit_flowers
-    STA !flower_count
-
-    JSR calc_level_timer
-
-    STZ !current_screen
-    LDX #$000C
-    .restore_eggs
-        LDA !last_exit_eggs,x
-        STA !egg_inv_size,x
-        DEX
-        DEX
-        BPL .restore_eggs
-
-    LDA !item_mem_current_page
-    ASL A
-    TAX
-    LDA item_memory_page_pointers,x
-    STA $00
-; TODO: save and restore item memory? 
-    LDY #$007E
-    .restore_item_memory
-        LDA !last_exit_item_mem_backup,y
-        STA ($00),y
-        DEY
-        DEY
-        BPL .restore_item_memory
-
-    LDA #$0001
-    STA !last_exit_loading_flag
-
-    LDA.w #!gm_levelfadeout
-    STA !gamemode
-.ret
-    RTS
-
-reload_current_level:
-    ; set up the warp to the beginning of the current stage
-    LDA !current_level : STA !screen_exit_level
-    STZ !current_screen
-
-    STZ !level_load_type ; start of level flag
-    STZ !red_coin_count
-    STZ !star_count
-    STZ !flower_count
-
-    ; set eggs to whatever they were the last time a stage was started
-    LDX #$000C
-    -
-        LDA !last_level_eggs_size,x : STA !egg_inv_size,x
-        DEX #2
-        BPL -
-
-    LDA.w #!gm_levelfadeout : STA !gamemode
-.ret
-    RTS
-
-calc_level_timer: ; reset the HUD level timer to whatever it was when entering the room by subtracting the room timer
-    PHP
-    SEP #$20
-
-    ; first, subtract RF from LF
-    LDA !level_frames
-    SEC
-    SBC !room_frames
-    ; if carry bit set, no underflow occurred, proceed
-    BCS +
-    ; else, add 60, decrement LS
-    CLC
-    ADC #60
-    DEC !level_seconds
-+
-    STA !level_frames
-
-    ; second, subtract RS from LS
-    LDA !level_seconds
-    SEC
-    SBC !room_seconds
-    ; if carry bit set, no underflow occurred, proceed
-    BCS +
-    ; else, add 60, decrement LM
-    CLC
-    ADC #60
-    DEC !level_minutes
-+
-    STA !level_seconds
-
-    ; finally, subtract RM from LM
-    LDA !level_minutes
-    SEC
-    SBC !room_minutes
-    STA !level_minutes
-
-.ret
     PLP
     RTS

@@ -143,7 +143,7 @@ check_controllers:
     dw save_state
     dw .default_load
     dw .full_load
-    dw .room_load
+    dw rezone
     dw .toggle_music
     dw disable_autoscroll
     dw .toggle_free_movement
@@ -156,10 +156,6 @@ check_controllers:
     RTS
 .full_load
     LDA #$01 : STA !load_mode
-    JSR prepare_load
-    RTS
-.room_load
-    LDA #$02 : STA !load_mode
     JSR prepare_load
     RTS
 .toggle_music

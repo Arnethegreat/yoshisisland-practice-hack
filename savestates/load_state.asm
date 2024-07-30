@@ -15,11 +15,6 @@ load_state:
 
     %ai16()
 
-    LDA !save_x_pos
-    STA !yoshi_x_pos
-    LDA !save_y_pos
-    STA !yoshi_y_pos
-
 ; blocks needed before load
     JSR load_item_memory
 
@@ -32,11 +27,6 @@ load_state:
     REP #$30
 
 ..entry
-    LDA !save_x_pos
-    STA !yoshi_x_pos 
-    LDA !save_y_pos
-    STA !yoshi_y_pos
-
     STZ !level_load_type
 
     ; prevent the slowdown setting from being overwritten

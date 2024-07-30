@@ -47,6 +47,13 @@
 
 ;=================================
 
+; store changes made to the map16 WRAM table during gameplay
+!wram_map16delta_savestate = $7E2F40 ; to $7E4000
+!wram_map16delta_size = $10C0
+%var_1409(map16delta_index, 2)
+
+;=================================
+
 ; SRAM blocks
 ; Add some kamek timer stuff @ $44F0
 ;
@@ -79,12 +86,12 @@
 !sram_block_04_savestate = $7F4B2C
 !sram_block_04_size = $0080
 
-!sram_map16_source = $70409E
-!sram_map16_savestate = $7E2340
+!sram_map16_source = $70409E ; to $70449E
+!sram_map16_savestate = $7E2340 ; to $7E2740
 !sram_map16_size = $0400
 
-!sram_dyntile_source = $705800
-!sram_dyntile_savestate = $7E2740
+!sram_dyntile_source = $705800 ; to $706000
+!sram_dyntile_savestate = $7E2740 ; to $7E2F40
 !sram_dyntile_size = $0800
 
 ; WRAM blocks

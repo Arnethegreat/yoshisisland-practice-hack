@@ -17,6 +17,9 @@ load_state:
 
 ; blocks needed before load
     JSR load_item_memory
+    LDA !level_load_type : CMP #$0002 : BNE + ; quick load only
+    JSR load_wram_map16_delta ; mode 0C will update S/VRAM for us
+    +
 
     PLP
     JMP game_loop_continue
@@ -42,6 +45,7 @@ load_state:
     PLA : STA !slowdown_mag
 
     LDA !save_lag_counter : STA !lag_counter
+    STZ !map16delta_index
 
     SEP #$20
 

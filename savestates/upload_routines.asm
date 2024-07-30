@@ -97,6 +97,24 @@ load_dyntile_buffer:
 .ret
     RTS
 
+load_wram_map16_delta:
+    PHP
+    PHB
+    LDX !map16delta_index : BEQ .ret
+    %a8()
+    LDA #$7F : PHA : PLB
+    %ai16()
+
+-
+    LDA !wram_map16delta_savestate-2,x : TAY ; Y = map16 table offset
+    LDA !wram_map16delta_savestate-4,x : STA.w !r_map16_table,y
+    DEX #4
+    BPL -
+.ret
+    PLB
+    PLP
+    RTS
+
 ;=================================
 ; Generic WRAM and SRAM blocks
 ;=================================

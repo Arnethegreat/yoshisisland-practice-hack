@@ -12,6 +12,7 @@ incsrc variables/base.asm
 incsrc hijacks/boot_hijack.asm
 incsrc hijacks/interrupt_hijack.asm
 incsrc hijacks/save_level_hijack.asm
+incsrc hijacks/change_map16_hijack.asm
 incsrc hijacks/map_hijack.asm
 incsrc hijacks/level_load_hijack.asm
 incsrc hijacks/mode7_boss_hijack.asm
@@ -28,6 +29,7 @@ incsrc savestates/save_state.asm
 incsrc savestates/load_state.asm
 incsrc savestates/upload_routines.asm
 incsrc savestates/hard_fixes.asm
+incsrc savestates/record_map16_changes.asm
 ;=================================
 incsrc music/toggle_music.asm
 incsrc misc/load_gfx.asm

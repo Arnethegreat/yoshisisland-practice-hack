@@ -15,6 +15,7 @@ save_state:
 .prepare_save
     LDA #$0001
     STA !savestate_exists
+    STZ !map16delta_index
 
 .save_memory_blocks
     JSR save_item_memory

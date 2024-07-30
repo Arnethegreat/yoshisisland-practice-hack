@@ -101,6 +101,9 @@
 !star_count = $03B6
 !flower_count = $03B8
 
+; MAP16
+!r_map16_table = $7F8000
+
 ; Sprite Despawn table
 ; 256 bytes
 !sprite_despawn_table = $7028CA
@@ -205,8 +208,3 @@
 !r_reg_cgadsub_mirror = $096C
 
 !s_cgram_mirror = $702000
-
-;Sprite Data
-; $6F00 
-
-;Modified Terrain

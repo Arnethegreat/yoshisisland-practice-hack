@@ -82,7 +82,7 @@ Current supported sprites:
 ### Savestates
 Save your current state while in a level.
 
-Normal (fast) load: works while in the same level as the savestate. 
+Normal (fast) load: works while in the same level as the savestate. Restores changes made to terrain. Certain tiles such as sand may appear visually incorrect, but should still be functional.
 Full load: re-loads the room, regenerates all terrain. This can be toggled to the opposite in menu.
 
 Loading can be done from anywhere (but not always guaranteed to work).

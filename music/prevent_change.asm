@@ -19,7 +19,7 @@ prevent_music_change:
     ; if we load a state while music disable is active, gamemode $0C will DMA zero to $4D/F
     ; this causes the game to attempt to change music track, reach this code, and set !current_music_track
     ; thankfully, track 0 doesn't play anything, so we can safely skip past and avoid messing it up
-    BEQ .send_track
+    CPX #$00 : BEQ .send_track
 
     ; it's possible for the interrupt to occur during a GSU (superfx) routine
     ; in which case the GSU will have sole access to ROM/SRAM, and CPU reads will return garbage

@@ -37,6 +37,8 @@ save_state:
     LDA !yoshi_y_pos
     STA !save_y_pos
 
+    LDA !r_camera_direction_x : STA !save_camera_direction_x
+
     LDA !s_camera_layer1_x
     STA !save_camera_layer1_x
 

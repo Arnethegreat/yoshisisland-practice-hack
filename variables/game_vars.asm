@@ -131,6 +131,9 @@
 !s_camera_layer3_y = $60A0
 !s_camera_layer4_y = $60A2
 
+!r_camera_direction_x = $73
+!r_camera_direction_y = $75
+
 ; Save Data
 !r_cur_save_file = $030E
 

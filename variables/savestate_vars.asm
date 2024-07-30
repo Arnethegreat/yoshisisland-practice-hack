@@ -31,6 +31,7 @@
 %var_707E7E(save_level, 2)
 %var_707E7E(save_x_pos, 2)
 %var_707E7E(save_y_pos, 2)
+%var_707E7E(save_camera_direction_x, 2)
 %var_707E7E(save_camera_layer1_x, 2)
 %var_707E7E(save_camera_layer1_y, 2)
 

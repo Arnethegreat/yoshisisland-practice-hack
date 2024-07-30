@@ -4,7 +4,7 @@ fix_camera:
 .in_load_state
 
 ; camera moving direction
-    LDA $7F4991
+    LDA !save_camera_direction_x
     BNE .moving_left
 .moving_right
     LDA !save_camera_layer1_x

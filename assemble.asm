@@ -1,4 +1,5 @@
 asar 1.91
+lorom
 check bankcross half
 
 print "YI Practice Hack 0.4.2"
@@ -17,6 +18,9 @@ incsrc hijacks/mode7_boss_hijack.asm
 incsrc hijacks/downtime_edits.asm
 incsrc hijacks/debug_hijacks.asm
 incsrc hijacks/game_loop_hijack.asm
+;=================================
+incsrc cfg/config.asm
+incsrc cfg/check_bindings.asm
 ;=================================
 incsrc superfx/base.asm
 ;=================================

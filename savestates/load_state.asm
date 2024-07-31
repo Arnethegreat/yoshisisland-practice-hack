@@ -58,6 +58,11 @@ load_state:
     LDA !save_room_minutes : STA !room_minutes
 
     LDA !load_delay_timer_init : STA !load_delay_timer
+    BEQ +
+    ; don't run the frame if load delay is active
+    PLP
+    JMP game_loop_skip
+    +
 
     PLP
     JMP game_loop_continue

@@ -1,33 +1,17 @@
+; game mode 0C messes with the camera, causing it to start shifting during the load and messing up tile column loading
+; before our savestate can load the correct values
 fix_camera:
     LDA !loaded_state
     BEQ .ret
-.in_load_state
 
-; camera moving direction
-    LDA !save_camera_direction_x
-    BNE .moving_left
-.moving_right
     LDA !save_camera_layer1_x
-; values will be 2 off for when normal gameplay starts
-    CLC
-    ADC #$0002
     STA !s_camera_layer1_x
-    STA $0039
-    BRA .y_camera
-.moving_left
-    LDA !save_camera_layer1_x
-; values will be 2 off for when normal gameplay starts
-    SEC
-    SBC #$0002
-    STA !s_camera_layer1_x
-    STA $0039
+    STA !r_camera_layer1_x
 
-.y_camera
     LDA !save_camera_layer1_y
-    SEC
-    SBC #$0004
+    SEC : SBC #$0018 ; prevent adjustment at $04FDB7 (runs twice?)
     STA !s_camera_layer1_y
-    STA $003B
+    STA !r_camera_layer1_y
 
 .ret
     LDA #$0061

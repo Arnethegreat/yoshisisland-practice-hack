@@ -18,6 +18,9 @@ incsrc hijacks/level_load_hijack.asm
 incsrc hijacks/mode7_boss_hijack.asm
 incsrc hijacks/downtime_edits.asm
 incsrc hijacks/debug_hijacks.asm
+arch superfx
+incsrc superfx/camera_hijack.asm
+arch 65816
 incsrc hijacks/game_loop_hijack.asm
 ;=================================
 incsrc cfg/config.asm

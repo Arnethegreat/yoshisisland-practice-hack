@@ -1,4 +1,4 @@
-%var_1409(loaded_state, 2)
+%var_707E7E(loaded_state, 2)
 %var_1409(savestate_exists, 2)
 %var_1409(current_level, 2)
 %var_707E7E(full_load_default, 1)
@@ -58,14 +58,12 @@
 ; Add some kamek timer stuff @ $44F0
 ;
 
-; $0000 -> $2200 
-!sram_block_00_source = $700000
-!sram_block_00_savestate = $7F0300
+!sram_block_00_source = $700000 ; to $702200
+!sram_block_00_savestate = $7F0300 ; to $7F2500
 !sram_block_00_size = $2200
 
-; $2600 -> $409E 
-!sram_block_01_source = $702600
-!sram_block_01_savestate = $7F2500
+!sram_block_01_source = $702600 ; to $70409E
+!sram_block_01_savestate = $7F2500 ; to $7F3F9E
 !sram_block_01_size = $1A9E
 
 ; $49C6 -> $49E8

@@ -13,8 +13,9 @@ set_level:
     ; in the latter case, we need to update the current sublevel ID, as we might be loading from another sublevel
     ; don't store any other data, because loading a room via savestate is not the same as loading it traditionally
     ; room reset should only respect normal gameplay and ignore savestate tomfoolery
-    LDY !loaded_state
-    BNE .skip ; loading a savestate, don't save stuff
+    TAY
+    LDA !loaded_state : BNE .skip ; loading a savestate, don't save stuff
+    TYA
     STA !last_exit_1
     PHA
     LDA !screen_exit_ypos,x
@@ -52,7 +53,9 @@ set_level:
     PLX
 
     PLA
+    TAY
 .skip
+    TYA
     AND #$00FF
     STA !current_level
     ASL A

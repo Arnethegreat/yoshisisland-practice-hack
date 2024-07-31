@@ -45,6 +45,7 @@ load_state:
     PLA : STA !slowdown_mag
 
     LDA !save_lag_counter : STA !lag_counter
+    LDA !save_inidisp_mirror : STA !r_reg_inidisp_mirror
     STZ !map16delta_index
 
     SEP #$20
@@ -57,9 +58,6 @@ load_state:
     LDA !save_room_minutes : STA !room_minutes
 
     LDA !load_delay_timer_init : STA !load_delay_timer
-
-; Re-enable screen when finished loading
-    LDA #%10000000 : TRB !r_reg_inidisp_mirror
 
     PLP
     JMP game_loop_continue

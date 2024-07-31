@@ -28,7 +28,9 @@ save_state:
 ; play 1-up sound for cue that you saved
     LDA.w #!sfx_correct : STA !sound_immediate
 
-.save_position
+.save_additional
+    LDA !r_reg_inidisp_mirror : STA !save_inidisp_mirror
+
     LDA !current_level
     STA !save_level
 

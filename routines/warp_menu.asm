@@ -340,7 +340,7 @@ endmacro
 warp_menu:
   REP #$30
 
-  STZ !dbc_index_row ; bring the cursor back up to the top
+  STZ !dbc_index_row : INC !dbc_index_row ; bring the cursor back up to the top
   STZ !dbc_index_col
 
   ; if index == 0, back was clicked - decrement the depth index
@@ -378,10 +378,6 @@ load_main_menu:
   RTS
 
 load_world_select:
-  LDA !warps_current_world_index ; load the old cursor position
-  INC A
-  STA !dbc_index_row
-
   STZ !warps_current_world_index
   STZ !warps_current_level_index
   LDA !debug_menu_controls_warps_worlds_count : STA !dbc_row_count_current : STA !dbc_count_current
@@ -389,10 +385,6 @@ load_world_select:
   RTS
 
 load_level_select:
-  LDA !warps_current_level_index ; load the old cursor position
-  INC A
-  STA !dbc_index_row
-
   CPY #$FFFF
   BEQ .from_rooms
   ; do this if coming from world select
@@ -409,8 +401,6 @@ load_level_select:
   RTS
 
 load_room_select:
-  INC !dbc_index_row
-
   STY !warps_current_level_index
 
   ; offset into debug_menu_controls_warps_room_counts is found by !warps_current_world_index*9+!warps_current_level_index
@@ -426,8 +416,7 @@ load_room_select:
   JSR init_warp_option_rooms_tilemaps
   RTS
 
-; The actual warp subroutine - modifies entrance/level data in WRAM (banks 7E/7F)
-; this may be varying levels of messed up if called before a file has been loaded
+; The actual warp subroutine
 load_room:
   REP #$30
 

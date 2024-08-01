@@ -1,8 +1,8 @@
 includeonce
 
-%var_0272(debug_egg_count_mirror, 2)
+%var_1409(debug_egg_count_mirror, 2)
 !debug_egg_count_mirror_l = $7E0000+!debug_egg_count_mirror
-%var_0272(debug_egg_inv_mirror, 12)
+%var_1409(debug_egg_inv_mirror, 12)
 
 %var_0272(debug_menu, 2)
 %var_0272(dbc_index_row, 2)
@@ -19,6 +19,7 @@ includeonce
 %var_0272(bg1_tilemap_backup, 1)
 %var_0272(bg1_char_backup, 1)
 %var_0272(bgmode_backup, 1)
+%var_0272(w12sel_backup, 1)
 
 !debug_bg1_tilemap_dest = $64 ; VRAM word address $6400
 !debug_bg1_tilemap_dest_full = !debug_bg1_tilemap_dest<<8

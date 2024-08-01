@@ -46,6 +46,8 @@ init_debug_menu:
     LDA $0126
     STA !irq_mode_2_backup
 
+    LDA !r_reg_w12sel_mirror : STA !w12sel_backup
+
     ; save egg inventory if in a level
     JSR is_in_level
     CMP #$01
@@ -98,6 +100,8 @@ init_debug_menu:
 
     ; disable window clipping
     STZ $2130
+    STZ !reg_w12sel
+    STZ !r_reg_w12sel_mirror
     ; enable backdrop color
     LDA #$20
     STA $2131
@@ -238,6 +242,7 @@ exit_debug_menu:
     STA !r_reg_bg12nba_mirror
     LDA !bgmode_backup
     STA !r_reg_bgmode_mirror
+    LDA !w12sel_backup : STA !r_reg_w12sel_mirror
     LDA !slowdown_mag : STA !frame_skip_timer ; so we don't need to wait for the timer to run out before it updates
 
     REP #$30

@@ -41,7 +41,7 @@ init_debug_menu:
 
     LDA !r_reg_hdmaen_mirror
     STA !hdma_backup
-    LDA $011C
+    LDA !r_interrupt_mode
     STA !irq_mode_1_backup
     LDA $0126
     STA !irq_mode_2_backup
@@ -93,7 +93,7 @@ init_debug_menu:
     STZ !reg_ts
 
     ; NMI & IRQ modes: Nintendo Presents
-    STZ $011C
+    STZ !r_interrupt_mode
     STZ $0126
 
     ; disable window clipping
@@ -226,7 +226,7 @@ exit_debug_menu:
     STZ !debug_menu
 
     LDA !irq_mode_1_backup
-    STA $011C
+    STA !r_interrupt_mode
     LDA !irq_mode_2_backup
     STA $0126
     LDA !hdma_backup

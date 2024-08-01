@@ -119,6 +119,9 @@ Frees the camera if used during an autoscroller.
 ### Force Hasty
 Sets the control scheme to hasty while enabled, otherwise, the controls can be changed in-game as usual.
 
+### Soft Reset
+Hold `L+R+Start+Select` on controller 1 for 32 frames to reset the game. This can be useful if you have configured the SD2SNES to load when resetting with the console button, for example.
+
 ### Button Configuration
 Practice functions can be bound to combinations of buttons on both controllers.
 - Press X to remove a binding.

@@ -49,6 +49,7 @@ if read1($00FFD9) == $00
     irqmode_04 = $00C5FE
     irqmode_08 = $00C8A8
     irqmode_0A = $00C641
+    nmi_hijack = $00C013
 
     change_map16_hijack = $10925C
     
@@ -124,6 +125,7 @@ elseif read1($00FFD9) == $01
     irqmode_04 = $00C5FE
     irqmode_08 = $00C87A
     irqmode_0A = $00C641
+    nmi_hijack = $00C013
 
     change_map16_hijack = $109303
 

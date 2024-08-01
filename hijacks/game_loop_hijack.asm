@@ -49,7 +49,7 @@ game_loop:
 ..debug_menu_button
     {
         LDA !controller_data1 : CMP #!controller_data1_L|!controller_data1_R : BNE +
-        LDA !controller_data2_press : AND #!controller_data2_start : BEQ +
+        LDA !controller_data2_press : CMP #!controller_data2_start : BNE +
         JMP init_debug_menu
         +
         LDA !controller_2_data2_press : AND #!controller_data2_start : BEQ +

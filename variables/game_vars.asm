@@ -2,6 +2,7 @@
 
 !frame_counter = $0030
 !gamemode = $0118
+!r_interrupt_mode = $011C
 !r_game_loop_complete = $011B
 !level_load_type = $038C
 !skip_kamek_flag_1 = $03AE

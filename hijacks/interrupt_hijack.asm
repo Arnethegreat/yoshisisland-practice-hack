@@ -1,3 +1,6 @@
+org nmi_hijack
+    JMP test_soft_reset
+
 ; IRQ
 org irq_2_start
     JMP irq_2

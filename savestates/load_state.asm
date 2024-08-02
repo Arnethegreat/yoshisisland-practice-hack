@@ -46,6 +46,10 @@ load_state:
 
     LDA !save_lag_counter : STA !lag_counter
     LDA !save_inidisp_mirror : STA !r_reg_inidisp_mirror
+    LDA !save_hdma_indirect_table6+0 : STA !r_hdma_indirect_table6+0
+    LDA !save_hdma_indirect_table6+2 : STA !r_hdma_indirect_table6+2
+    LDA !save_hdma_indirect_table6+4 : STA !r_hdma_indirect_table6+4
+    LDA !save_hdma_indirect_table6+6 : STA !r_hdma_indirect_table6+6
     STZ !map16delta_index
 
     SEP #$20

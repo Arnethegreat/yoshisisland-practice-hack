@@ -26,6 +26,7 @@
 %var_1409(load_delay_timer, 1)
 %var_707E7E(load_delay_timer_init, 1) ; keep in SRAM for persistence
 %var_1409(save_inidisp_mirror, 2)
+%var_1409(save_hdma_indirect_table6, 8) ; specifically for prince froggy's stomach
 
 ; persistent save data (keeps on reset)
 ; stuff used throughout

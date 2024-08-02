@@ -30,6 +30,10 @@ save_state:
 
 .save_additional
     LDA !r_reg_inidisp_mirror : STA !save_inidisp_mirror
+    LDA !r_hdma_indirect_table6+0 : STA !save_hdma_indirect_table6+0
+    LDA !r_hdma_indirect_table6+2 : STA !save_hdma_indirect_table6+2
+    LDA !r_hdma_indirect_table6+4 : STA !save_hdma_indirect_table6+4
+    LDA !r_hdma_indirect_table6+6 : STA !save_hdma_indirect_table6+6
 
     LDA !current_level
     STA !save_level

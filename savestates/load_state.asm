@@ -53,10 +53,10 @@ load_state:
     STZ !map16delta_index
 
     SEP #$20
-
-    ; if savestate made during super baby mario, play his music
+    ; if savestate made during super baby mario, play his music and DMA the big yoshi egg graphics
     LDA !save_player_form : CMP #!pfrm_super : BNE +
     LDA #$02 : STA !r_apu_io_0_mirror
+    LDX #$B600 : STX !s_rom_graphics_dma_addr
     +
 
     LDA !save_level_frames : STA !level_frames

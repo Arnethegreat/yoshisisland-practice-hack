@@ -184,6 +184,9 @@
 ; (H)DMA
 !r_hdma_indirect_table6 = $7E5D18
 
+!s_rom_graphics_dma_addr = $6114
+!s_rom_graphics_dma_addr_l = $700114
+
 ; IRQ
 !r_irq_count = $0125
 

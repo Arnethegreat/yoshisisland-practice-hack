@@ -54,6 +54,11 @@ load_state:
 
     SEP #$20
 
+    ; if savestate made during super baby mario, play his music
+    LDA !save_player_form : CMP #!pfrm_super : BNE +
+    LDA #$02 : STA !r_apu_io_0_mirror
+    +
+
     LDA !save_level_frames : STA !level_frames
     LDA !save_level_seconds : STA !level_seconds
     LDA !save_level_minutes : STA !level_minutes

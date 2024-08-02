@@ -215,7 +215,7 @@ animate_palette:
 
 exit_debug_menu:
     JSR egg_inv_debug_to_wram
-    JSR warps_cleanup
+    JSR warps_exit_logic
     SEP #$20
     STZ !debug_menu
 
@@ -298,7 +298,7 @@ hud_sub:
 .ret
     RTS
 
-warps_cleanup:
+warps_exit_logic:
     PHP
     %a8()
 
@@ -314,7 +314,7 @@ warps_cleanup:
         JSR is_in_level : CMP #$01 : BNE .ret
         ; don't load eggs when warping since the loading screen will do it for us
         JSL load_eggs_from_wram ; spawn egg sprites WRAM -> SRAM
-        LDA !s_player_form : CMP #$10 : BNE .ret ; super baby mario state?
+        LDA !s_player_form : CMP #!pfrm_super : BNE .ret ; super baby mario state?
         ; Infinite super baby mario bug: if in baby mario mode, egg inv will contain the big yoshi egg
         ; load_eggs_from_wram ignores this sprite ID, so do it manually here
         JSR spawn_big_yoshi_egg

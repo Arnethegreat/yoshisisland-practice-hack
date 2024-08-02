@@ -145,6 +145,15 @@
 !s_player_form = $60AE
 !s_player_form_l = $7000AE
 
+!pfrm_yoshi = $00
+!pfrm_car = $02
+!pfrm_mole = $04
+!pfrm_heli = $06
+!pfrm_train = $08
+!pfrm_sub = $0C
+!pfrm_ski = $0E
+!pfrm_super = $10
+
 !yoshi_x_pos = $608C
 !yoshi_x_subpixel = $608A
 !yoshi_y_pos = $6090

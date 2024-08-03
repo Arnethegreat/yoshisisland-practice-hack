@@ -93,6 +93,8 @@ cleanup_config_changer:
 ; Control type main routines
 
 main_nib_changer:
+!active_nib = $0000
+!inactive_nib = $0002
   PHP
   %a8()
   %i16()
@@ -104,22 +106,22 @@ main_nib_changer:
   LDX $0000 : BNE .check_decrement
 
   ; split the nibbles
-  LDA !dbc_wildcard : AND [!dbc_memory] : STA $0000 ; nibble to change
-  LDA !dbc_wildcard : EOR #$FF : AND [!dbc_memory] : STA $0002 ; other nibble
+  LDA !dbc_wildcard : AND [!dbc_memory] : STA !active_nib
+  LDA !dbc_wildcard : EOR #$FF : AND [!dbc_memory] : STA !inactive_nib
 
   ; if the original nibble was at the max (F- or -F) then set it to zero
-  LDA $0000 : CMP !dbc_wildcard : BNE +
-  STZ $0000
+  LDA !active_nib : CMP !dbc_wildcard : BNE +
+  STZ !active_nib
   BRA ++
 +
   ; else, increment nibble
   LDA #$11 : AND !dbc_wildcard ; 01 or 10
-  CLC : ADC $0000
-  STA $0000
+  CLC : ADC !active_nib
+  STA !active_nib
 ++
 
   ; combine the nibbles back together and store
-  LDA $0000 : ORA $0002 : STA [!dbc_memory]
+  LDA !active_nib : ORA !inactive_nib : STA [!dbc_memory]
   LDA #!sfx_shell_07
   BRA .update_draw
 
@@ -130,22 +132,23 @@ main_nib_changer:
   LDX $0000 : BNE .ret
 
   ; split the nibbles
-  LDA !dbc_wildcard : AND [!dbc_memory] : STA $0000 ; nibble to change
-  LDA !dbc_wildcard : EOR #$FF : AND [!dbc_memory] : STA $0002 ; other nibble
+  LDA !dbc_wildcard : AND [!dbc_memory] : STA !active_nib
+  LDA !dbc_wildcard : EOR #$FF : AND [!dbc_memory] : STA !inactive_nib
 
   ; if the original nibble was at zero then set it to the wildcard (max)
-  LDA $0000 : AND !dbc_wildcard : BNE +
-  ORA !dbc_wildcard : STA $0000
+  LDA !active_nib : AND !dbc_wildcard : BNE +
+  ORA !dbc_wildcard : STA !active_nib
   BRA ++
 +
   ; else, decrement nibble (by adding a negative)
   LDA #$FF : AND !dbc_wildcard ; 0F or F0
-  CLC : ADC $0000
-  STA $0000
+  CLC : ADC !active_nib
+  AND !dbc_wildcard ; if it's the lower nib, need to mask anything that overflowed to the high nib
+  STA !active_nib
 ++
 
   ; combine the nibbles back together and store
-  LDA $0000 : ORA $0002 : STA [!dbc_memory]
+  LDA !active_nib : ORA !inactive_nib : STA [!dbc_memory]
   LDA #!sfx_shell_06
 
 .update_draw
@@ -155,6 +158,8 @@ main_nib_changer:
 .ret
   PLP
   RTS
+undef "active_nib"
+undef "inactive_nib"
 
 ;================================
 

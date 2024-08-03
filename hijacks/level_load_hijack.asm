@@ -17,6 +17,9 @@ org room_init_hijack ; end of game mode 0C when !level_load_type flag is set
 org level_main_hijack
     JSR level_main_hook
 
+org level_header_hijack
+    JSR level_header_hook
+
 ; freespace in bank 01 - starts here in J, in the middle of a large block in U
 org $01FED2
 
@@ -38,4 +41,15 @@ room_init_hook:
 level_main_hook:
     STA $0B83
     autoclean JSL level_tick
+    RTS
+
+level_header_hook:
+    ; if loading savestate, set the bg1 graphics in case they were changed in-level
+    LDA !loaded_state : BEQ .ret
+    {
+        LDA !save_bg1_tileset : STA !r_header_bg1_tileset
+        LDA !save_bg1_palette : STA !r_header_bg1_palette
+    }
+.ret
+    LDA #$07B0
     RTS

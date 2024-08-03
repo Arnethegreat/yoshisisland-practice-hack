@@ -26,6 +26,8 @@ if read1($00FFD9) == $00
 
     level_main_hijack = $01D2BB
 
+    level_header_hijack = $01C2EA
+
     map_init_hijack = $17A83D
 
 ; save_level_hijack
@@ -101,6 +103,8 @@ elseif read1($00FFD9) == $01
     hookbill_mode7_hdma_hijack = $019E4E
 
     level_main_hijack = $01C0DB
+
+    level_header_hijack = $01B0B8
 
     map_init_hijack = $17A877
 

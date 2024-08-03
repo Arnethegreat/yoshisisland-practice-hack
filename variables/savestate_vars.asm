@@ -28,6 +28,8 @@
 %var_1409(save_inidisp_mirror, 2)
 %var_1409(save_hdma_indirect_table6, 8) ; specifically for prince froggy's stomach
 !save_player_form = !sram_block_00_savestate+$AE
+%var_1409(save_bg1_tileset, 2)
+%var_1409(save_bg1_palette, 2)
 
 ; persistent save data (keeps on reset)
 ; stuff used throughout

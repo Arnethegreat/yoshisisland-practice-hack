@@ -52,6 +52,9 @@ save_state:
     LDA !s_camera_layer1_y
     STA !save_camera_layer1_y
 
+    LDA !r_header_bg1_tileset : STA !save_bg1_tileset
+    LDA !r_header_bg1_palette : STA !save_bg1_palette
+
     BRA .save_timers
 
 .ret

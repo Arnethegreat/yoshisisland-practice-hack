@@ -115,6 +115,7 @@ set_hud_hdma_channels:
     LDA #$4340 : STA !hud_hdma_table_h_channel
     LDA #$4300 : STA !hud_hdma_table_v_channel
     LDX #%00010001 : STX !hud_hdma_channels
+    BRA .ret
 .pfroggy ; uses channels 3/4/7
     LDA #$4350 : STA !hud_hdma_table_h_channel
     LDA #$4360 : STA !hud_hdma_table_v_channel

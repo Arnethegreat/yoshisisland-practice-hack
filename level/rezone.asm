@@ -9,6 +9,7 @@ rezone:
     +
     JSR load_last_exit
     ++
+    JSR set_yoshi_colour
     STZ !hud_displayed ; temporarily hide HUD in order to prevent lag on level intro
     STZ !r_level_music_playing ; so that music gets loaded
 .ret

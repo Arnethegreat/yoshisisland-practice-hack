@@ -510,35 +510,3 @@ set_min_10_stars:
   LDA #$0064 : STA !star_count ; stores current star count * 10
 .ret
   RTS
-
-;================================
-; Change palette based on the level index, but swap yellow and 
-; light blue, and set 6-8 and extra levels to green
-
-set_yoshi_colour:
-  LDA !warps_current_level_index
-  CMP #$0008 ; ?-E
-  BEQ .set_green
-  CMP #$0002 ; ?-3
-  BEQ .set_lightblue
-  CMP #$0003 ; ?-4
-  BEQ .set_yellow
-  CMP #$0007 ; ?-8
-  BNE .finish
-  LDX !warps_current_world_index
-  CPX #$0005 ; 6-8
-  BNE .finish
-
-.set_green
-  LDA #$0000
-  BRA .finish
-.set_lightblue
-  LDA #$0003
-  BRA .finish
-.set_yellow
-  LDA #$0002
-  BRA .finish
-
-.finish
-  STA !yoshi_colour
-  RTS

@@ -121,13 +121,16 @@ init_debug_menu:
     JSR load_font
 
     ; set the page index and the controls count for the main page
-    STZ !warps_page_depth_index
     LDA !current_menu_data_ptr
     BNE + ; first time opening the menu, just load the main menu
     LDA #mainmenu_ctrl : STA !current_menu_data_ptr
     +
-    JSR init_cursor_stack ; reset stack in case we jump directly to the top level without traversing back up the tree (e.g. exiting menu from warps)
     JSR init_current_menu
+
+    ; if a warps page was open previously, reopen it
+    LDA !warps_page_depth_index : BEQ +
+    JSR warp_menu_direct_load
+    +
 
     SEP #$30
     JMP game_loop_skip
@@ -216,8 +219,19 @@ animate_palette:
 
 exit_debug_menu:
     JSR egg_inv_debug_to_wram
-    JSR warps_exit_logic
     SEP #$20
+
+    LDA !warping : BNE +
+    {
+        ; exiting menu, but not warping
+        JSR is_in_level : CMP #$01 : BNE +
+        JSL load_eggs_from_wram ; spawn egg sprites WRAM -> SRAM
+        LDA !s_player_form : CMP #!pfrm_super : BNE +
+        ; Infinite super baby mario bug: if in baby mario mode, egg inv will contain the big yoshi egg
+        ; load_eggs_from_wram ignores this sprite ID, so do it manually here
+        JSR spawn_big_yoshi_egg
+  + }
+
     STZ !debug_menu
 
     LDA !irq_mode_1_backup
@@ -297,31 +311,6 @@ hud_sub:
     JSR is_in_level : AND !hud_enabled : BEQ .ret
     JSR init_hud
 .ret
-    RTS
-
-warps_exit_logic:
-    PHP
-    %a8()
-
-    LDA !warps_page_depth_index : BEQ +
-    {
-        ; exiting menu while a warps menu is open
-        STZ !dbc_index_row
-        STZ !dbc_index_col
-  + }
-    LDA !warping : BNE .ret
-    {
-        ; exiting menu, but not warping
-        JSR is_in_level : CMP #$01 : BNE .ret
-        ; don't load eggs when warping since the loading screen will do it for us
-        JSL load_eggs_from_wram ; spawn egg sprites WRAM -> SRAM
-        LDA !s_player_form : CMP #!pfrm_super : BNE .ret ; super baby mario state?
-        ; Infinite super baby mario bug: if in baby mario mode, egg inv will contain the big yoshi egg
-        ; load_eggs_from_wram ignores this sprite ID, so do it manually here
-        JSR spawn_big_yoshi_egg
-    }
-.ret
-    PLP
     RTS
 
 ; on return: A=1 if in-level, 0 otherwise

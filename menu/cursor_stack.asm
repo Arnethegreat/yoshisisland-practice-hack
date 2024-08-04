@@ -1,11 +1,3 @@
-init_cursor_stack:
-    PHP
-    %a8()
-    STZ !cursor_stack_offset
-.ret
-    PLP
-    RTS
-
 push_cursor_stack:
     PHA : PHX : PHP
     %a16()

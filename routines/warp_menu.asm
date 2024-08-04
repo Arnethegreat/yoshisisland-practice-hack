@@ -372,6 +372,22 @@ warp_menu:
   dw load_room_select
   dw load_room
 
+; loads a warp menu page using pre-existing control vars
+warp_menu_direct_load:
+  PHP
+  %ai16()
+
+  JSR blank_tilemap
+  LDA !warps_page_depth_index : ASL : TAX
+  JSR (.menu_load_funcs,x)
+  PLP
+  RTS
+.menu_load_funcs
+  dw load_main_menu ; should never hit
+  dw load_world_select
+  dw load_level_select_next
+  dw load_room_select_next
+
 load_main_menu:
   LDA #mainmenu_ctrl : STA !current_menu_data_ptr
   JSR init_current_menu
@@ -385,14 +401,9 @@ load_world_select:
   RTS
 
 load_level_select:
-  CPY #$FFFF
-  BEQ .from_rooms
+  CPY #$FFFF : BEQ .next
   ; do this if coming from world select
   STY !warps_current_world_index
-  BRA .next
-
-.from_rooms ; do this if coming from room select
-  LDY !warps_current_world_index
 
 .next
   STZ !warps_current_level_index
@@ -408,7 +419,9 @@ load_room_select:
   CLC
   ADC !warps_current_level_index
   STA !warps_current_world_level_index ; store for use when selecting a room
-  TAY
+
+.next
+  LDY !warps_current_world_level_index
   SEP #$20
   LDA debug_menu_controls_warps_room_counts,y
   INC A ; add 1 for the start option
@@ -419,6 +432,8 @@ load_room_select:
 ; The actual warp subroutine
 load_room:
   REP #$30
+
+  DEC !warps_page_depth_index ; correct the depth index to point to room select
 
   ; set the world and level number
   LDA !warps_current_world_index

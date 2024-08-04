@@ -1,4 +1,4 @@
-%var_707E7E(loaded_state, 2)
+%var_707800(loaded_state, 2) ; needs to be in SRAM for GSU access
 %var_1409(savestate_exists, 2)
 %var_1409(current_level, 2)
 %var_707E7E(full_load_default, 1)

@@ -34,14 +34,10 @@ game_loop:
 .handle_debug_menu
 {
     LDA !debug_menu
-    BEQ .force_hasty
+    BEQ +
 ; jump to debug menu processing code
     JMP main_debug_menu
-}
-
-.force_hasty ; hacky, just set it every frame
-{
-    LDA !debug_control_scheme : TSB !s_control_scheme
+    +
 }
 
 .controller_checks

@@ -3,8 +3,11 @@ level_tick:
     PHB
     PHK
     PLB
+    %ai8()
+
+    LDA !debug_control_scheme : TSB !s_control_scheme ; hacky, just set force hasty every frame
+
     %a16()
-    %i8()
 
     JSR tick_timers
     JSR count_active_sprites

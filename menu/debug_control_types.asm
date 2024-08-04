@@ -338,12 +338,15 @@ main_submenu_loader:
     LDA !dbc_wildcard
     BNE +
     { ; wildcard == zero means back
-      LDA.w #!sfx_move_cursor : STA !sound_immediate
+      JSR pop_cursor_stack
       LDA !parent_menu_data_ptr
+      BRA ++
   + }
+    { ; else, loading a child submenu
+      JSR push_cursor_stack
+    }
+    ++
     STA !current_menu_data_ptr
-    STZ !dbc_index_row
-    STZ !dbc_index_col
     JSR init_current_menu
   }
 .ret

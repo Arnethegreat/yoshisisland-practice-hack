@@ -126,6 +126,7 @@ init_debug_menu:
     BNE + ; first time opening the menu, just load the main menu
     LDA #mainmenu_ctrl : STA !current_menu_data_ptr
     +
+    JSR init_cursor_stack ; reset stack in case we jump directly to the top level without traversing back up the tree (e.g. exiting menu from warps)
     JSR init_current_menu
 
     SEP #$30

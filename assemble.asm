@@ -39,6 +39,7 @@ incsrc misc/load_gfx.asm
 incsrc misc/level_intro_skip.asm
 incsrc misc/egg_inventory.asm
 ;=================================
+incsrc menu/cursor_stack.asm
 incsrc menu/debug_menu.asm
 incsrc menu/debug_control_data.asm
 incsrc menu/debug_controls.asm

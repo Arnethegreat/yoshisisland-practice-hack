@@ -340,21 +340,21 @@ endmacro
 warp_menu:
   REP #$30
 
-  STZ !dbc_index_row : INC !dbc_index_row ; bring the cursor back up to the top
-  STZ !dbc_index_col
-
   ; if index == 0, back was clicked - decrement the depth index
   CPX #$0000 : BEQ .go_back
   INC !warps_page_depth_index
-  LDA.w #!sfx_move_cursor
-
-  LDY !warps_page_depth_index : CPY #$0004 : BNE .next
-.play_warp_sound
   LDA.w #!sfx_yoshi
+
+  LDY !warps_page_depth_index : CPY #$0004 : BEQ .next
+  ; not warping, just loading a deeper page
+  JSR push_cursor_stack
+  INC !dbc_index_row
+  LDA.w #!sfx_move_cursor
   BRA .next
 
 .go_back
   DEC !warps_page_depth_index
+  JSR pop_cursor_stack
   LDA.w #!sfx_move_cursor
 .next
   STA !sound_immediate

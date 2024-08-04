@@ -72,6 +72,10 @@ includeonce
 %var_1409(recording_pressed_value, 2)
 %var_1409(recording_btn_count, 1)
 
+!cursor_stack_size = 8 ; max 4 nodes deep in the submenu tree - increase this if adding deeper submenus
+%var_1409(cursor_stack, !cursor_stack_size)
+%var_1409(cursor_stack_offset, 1)
+
 %var_1409(is_audio_fixed, 1)
 %var_1409(current_music_track, 1)
 %var_707E7E(disable_music, 1)

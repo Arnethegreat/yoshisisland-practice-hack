@@ -60,7 +60,7 @@ mainmenu_ctrl:
 .metadata
   %define_menu_metadata(mainmenu_ctrl, mainmenu_tilemap, $0000, $0000)
 .data
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, submenu_gameflags_ctrl) ; gameplay mods submenu
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, submenu_gamemods_ctrl) ; gameplay mods submenu
   %define_menu_entry(!ct_warps, $7E0000, 1, 2, $01) ; warps submenu
   %define_menu_entry(!ct_eggcount, !debug_egg_count_mirror_l, 1, 3, $00) ; egg count
   %define_menu_entry(!ct_egg, $7E0000, 3, 3, $00) ; egg 1
@@ -69,27 +69,24 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_egg, $7E0000, 6, 3, $03) ; egg 4
   %define_menu_entry(!ct_egg, $7E0000, 7, 3, $04) ; egg 5
   %define_menu_entry(!ct_egg, $7E0000, 8, 3, $05) ; egg 6
-  %define_menu_entry(!ct_nib, !slowdown_mag_l, 1, 4, $F0) ; slowdown amount high
-  %define_menu_entry(!ct_nib, !slowdown_mag_l, 2, 4, $0F) ; slowdown amount low
-  %define_menu_entry(!ct_toggle, !frame_skip_pause_l, 1, 5, $01) ; frame advance
-  %define_menu_entry(!ct_toggle, !full_load_default, 1, 6, $01) ; full load as default
-  %define_menu_entry(!ct_toggle, !zone_reset_flag_l, 1, 7, $01) ; level or room reset
-  %define_menu_entry(!ct_nib, !load_delay_timer_init, 1, 8, $F0) ; load delay amount high
-  %define_menu_entry(!ct_nib, !load_delay_timer_init, 2, 8, $0F) ; load delay amount low
-  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 9, $01) ; HUD
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 1, 10, $F0) ; ramwatch bank
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 2, 10, $0F) ; ramwatch bank
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 3, 10, $F0) ; ramwatch high
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 4, 10, $0F) ; ramwatch high
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 5, 10, $F0) ; ramwatch low
-  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 6, 10, $0F) ; ramwatch low
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 11, submenu_config_ctrl) ; input config submenu
+  %define_menu_entry(!ct_toggle, !full_load_default, 1, 4, $01) ; full load as default
+  %define_menu_entry(!ct_toggle, !zone_reset_flag_l, 1, 5, $01) ; level or room reset
+  %define_menu_entry(!ct_nib, !load_delay_timer_init, 1, 6, $F0) ; load delay amount high
+  %define_menu_entry(!ct_nib, !load_delay_timer_init, 2, 6, $0F) ; load delay amount low
+  %define_menu_entry(!ct_toggle, !hud_enabled_l, 1, 7, $01) ; HUD
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 1, 8, $F0) ; ramwatch bank
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+2, 2, 8, $0F) ; ramwatch bank
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 3, 8, $F0) ; ramwatch high
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 4, 8, $0F) ; ramwatch high
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 5, 8, $F0) ; ramwatch low
+  %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 6, 8, $0F) ; ramwatch low
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 9, submenu_config_ctrl) ; input config submenu
 .column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
-  dw $0000, $0100, $0206, $0901, $0B00, $0C00, $0D00, $0E01, $1000, $1105, $1700
+  dw $0000, $0100, $0206, $0900, $0A00, $0B01, $0D00, $0E05, $1400
 
-submenu_gameflags_ctrl:
+submenu_gamemods_ctrl:
 .metadata
-  %define_menu_metadata(submenu_gameflags_ctrl, submenu_gameflags_tilemap, $0000, mainmenu_ctrl)
+  %define_menu_metadata(submenu_gamemods_ctrl, submenu_gamemods_tilemap, $0000, mainmenu_ctrl)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
   %define_menu_entry(!ct_func, $7E0000, 1, 2, $00) ; disable autoscroll
@@ -98,8 +95,11 @@ submenu_gameflags_ctrl:
   %define_menu_entry(!ct_toggle, $7E0372, 1, 5, $E0) ; set tutorial flags
   %define_menu_entry(!ct_toggle, !skip_kamek, 1, 6, $01) ; disable kamek at boss
   %define_menu_entry(!ct_toggle, !debug_control_scheme, 1, 7, $02) ; force hasty
+  %define_menu_entry(!ct_nib, !slowdown_mag_l, 1, 8, $F0) ; slowdown amount high
+  %define_menu_entry(!ct_nib, !slowdown_mag_l, 2, 8, $0F) ; slowdown amount low
+  %define_menu_entry(!ct_toggle, !frame_skip_pause_l, 1, 9, $01) ; frame advance
 .column_counts
-  dw $0000, $0100, $0200, $0300, $0400, $0500, $0600
+  dw $0000, $0100, $0200, $0300, $0400, $0500, $0600, $0701, $0900
 
 submenu_config_ctrl:
 .metadata

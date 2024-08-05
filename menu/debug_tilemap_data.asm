@@ -8,11 +8,9 @@ dw "PRACTICE HACK 0.4.4"
 dw $0040, $0041, $0042
 
 mainmenu_tilemap:
-%store_text("GAME FLAGS/",
-            "WARPS",
+%store_text("GAME MODS/",
+            "WARPS/",
             "         EGG EDITOR",
-            "         SLOWDOWN AMOUNT",
-            "         FRAME ADVANCE",
             "         FULL LOAD AS DEFAULT",
             "         RE-ZONE LEVEL",
             "         LOAD DELAY",
@@ -20,14 +18,16 @@ mainmenu_tilemap:
             "         RAMWATCH",
             "INPUT CONFIG/")
 
-submenu_gameflags_tilemap:
+submenu_gamemods_tilemap:
 %store_text("BACK",
             "DISABLE AUTOSCROLL",
             "         DISABLE MUSIC",
             "         FREE MOVEMENT",
             "         SET TUTORIAL FLAGS",
             "         DISABLE KAMEK AT BOSS",
-            "         FORCE HASTY")
+            "         FORCE HASTY",
+            "         SLOWDOWN AMOUNT",
+            "         FRAME ADVANCE")
 
 submenu_config_tilemap:
 %store_text("BACK             RESET DEFAULT",

@@ -348,7 +348,6 @@ warp_menu:
   LDY !warps_page_depth_index : CPY #$0004 : BEQ .next
   ; not warping, just loading a deeper page
   JSR push_cursor_stack
-  INC !dbc_index_row
   LDA.w #!sfx_move_cursor
   BRA .next
 

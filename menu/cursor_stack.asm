@@ -11,6 +11,7 @@ push_cursor_stack:
     INX #2
     STX !cursor_stack_offset
     STZ !dbc_index_row
+    INC !dbc_index_row ; assume each submenu starts with a back option that shouldn't be selected by default
     STZ !dbc_index_col
 .ret
     PLP : PLX : PLA

@@ -24,7 +24,7 @@ Supports J1.0 and U1.0 versions.
 # How to patch
 Acquire a Yoshi's Island `J1.0` and/or `U1.0` ROM.
 
-Then, check the latest [**Releases**](https://github.com/Arnethegreat/yoshisisland-practice-hack/releases) for `.bps` patches, which you can apply to your clean ROMs with the [**beat**](https://www.romhacking.net/utilities/893) patcher utility.
+Then, check the latest [**Releases**](https://github.com/Arnethegreat/yoshisisland-practice-hack/releases) for `.bps` patches, which you can apply to your clean ROMs with a patcher such as [**flips**](https://github.com/Alcaro/Flips/releases) or [**beat**](https://www.romhacking.net/utilities/893).
 
 
 # How to use

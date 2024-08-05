@@ -27,7 +27,7 @@ submenu_gamemods_tilemap:
             "         DISABLE KAMEK AT BOSS",
             "         FORCE HASTY",
             "         SLOWDOWN AMOUNT",
-            "         FRAME ADVANCE")
+            "         FRAME ADVANCE MODE")
 
 submenu_config_tilemap:
 %store_text("BACK             RESET DEFAULT",

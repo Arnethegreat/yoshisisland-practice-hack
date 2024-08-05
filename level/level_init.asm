@@ -129,7 +129,6 @@ level_room_init_common:
     %a8()
 
     JSR handle_flags
-    STZ !frame_skip_pause ; don't want to be paused on level start
     STZ !map16delta_index
 
     LDA !hud_enabled : BEQ .ret

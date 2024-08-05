@@ -105,8 +105,8 @@ Warping before selecting a file will automatically load this save file.
 Hold L while pressing select in pause menu and you'll leave any level as well as mark it as cleared. This doesn't save until you beat a level legit.
 
 ### Frame Skip
-Increase or decrease frames to skip per frame (amount of slow down). Game will run at 1/n speed where n is frame skip amount. 
-Frame advance pauses the game and advances a single frame each time it is activated thereafter. It can be disabled via the menu option or by using a bind to change the slow down value. Inputs are buffered in between frames.
+Increase or decrease frames to skip per frame (amount of slow down). Game will run at 1/n speed where n is slowdown amount. 
+Frame advance mode pauses the game and advances a single frame each time the frame advance input bind is triggered thereafter. It can be disabled via the menu option or by using a bind to change the slow down value. Inputs are buffered in between frames.
 
 ### Stage Intro (with the level text)
 Stage intro now begins as soon as there's user input (if finished loading).

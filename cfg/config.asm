@@ -249,7 +249,7 @@ bindings_boot_check:
     ; note that we can't copy the bindings into WRAM yet since the freespace gets cleared immediately after this
 .ret
     PLP
-    RTL
+    RTS
 
 ; RETURNS: A = checksum of data
 get_input_bindings_checksum:

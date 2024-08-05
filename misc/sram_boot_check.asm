@@ -3,6 +3,9 @@
 sram_boot_check:
     PHP
     %a8()
+
+    JSR bindings_boot_check
+
     LDA !debug_control_scheme : BEQ + : CMP #$02 : BEQ +
     LDA #$00 : STA !debug_control_scheme
     +

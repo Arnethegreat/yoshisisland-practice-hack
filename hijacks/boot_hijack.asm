@@ -1,14 +1,12 @@
 org savefile_check_hijack
-    autoclean JSL savefile_check
+    JSR savefile_check_hook
+    NOP
 
-freespacebyte $FF
-freecode
+org $00BFF6 ; bank 00 non-interrupt freespace (only 10 bytes in U1.0!)
 
-savefile_check:
-    PHP
-    JSL bindings_boot_check
-    JSL sram_boot_check
-.ret
-    PLP
+savefile_check_hook:
+    autoclean JSL sram_boot_check
     LDA $707E7D
-    RTL
+    RTS
+
+assert pc() < $00C000 ; warn if our code overflows the freespace region

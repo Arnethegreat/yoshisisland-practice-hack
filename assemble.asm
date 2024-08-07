@@ -64,7 +64,5 @@ incsrc routines/warp_menu.asm
 incsrc routines/disable_autoscroll.asm
 incsrc routines/fix_camera.asm
 incsrc routines/interrupt_handler.asm
-;=================================
-incsrc misc/save_file_init.asm
 
 print "Total bytes written: ", bytes

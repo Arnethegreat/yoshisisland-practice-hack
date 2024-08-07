@@ -14,3 +14,27 @@ org world_map_prev_fold_away
 
 org world_map_new_fold_in
     NOP #14
+
+; post-level score screen animations
+org scorescreen_state_pointers+$19 ; screen transition complete, wait for counting stars
+    dw !scorescreen_skip_state
+org scorescreen_state_pointers+$1D ; finish counting stars, wait for red coins
+    dw !scorescreen_skip_state
+org scorescreen_state_pointers+$21 ; finish counting red coins, wait for flowers
+    dw !scorescreen_skip_state
+org scorescreen_state_pointers+$25 ; finish counting flowers, wait for points
+    dw !scorescreen_skip_state
+org scorescreen_state_pointers+$2D ; counting points
+    dw !scorescreen_skip_state
+org scorescreen_state_pointers+$2F ; draw circle around points
+    dw !scorescreen_skip_state
+org scorescreen_state_pointers+$31 ; waiting
+    dw !scorescreen_skip_state
+org scorescreen_state_pointers+$35 ; draw flower around points
+    dw !scorescreen_skip_state
+org scorescreen_state_pointers+$37 ; waiting while fanfare plays
+    dw !scorescreen_skip_state
+
+; overworld update level score animations
+org $0081DC ; change game mode $26 pointer to $22 (normal overworld)
+    dl game_mode_22

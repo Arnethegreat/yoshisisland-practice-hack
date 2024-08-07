@@ -60,7 +60,12 @@ if read1($00FFD9) == $00
     play_music_track = $00C024
 
     level_intro_wait = $01C3FA
-    
+
+    scorescreen_state_pointers = $01C7C4
+        !scorescreen_skip_state = $C803
+
+    game_mode_22 = $17B392
+
     map_icon_rotation = $17E700
 
     world_map_prev_fold_away = $17CD3C
@@ -138,6 +143,11 @@ elseif read1($00FFD9) == $01
     play_music_track = $00C024
 
     level_intro_wait = $01B1C8
+
+    scorescreen_state_pointers = $01B592
+        !scorescreen_skip_state = $B5D1
+
+    game_mode_22 = $17B3CC
 
     map_icon_rotation = $17E73E
 

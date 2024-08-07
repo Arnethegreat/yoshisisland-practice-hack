@@ -10,7 +10,7 @@ Features:
 * Egg editor
 * Frame advance/slowdown
 * Music on/off toggle
-* Removal of slow world map animations
+* Removal of slow score screen and world map animations
 * Enabling built-in Debug functions
 * Button configuration
 

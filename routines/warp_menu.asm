@@ -481,7 +481,7 @@ load_room:
   LDA.w #!gm_levelfadeout : STA !gamemode
   STZ !r_level_music_playing ; levels check this is zero before loading new music
   JSR check_big_bowser
-  JSR set_min_10_stars
+  JSR reset_progress
   JSR set_yoshi_colour
   JSR reset_hud
   INC !warping
@@ -499,13 +499,28 @@ check_big_bowser:
 .ret
   RTS
 
-;================================
-; Set stars=10 if under
+reset_progress:
+  PHP
+  %ai16()
 
-set_min_10_stars:
-  LDA !star_count
-  CMP #$0064
-  BPL .ret
-  LDA #$0064 : STA !star_count ; stores current star count * 10
+  ; 10 stars, 0 red coins, 0 flowers
+  LDA #$0064 : STA !star_count
+  STZ !red_coin_count
+  STZ !flower_count
+
+  ; reset collectibles
+  LDX #$003E
+-
+  STZ !item_mem_page0,x
+  STZ !item_mem_page0+$40,x
+  STZ !item_mem_page1,x
+  STZ !item_mem_page1+$40,x
+  STZ !item_mem_page2,x
+  STZ !item_mem_page2+$40,x
+  STZ !item_mem_page3,x
+  STZ !item_mem_page3+$40,x
+  DEX #2
+  BPL -
 .ret
+  PLP
   RTS

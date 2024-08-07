@@ -17,7 +17,7 @@ rezone:
     RTS
 
 item_memory_page_pointers:
-  dw $03C0, $0440, $04C0, $0540
+  dw !item_mem_page0, !item_mem_page1, !item_mem_page2, !item_mem_page3
 
 load_last_exit:
     PHP

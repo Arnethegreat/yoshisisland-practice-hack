@@ -117,3 +117,8 @@
 !wram_block_04_source = $7E0069 ; to $7E015E
 !wram_block_04_size = $00F5
 %var_7F0000(wram_block_04_savestate, !wram_block_04_size)
+
+; HDMA Table for BG3 Vertical scroll (avoids visual bugs where this is used, like 1-4)
+!wram_block_05_source = $7E5040 ; to $7E51E4
+!wram_block_05_size = $01A4
+%var_7F0000(wram_block_05_savestate, !wram_block_05_size)

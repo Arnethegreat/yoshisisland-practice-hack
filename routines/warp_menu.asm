@@ -509,16 +509,16 @@ reset_progress:
   STZ !flower_count
 
   ; reset collectibles
-  LDX #$003E
+  LDX.w #!item_mem_page_size/2-2
 -
   STZ !item_mem_page0,x
-  STZ !item_mem_page0+$40,x
+  STZ !item_mem_page0+!item_mem_page_size/2,x
   STZ !item_mem_page1,x
-  STZ !item_mem_page1+$40,x
+  STZ !item_mem_page1+!item_mem_page_size/2,x
   STZ !item_mem_page2,x
-  STZ !item_mem_page2+$40,x
+  STZ !item_mem_page2+!item_mem_page_size/2,x
   STZ !item_mem_page3,x
-  STZ !item_mem_page3+$40,x
+  STZ !item_mem_page3+!item_mem_page_size/2,x
   DEX #2
   BPL -
 .ret

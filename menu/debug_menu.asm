@@ -180,7 +180,7 @@ draw_menu:
     REP #$30
     LDX.w #!menu_tilemap_mirror
     LDY.w #!debug_bg1_tilemap_dest_full
-    LDA !menu_tilemap_size
+    LDA #!menu_tilemap_size
     JSL vram_dma_01
 .ret
     SEP #$30

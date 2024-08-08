@@ -17,7 +17,8 @@ fix_cross_section:
 ;=================================
 ;=================================
 !special_boss_flag = $0C14
-!special_boss_flag_save = $7F438A
+!special_boss_flag_l = $7E0C14
+!special_boss_flag_save = !special_boss_flag_l-!wram_block_01_source+!wram_block_01_savestate ; find its offset in the savestate block
 ; Use Experimental load if save state is on bowser or hookbill
 ; And if we're in the same level
 

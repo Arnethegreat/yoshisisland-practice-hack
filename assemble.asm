@@ -2,6 +2,8 @@ asar 1.91
 lorom
 check bankcross half
 
+arch 65816
+
 print "YI Practice Hack 0.4.2"
 ;=================================
 incsrc region_check.asm
@@ -65,4 +67,5 @@ incsrc routines/disable_autoscroll.asm
 incsrc routines/fix_camera.asm
 incsrc routines/interrupt_handler.asm
 
+print "ROM freespace bytes written: ", freespaceuse
 print "Total bytes written: ", bytes

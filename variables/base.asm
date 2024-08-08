@@ -9,7 +9,7 @@ includeonce
 ; $19DA-$1DFF  1063   !undocumented mystery bytes not on the disassembly wiki!
 ; $1E00-$213F  832    only first 512 bytes are mirrored - up to $1FFF
 ; $2140-$233F  512    !undocumented mystery bytes not on the disassembly wiki!
-; $2340-$3FFF  7360   first 3KB used for savestate data
+; $2340-$3FFF  7360   first 3KB used for savestate data, rest used to store the MAP16 delta
 ; $40BA-$47FF  1862   VRAM tilemap DMA queue region @ $4002 uses max 182 bytes in vanilla; rest is effectively free
 ; $499C-$503F  1700   general-purpose DMA queue region @ $4802 uses max 406 bytes in vanilla; rest is effectively free
 ; $B8E2-$BFFF  1822   debug menu tilemap buffer
@@ -62,6 +62,13 @@ macro var_1E00(id, size)
 	%def_var(<id>, <size>, 1E00)
 endmacro
 
+!freeram_7E2340 = $7E2340
+!freeram_7E2340_used = 0
+!freeram_7E2340_max = $7E3FFF
+macro var_7E2340(id, size)
+	%def_var(<id>, <size>, 7E2340)
+endmacro
+
 !freeram_7E40BA = $7E40BA
 !freeram_7E40BA_used = 0
 !freeram_7E40BA_max = $7E47FF
@@ -74,6 +81,20 @@ endmacro
 !freeram_7E499C_max = $7E503F
 macro var_7E499C(id, size)
 	%def_var(<id>, <size>, 7E499C)
+endmacro
+
+!freeram_7EB8E2 = $7EB8E2
+!freeram_7EB8E2_used = 0
+!freeram_7EB8E2_max = $7EBFFF
+macro var_7EB8E2(id, size)
+	%def_var(<id>, <size>, 7EB8E2)
+endmacro
+
+!freeram_7F0000 = $7F0000
+!freeram_7F0000_used = 0
+!freeram_7F0000_max = $7F56DD
+macro var_7F0000(id, size)
+	%def_var(<id>, <size>, 7F0000)
 endmacro
 
 !freeram_707800 = $707800
@@ -103,8 +124,11 @@ assert !freeram_00CC+!freeram_00CC_used <= !freeram_00CC_max+1, "exceeded WRAM f
 assert !freeram_0272+!freeram_0272_used <= !freeram_0272_max+1, "exceeded WRAM freespace region $7E:0272"
 assert !freeram_1409+!freeram_1409_used <= !freeram_1409_max+1, "exceeded WRAM freespace region $7E:1409"
 assert !freeram_1E00+!freeram_1E00_used <= !freeram_1E00_max+1, "exceeded WRAM freespace region $7E:1E00"
+assert !freeram_7E2340+!freeram_7E2340_used <= !freeram_7E2340_max+1, "exceeded WRAM freespace region $7E:2340"
 assert !freeram_7E40BA+!freeram_7E40BA_used <= !freeram_7E40BA_max+1, "exceeded WRAM freespace region $7E:40BA"
 assert !freeram_7E499C+!freeram_7E499C_used <= !freeram_7E499C_max+1, "exceeded WRAM freespace region $7E:499C"
+assert !freeram_7EB8E2+!freeram_7EB8E2_used <= !freeram_7EB8E2_max+1, "exceeded WRAM freespace region $7E:B8E2"
+assert !freeram_7F0000+!freeram_7F0000_used <= !freeram_7F0000_max+1, "exceeded WRAM freespace region $7F:0000"
 assert !freeram_707800+!freeram_707800_used <= !freeram_707800_max+1, "exceeded SRAM freespace region $70:7800"
 assert !freeram_707E7E+!freeram_707E7E_used <= !freeram_707E7E_max+1, "exceeded SRAM freespace region $70:7E7E"
 
@@ -113,8 +137,23 @@ if 0
     print "freespace $7E0272 used: ", dec(!freeram_0272_used), ", remaining: ", dec(!freeram_0272_max-!freeram_0272_used-!freeram_0272+1)
     print "freespace $7E1409 used: ", dec(!freeram_1409_used), ", remaining: ", dec(!freeram_1409_max-!freeram_1409_used-!freeram_1409+1)
     print "freespace $7E1E00 used: ", dec(!freeram_1E00_used), ", remaining: ", dec(!freeram_1E00_max-!freeram_1E00_used-!freeram_1E00+1)
+    print "freespace $7E2340 used: ", dec(!freeram_7E2340_used), ", remaining: ", dec(!freeram_7E2340_max-!freeram_7E2340_used-!freeram_7E2340+1)
     print "freespace $7E40BA used: ", dec(!freeram_7E40BA_used), ", remaining: ", dec(!freeram_7E40BA_max-!freeram_7E40BA_used-!freeram_7E40BA+1)
     print "freespace $7E499C used: ", dec(!freeram_7E499C_used), ", remaining: ", dec(!freeram_7E499C_max-!freeram_7E499C_used-!freeram_7E499C+1)
+    print "freespace $7EB8E2 used: ", dec(!freeram_7EB8E2_used), ", remaining: ", dec(!freeram_7EB8E2_max-!freeram_7EB8E2_used-!freeram_7EB8E2+1)
+    print "freespace $7F0000 used: ", dec(!freeram_7F0000_used), ", remaining: ", dec(!freeram_7F0000_max-!freeram_7F0000_used-!freeram_7F0000+1)
     print "freespace $707800 used: ", dec(!freeram_707800_used), ", remaining: ", dec(!freeram_707800_max-!freeram_707800_used-!freeram_707800+1)
     print "freespace $707E7E used: ", dec(!freeram_707E7E_used), ", remaining: ", dec(!freeram_707E7E_max-!freeram_707E7E_used-!freeram_707E7E+1)
 endif
+
+print "RAM freespace bytes allocated: ", dec(!freeram_00CC_used+\
+										   !freeram_0272_used+\
+										   !freeram_1409_used+\
+										   !freeram_1E00_used+\
+										   !freeram_7E2340_used+\
+										   !freeram_7E40BA_used+\
+										   !freeram_7E499C_used+\
+										   !freeram_7EB8E2_used+\
+										   !freeram_7F0000_used+\
+										   !freeram_707800_used+\
+										   !freeram_707E7E_used)

@@ -16,9 +16,10 @@ blank_tilemap:
     PHX
     PHP
     %ai16()
-    LDX !menu_tilemap_size
+    LDX #!menu_tilemap_size
+    LDA #$003F
     - {
-        LDA #$003F : STA !menu_tilemap_mirror-2,x
+        STA !menu_tilemap_mirror-2,x
         DEX #2
         BNE -
     }

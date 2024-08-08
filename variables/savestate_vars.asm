@@ -44,17 +44,17 @@
 
 ; item memory
 ; 128 bytes per page
-!save_item_mem_current_page = $7F00FE
-!save_item_mem_page0 = $7F0100
-!save_item_mem_page1 = $7F0180
-!save_item_mem_page2 = $7F0200
-!save_item_mem_page3 = $7F0280
+%var_7F0000(save_item_mem_current_page, 2)
+%var_7F0000(save_item_mem_page0, !item_mem_page_size)
+%var_7F0000(save_item_mem_page1, !item_mem_page_size)
+%var_7F0000(save_item_mem_page2, !item_mem_page_size)
+%var_7F0000(save_item_mem_page3, !item_mem_page_size)
 
 ;=================================
 
 ; store changes made to the map16 WRAM table during gameplay
-!wram_map16delta_savestate = $7E2F40 ; to $7E4000
 !wram_map16delta_size = $10C0
+%var_7E2340(wram_map16delta_savestate, !wram_map16delta_size)
 %var_1409(map16delta_index, 2)
 
 ;=================================
@@ -64,62 +64,56 @@
 ;
 
 !sram_block_00_source = $700000 ; to $702200
-!sram_block_00_savestate = $7F0300 ; to $7F2500
 !sram_block_00_size = $2200
+%var_7F0000(sram_block_00_savestate, !sram_block_00_size)
 
 !sram_block_01_source = $702600 ; to $70409E
-!sram_block_01_savestate = $7F2500 ; to $7F3F9E
 !sram_block_01_size = $1A9E
+%var_7F0000(sram_block_01_savestate, !sram_block_01_size)
 
-; $49C6 -> $49E8
 ; sluggy/froggy wall stuff
-!sram_block_02_source = $7049C6
-!sram_block_02_savestate = $7F3F9E
+!sram_block_02_source = $7049C6 ; to $7049E8
 !sram_block_02_size = $0022
+%var_7F0000(sram_block_02_savestate, !sram_block_02_size)
 
-; $4C76 -> $4CB4
 ; sluggy info
-!sram_block_03_source = $704C76
-!sram_block_03_savestate = $7F3FC0
+!sram_block_03_source = $704C76 ; to $704CB4
 !sram_block_03_size = $003E
+%var_7F0000(sram_block_03_savestate, !sram_block_03_size)
 
-; $4C76 -> $4CB4
 ; sluggy info
-!sram_block_04_source = $70449E
-!sram_block_04_savestate = $7F4B2C
+!sram_block_04_source = $70449E ; to $70451E
 !sram_block_04_size = $0080
+%var_7F0000(sram_block_04_savestate, !sram_block_04_size)
 
 !sram_map16_source = $70409E ; to $70449E
-!sram_map16_savestate = $7E2340 ; to $7E2740
 !sram_map16_size = $0400
+%var_7E2340(sram_map16_savestate, !sram_map16_size)
 
 !sram_dyntile_source = $705800 ; to $706000
-!sram_dyntile_savestate = $7E2740 ; to $7E2F40
 !sram_dyntile_size = $0800
+%var_7E2340(sram_dyntile_savestate, !sram_dyntile_size)
 
 ; WRAM blocks
 ;
 
-; $0300 -> $03C0
-!wram_block_00_source = $7E0300
-!wram_block_00_savestate = $7F3FFE
+!wram_block_00_source = $7E0300 ; to $7E03C0
 !wram_block_00_size = $00C0
+%var_7F0000(wram_block_00_savestate, !wram_block_00_size)
 
-; $0948 -> $11B6 
-!wram_block_01_source = $7E0948
-!wram_block_01_savestate = $7F40BE
+!wram_block_01_source = $7E0948 ; to $7E11B6
 !wram_block_01_size = $086E
+%var_7F0000(wram_block_01_savestate, !wram_block_01_size)
 
 !wram_block_02_source = $7E0202 ; to $7E0222
-!wram_block_02_savestate = $7F492C ; to $7F494C
 !wram_block_02_size = $0020
+%var_7F0000(wram_block_02_savestate, !wram_block_02_size)
 
-; $0030 -> $004D (avoid sound stuff since we don't save APU state)
-!wram_block_03_source = $7E0030
-!wram_block_03_savestate = $7F494E
+; avoid sound stuff since we don't save APU state
+!wram_block_03_source = $7E0030 ; to $7E004D
 !wram_block_03_size = $001D
+%var_7F0000(wram_block_03_savestate, !wram_block_03_size)
 
-; $0069 -> $015E
-!wram_block_04_source = $7E0069
-!wram_block_04_savestate = $7F496B
+!wram_block_04_source = $7E0069 ; to $7E015E
 !wram_block_04_size = $00F5
+%var_7F0000(wram_block_04_savestate, !wram_block_04_size)

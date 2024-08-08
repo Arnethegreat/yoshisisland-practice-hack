@@ -28,8 +28,8 @@ includeonce
 
 ; 28 rows
 ; 1792 bytes
-!menu_tilemap_mirror = $7EB8E2
-!menu_tilemap_size = #$0700
+!menu_tilemap_size = $0700
+%var_7EB8E2(menu_tilemap_mirror, !menu_tilemap_size)
 !tilemap_line_width_single = $0040
 !tilemap_line_width = !tilemap_line_width_single*2
 !first_option_tilemap_dest = $00C2

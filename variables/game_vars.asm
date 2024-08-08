@@ -81,6 +81,7 @@
 ;Item Memory
 !item_mem_current_page = $03BE
 ; 128 bytes per page
+!item_mem_page_size = $80
 !item_mem_page0 = $03C0
 !item_mem_page1 = $0440
 !item_mem_page2 = $04C0

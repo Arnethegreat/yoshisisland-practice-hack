@@ -53,7 +53,10 @@ game_loop:
         +
     }
     JSR check_bindings
-    LDA !loaded_state : BNE .skip ; don't run the frame if preparing to load
+    LDA !skip_frame_flag : BEQ +
+    STZ !skip_frame_flag
+    BRA .skip
+    +
 }
 
 .frame_skip

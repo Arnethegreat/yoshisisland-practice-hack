@@ -28,6 +28,36 @@ load_item_memory:
 .ret
     RTS
 ;=================================
+save_hud_timers:
+    PHP
+    %a8()
+    %i16()
+    LDX !lag_counter : STX !save_lag_counter
+    LDA !level_frames : STA !save_level_frames
+    LDA !level_seconds : STA !save_level_seconds
+    LDA !level_minutes : STA !save_level_minutes
+    LDA !room_frames : STA !save_room_frames
+    LDA !room_seconds : STA !save_room_seconds
+    LDA !room_minutes : STA !save_room_minutes
+.ret
+    PLP
+    RTS
+;=================================
+load_hud_timers:
+    PHP
+    %a8()
+    %i16()
+    LDX !save_lag_counter : STX !lag_counter
+    LDA !save_level_frames : STA !level_frames
+    LDA !save_level_seconds : STA !level_seconds
+    LDA !save_level_minutes : STA !level_minutes
+    LDA !save_room_frames : STA !room_frames
+    LDA !save_room_seconds : STA !room_seconds
+    LDA !save_room_minutes : STA !room_minutes
+.ret
+    PLP
+    RTS
+;=================================
 ;=================================
 ;=================================
 save_sram_map16:   

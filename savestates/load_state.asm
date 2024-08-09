@@ -44,7 +44,6 @@ load_state:
 
     PLA : STA !slowdown_mag
 
-    LDA !save_lag_counter : STA !lag_counter
     LDA !save_inidisp_mirror : STA !r_reg_inidisp_mirror
     LDA !save_hdma_indirect_table6+0 : STA !r_hdma_indirect_table6+0
     LDA !save_hdma_indirect_table6+2 : STA !r_hdma_indirect_table6+2
@@ -59,13 +58,6 @@ load_state:
     LDX #$B600 : STX !s_rom_graphics_dma_addr
     +
 
-    LDA !save_level_frames : STA !level_frames
-    LDA !save_level_seconds : STA !level_seconds
-    LDA !save_level_minutes : STA !level_minutes
-    LDA !save_room_frames : STA !room_frames
-    LDA !save_room_seconds : STA !room_seconds
-    LDA !save_room_minutes : STA !room_minutes
-
     LDA !load_delay_timer_init : STA !load_delay_timer
     BEQ +
     ; don't run the frame if load delay is active
@@ -78,11 +70,13 @@ load_state:
 
 preserve_hud: ; HUD settings shouldn't be affected by loading a state
     PHP
-    SEP #$20
-
+    %a16()
+    JSR load_hud_timers
     LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
     LDA !hud_enabled : BEQ .ret
     JSR init_hud
+    %ai8()
+    JSL level_tick
 .ret
     PLP
     RTS
@@ -191,6 +185,7 @@ prepare_load:
     STZ $37
     STZ $093C
     STZ $093E
+    INC !skip_frame_flag
     PLP
     RTS
 .no_load

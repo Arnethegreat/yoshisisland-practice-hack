@@ -5,9 +5,9 @@ save_state:
     REP #$30
 
 ; Only save if we're in gamemode 0F
-    LDA !gamemode
-    CMP.w #!gm_level
-    BNE .ret
+    LDA !gamemode : CMP.w #!gm_level : BEQ +
+    JMP .ret
+    +
 ; Check pause flag too (don't wanna save at start-select)
     LDA $0B0F
     BNE .ret
@@ -17,7 +17,9 @@ save_state:
     STA !savestate_exists
     STZ !map16delta_index
 
+
 .save_memory_blocks
+    JSR save_hud_timers ; save these first before savelag
     JSR save_item_memory
     JSR save_ram
     JSR save_dyntile_buffer
@@ -55,21 +57,11 @@ save_state:
     LDA !r_header_bg1_tileset : STA !save_bg1_tileset
     LDA !r_header_bg1_palette : STA !save_bg1_palette
 
-    BRA .save_timers
+    JSR load_hud_timers
+    INC !skip_frame_flag ; skip next frame to prevent an extra lag frame incrementing the lag counter
 
 .ret
     PLP
     PLY
     PLX
     RTS
-.save_timers
-    SEP #$20
-    LDA !level_frames : STA !save_level_frames
-    LDA !level_seconds : STA !save_level_seconds
-    LDA !level_minutes : STA !save_level_minutes
-    LDA !room_frames : STA !save_room_frames
-    LDA !room_seconds : STA !save_room_seconds
-    LDA !room_minutes : STA !save_room_minutes
-    REP #20
-    LDA !lag_counter : STA !save_lag_counter
-    BRA .ret

@@ -26,6 +26,7 @@ handle_frame_skip:
   BEQ +
   {
     DEC !load_delay_timer
+    DEC !frames_passed ; fix HUD timers
     JMP game_loop_skip
   }
   +

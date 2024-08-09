@@ -163,6 +163,9 @@
 !yoshi_x_speed = $60B4
 !yoshi_y_speed = $60AA
 
+!s_egg_cursor_angle = $60EE
+!s_egg_cursor_angle_l = $7000EE
+
 ; Yoshi Colour Palette
 !yoshi_colour = $0383
 

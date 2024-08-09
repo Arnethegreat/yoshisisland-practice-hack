@@ -35,7 +35,7 @@ To leave menu press Start on either controller.
 Use the d-pad to navigate, B to go back, and Y/A to select options and set values.
 
 ### HUD
-The heads-up display can be toggled on/off from the menu. It may cause some minor graphical glitches when enabled.
+The heads-up display can be toggled on/off from the menu. It may cause some minor graphical glitches and increase lag when enabled.
 It displays:
 
 Column 1 | Column 2 | Column 3 | Column 4 | Column 5

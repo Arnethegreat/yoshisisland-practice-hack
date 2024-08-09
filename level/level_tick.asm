@@ -1,19 +1,21 @@
+; ~~~ performance critical code ~~~
+; (if anything looks strange, it's because of that [and/or because I suck])
+
 level_tick:
     PHP
     PHB
     PHK
     PLB
-    %ai8()
 
     LDA !debug_control_scheme : TSB !s_control_scheme ; hacky, just set force hasty every frame
 
     %a16()
 
     JSR tick_timers
-    JSR count_active_sprites
 
     LDY !hud_displayed : BEQ .ret
 
+    JSR count_active_sprites
     JSR display_common
     JSR display_input
     LDY !null_egg_mode_enabled
@@ -43,7 +45,7 @@ display_common:
     JSR print_16_abs
 
     ; egg aiming angle
-    LDA $60EE
+    LDA !s_egg_cursor_angle
     LDY #$42
     JSR print_16
 
@@ -52,8 +54,7 @@ display_common:
     LDY #$A4
     JSR print_16
     SEP #$20
-    LDA #$3F
-    STA !hud_buffer+$A4
+    LDA #$3F : STA !hud_buffer+$A4 ; hide the leftmost digit
 
     ; sprite count
     LDA !active_sprites
@@ -61,8 +62,7 @@ display_common:
     JSR print_8_dec
 
     ; level timer
-    LDA !level_minutes
-    STA !hud_buffer+$1E
+    LDA !level_minutes : STA !hud_buffer+$1E
     LDA !level_seconds
     LDY #$22
     JSR print_8_dec
@@ -71,8 +71,7 @@ display_common:
     JSR print_8_dec
 
     ; room timer
-    LDA !room_minutes
-    STA !hud_buffer+$5E
+    LDA !room_minutes : STA !hud_buffer+$5E
     LDA !room_seconds
     LDY #$62
     JSR print_8_dec
@@ -173,31 +172,39 @@ display_misc:
 .ret
     RTS
 
-display_input:
-    REP #$20
-    LDA #$7E00+(!hud_buffer>>8)
-    STA $01
+macro display_input_btn(buffer_offset, pressed_value)
+    LSR : BCC ?not_pressed ; rightmost bit clear = button not pressed
+    LDX #$3000+<pressed_value> : STX <buffer_offset> ; store pressed
+    BRA ?+
+?not_pressed:
+    STY <buffer_offset> ; store default unpressed
+?+
+endmacro
 
-    LDA $35
-    LSR #4
-    LDX #$0B
-.loop
-    LDY input_locations,x
-    STY $00
-    LSR
-    PHA
-    BCS .pressed
-    LDA #$3027
-    BRA .write_tile
-.pressed
-    LDA input_tiles,x
-    AND #$00FF
-    ORA #$3000
-.write_tile
-    STA [$00]
-    PLA
-    DEX
-    BPL .loop
+display_input:
+    %ai16()
+    PHD
+    LDA #!hud_buffer : TCD
+
+    LDA !controller_data1
+    LSR #4 ; get rid of the empty rightmost 4 bits
+    LDY #$3027 ; default tile value
+
+    %display_input_btn($36, $1B)
+    %display_input_btn($34, $15)
+    %display_input_btn($3A, $21)
+    %display_input_btn($7C, $0A)
+    %display_input_btn($72, $33)
+    %display_input_btn($6E, $32)
+    %display_input_btn($B0, $31)
+    %display_input_btn($30, $30)
+    %display_input_btn($B6, $1D)
+    %display_input_btn($B4, $0E)
+    %display_input_btn($78, $22)
+    %display_input_btn($BA, $0B)
+
+    PLD
+    %i8()
     RTS
 
 input_tiles:
@@ -207,12 +214,21 @@ input_locations:
 
 count_active_sprites:
     LDY #$00
-    LDX #$5C
+    ; 24 4-byte entries, one sprite per
+    LDX #$14 ; 6*4-4
 .count_loop
-    LDA $6F00,x
-    BEQ .next
+    LDA !s_spr_state+$00,x : BEQ +
     INY
-.next
+    +
+    LDA !s_spr_state+$18,x : BEQ +
+    INY
+    +
+    LDA !s_spr_state+$30,x : BEQ +
+    INY
+    +
+    LDA !s_spr_state+$48,x : BEQ +
+    INY
+    +
     DEX #4
     BPL .count_loop
 
@@ -278,19 +294,17 @@ add_frames_to_timer:
 .ret
     RTS
 
-print_8_dec:
-    LDX #$00
--
-    CMP #$0A
-    BCC +
-    SBC #$0A
-    INX
-    BRA -
-+
-    ORA tens,x
-    JMP print_8
+decimal_lut:
+for i = 0..10
+    for j = 0..10
+        db $!i!j
+    endfor
+endfor
 
-tens: db $00, $10, $20, $30, $40, $50, $60, $70, $80, $90
+; value in A (8), offset in Y
+; assume valid input: A = 0-99 ($00-$63)
+print_8_dec:
+    TAX : LDA decimal_lut,x
 
 ; value in A (8), offset in Y
 print_8:
@@ -312,34 +326,29 @@ print_16_abs:
 ; value in A (16), offset in Y
 print_16:
     PHD
-    PHA
-    LDA #!hud_buffer
-    TCD
-    PLA
+    STA $00
+    LDA #!hud_buffer : TCD
 
-    PHA
-    AND #$000F
-    TAX
-    STX $06,y
+    LDA $0000
+    ROR #4
+    AND #$0F0F
 
-    LDA $01,s
-    LSR #4
-    PHA
-    AND #$000F
-    TAX
-    STX $04,y
+    ; $--X-
+    TAX : STX $04,y
 
-    PLA
+    ; $X---
     XBA
-    AND #$000F
-    TAX
-    STX $00,y
+    TAX : STX $00,y
 
-    PLA
+    LDA $0000
+    AND #$0F0F
+
+    ; $---X
+    TAX : STX $06,y
+
+    ; $-X--
     XBA
-    AND #$000F
-    TAX
-    STX $02,y
+    TAX : STX $02,y
 
     PLD
     RTS

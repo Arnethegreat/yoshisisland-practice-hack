@@ -200,6 +200,7 @@
 
 ; IRQ
 !r_irq_count = $0125
+!r_irq_setting = $0126
 
 ; RAM Mirrors
 !r_apu_io_0_mirror = $004D

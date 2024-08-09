@@ -8,15 +8,13 @@ init_debug_menu:
     ; turn screen off
     LDA #$8F
     STA !reg_inidisp
-    STA $0200
+    STA !r_reg_inidisp_mirror
 
 .back_up
     REP #$30
 
-    LDA $39
-    STA !bg1_backup
-    LDA $3B
-    STA !bg2_backup
+    LDA.b !r_camera_layer1_x : STA !camera_layer1_x_backup
+    LDA.b !r_camera_layer1_y : STA !camera_layer1_y_backup
     LDA !r_reg_coldata_mirror
     STA !bg_color_backup
 
@@ -150,21 +148,24 @@ init_current_menu:
 
 main_debug_menu:
     PHP
-    LDA #$0F
-    STA $0200
-
-    JSR main_controls
-    JSR animate_palette
-    JSR draw_menu
-
-    LDA !recording_bind_state : BNE .ret ; don't exit menu in the middle of recording a bind
+    LDA !warping : BNE .exit_menu
+    LDA !recording_bind_state : BNE .process_menu ; don't exit menu in the middle of recording a bind
 
     LDA !controller_2_data2_press
     ORA !controller_data2_press
     AND #!controller_data2_start
-    ORA !warping
-    BEQ .ret
+    BEQ .process_menu
+
+.exit_menu
     JSR exit_debug_menu
+    BRA .ret
+
+.process_menu
+    LDA #$0F : STA !r_reg_inidisp_mirror
+
+    JSR main_controls
+    JSR animate_palette
+    JSR draw_menu
 
 .ret
     %a16()
@@ -175,6 +176,7 @@ main_debug_menu:
 ;================================
 
 draw_menu:
+    PHP
     SEP #$20
     LDA.b #!menu_tilemap_mirror>>16 : STA $01
     REP #$30
@@ -183,7 +185,7 @@ draw_menu:
     LDA #!menu_tilemap_size
     JSL vram_dma_01
 .ret
-    SEP #$30
+    PLP
     RTS
 
 ;================================
@@ -237,7 +239,7 @@ exit_debug_menu:
     LDA !irq_mode_1_backup
     STA !r_interrupt_mode
     LDA !irq_mode_2_backup
-    STA $0126
+    STA !r_irq_setting
     LDA !hdma_backup
     STA !r_reg_hdmaen_mirror
 
@@ -254,10 +256,9 @@ exit_debug_menu:
 
     LDA !bg_color_backup
     STA !r_reg_coldata_mirror
-    LDA !bg1_backup
-    STA $39
-    LDA !bg2_backup
-    STA $3B
+    LDA !camera_layer1_x_backup : STA.b !r_camera_layer1_x
+    LDA !camera_layer1_y_backup : STA.b !r_camera_layer1_y
+
 ; palettes
     LDX #!palette_backup_size
     -
@@ -281,7 +282,7 @@ exit_debug_menu:
     LDA #!gm_cutscenefadeout
     STA !gamemode
     LDA #$00
-    STA $0200
+    STA !r_reg_inidisp_mirror
 
 .ret
     JSR handle_flags

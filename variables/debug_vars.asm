@@ -10,8 +10,8 @@ includeonce
 %var_0272(debug_base, 8)
 
 ; backups
-%var_0272(bg1_backup, 2)
-%var_0272(bg2_backup, 2)
+%var_0272(camera_layer1_x_backup, 2)
+%var_0272(camera_layer1_y_backup, 2)
 %var_0272(hdma_backup, 2)
 %var_0272(irq_mode_1_backup, 1)
 %var_0272(irq_mode_2_backup, 1)

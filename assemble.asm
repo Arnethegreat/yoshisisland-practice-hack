@@ -34,7 +34,6 @@ incsrc savestates/save_state.asm
 incsrc savestates/load_state.asm
 incsrc savestates/upload_routines.asm
 incsrc savestates/hard_fixes.asm
-incsrc savestates/record_map16_changes.asm
 ;=================================
 incsrc misc/sram_boot_check.asm
 incsrc music/toggle_music.asm

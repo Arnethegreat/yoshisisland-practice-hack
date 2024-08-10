@@ -6,6 +6,8 @@ sram_boot_check:
 
     JSR bindings_boot_check
 
+    LDA #$FF : STA !save_level ; initial state = no savestate
+
     LDA !debug_control_scheme : BEQ + : CMP #$02 : BEQ +
     LDA #$00 : STA !debug_control_scheme
     +

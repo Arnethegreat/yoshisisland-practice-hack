@@ -115,20 +115,18 @@ submenu_config_ctrl:
   %define_menu_entry(!ct_binding, !bind_loadstatefull_2, 9, 5, $01)
   %define_menu_entry(!ct_binding, !bind_loadstateroom_1, 1, 6, $00)
   %define_menu_entry(!ct_binding, !bind_loadstateroom_2, 9, 6, $01)
-  %define_menu_entry(!ct_binding, !bind_musictoggle_1, 1, 7, $00)
-  %define_menu_entry(!ct_binding, !bind_musictoggle_2, 9, 7, $01)
-  %define_menu_entry(!ct_binding, !bind_freemovement_1, 1, 8, $00)
-  %define_menu_entry(!ct_binding, !bind_freemovement_2, 9, 8, $01)
-  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_1, 1, 9, $00)
-  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_2, 9, 9, $01)
-  %define_menu_entry(!ct_binding, !bind_slowdownincrease_1, 1, 10, $00)
-  %define_menu_entry(!ct_binding, !bind_slowdownincrease_2, 9, 10, $01)
-  %define_menu_entry(!ct_binding, !bind_frameadvance_1, 1, 11, $00)
-  %define_menu_entry(!ct_binding, !bind_frameadvance_2, 9, 11, $01)
-  %define_menu_entry(!ct_binding, !bind_disableautoscroll_1, 1, 12, $00)
-  %define_menu_entry(!ct_binding, !bind_disableautoscroll_2, 9, 12, $01)
+  %define_menu_entry(!ct_binding, !bind_freemovement_1, 1, 7, $00)
+  %define_menu_entry(!ct_binding, !bind_freemovement_2, 9, 7, $01)
+  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_1, 1, 8, $00)
+  %define_menu_entry(!ct_binding, !bind_slowdowndecrease_2, 9, 8, $01)
+  %define_menu_entry(!ct_binding, !bind_slowdownincrease_1, 1, 9, $00)
+  %define_menu_entry(!ct_binding, !bind_slowdownincrease_2, 9, 9, $01)
+  %define_menu_entry(!ct_binding, !bind_frameadvance_1, 1, 10, $00)
+  %define_menu_entry(!ct_binding, !bind_frameadvance_2, 9, 10, $01)
+  %define_menu_entry(!ct_binding, !bind_disableautoscroll_1, 1, 11, $00)
+  %define_menu_entry(!ct_binding, !bind_disableautoscroll_2, 9, 11, $01)
 .column_counts
-  dw $0001, $0201, $0401, $0601, $0801, $0A01, $0C01, $0E01, $1001, $1201, $1401
+  dw $0001, $0201, $0401, $0601, $0801, $0A01, $0C01, $0E01, $1001, $1201
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !debug_menu_controls_warps_worlds_count = #$0007

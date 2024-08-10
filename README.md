@@ -140,7 +140,6 @@ Select | - | Save
 X | - | Load
 L+X | - | Load full
 R+X | - | Re-zone
-\- | Select | Toggle music
 \- | B | Free movement
 \- | L | Slowdown decrease
 \- | R | Slowdown increase

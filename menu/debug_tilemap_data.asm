@@ -36,7 +36,6 @@ submenu_config_tilemap:
             "                 LOAD",
             "                 LOAD FULL",
             "                 RE-ZONE",
-            "                 TOGGLE MUSIC",
             "                 FREE MOVEMENT",
             "                 SLOWDOWN -",
             "                 SLOWDOWN +",

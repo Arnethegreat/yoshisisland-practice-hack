@@ -26,8 +26,6 @@
 %var_707E7E(bind_loadstatefull_2, 4)
 %var_707E7E(bind_loadstateroom_1, 4)
 %var_707E7E(bind_loadstateroom_2, 4)
-%var_707E7E(bind_musictoggle_1, 4)
-%var_707E7E(bind_musictoggle_2, 4)
 %var_707E7E(bind_freemovement_1, 4)
 %var_707E7E(bind_freemovement_2, 4)
 %var_707E7E(bind_slowdowndecrease_1, 4)
@@ -39,7 +37,7 @@
 %var_707E7E(bind_disableautoscroll_1, 4)
 %var_707E7E(bind_disableautoscroll_2, 4)
 !binding_startaddr_sram = !bind_savestate_1
-!binding_size_sram = 20*4
+!binding_size_sram = 18*4
 %var_707E7E(bind_checksum, 2)
 
 ; helper table for copying the bindings and assigning the control bytes
@@ -48,15 +46,14 @@ action_binding_table:
     dw $0002, !bind_loadstate_1, !bind_loadstate_2
     dw $0004, !bind_loadstatefull_1, !bind_loadstatefull_2
     dw $0006, !bind_loadstateroom_1, !bind_loadstateroom_2
-    dw $0008, !bind_musictoggle_1, !bind_musictoggle_2
-    dw $000A, !bind_disableautoscroll_1, !bind_disableautoscroll_2
-    dw $000C, !bind_freemovement_1, !bind_freemovement_2
-    dw $000E, !bind_slowdowndecrease_1, !bind_slowdowndecrease_2
-    dw $0010, !bind_slowdownincrease_1, !bind_slowdownincrease_2
-    dw $0012, !bind_frameadvance_1, !bind_frameadvance_2
+    dw $0008, !bind_disableautoscroll_1, !bind_disableautoscroll_2
+    dw $000A, !bind_freemovement_1, !bind_freemovement_2
+    dw $000C, !bind_slowdowndecrease_1, !bind_slowdowndecrease_2
+    dw $000E, !bind_slowdownincrease_1, !bind_slowdownincrease_2
+    dw $0010, !bind_frameadvance_1, !bind_frameadvance_2
 
-!binding_count = $09 ; number of elements in the table minus 1
-!binding_last_el = $36 ; index of the last element in the table
+!binding_count = $08 ; number of elements in the table minus 1
+!binding_last_el = $30 ; index of the last element in the table
 assert !binding_count == (!binding_last_el/6)
 assert !binding_last_el == datasize(action_binding_table)-6
 
@@ -219,8 +216,6 @@ default_input_bindings:
     LDA #$0000 : STA !bind_loadstatefull_2 : STA !bind_loadstatefull_2+2
     LDA #!controller_R : STA !bind_loadstateroom_1 : LDA #!controller_X : STA !bind_loadstateroom_1+2
     LDA #$0000 : STA !bind_loadstateroom_2 : STA !bind_loadstateroom_2+2
-    LDA #$0000 : STA !bind_musictoggle_1 : STA !bind_musictoggle_1+2
-    LDA #$0000 : STA !bind_musictoggle_2 : LDA #!controller_select : STA !bind_musictoggle_2+2
     LDA #$0000 : STA !bind_freemovement_1 : STA !bind_freemovement_1+2
     LDA #$0000 : STA !bind_freemovement_2 : LDA #!controller_B : STA !bind_freemovement_2+2
     LDA #$0000 : STA !bind_slowdowndecrease_1 : STA !bind_slowdowndecrease_1+2

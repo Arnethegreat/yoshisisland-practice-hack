@@ -91,6 +91,11 @@
 !world_num = $0218 ; world index * 2 (0000 = world 1, 0002 = world 2, etc.)
 !level_num = $021A ; seems to store level index with the formula world*12+level, so 1-1 would be 0, 2-2 would be 13, 4-5 would be 40 ($28)
 
+!lvl_froggystomach = $C9
+!lvl_hookbill = $86
+!lvl_raphael = $CB
+!lvl_bowser = $DD
+
 ;Egg Inventory
 !egg_inv_size = $7E5D98
 !egg_inv_items = $7E5D9A

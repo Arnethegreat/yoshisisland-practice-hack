@@ -91,15 +91,13 @@ room_init:
 ; e.g. big bowser uses 1100 0110, baby bowser shockwaves use 0010 0000, kamek magic dust uses 0011 0110
 set_hud_hdma_channels:
     PHP
-    REP #$20
-    SEP #$10
+    %a16i8()
 
     ; might have to do this more intelligently depending on how many rooms we need to switch out
-    LDA !current_level
-    AND #$00FF
-    CMP #$00DD : BEQ .bowser
-    CMP #$0086 : BEQ .hookbill
-    CMP #$00C9 : BEQ .pfroggy
+    LDX !current_level
+    CPX #!lvl_bowser : BEQ .bowser
+    CPX #!lvl_hookbill : BEQ .hookbill
+    CPX #!lvl_froggystomach : BEQ .pfroggy
 
     ; default
     LDA #$4360 : STA !hud_hdma_table_h_channel
@@ -107,9 +105,7 @@ set_hud_hdma_channels:
     LDX #%11000000 : STX !hud_hdma_channels
     BRA .ret
 .bowser
-    LDA #$4300 : STA !hud_hdma_table_h_channel
-    LDA #$4330 : STA !hud_hdma_table_v_channel
-    LDX #%00001001 : STX !hud_hdma_channels
+    LDX #$00 : STX !hud_hdma_channels
     BRA .ret
 .hookbill ; uses channels 6/7 in addition to kamek magic and mist (channel 3)
     LDA #$4340 : STA !hud_hdma_table_h_channel

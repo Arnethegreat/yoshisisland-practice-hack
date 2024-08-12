@@ -22,6 +22,16 @@ macro ai16()
     REP #$30
 endmacro
 
+macro a8i16()
+    SEP #$20
+    REP #$10
+endmacro
+
+macro a16i8()
+    REP #$20
+    SEP #$10
+endmacro
+
 macro zero_dp()
     LDA #$0000
     TCD

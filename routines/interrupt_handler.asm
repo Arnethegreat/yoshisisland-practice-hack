@@ -14,10 +14,8 @@ nmi:
     LDA !hud_displayed : BNE .nmi_with_hud
 
     ; no HUD, so just set the registers that were skipped in the hijack and return
-    REP #$20
     LDA !r_reg_tm_mirror : STA.b !reg_tm
-
-    SEP #$20
+    LDA !r_reg_ts_mirror : STA.b !reg_ts
     LDA !r_reg_bg3sc_mirror : STA.b !reg_bg3sc
     LDA !r_reg_bgmode_mirror : STA.b !reg_bgmode
 
@@ -41,7 +39,7 @@ nmi:
     LDA #$64 ; !r_reg_bg3sc_mirror  aaaa aayx, a = map address>>10, x = horizontal flip, y = vertical flip
     STA.b !reg_bg3sc
 
-    REP #$20
+    %a16()
 
     ; set BG3 as a main screen
     LDA !r_reg_tm_mirror : STA !irq_tm_backup ; tm and ts are adjacent in memory, so this sets both
@@ -55,10 +53,10 @@ nmi:
     LDA #$6400 : STA.b !reg_vmadd ; VRAM destination
     LDA #$1801 : STA !reg_dmap0 ; and !reg_bbad0 - set lower 8 bits of dest to $18 ($2118) and write 1 word increments
     LDA #!hud_buffer : STA !reg_a1t0l ; and !reg_a1t0h - hud buffer source address
-    LDA #$00C0 : STA !reg_das0l ; and !reg_das0h - hud buffer size
+    LDA #!hud_buffer_size : STA !reg_das0l ; and !reg_das0h - hud buffer size
     LDX #$01 : STX !reg_mdmaen ; enable DMA channel 0
 
-    SEP #$20
+    %a8()
 
     ; set BG3 scroll to (0,-9) here even though HDMA usually makes it redundant
     ; this is mainly for the score screen, since HDMA gets reset a bunch of times when it loads
@@ -67,17 +65,9 @@ nmi:
     LDA.b #!hud_vofs : STA.b !reg_bg3vofs
     LDA.b #!hud_vofs>>8 : STA.b !reg_bg3vofs
 
-    ; if in score screen, skip the level-specific stuff
     LDA !gamemode
-    CMP #!gm_postboss
-    BEQ .post_boss_hacks
-    CMP #!gm_goalring
-    BEQ .ret
-    BRA .per_level_hacks
-.post_boss_hacks
-    LDA #$01 : TRB !r_reg_tm_mirror ; unset BG1 as a main screen so that we can see the score text
-    JSR set_hud_palette
-    BRA .ret
+    CMP #!gm_postboss : BEQ .post_boss_hacks
+    CMP #!gm_goalring : BEQ .ret
 
 .per_level_hacks
     ; as usual, registers changed by HDMA at top of screen or in the HUD region will be overwritten when we restore the mirror values in the IRQs
@@ -85,24 +75,24 @@ nmi:
     ; resulting in bowser without a head
     ; hacky workaround here just sets the mirrors to what they should be on restore
     LDA !current_level
-    CMP #$DD
-    BEQ +
-    CMP #$86
-    BNE ++
+    CMP #!lvl_bowser : BEQ +
+    CMP #!lvl_hookbill : BNE ++
 +
-    LDA #$11
-    TSB !r_reg_tm_mirror
+    LDA #$11 : TSB !r_reg_tm_mirror
+    RTS
 ++
 
     ; in the case of Raphael, the entire screen is mode7, so changing the hud region to mode1 just results in garbage underneath
     ; to fix this, prevent BG1 and 2 from being displayed and just show the hud tilemap over nothing
-    LDA !current_level
-    CMP #$CB
-    BNE +
-    LDA #%00010100 : STA $2C
+    CMP #!lvl_raphael : BNE +
+    LDA #%00010100 : STA.b !reg_tm
 +
-
 .ret
+    RTS
+
+.post_boss_hacks
+    LDA #$01 : TRB !r_reg_tm_mirror ; unset BG1 as a main screen so that we can see the score text
+    JSR set_hud_palette
     RTS
 
 hud_hdma_table_h: ; put these tables here so they're available in work ram

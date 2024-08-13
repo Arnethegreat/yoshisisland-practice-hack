@@ -469,3 +469,9 @@ handle_recording_done:
   LDY !recording_bind_state
   RTS
 undef "temp_sound"
+
+set_default_input_bindings_and_draw:
+    JSR default_input_bindings
+    STZ !prep_binds_flag
+    JSR init_controls ; re-draw
+    RTS

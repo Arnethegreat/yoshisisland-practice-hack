@@ -89,7 +89,7 @@ Loading can be done from anywhere (but not always guaranteed to work).
 An after-load delay can be set from the debug menu. The byte value indicates the number of frames the game will be paused for when a savestate is finished loading.
 
 ### Re-zone
-Reset to your last room or level entrance depending on the "RE-ZONE LEVEL" menu option. Your eggs are saved.
+Reset to your last room or level entrance depending on the **RE-ZONE LEVEL** menu option. Your eggs are saved.
 
 ### Music Toggle
 Enable/disable music (sound effects play as normal).

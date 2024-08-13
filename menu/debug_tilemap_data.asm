@@ -63,85 +63,85 @@ option_world6_tilemap: %store_text("6-1", "6-2", "6-3", "6-4", "6-5", "6-6", "6-
 option_world_tilemaps_addr_table:
     dw option_world1_tilemap, option_world2_tilemap, option_world3_tilemap, option_world4_tilemap, option_world5_tilemap, option_world6_tilemap
 
-option_level11_tilemap: %store_text("CAVE - LEFT")
-option_level12_tilemap: %store_text("2ND ROOM", "GOAL ROOM")
-option_level13_tilemap: %store_text("2ND ROOM - CAVE", "*BONUS*", "2ND ROOM - FROM BONUS LEFT", "GOAL ROOM")
-option_level14_tilemap: %store_text("2ND ROOM", "*BONUS*", "2ND ROOM - FROM BONUS", "PRE-BOSS ROOM", "BOSS")
+option_level11_tilemap: %store_text("*CAVE (LEFT SIDE)")
+option_level12_tilemap: %store_text("MAIN 2", "END")
+option_level13_tilemap: %store_text("CAVE", "*SEE-SAW", "CAVE (FROM SEE-SAW LEFT)", "END")
+option_level14_tilemap: %store_text("MAIN 2", "*PIRO DANGLES", "PRE-BOSS", "BOSS")
 option_level15_tilemap: %store_text("")
-option_level16_tilemap: %store_text("*BONUS* - CLOUD", "2ND ROOM - CAVE", "3RD ROOM", "MOLE TANK ROOM", "3RD ROOM - FROM MOLE TANK ROOM", "4TH ROOM - CAVE", "GOAL ROOM")
-option_level17_tilemap: %store_text("2ND ROOM", "*BONUS* - BEANSTALK")
-option_level18_tilemap: %store_text("2ND ROOM - BOTTOM LEFT WATER", "1ST ROOM - LEFT FROM WATER", "3RD ROOM", "PRE-BOSS ROOM", "BOSS")
+option_level16_tilemap: %store_text("*CLOUD", "CAVE 1", "OUTSIDE", "*MOLE", "OUTSIDE (FROM MOLE)", "CAVE 2", "END")
+option_level17_tilemap: %store_text("END", "*BEANSTALK")
+option_level18_tilemap: %store_text("WATER (BOTTOM LEFT)", "WATER (TOP LEFT)", "SPIKE PLATFORMS", "PRE-BOSS", "BOSS")
 option_level1E_tilemap: %store_text("")
 
 option_world1_tilemaps_addr_table:
     dw option_level11_tilemap, option_level12_tilemap, option_level13_tilemap, option_level14_tilemap
     dw option_level15_tilemap, option_level16_tilemap, option_level17_tilemap, option_level18_tilemap, option_level1E_tilemap
 
-option_level21_tilemap: %store_text("MARIO STAR ROOM", "2ND ROOM - POOCHEY", "3RD ROOM - FALLING ROCKS", "*BONUS*")
-option_level22_tilemap: %store_text("2ND ROOM", "3RD ROOM")
-option_level23_tilemap: %store_text("2ND ROOM - CAVE", "*BONUS*")
-option_level24_tilemap: %store_text("2ND ROOM", "BOO ROOM", "3RD ROOM - PLATFORMS", "2ND ROOM - FROM PLATFORMS", "4TH ROOM - LAVA", "5TH ROOM - EGGS", "*BONUS* - DARK", "PRE-BOSS ROOM", "BOSS")
-option_level25_tilemap: %store_text("TRAIN ROOM", "1ST ROOM - FROM TRAIN", "2ND ROOM", "1ST *BONUS* - SPINNY LOGS", "2ND *BONUS* - MARIO STAR")
-option_level26_tilemap: %store_text("2ND ROOM", "SMALL ROOM WITH REDS", "SMALL ROOM WITH MIDRING", "3RD ROOM", "4TH ROOM")
-option_level27_tilemap: %store_text("2ND ROOM - BIG SHYGUYS", "1ST ROOM - FROM BIG SHYGUYS", "3RD ROOM - FALLING STONES", "4TH ROOM", "*BONUS* - FOAM PIPE", "4TH ROOM - FROM BONUS", "5TH ROOM - CAR")
-option_level28_tilemap: %store_text("2ND ROOM", "3RD ROOM - ARROW LIFT", "TRAIN ROOM", "4TH ROOM - KEY", "5TH ROOM - SPIKED LOG", "*BONUS* - BURTS", "6TH ROOM - ARROW LIFT", "7TH ROOM - BANDITS", "PRE-BOSS ROOM", "BOSS")
-option_level2E_tilemap: %store_text("*BONUS* - STAR CRATES")
+option_level21_tilemap: %store_text("*GATEHACK FLOWER", "POOCHEY", "MAIN 2 (FALLING BLOCKS)", "*STICKY CEILING")
+option_level22_tilemap: %store_text("MAIN 2", "MAIN 3")
+option_level23_tilemap: %store_text("CAVE", "*NEP-ENUT")
+option_level24_tilemap: %store_text("MAIN", "*BIG BOOS FLOWER", "BOO PLATFORMS", "MAIN (FROM PLATFORMS)", "LAVA", "EGGS", "*DARK ROOM", "PRE-BOSS", "BOSS")
+option_level25_tilemap: %store_text("TRAIN", "MAIN 1 (FROM TRAIN)", "MAIN 2", "*3D PLATFORMS", "*SUPER BABY MARIO")
+option_level26_tilemap: %store_text("CAVE", "*LANTERN GHOSTS", "MIDRING", "MOVING BLOCKS", "OUTSIDE")
+option_level27_tilemap: %store_text("*TUNNEL", "MAIN 1 (FROM TUNNEL)", "FALLING BLOCKS", "MAIN 2", "*FOAM PIPES", "MAIN 2 (FROM FOAM PIPES)", "CAR")
+option_level28_tilemap: %store_text("LAVA", "ARROW LIFT 1", "*TRAIN", "KEY", "SPIKED LOG", "*BURTS FLOWER", "ARROW LIFT 2", "BANDITS", "PRE-BOSS", "BOSS")
+option_level2E_tilemap: %store_text("*STARS")
 
 option_world2_tilemaps_addr_table:
     dw option_level21_tilemap, option_level22_tilemap, option_level23_tilemap, option_level24_tilemap
     dw option_level25_tilemap, option_level26_tilemap, option_level27_tilemap, option_level28_tilemap, option_level2E_tilemap
 
-option_level31_tilemap: %store_text("2ND ROOM", "*BONUS*", "3RD ROOM")
-option_level32_tilemap: %store_text("*BONUS* - REDS", "*BONUS* - POOCHEY")
-option_level33_tilemap: %store_text("2ND ROOM", "*BONUS* - FLOWER", "3RD ROOM - SUBMARINE", "4TH ROOM", "5TH ROOM")
-option_level34_tilemap: %store_text("SUBMARINE ROOM", "1ST ROOM - FROM SUBMARINE", "2ND ROOM", "SMALL CRAB ROOM", "2ND ROOM - FROM SMALL CRAB", "ROOM WITH 3 REDS", "LARGE CRAB ROOM", "3RD ROOM - SPIKES", "PRE-BOSS ROOM", "BOSS")
-option_level35_tilemap: %store_text("2ND ROOM", "*BONUS*", "3RD ROOM")
-option_level36_tilemap: %store_text("2ND ROOM - UPPER", "*BONUS* - FLOWER", "3RD ROOM")
-option_level37_tilemap: %store_text("SUBMARINE ROOM", "2ND ROOM", "*BONUS* - CANOPY", "2ND ROOM - FROM BONUS", "ROOM WITH GOAL")
-option_level38_tilemap: %store_text("2ND ROOM", "3RD ROOM - PIPES", "4TH ROOM", "BOSS")
-option_level3E_tilemap: %store_text("*BONUS* - STARS")
+option_level31_tilemap: %store_text("MAIN 2", "*BIG DONUTS", "MAIN 3")
+option_level32_tilemap: %store_text("*PIPE REDS", "*POOCHEY")
+option_level33_tilemap: %store_text("MAIN 2", "*SHYGUYS FLOWER", "MAIN 3 (SUBMARINE)", "MAIN 4 (FROG BOUNCE)", "MAIN 5")
+option_level34_tilemap: %store_text("*SUBMARINE", "MAIN 1 (FROM SUBMARINE)", "MAIN 2", "*CRABS", "MAIN 2 (FROM CRABS)", "*BUCKET ROOM", "CRAB TUNNEL", "SPIKES", "PRE-BOSS", "BOSS")
+option_level35_tilemap: %store_text("MAIN 2", "*EGG PLANT PLATFORM", "MAIN 3")
+option_level36_tilemap: %store_text("CAVE", "*SWITCH JUMP", "OUTSIDE")
+option_level37_tilemap: %store_text("*SUBMARINE", "MAIN 2", "*CANOPY", "MAIN 2 (FROM CANOPY)", "MAIN 3")
+option_level38_tilemap: %store_text("MAIN 1", "PIPES", "MAIN 2", "BOSS")
+option_level3E_tilemap: %store_text("*STARS")
 
 option_world3_tilemaps_addr_table:
     dw option_level31_tilemap, option_level32_tilemap, option_level33_tilemap, option_level34_tilemap
     dw option_level35_tilemap, option_level36_tilemap, option_level37_tilemap, option_level38_tilemap, option_level3E_tilemap
 
-option_level41_tilemap: %store_text("*BONUS* - CAVE", "1ST ROOM - FROM BONUS", "2ND ROOM - FUZZIES", "3RD ROOM")
-option_level42_tilemap: %store_text("2ND ROOM", "*BONUS* - FALLING", "2ND ROOM - FROM BONUS", "3RD ROOM", "*BONUS* - RED")
-option_level43_tilemap: %store_text("*BONUS*", "2ND ROOM")
-option_level44_tilemap: %store_text("HUB", "TOP RIGHT", "BOTTOM RIGHT", "BOTTOM RIGHT - 2ND ROOM", "TOP LEFT", "BOTTOM LEFT", "1ST KEY-OPENED ROOM", "2ND KEY-OPENED ROOM", "3RD KEY-OPENED ROOM", "BOSS")
-option_level45_tilemap: %store_text("2ND ROOM", "*BONUS* - FLOWER")
-option_level46_tilemap: %store_text("SMALL ROOM WITH TULIP", "2ND ROOM", "3RD ROOM", "*BONUS* - DOUBLE ARROW LIFT", "4TH ROOM")
-option_level47_tilemap: %store_text("BALLOON PUMP ROOM", "2ND ROOM")
-option_level48_tilemap: %store_text("2ND ROOM - LEFT", "2ND ROOM - MIDDLE", "2ND ROOM - RIGHT", "*BONUS* - GIANT MILDES", "LAKITU ROOM", "TETRIS ROOM", "BOSS")
-option_level4E_tilemap: %store_text("BRIGHT - MAIN MIDDLE DOOR", "DARK - EGG POOL", "BRIGHT - TOP LEFT", "DARK - MOLE", "BRIGHT - RED EGG BLOCKS", "DARK - HELICOPTER", "BRIGHT - FLASHING EGGS", "DARK - END WATERFALL")
+option_level41_tilemap: %store_text("*CAVE", "MAIN 1 (FROM CAVE)", "FUZZIES", "MAIN 2")
+option_level42_tilemap: %store_text("MAIN 1", "*LONG FALL", "MAIN 1 (FROM FALL)", "MAIN 2", "*RED COIN")
+option_level43_tilemap: %store_text("*HELICOPTER", "END")
+option_level44_tilemap: %store_text("HUB", "TOP RIGHT", "BOTTOM RIGHT 1", "BOTTOM RIGHT 2", "TOP LEFT", "BOTTOM LEFT", "1ST KEY", "2ND KEY", "3RD KEY", "BOSS")
+option_level45_tilemap: %store_text("MAIN 2", "*BASEBALL FLOWER")
+option_level46_tilemap: %store_text("*SMALL ROOM WITH TULIP", "CAVE 1", "CAVE 2", "*DOUBLE ARROW LIFTS", "OUTSIDE")
+option_level47_tilemap: %store_text("*BALLOON PUMP ROOM", "MAIN 2 (PLATFORMS)")
+option_level48_tilemap: %store_text("MAIN 2 (LEFT)", "MAIN 2 (MIDDLE)", "MAIN 2 (RIGHT)", "*GIANT MILDES", "FISHING LAKITU", "TETRIS", "BOSS")
+option_level4E_tilemap: %store_text("BRIGHT (MAIN MIDDLE DOOR)", "DARK (EGG POOL)", "BRIGHT (TOP LEFT)", "DARK (MOLE)", "BRIGHT (RED EGG BLOCKS)", "DARK (HELICOPTER)", "BRIGHT (FLASHING EGGS)", "DARK (END WATERFALL)")
 
 option_world4_tilemaps_addr_table:
     dw option_level41_tilemap, option_level42_tilemap, option_level43_tilemap, option_level44_tilemap
     dw option_level45_tilemap, option_level46_tilemap, option_level47_tilemap, option_level48_tilemap, option_level4E_tilemap
 
-option_level51_tilemap: %store_text("*BONUS* - HELICOPTER", "2ND ROOM - CAVE", "3RD ROOM", "*BONUS* - TULIP")
-option_level52_tilemap: %store_text("2ND ROOM", "3RD ROOM", "*BONUS* - ICE CORE")
-option_level53_tilemap: %store_text("2ND ROOM", "*BONUS* - COINS", "3RD ROOM - DOOR", "1ST SKIING", "2ND SKIING", "3RD SKIING", "GOAL ROOM")
-option_level54_tilemap: %store_text("1ST *BONUS* - FLOWER", "2ND *BONUS* - MUDDY BUDDY ROOM", "1ST ROOM - MID-RING", "2ND ROOM", "3RD ROOM - 5-4 SKIP", "PRE-BOSS ROOM", "BOSS")
-option_level55_tilemap: %store_text("*BONUS* - PENGUINS", "2ND ROOM - HELICOPTER", "3RD ROOM")
-option_level56_tilemap: %store_text("2ND ROOM", "*BONUS* - PIPES")
-option_level57_tilemap: %store_text("*BONUS* - FLOWER", "2ND ROOM", "3RD ROOM")
-option_level58_tilemap: %store_text("2ND ROOM", "3RD ROOM - ARROW LIFT", "4TH ROOM", "TRAIN ROOM", "BOSS", "BOSS - MOON")
-option_level5E_tilemap: %store_text("1ST SKIING", "2ND SKIING", "3RD SKIING", "GOAL ROOM")
+option_level51_tilemap: %store_text("*HELICOPTER", "CAVE", "OUTSIDE", "*TULIPS")
+option_level52_tilemap: %store_text("SKI LIFTS 1", "SKI LIFTS 2", "*ICE CORE")
+option_level53_tilemap: %store_text("MAIN 2 (SUPER BABY MARIO)", "*HELICOPTER", "MAIN 3 (SKI LIFTS)", "SKIING 1", "SKIING 2", "SKIING 3", "END")
+option_level54_tilemap: %store_text("*FLOWER", "*MUDDY BUDDY", "MAIN 1 (MID-RING)", "MAIN 2", "5-4 SKIP", "PRE-BOSS", "BOSS")
+option_level55_tilemap: %store_text("*PENGUINS FLOWER", "MAIN 2 (HELICOPTER)", "MAIN 3")
+option_level56_tilemap: %store_text("MAIN 2 (POST-AUTOSCROLLER)", "*PIPES")
+option_level57_tilemap: %store_text("*FLOWER", "MAIN 2", "MAIN 3")
+option_level58_tilemap: %store_text("MAIN 2", "ARROW LIFT", "MAIN 3", "*TRAIN", "BOSS", "BOSS (MOON)")
+option_level5E_tilemap: %store_text("SKIING 1", "SKIING 2", "SKIING 3", "END")
 
 option_world5_tilemaps_addr_table:
     dw option_level51_tilemap, option_level52_tilemap, option_level53_tilemap, option_level54_tilemap
     dw option_level55_tilemap, option_level56_tilemap, option_level57_tilemap, option_level58_tilemap, option_level5E_tilemap
 
-option_level61_tilemap: %store_text("*BONUS* - CONVEYOR RIDE", "2ND ROOM", "3RD ROOM")
-option_level62_tilemap: %store_text("2ND ROOM", "3RD ROOM")
-option_level63_tilemap: %store_text("2ND ROOM", "*BONUS* - 5 ROOMS")
-option_level64_tilemap: %store_text("PRE-SALVO ROOM", "BIG SALVO ROOM", "DARK ROOM - FROM SALVO", "LAVA ROOM", "BOSS")
-option_level65_tilemap: %store_text("*BONUS*", "2ND ROOM")
-option_level66_tilemap: %store_text("BRIGHT - TOP LEFT", "DARK - BOTTOM LEFT", "BRIGHT - TOP RIGHT", "BRIGHT - MID LEFT", "GOAL ROOM")
-option_level67_tilemap: %store_text("2ND ROOM", "3RD ROOM", "*BONUS* - SWITCHES", "GOAL ROOM")
-option_level68_tilemap: %store_text("PICK A DOOR ROOM", "DOOR 1", "DOOR 2", "DOOR 3", "DOOR 4", "KAMEK'S MAGIC AUTOSCROLLER", "BOSS - BABY BOWSER", "BOSS - BIG BOWSER")
-option_level6E_tilemap: %store_text("2ND ROOM", "3RD ROOM", "4TH ROOM - BASEBALL", "5TH ROOM", "6TH ROOM", "7TH ROOM - WATER")
+option_level61_tilemap: %store_text("*CONVEYOR RIDE", "MAIN 2 (CHOMPS)", "MAIN 3")
+option_level62_tilemap: %store_text("MAIN 2", "MAIN 3 (SPIKES)")
+option_level63_tilemap: %store_text("MAIN 2", "*5 ROOMS")
+option_level64_tilemap: %store_text("PRE-SALVO", "SALVO", "DARK (FROM SALVO)", "LAVA SKIP", "BOSS")
+option_level65_tilemap: %store_text("*FOAM ROOM", "MAIN 2 (AUTOSCROLLER SKIP)")
+option_level66_tilemap: %store_text("BRIGHT (TOP LEFT)", "DARK (BOTTOM LEFT)", "BRIGHT (TOP RIGHT)", "BRIGHT (MID LEFT)", "END")
+option_level67_tilemap: %store_text("MAIN 2", "MAIN 3 (SUPER BABY MARIO)", "*SWITCHES", "END")
+option_level68_tilemap: %store_text("PICK A DOOR", "DOOR 1", "DOOR 2", "DOOR 3", "DOOR 4", "KAMEK'S MAGIC AUTOSCROLLER", "BOSS (BABY BOWSER)", "BOSS (BIG BOWSER)")
+option_level6E_tilemap: %store_text("INSIDE", "YOSSY", "BASEBALL", "LONG FALL 1", "LONG FALL 2", "WATER")
 
 option_world6_tilemaps_addr_table:
     dw option_level61_tilemap, option_level62_tilemap, option_level63_tilemap, option_level64_tilemap

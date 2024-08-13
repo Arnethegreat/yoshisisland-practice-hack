@@ -25,7 +25,6 @@ warp_data_level_13: ; 02
 warp_data_level_14: ; 03
   dw $1703, $0040  ; 2nd Room
   dw $1D99, $0072  ; Bonus
-  dw $8A03, $0548  ; 2nd Room (From Bonus)
   dw $C46E, $006A  ; Pre-Boss Room
   dw $053D, $0063  ; Boss
 warp_data_level_15: ; 04
@@ -42,7 +41,7 @@ warp_data_level_17: ; 06
   dw $0E3F, $091E  ; Bonus (Beanstalk)
 warp_data_level_18: ; 9B
   dw $1040, $0673  ; 2nd Room (Bottom Left Water)
-  dw $BD9B, $0333  ; 1st Room (Left From Water)
+  dw $1040, $0669  ; 2nd Room (Top Left Water)
   dw $0507, $024A  ; 3rd Room
   dw $D49B, $0058  ; Pre-Boss Room
   dw $0470, $0078  ; Boss

@@ -132,7 +132,7 @@ submenu_config_ctrl:
 !debug_menu_controls_warps_worlds_count = #$0007
 !debug_menu_controls_warps_levels_count = #$000A
 debug_menu_controls_warps_room_counts:
-  db $02, $03, $05, $06, $01, $08, $03, $06, $01 ; world 1
+  db $02, $03, $05, $05, $01, $08, $03, $06, $01 ; world 1
   db $05, $03, $03, $0A, $06, $06, $08, $0B, $02 ; world 2
   db $04, $03, $06, $0B, $04, $04, $06, $05, $02 ; world 3
   db $05, $06, $03, $0B, $03, $06, $03, $08, $09 ; world 4

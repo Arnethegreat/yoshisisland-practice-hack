@@ -11,6 +11,7 @@
 !free_movement_l = $7E10DA
 !s_control_scheme = $6082
 !s_control_scheme_l = $700082
+!r_pause_menu_flag = $0B10
 
 ; Game modes
 !gm_npresentsload = $01
@@ -185,6 +186,7 @@
 !sound_immediate = $0053
 !r_level_music_playing = $0205
 
+!sfx_unpause = $01
 !sfx_collect_egg = $03
 !sfx_shell_01 = #$000B
 !sfx_shell_06 = $10
@@ -210,6 +212,9 @@
 ; RAM Mirrors
 !r_apu_io_0_mirror = $004D
 !r_apu_io_0_mirror_prev = $004F
+!r_apu_io_1_mirror = $0051
+!r_apu_io_2_mirror = $0053
+!r_apu_io_2_mirror_prev = $0055
 !r_reg_inidisp_mirror = $0200
 !r_reg_coldata_mirror = $0948
 !r_reg_hdmaen_mirror = $094A

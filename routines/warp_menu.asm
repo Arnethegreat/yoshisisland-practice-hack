@@ -149,6 +149,9 @@ load_room:
   +
   LDA.w #!gm_levelfadeout : STA !gamemode
   STZ !r_level_music_playing ; levels check this is zero before loading new music
+  LDA !r_pause_menu_flag : AND #$00FF : BEQ +
+  LDA.w #!sfx_unpause : STA !r_apu_io_2_mirror ; if game was paused, we need to re-enable the music to avoid an APU hang
+  +
   JSR check_big_bowser
   JSR reset_progress
   JSR set_yoshi_colour

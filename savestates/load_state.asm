@@ -72,7 +72,7 @@ preserve_hud: ; HUD settings shouldn't be affected by loading a state
     PHP
     %a16()
     JSR load_hud_timers
-    LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
+    LDA !hud_hdma_channel : TRB !r_reg_hdmaen_mirror
     LDA !hud_enabled : BEQ .ret
     JSR init_hud
     %ai8()

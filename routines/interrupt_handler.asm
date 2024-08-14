@@ -95,16 +95,10 @@ nmi:
     JSR set_hud_palette
     RTS
 
-hud_hdma_table_h: ; put these tables here so they're available in work ram
+hud_hdma_table: ; put this table here so it's available in work ram (GSU can take exclusive ROM access)
     db $98 ; $80 (repeat bit) + 24 ($18) -> 3 lines of tiles, each 8 pixels tall
     for i = 0..24
-        dw !hud_hofs  ; 1 per line for $18 lines - kinda gross but necessary?
-    endfor
-    db $00
-
-hud_hdma_table_v:
-    db $98
-    for i = 0..24
+        dw !hud_hofs
         dw !hud_vofs
     endfor
     db $00

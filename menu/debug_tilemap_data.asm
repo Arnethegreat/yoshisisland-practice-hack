@@ -81,7 +81,7 @@ option_level21_tilemap: %store_text("*GATEHACK FLOWER", "POOCHEY", "MAIN 2 (FALL
 option_level22_tilemap: %store_text("MAIN 2", "MAIN 3")
 option_level23_tilemap: %store_text("CAVE", "*NEP-ENUT")
 option_level24_tilemap: %store_text("MAIN", "*BIG BOOS FLOWER", "BOO PLATFORMS", "MAIN (FROM PLATFORMS)", "LAVA", "EGGS", "*DARK ROOM", "PRE-BOSS", "BOSS")
-option_level25_tilemap: %store_text("TRAIN", "MAIN 1 (FROM TRAIN)", "MAIN 2", "*3D PLATFORMS", "*SUPER BABY MARIO")
+option_level25_tilemap: %store_text("*TRAIN", "MAIN 1 (FROM TRAIN)", "MAIN 2", "*3D PLATFORMS", "*SUPER BABY MARIO")
 option_level26_tilemap: %store_text("CAVE", "*LANTERN GHOSTS", "MIDRING", "MOVING BLOCKS", "OUTSIDE")
 option_level27_tilemap: %store_text("*TUNNEL", "MAIN 1 (FROM TUNNEL)", "FALLING BLOCKS", "MAIN 2", "*FOAM PIPES", "MAIN 2 (FROM FOAM PIPES)", "CAR")
 option_level28_tilemap: %store_text("LAVA", "ARROW LIFT 1", "*TRAIN", "KEY", "SPIKED LOG", "*BURTS FLOWER", "ARROW LIFT 2", "BANDITS", "PRE-BOSS", "BOSS")

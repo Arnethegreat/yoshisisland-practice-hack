@@ -292,8 +292,8 @@ exit_debug_menu:
 
 ; change some HUD related settings when exiting the menu, since it may have been toggled on/off
 hud_sub:
-    ; disable whichever hdma channels are being used by the hud - they'll be re-enabled if the hud is on
-    LDA !hud_hdma_channels : TRB !r_reg_hdmaen_mirror
+    ; disable whichever hdma channel is being used by the hud - it'll be re-enabled if the hud is on
+    LDA !hud_hdma_channel : TRB !r_reg_hdmaen_mirror
 
     ; possibly need to reset the hdma table for hookbill/bowser
     LDA !current_level

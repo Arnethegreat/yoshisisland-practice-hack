@@ -32,9 +32,7 @@ includeonce
 %var_00CC(irq_bg34nba_backup, 1)
 %var_00CC(irq_tm_backup, 1)
 %var_00CC(irq_ts_backup, 1)
-%var_1409(hud_hdma_table_h_channel, 2)
-%var_1409(hud_hdma_table_v_channel, 2)
-%var_1409(hud_hdma_channels, 1)
+%var_1409(hud_hdma_channel, 1)
 %var_1409(null_egg_mode_enabled, 1)
 
 %var_1409(trainer_state, 2)

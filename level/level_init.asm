@@ -31,7 +31,6 @@ level_init:
     PHK
     PLB
 
-    JSR set_hud_hdma_channels
     JSR level_room_init_common
     JSR reset_hud
 
@@ -74,7 +73,6 @@ room_init:
     PHK
     PLB
 
-    JSR set_hud_hdma_channels
     JSR level_room_init_common
 
     STZ !lag_counter
@@ -86,39 +84,6 @@ room_init:
     PLB
     PLP
     RTL
-
-; dynamically allocate HDMA channels for the HUD, since the game uses different ones in some rooms
-; e.g. big bowser uses 1100 0110, baby bowser shockwaves use 0010 0000, kamek magic dust uses 0011 0110
-set_hud_hdma_channels:
-    PHP
-    %a16i8()
-
-    ; might have to do this more intelligently depending on how many rooms we need to switch out
-    LDX !current_level
-    CPX #!lvl_bowser : BEQ .bowser
-    CPX #!lvl_hookbill : BEQ .hookbill
-    CPX #!lvl_froggystomach : BEQ .pfroggy
-
-    ; default
-    LDA #$4360 : STA !hud_hdma_table_h_channel
-    LDA #$4370 : STA !hud_hdma_table_v_channel
-    LDX #%11000000 : STX !hud_hdma_channels
-    BRA .ret
-.bowser
-    LDX #$00 : STX !hud_hdma_channels
-    BRA .ret
-.hookbill ; uses channels 6/7 in addition to kamek magic and mist (channel 3)
-    LDA #$4340 : STA !hud_hdma_table_h_channel
-    LDA #$4300 : STA !hud_hdma_table_v_channel
-    LDX #%00010001 : STX !hud_hdma_channels
-    BRA .ret
-.pfroggy ; uses channels 3/4/7
-    LDA #$4350 : STA !hud_hdma_table_h_channel
-    LDA #$4360 : STA !hud_hdma_table_v_channel
-    LDX #%01100000 : STX !hud_hdma_channels
-.ret
-    PLP
-    RTS
 
 level_room_init_common:
     PHP
@@ -135,36 +100,107 @@ level_room_init_common:
 
 init_hud:
     PHP
-    %a16()
     %i8()
+
     LDY #$01 : STY !hud_displayed
     JSR load_font ; guarantee the HUD font is available e.g. if we load a savestate, VRAM can change
-
-    ; hdma to override any other hdmas in a given level which mess with BG3 offsets, in the hud region only
-    ; e.g. 1-4 falling walls use channel 4 to set bg3vofs
-    PHD
-    LDA #!hud_hdma_table_h_channel : TCD ; indirect indexed only available with DP
-    %a8()
-    LDY #$04
--
-    LDA hud_hdma_table_h_controls,y : STA.b ($00),y ; !hud_hdma_table_h_channel
-    LDA hud_hdma_table_v_controls,y : STA.b ($02),y ; !hud_hdma_table_v_channel
-    DEY
-    BPL -
-    PLD
-
-    LDA !hud_hdma_channels : TSB !r_reg_hdmaen_mirror ; hdmaen gets started at the top of the screen
+    JSR init_hud_hdma
 
     %ai16() ; use 16-bit X since the buffer size is over $80 and will therefore set the N flag and break the BPL loop immediately
 
     ; init hud buffer
     LDX #!hud_buffer_size-2
 -
-    LDA hud_tilemap,x
-    STA !hud_buffer,x
-    DEX
-    DEX
+    LDA hud_tilemap,x : STA !hud_buffer,x
+    DEX #2
     BPL -
+.ret
+    PLP
+    RTS
+
+; set a HUD-region HDMA to override any other HDMAs in a given sublevel which mess with BG3 offsets
+; examples of things that use HDMA to modify BG3 offset:
+; seesaws, falling walls, kebab logs, rotating planks, nep-enuts, squishable blocks, support and caged ghosts
+; non-boss salvos, background heat haze, background sky parallax, underwater sections, kamek's magic dust
+; we didn't start the fire
+init_hud_hdma:
+    PHP
+    %a16i8()
+
+    ; dynamically set the HUDMA channel based on which channels are unused
+    LDX !current_level
+    ; CPX #$6D : BEQ .seesaw ; 1-3
+    ; CPX #$03 : BEQ .falling_walls ; 1-4 (+ see-saw)
+    ; CPX #$9B : BEQ .kebab_logs ; 1-8
+    ; CPX #$40 : BEQ .support_ghost ; 1-8
+    ; CPX #$73 : BEQ .nep_enut ; 2-3
+    CPX #$CE : BEQ .3d_rotating_platforms ; 2-4
+    CPX #$BC : BEQ .3d_rotating_platforms ; 2-5
+    ; CPX #$76 : BEQ .heat_haze ; 2-6
+    ; CPX #$12 : BEQ .heat_haze ; 3-1
+    ; CPX #$79 : BEQ .parallax_sky ; 3-1
+    ; CPX #$14 : BEQ .nep_enut ; 3-3
+    CPX #$7A : BEQ .underwater ; 3-3
+    CPX #$D7 : BEQ .underwater ; 3-4
+    ; CPX #$4D : BEQ .heat_haze ; 3-4
+    CPX #$C0 : BEQ .underwater ; 3-7
+    ; CPX #$A6 : BEQ .parallax_sky ; 3-7 (HDMA 7, non-repeating)
+    ; CPX #$7E : BEQ .parallax_sky ; 3-7
+    ; CPX #$51 : BEQ .caged_ghost ; 3-8
+    ; CPX #$55 : BEQ .kebab_logs ; 4-4
+    ; CPX #$56 : BEQ .squishable_block ; 4-5
+    CPX #!lvl_hookbill : BEQ .disable
+    ; CPX #$27 : BEQ .caged_ghost ; 5-4
+    ; CPX #$5E : BEQ .support_ghost ; 5-4 (+ see-saw, squishable block)
+    CPX #$B3 : BEQ .3d_rotating_platforms ; 5-8
+    ; CPX #$67 : BEQ .chameleon_salvo ; 6-4 (boss salvo uses bg2)
+    ; CPX #$B8 : BEQ .seesaw ; 6-8
+    ; CPX #$C6 : BEQ .caged_ghost ; 6-8 (+ squishable block)
+    CPX #!lvl_bowser : BEQ .disable
+    ; CPX #$35 : BEQ .caged_ghost ; 6-E (both areas of this room)
+    ; CPX #$6C : BEQ .kebab_logs ; 6-E
+
+    ; level intro wipe and other screen transitions use 5 while active
+    ; kamek magic dust uses 1/2/4/5 while active (and changes bg3vofs)
+    ; background palette transition uses 1/2
+.default
+    LDX #%01000000
+    BRA +
+.3d_rotating_platforms ; uses 1/2/3/4/6
+    LDX #%10000000
+    BRA +
+.underwater ; uses 6/7
+    LDX #%00010000
+    BRA +
+.disable
+    LDX #$00
++
+    STX !hud_hdma_channel
+
+    TXA : BEQ .ret ; skip setting controls if no channel specified
+
+    ; HDMA base register for channel = log2(channel) * 16 + $4300
+    LDY #$00
+  - {
+        LSR : BCS +
+        INY
+        BRA -
+    }
+    +
+    TYA
+    ASL #4
+    CLC : ADC #!reg_dmap0
+    STA $00
+
+    ; set the HDMA registers for the selected channel
+    %a8()
+    LDY.b #datasize(hud_hdma_table_controls)-1
+-
+    LDA hud_hdma_table_controls,y : STA ($00),y
+    DEY
+    BPL -
+
+    LDA !hud_hdma_channel : TSB !r_reg_hdmaen_mirror
 .ret
     PLP
     RTS
@@ -194,8 +230,11 @@ handle_flags:
     PLP
     RTS
 
-hud_hdma_table_h_controls: db %00000010, $11, hud_hdma_table_h, hud_hdma_table_h>>8, $7E
-hud_hdma_table_v_controls: db %00000010, $12, hud_hdma_table_v, hud_hdma_table_v>>8, $7E
+hud_hdma_table_controls:
+    db %00000011 ; !reg_dmap0, 011 => 2 registers write twice each (4 bytes: p, p, p+1, p+1)
+    db !reg_bg3hofs ; !reg_bbad0, B bus address (dest)
+    dw hud_hdma_table ; !reg_a1t0l, A bus address (src)
+    db $7E ; !reg_a1b0, A bus bank
 
 ; 3 lines, 32 columns
 ; tilemap format: 2 bytes per entry
@@ -219,9 +258,3 @@ hud_tilemap:
     dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; 90-9F
     dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; A0-AF
     dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; B0-BF
-
-    ; extra (not in the buffer)
-    dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F
-    dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F
-    dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F
-    dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F

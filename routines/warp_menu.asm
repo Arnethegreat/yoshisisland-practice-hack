@@ -175,8 +175,11 @@ reset_progress:
   PHP
   %ai16()
 
-  ; 10 stars, 0 red coins, 0 flowers
-  LDA #$0064 : STA !star_count
+  ; 10.9 stars, 0 red coins, 0 flowers
+  LDA #$006D : STA !star_count
+  STZ $03A5 ; some star display var
+  LDA #$0001 : STA $03A1 ; star counter first digit
+  STZ $03A3 ; star counter second digit
   STZ !red_coin_count
   STZ !flower_count
 

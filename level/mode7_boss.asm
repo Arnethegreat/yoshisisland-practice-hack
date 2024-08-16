@@ -10,11 +10,29 @@ main_bowser:
 ;==========================
 ; HUD rendering stuff
 
+raphael_hud_fix:
+    PHP
+    %a8()
+    ; the entire screen is mode7, so changing the hud region to mode1 just results in garbage underneath
+    ; to fix this, prevent BG1 from being displayed and just show the hud tilemap over nothing
+    ; this causes some graphical glitches during the boss key animation
+    LDA !hud_displayed : BEQ .ret
+    LDA #%00010000 : STA !r_reg_tm_mirror ; will be modified and used for the HUD region
+    LDA #%00010001 : STA !hud_fixed_tm ; will be restored after the HUD region
+.ret
+    PLP
+    LDA !r_header_level_mode : CMP #$0009 ; hijacked code
+    RTL
+
 bank noassume
 
 bowser_mode7_hdma:
     PHP
-    SEP #$30
+    %ai8()
+
+    ; main layers are disabled at bottom of screen and then re-enabled at the top with HDMA, resulting in headless bowser when HUD active
+    ; save the correct value for post-HUD restore
+    LDA #%00010101 : STA !hud_fixed_tm
 
     LDX #$09
     LDA !hud_enabled
@@ -42,6 +60,10 @@ hookbill_mode7_hdma: ; these both are only called during the boss init routine, 
     PHP
     REP #$10
     SEP #$20
+
+    ; main layers are disabled at bottom of screen and then re-enabled at the top with HDMA, resulting in headless hookbill when HUD active
+    ; save the correct value for post-HUD restore
+    LDA #%00010101 : STA !hud_fixed_tm
 
     LDX #$0009
     LDA !hud_enabled

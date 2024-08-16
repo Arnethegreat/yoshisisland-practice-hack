@@ -18,7 +18,14 @@ org level_main_hijack
     JSR level_main_hook
 
 org level_header_hijack
-    JSR level_header_hook
+    JSR level_header
+
+org underwater_room_hijack
+    JSR fix_hud_underwater
+
+org score_screen_init_hijack
+    autoclean JSL score_screen_hud_fix
+    NOP
 
 ; freespace in bank 01 - starts here in J, in the middle of a large block in U
 org $01FED2
@@ -43,7 +50,7 @@ level_main_hook:
     autoclean JSL level_tick
     RTS
 
-level_header_hook:
+level_header:
     ; if loading savestate, set the bg1 graphics in case they were changed in-level
     LDA !loaded_state : BEQ .ret
     {
@@ -52,4 +59,12 @@ level_header_hook:
     }
 .ret
     LDA #$07B0
+    RTS
+
+fix_hud_underwater:
+    ; N.B. this just grabs the first table entry (scanline 0). If another entry runs before the HUD region ends, then this may be incorrect
+    LDA !r_hdma_table3+1 : STA !irq_bg3_cam_x_backup
+    LDA !r_hdma_table3+3 : STA !irq_bg3_cam_y_backup
+.ret
+    LDA !r_header_bg3_tileset ; hijacked code
     RTS

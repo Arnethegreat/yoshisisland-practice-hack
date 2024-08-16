@@ -33,6 +33,11 @@ includeonce
 %var_00CC(irq_tm_backup, 1)
 %var_00CC(irq_ts_backup, 1)
 %var_1409(hud_hdma_channel, 1)
+%var_1409(hud_fixed_bg3hofs, 2)
+%var_1409(hud_fixed_bg3hofs_flag, 1)
+%var_1409(hud_fixed_bg3vofs, 2)
+%var_1409(hud_fixed_bg3vofs_flag, 1)
+%var_1409(hud_fixed_tm, 1)
 %var_1409(null_egg_mode_enabled, 1)
 
 %var_1409(trainer_state, 2)

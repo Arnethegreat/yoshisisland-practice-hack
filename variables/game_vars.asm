@@ -182,6 +182,12 @@
 !r_header_bg1_palette = $0138
 !r_header_bg1_palette_l = $7E0138
 
+!r_header_bg3_tileset = $013E
+!r_header_bg3_tileset_l = $7E013E
+
+!r_header_level_mode = $0146
+!r_header_level_mode_l = $7E0146
+
 ; SFX (see https://github.com/brunovalads/yoshisisland-disassembly/wiki/Sound-IDs)
 !sound_immediate = $0053
 !r_level_music_playing = $0205
@@ -200,6 +206,9 @@
 !sfx_incorrect = $90
 
 ; (H)DMA
+!r_hdma_table1 = $7E5040
+!r_hdma_table2 = $7E51E4
+!r_hdma_table3 = $7E552C
 !r_hdma_indirect_table6 = $7E5D18
 
 !s_rom_graphics_dma_addr = $6114

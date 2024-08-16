@@ -18,6 +18,7 @@ incsrc hijacks/change_map16_hijack.asm
 incsrc hijacks/map_hijack.asm
 incsrc hijacks/level_load_hijack.asm
 incsrc hijacks/mode7_boss_hijack.asm
+incsrc hijacks/bank02_hijack.asm
 incsrc hijacks/downtime_edits.asm
 incsrc hijacks/debug_hijacks.asm
 arch superfx

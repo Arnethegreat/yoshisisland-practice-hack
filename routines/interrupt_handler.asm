@@ -4,13 +4,6 @@ org interrupt_freespace ; everything in the interrupt region in bank 00 gets cop
 nmi:
     ; DP is $2100
 
-    ; backup the BG3 camera after the game code has run (e.g. for falling walls in 1-4 which modify $41)
-    ; also, modifying the BG3 camera can break OPT rendering, which this avoids
-    LDA !r_camera_layer3_x : STA !irq_bg3_cam_x_backup
-    LDA !r_camera_layer3_x+1 : STA !irq_bg3_cam_x_backup+1
-    LDA !r_camera_layer3_y : STA !irq_bg3_cam_y_backup
-    LDA !r_camera_layer3_y+1 : STA !irq_bg3_cam_y_backup+1
-
     LDA !hud_displayed : BNE .nmi_with_hud
 
     ; no HUD, so just set the registers that were skipped in the hijack and return
@@ -22,6 +15,26 @@ nmi:
     RTS
 
 .nmi_with_hud
+    ; backup the BG3 camera after the game code has run (e.g. for falling walls in 1-4 which modify $41)
+    ; also, modifying the BG3 camera can break OPT rendering, which this avoids
+    ; if the flags are set then the backup has already been set to the correct value
+    LDA !hud_fixed_bg3hofs_flag : BNE +
+    LDA !r_camera_layer3_x : STA !irq_bg3_cam_x_backup
+    LDA !r_camera_layer3_x+1 : STA !irq_bg3_cam_x_backup+1
+    +
+
+    LDA !hud_fixed_bg3vofs_flag : BNE +
+    LDA !r_camera_layer3_y : STA !irq_bg3_cam_y_backup
+    LDA !r_camera_layer3_y+1 : STA !irq_bg3_cam_y_backup+1
+    +
+
+    ; set BG3 scroll to (0,-9) here even though HDMA usually makes it redundant
+    ; this is mainly for the score screen, since HDMA gets reset a bunch of times when it loads
+    LDA.b #!hud_hofs : STA.b !reg_bg3hofs
+    LDA.b #!hud_hofs>>8 : STA.b !reg_bg3hofs
+    LDA.b #!hud_vofs : STA.b !reg_bg3vofs
+    LDA.b #!hud_vofs>>8 : STA.b !reg_bg3vofs
+
     ; set 8x8 BG3 tile size, BG3 priority, mode 1
     LDA !r_reg_bgmode_mirror : STA !irq_bgmode_backup
     AND #%10110000 ; DCBA emmm, D/C/B/A = BG4/3/2/1 tile size (0=8x8; 1=16x16), e = mode 1 BG3 priority bit, mmm = BG mode
@@ -58,41 +71,10 @@ nmi:
 
     %a8()
 
-    ; set BG3 scroll to (0,-9) here even though HDMA usually makes it redundant
-    ; this is mainly for the score screen, since HDMA gets reset a bunch of times when it loads
-    LDA.b #!hud_hofs : STA.b !reg_bg3hofs
-    LDA.b #!hud_hofs>>8 : STA.b !reg_bg3hofs
-    LDA.b #!hud_vofs : STA.b !reg_bg3vofs
-    LDA.b #!hud_vofs>>8 : STA.b !reg_bg3vofs
+    LDA !hud_fixed_tm : BEQ +
+    STA !irq_tm_backup
+    +
 
-    LDA !gamemode
-    CMP #!gm_postboss : BEQ .post_boss_hacks
-    CMP #!gm_goalring : BEQ .ret
-
-.per_level_hacks
-    ; as usual, registers changed by HDMA at top of screen or in the HUD region will be overwritten when we restore the mirror values in the IRQs
-    ; in the big bowser fight, main layers are disabled at bottom of screen and then re-enabled at the top, so disabled state is what gets restored
-    ; resulting in bowser without a head
-    ; hacky workaround here just sets the mirrors to what they should be on restore
-    LDA !current_level
-    CMP #!lvl_bowser : BEQ +
-    CMP #!lvl_hookbill : BNE ++
-+
-    LDA #$11 : TSB !r_reg_tm_mirror
-    RTS
-++
-
-    ; in the case of Raphael, the entire screen is mode7, so changing the hud region to mode1 just results in garbage underneath
-    ; to fix this, prevent BG1 and 2 from being displayed and just show the hud tilemap over nothing
-    CMP #!lvl_raphael : BNE +
-    LDA #%00010100 : STA.b !reg_tm
-+
-.ret
-    RTS
-
-.post_boss_hacks
-    LDA #$01 : TRB !r_reg_tm_mirror ; unset BG1 as a main screen so that we can see the score text
-    JSR set_hud_palette
     RTS
 
 hud_hdma_table: ; put this table here so it's available in work ram (GSU can take exclusive ROM access)
@@ -102,13 +84,6 @@ hud_hdma_table: ; put this table here so it's available in work ram (GSU can tak
         dw !hud_vofs
     endfor
     db $00
-
-; load palette into index 4 ($702020 mirror) so we can see the hud text
-set_hud_palette:
-    REP #$20
-    LDA #$FFFF : STA !s_cgram_mirror+$22
-    SEP #$20
-    RTS
 
 ; apply the scroll values from the BG3 camera into the BG3 offset registers
 restore_bg3_xy:

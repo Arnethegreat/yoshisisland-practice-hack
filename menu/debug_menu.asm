@@ -296,16 +296,13 @@ hud_sub:
     LDA !hud_hdma_channel : TRB !r_reg_hdmaen_mirror
 
     ; possibly need to reset the hdma table for hookbill/bowser
-    LDA !current_level
-    CMP #$86
-    BNE +
+    LDA !special_boss_flag : CMP #$02 : BNE +
     JSL hookbill_mode7_hdma
+    BRA ++
 +
-    LDA !current_level
-    CMP #$DD
-    BNE +
+    CMP #$07 : BNE ++
     JSL bowser_mode7_hdma
-+
+++
 
     ; if hud enabled AND in-level AND we aren't warping, init hud
     LDA !warping : BNE .ret ; warping will load a room, so the init sub will be called there instead

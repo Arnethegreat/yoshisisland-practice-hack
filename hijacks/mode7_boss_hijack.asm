@@ -15,8 +15,12 @@ org hookbill_mode7_hdma_hijack
     NOP #3
     JMP hookbill_mode7_hdma_hijack+$14
 
+org raphael_hijack
+    autoclean JSL raphael_hud_fix
+    NOP #2
+
 org $00C699
-    JSL tm_hdma
+    autoclean JSL tm_hdma
     NOP #3
 
 

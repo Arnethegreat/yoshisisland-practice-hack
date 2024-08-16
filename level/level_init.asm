@@ -90,6 +90,7 @@ level_room_init_common:
     %a8()
 
     JSR handle_flags
+    JSR per_level_hud_bg3ofs_fix
     STZ !map16delta_index
 
     LDA !hud_enabled : BEQ .ret
@@ -97,6 +98,47 @@ level_room_init_common:
 .ret
     PLP
     RTS
+
+; some rooms use HDMA to set stuff at the top of the screen, which means we won't save the correct value during NMI
+; this routine sets flags to be used during post-HUD restore
+per_level_hud_bg3ofs_fix:
+    PHP
+    %ai8()
+    LDX #$00
+    LDA !current_level
+    CMP #$CE : BEQ .3d_rotating_platforms ; 2-4
+    CMP #$BC : BEQ .3d_rotating_platforms ; 2-5
+    CMP #$B3 : BEQ .3d_rotating_platforms ; 5-8
+    CMP #$7A : BEQ .underwater ; 3-3
+    CMP #$D7 : BEQ .underwater ; 3-4
+    CMP #$C0 : BEQ .underwater ; 3-7
+    LDA #$00
+    BRA .ret
+.3d_rotating_platforms
+    LDA #$01
+    BRA .ret
+.underwater
+    LDA #$01
+    TAX
+.ret
+    STA !hud_fixed_bg3hofs_flag
+    STX !hud_fixed_bg3vofs_flag
+    STZ !hud_fixed_tm
+    PLP
+    RTS
+
+score_screen_hud_fix:
+    PHP
+    %a8()
+    STZ !hud_fixed_tm
+    STZ !hud_fixed_bg3hofs_flag
+    STZ !hud_fixed_bg3vofs_flag
+    LDA #$FF : STA !s_cgram_mirror+$22 ; load white into index 4 ($702020 mirror) so we can see the hud text
+    LDA #$7F : STA !s_cgram_mirror+$23
+.ret
+    PLP
+    LDA #$01 : STA !r_reg_ts_mirror ; hijacked code
+    RTL
 
 init_hud:
     PHP
@@ -111,7 +153,7 @@ init_hud:
     ; init hud buffer
     LDX #!hud_buffer_size-2
 -
-    LDA hud_tilemap,x : STA !hud_buffer,x
+    LDA hud_tilemap_template,x : STA !hud_buffer,x
     DEX #2
     BPL -
 .ret
@@ -237,13 +279,11 @@ hud_hdma_table_controls:
     db $7E ; !reg_a1b0, A bus bank
 
 ; 3 lines, 32 columns
-; tilemap format: 2 bytes per entry
-;   vhop ppcc cccc cccc
-;   v/h        = Vertical/Horizontal flip
-;   o          = Tile priority
-;   ppp        = Tile palette index (0-7)
-;   cccccccccc = Tile number
-hud_tilemap:
+; 2bpp palette indexes
+; 0 ($20), 1 ($24), 2 ($28), 3 ($2C) = dynamic bg3
+; 4 ($30), 5 ($34), 6 ($38) = default bg1 (red lava, brown wood platforms etc.)
+; 7 ($3C) = dynamic bg1
+hud_tilemap_template:
     dw $303F, $303F, $303F, $303F, $303F, $303F, $3C37, $303F ; 00-0F
     dw $303F, $303F, $3C36, $303F, $303F, $303F, $3034, $303F ; 10-1F
     dw $302B, $303F, $303F, $302C, $303F, $303F, $303F, $303F ; 20-2F

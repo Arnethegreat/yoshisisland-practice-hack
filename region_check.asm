@@ -20,15 +20,23 @@ if read1($00FFD9) == $00
 
     room_init_hijack = $01C447
 
+    underwater_room_hijack = $01E811
+
     baby_bowser_hijack = $0DC8B0
 
     hookbill_mode7_hdma_hijack = $019E50
+
+    raphael_hijack = $0FB9FF
 
     level_main_hijack = $01D2BB
 
     level_header_hijack = $01C2EA
 
+    main_spinning_wooden_platform_hijack = $029372
+
     map_init_hijack = $17A83D
+
+    score_screen_init_hijack = $01CC20
 
 ; save_level_hijack
     save_current_area = $01C2B6
@@ -103,15 +111,23 @@ elseif read1($00FFD9) == $01
 
     room_init_hijack = $01B215
 
+    underwater_room_hijack = $01D707
+
     baby_bowser_hijack = $0DC55B
 
     hookbill_mode7_hdma_hijack = $019E4E
+
+    raphael_hijack = $0FAD27
 
     level_main_hijack = $01C0DB
 
     level_header_hijack = $01B0B8
 
+    main_spinning_wooden_platform_hijack = $029372
+
     map_init_hijack = $17A877
+
+    score_screen_init_hijack = $01BA14
 
 ; save_level_hijack
     save_current_area = $01B084

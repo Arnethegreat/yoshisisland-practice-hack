@@ -76,7 +76,10 @@ preserve_hud: ; HUD settings shouldn't be affected by loading a state
     LDA !hud_enabled : BEQ .ret
     JSR init_hud
     %ai8()
+    ; calling level_tick like this is kinda hacky since it runs hijacked code
+    LDA $0B83 : PHA ; so save the address that gets modified
     JSL level_tick
+    PLA : STA $0B83 ; and restore it after
 .ret
     PLP
     RTS

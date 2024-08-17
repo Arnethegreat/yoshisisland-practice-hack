@@ -1,7 +1,42 @@
 ; ~~~ performance critical code ~~~
-; (if anything looks strange, it's because of that [and/or because I suck])
+; (if anything looks strange, it's because of that [and/or because I've lost my mind])
+; every JSR/RTS is 12 cycles; they must all be sacrificed. 2x JMP is 6, and inlining is best at 0
+
+incsrc "print_macros.asm"
+
+; carry should be clear on entry, and is always clear on return
+macro add_frames_to_timer(timer_address)
+?aftt:
+    LDA !frames_passed
+    ADC <timer_address>
+    CMP #60
+    STA <timer_address>
+    BCC ?.ret
+
+    ; frames > 59, increment seconds and overflow frames
+    SBC #60 ; subtract instead of doing a STZ because more than 1 frame may have passed
+    STA <timer_address>
+    INC <timer_address>+1
+    LDA <timer_address>+1
+    CMP #60 : BCC ?.ret
+
+    ; seconds > 59, increment minutes and overflow seconds
+    STZ <timer_address>+1
+    LDA <timer_address>+2
+    CMP #9 : BCC ?.tick_minutes
+
+    ; trying to increment but minutes >= 9, display 9'59"59
+    LDA #59 : STA <timer_address>+1
+    LDA #59 : STA <timer_address>
+    CLC
+    BRA ?.ret
+?.tick_minutes
+    INC <timer_address>+2
+?.ret
+endmacro
 
 level_tick:
+    LDA #$10 : STA $0B83 ; hijacked code
     PHP
     PHB
     PHK
@@ -11,73 +46,98 @@ level_tick:
 
     %a16()
 
-    JSR tick_timers
+.tick_timers
+{
+    LDY !gamemode : CPY #!gm_level : BNE +
 
-    LDY !hud_displayed : BEQ .ret
+    LDA !frames_passed
+    CLC : ADC !total_frames ; this won't overflow (and set carry) until approx. 18 minutes have passed
+    STA !total_frames
 
-    JSR count_active_sprites
-    JSR display_common
-    JSR display_input
-    LDY !null_egg_mode_enabled
-    BNE +
-    JSR display_items
-    BRA ++
-+
-    JSR display_nullegg
-++
-
-    LDA !ramwatch_addr : ORA !ramwatch_addr+1 : ORA !ramwatch_addr+2
-    BEQ + ; don't show when set to $000000
-    JSR display_ramwatch
+    %a8()
+    %add_frames_to_timer(!level_frames)
+    %add_frames_to_timer(!room_frames)
+    %a16()
     +
 
-    JSR display_misc
+    LDY #$00 : STY !frames_passed
+}
 
+    LDY !hud_displayed : BEQ .ret
+{
+    LDA #!hud_buffer : TCD
+.cas
+    JMP count_active_sprites ; needs a16i8
+.din
+    JMP display_input ; needs a16i8
+.dc
+    JMP display_common ; needs a16, sets a8
+
+    LDY !null_egg_mode_enabled : BNE +
+    JMP display_items ; needs a8
++
+    JMP display_nullegg ; needs a8
+.end_display
+    LDA #$00 : TCD ; assume DP was zero and the high byte of A is zero, saves 4 cycles over PHD/PLD
+}
 .ret
     PLB
     PLP
     RTL
 
 display_common:
-    REP #$20
     LDA !yoshi_x_speed
-    LDY #$02
-    JSR print_16_abs
+    %print_16_abs($02)
 
-    ; egg aiming angle
     LDA !s_egg_cursor_angle
-    LDY #$42
-    JSR print_16
+    %print_16($42)
 
-    ; room lag (3 digits)
     LDA !lag_counter
-    LDY #$A4
-    JSR print_16
-    SEP #$20
-    LDA #$3F : STA !hud_buffer+$A4 ; hide the leftmost digit
+    %print_12($A6)
 
-    ; sprite count
+    ; misc
+    LDA !s_spr_id+$5C : CMP #$0045 : BNE +
+    LDA $7A94 ; Prince Froggy current damage
+    %print_16($82)
+    BRA ++
++
+    LDY !current_level
+    CPY #$32 : BNE ++ ; 6-6
+    JSR rockless_trainer
+    LDA !trainer_result
+    %print_16($82)
+++
+
+    ; ramwatch
+    LDA !ramwatch_addr
+    ORA !ramwatch_addr+1 : BEQ + ; don't show when set to $000000
+    ; DP is set to the hud buffer here, but we will be overwriting offset $8E so we can actually use it before printing
+    LDA !ramwatch_addr : STA $8E
+    LDY !ramwatch_addr+2 : STY $8E+2
+    LDA [$8E]
+    %print_16($8E)
+    LDX #$30 : STX $8F ; we use $8F (a palette byte) but it is not overwritten by the print, so fix it
+    TXA ; this is the last point when A is 16-bit, so clear the high byte in preparation for resetting DP with 8-bit A
+    +
+
+    %a8()
+
     LDA !active_sprites
-    LDY #$4E
-    JSR print_8_dec
+    %print_8_dec($4E)
 
     ; level timer
-    LDA !level_minutes : STA !hud_buffer+$1E
+    LDA !level_minutes : STA $1E
     LDA !level_seconds
-    LDY #$22
-    JSR print_8_dec
+    %print_8_dec($22)
     LDA !level_frames
-    LDY #$28
-    JSR print_8_dec
+    %print_8_dec($28)
 
     ; room timer
-    LDA !room_minutes : STA !hud_buffer+$5E
+    LDA !room_minutes : STA $5E
     LDA !room_seconds
-    LDY #$62
-    JSR print_8_dec
+    %print_8_dec($62)
     LDA !room_frames
-    LDY #$68
-    JSR print_8_dec
+    %print_8_dec($68)
 
     ; clock thingy
     LDY #$34
@@ -86,95 +146,38 @@ display_common:
     BEQ .draw_clock
     LDY #$3F
 .draw_clock
-    STY !hud_buffer+$1C
-    RTS
+    STY $1C
+.ret
+    JMP level_tick_dc+3
 
 display_items:
-    SEP #$20
-
-    ; red coins
     LDA !red_coin_count
-    LDY #$0E
-    JSR print_8_dec
+    %print_8_dec($0E)
 
-    ; stars
-    SEP #$20
-    LDA $03A1 ; first digit of star counter
-    STA !hud_buffer+$16
-    LDA $03A3 ; second digit of star counter
-    STA !hud_buffer+$18
+    LDA !star_count_digit_1 : STA $16
+    LDA !star_count_digit_2 : STA $18
 
-    ; flowers
-    LDA !flower_count
-    LDY #$56
-    JSR print_8_dec
-    RTS
-
-display_ramwatch:
-    %a16()
-    PHD
-    LDA #!ramwatch_addr : TCD
-    LDA [$00]
-    PLD
-    LDY #$8E
-    JSR print_16
+    LDA !flower_count : STA $56
 .ret
-    RTS
+    JMP level_tick_end_display
 
 display_nullegg:
-    REP #$20
-
-    ; clear some previously used hud tiles, where the icons used to be
-    LDA #$303F
-    STA !hud_buffer+$0C
-    STA !hud_buffer+$14
-    STA !hud_buffer+$54
-
-    ; yossy x pos
-    LDA !yoshi_x_pos
-    LDY #$0C
-    JSR print_16
-
-    ; bg3 y pos
-    LDA !s_camera_layer3_y
-    LDY #$54
-    JSR print_16
-
-    SEP #$20
-
-    ; yossy x subpixel
     LDA !yoshi_x_subpixel
-    LDY #$16
-    JSR print_8
+    %print_8($16)
 
-    RTS
+    %a16()
 
-display_misc:
-    REP #$20
-    LDA !s_spr_id+$5C
-    CMP #$0045
-    BNE +
+    LDA !yoshi_x_pos
+    %print_16($0C)
 
-    ; Prince Froggy current damage
-    LDA $7A94
-    LDY #$82
-    JSR print_16
-    BRA .ret
-+
-    LDA !current_level
-    AND #$00FF
-    CMP #$0032 ; 6-6
-    BNE .ret
-    JSR rockless_trainer
-    LDA !trainer_result
-    LDY #$82
-    JSR print_16
+    LDA !s_camera_layer3_y
+    %print_16($54)
 .ret
-    RTS
+    JMP level_tick_end_display
 
 macro display_input_btn(buffer_offset, pressed_value)
-    LSR : BCC ?not_pressed ; rightmost bit clear = button not pressed
-    LDX #$3000+<pressed_value> : STX <buffer_offset> ; store pressed
+    ASL : BCC ?not_pressed ; leftmost bit clear = button not pressed
+    LDX #<pressed_value> : STX <buffer_offset> ; store pressed
     BRA ?+
 ?not_pressed:
     STY <buffer_offset> ; store default unpressed
@@ -182,30 +185,23 @@ macro display_input_btn(buffer_offset, pressed_value)
 endmacro
 
 display_input:
-    %ai16()
-    PHD
-    LDA #!hud_buffer : TCD
-
     LDA !controller_data1
-    LSR #4 ; get rid of the empty rightmost 4 bits
-    LDY #$3027 ; default tile value
+    LDY #$27 ; default tile value
 
-    %display_input_btn($36, $1B)
-    %display_input_btn($34, $15)
-    %display_input_btn($3A, $21)
-    %display_input_btn($7C, $0A)
-    %display_input_btn($72, $33)
-    %display_input_btn($6E, $32)
-    %display_input_btn($B0, $31)
-    %display_input_btn($30, $30)
-    %display_input_btn($B6, $1D)
-    %display_input_btn($B4, $0E)
-    %display_input_btn($78, $22)
     %display_input_btn($BA, $0B)
-
-    PLD
-    %i8()
-    RTS
+    %display_input_btn($78, $22)
+    %display_input_btn($B4, $0E)
+    %display_input_btn($B6, $1D)
+    %display_input_btn($30, $30)
+    %display_input_btn($B0, $31)
+    %display_input_btn($6E, $32)
+    %display_input_btn($72, $33)
+    %display_input_btn($7C, $0A)
+    %display_input_btn($3A, $21)
+    %display_input_btn($34, $15)
+    %display_input_btn($36, $1B)
+.ret
+    JMP level_tick_din+3
 
 input_tiles:
     db $0B, $22, $0E, $1D, $30, $31, $32, $33, $0A, $21, $15, $1B
@@ -233,122 +229,5 @@ count_active_sprites:
     BPL .count_loop
 
     STY !active_sprites
-    RTS
-
-; ticks all timers
-tick_timers:
-    LDY !gamemode : CPY #!gm_level : BNE .skip_tick
-
-    PHP
-    LDA !frames_passed
-    AND #$00FF
-    CLC
-    ADC !total_frames
-    STA !total_frames
-
-    SEP #$20
-    REP #$10
-
-    LDA !frames_passed
-    LDX #!level_frames
-    JSR add_frames_to_timer
-
-    LDA !frames_passed
-    LDX #!room_frames
-    JSR add_frames_to_timer
-
-    PLP
-
-.skip_tick
-    LDY #$00
-    STY !frames_passed
-    RTS
-
-; A = frames to add, X = address of timer
-add_frames_to_timer:
-    CLC
-    ADC $00,x
-    CMP #60
-    STA $00,x
-    BCC .ret
-    SEC
-    SBC #60
-    STA $00,x
-
-    INC $01,x
-    LDA $01,x
-    CMP #60
-    BCC .ret
-    STZ $01,x
-
-    LDA $02,x
-    CMP #9
-    BCC .tick_minutes
-
-    LDA #59
-    STA $01,x
-    LDA #59
-    STA $00,x
-.tick_minutes
-    INC $02,x
-.ret
-    RTS
-
-decimal_lut:
-for i = 0..10
-    for j = 0..10
-        db $!i!j
-    endfor
-endfor
-
-; value in A (8), offset in Y
-; assume valid input: A = 0-99 ($00-$63)
-print_8_dec:
-    TAX : LDA decimal_lut,x
-
-; value in A (8), offset in Y
-print_8:
-    PHA
-    LSR #4
-    STA !hud_buffer,y
-    PLA
-    AND #$0F
-    STA !hud_buffer+2,y
-    RTS
-
-; value in A (16), offset in Y
-print_16_abs:
-    CMP #$0000
-    BPL print_16
-    EOR #$FFFF
-    INC
-
-; value in A (16), offset in Y
-print_16:
-    PHD
-    STA $00
-    LDA #!hud_buffer : TCD
-
-    LDA $0000
-    ROR #4
-    AND #$0F0F
-
-    ; $--X-
-    TAX : STX $04,y
-
-    ; $X---
-    XBA
-    TAX : STX $00,y
-
-    LDA $0000
-    AND #$0F0F
-
-    ; $---X
-    TAX : STX $06,y
-
-    ; $-X--
-    XBA
-    TAX : STX $02,y
-
-    PLD
-    RTS
+ .ret
+    JMP level_tick_cas+3

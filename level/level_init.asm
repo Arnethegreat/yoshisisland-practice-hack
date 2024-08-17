@@ -156,6 +156,13 @@ init_hud:
     LDA hud_tilemap_template,x : STA !hud_buffer,x
     DEX #2
     BPL -
+
+    LDY !null_egg_mode_enabled : BEQ .ret
+    ; clear the icon tiles if doing null egg display
+    LDA #$303F
+    STA !hud_buffer+$0C ; red coin
+    STA !hud_buffer+$14 ; star
+    STA !hud_buffer+$54 ; flower
 .ret
     PLP
     RTS

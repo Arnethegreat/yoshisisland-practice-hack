@@ -15,7 +15,8 @@ org room_init_hijack ; end of game mode 0C when !level_load_type flag is set
     JSR room_init_hook
 
 org level_main_hijack
-    JSR level_main_hook
+    autoclean JSL level_tick
+    NOP
 
 org level_header_hijack
     JSR level_header
@@ -43,11 +44,6 @@ level_init_hook:
 room_init_hook:
     STZ !level_load_type
     autoclean JSL room_init
-    RTS
-
-level_main_hook:
-    STA $0B83
-    autoclean JSL level_tick
     RTS
 
 level_header:

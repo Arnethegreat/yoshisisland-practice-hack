@@ -4,7 +4,7 @@ includeonce
 !hud_buffer_size = $00C0 ; 3 lines * 64 bytes per line = 192 ($C0) bytes
 %var_1E00(hud_buffer, !hud_buffer_size) ; this should be the first 1E00 var since it's a buffer and can take advantage of DP at page 00
 
-%var_1409(frames_passed, 1)
+%var_1409(frames_passed, 2) ; this could be 1 byte, but 2 allows us to skip having to AND #$00FF in tick_timers
 %var_1409(lag_counter, 2)
 %var_1409(save_lag_counter, 2)
 %var_1409(total_frames, 2)

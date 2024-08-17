@@ -28,7 +28,7 @@ if read1($00FFD9) == $00
 
     raphael_hijack = $0FB9FF
 
-    level_main_hijack = $01D2BB
+    level_main_hijack = $01D2B9
 
     level_header_hijack = $01C2EA
 
@@ -119,7 +119,7 @@ elseif read1($00FFD9) == $01
 
     raphael_hijack = $0FAD27
 
-    level_main_hijack = $01C0DB
+    level_main_hijack = $01C0D9
 
     level_header_hijack = $01B0B8
 

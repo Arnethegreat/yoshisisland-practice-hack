@@ -109,6 +109,9 @@
 !star_count = $03B6
 !flower_count = $03B8
 
+!star_count_digit_1 = $03A1
+!star_count_digit_2 = $03A3
+
 ; MAP16
 !r_map16_table = $7F8000
 

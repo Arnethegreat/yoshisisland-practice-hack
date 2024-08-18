@@ -1,0 +1,8 @@
+remote_theme: jekyll/minima
+minima:
+  skin: auto
+markdown: kramdown
+kramdown:
+  input: GFM
+include:
+  - README.md

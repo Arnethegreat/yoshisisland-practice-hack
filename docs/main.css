@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+/* minification destroys nested css currently, feel free to remove the ignore if it gets fixed */
+/* clean-css ignore:start */
+#rom-patcher-container {
+    background-color: var(--patcher-back-color);
+    color: var(--patcher-fore-color);
+    box-shadow: 0px 20px 40px var(--patcher-shadow-color);
+    border: 1px solid var(--patcher-border-color);
+    outline: var(--patcher-outline);
+    border-radius: 0;
+
+    .rom-patcher-container-input {
+        color: black;
+    }
+
+    button {
+        transition: none;
+        background-color: #429cc6;
+
+        &:not(:disabled):hover {
+            background-color: #3784a8;
+        }
+    }
+}
+
+body {
+    font-family: "Atkinson Hyperlegible", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    background: var(--main-back-color);
+    color: var(--main-fore-color);
+}
+
+a {
+    color: var(--link-color);
+}
+
+header {
+    text-align: center;
+    margin: 24px 0;
+
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        column-gap: 25px;
+        margin-bottom: 28px;
+
+        > h1 {
+            text-wrap: balance;
+            margin: 0;
+
+            &::before {
+                content: url('./favicon-32x32.png');
+                display: inline-block;
+                position: relative;
+                top: 5px;
+                margin-right: 10px;
+                line-height: 0px;
+            }
+        }
+
+        .nav {
+            margin-top: 8px;
+            text-align: left;
+        }
+
+        a {
+            color: var(--main-fore-color);
+            opacity: 50%;
+            text-decoration: none;
+
+            > svg {
+                vertical-align: top;
+                fill: var(--github-icon-color);
+            }
+
+            > span {
+                border-bottom: 1px dotted;
+            }
+    
+            &:hover {
+                opacity: 100%;
+    
+                > span {
+                    border-bottom-style: solid;
+                }
+            }
+        }
+    }
+
+    p {
+        max-width: 640px;
+        margin: auto;
+        text-wrap: balance;
+    }
+}
+
+html {
+    --main-back-color: white;
+    --main-fore-color: black;
+    --link-color: linktext;
+    --github-icon-color: black;
+    --patcher-back-color: #f9fafa;
+    --patcher-fore-color: black;
+    --patcher-shadow-color: rgba(0,0,0,.1);
+    --patcher-border-color: #edf2f7;
+    --patcher-outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        --main-back-color: #312c28;
+        --main-fore-color: #dcb;
+        --link-color: lightblue;
+        --github-icon-color: white;
+        --patcher-back-color: hsl(155,20%,25%);
+        --patcher-fore-color: #b0c8c3;
+        --patcher-shadow-color: rgb(36, 31, 27);
+        --patcher-border-color: hsl(155,24%,22%);
+        --patcher-outline: 6px dashed #533414;
+    }
+}
+
+@media only screen and (max-width: 470px) {
+    body {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+/* clean-css ignore:end */

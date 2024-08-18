@@ -13,7 +13,6 @@ incsrc variables/base.asm
 ;=================================
 incsrc hijacks/boot_hijack.asm
 incsrc hijacks/interrupt_hijack.asm
-incsrc hijacks/save_level_hijack.asm
 incsrc hijacks/change_map16_hijack.asm
 incsrc hijacks/map_hijack.asm
 incsrc hijacks/level_load_hijack.asm

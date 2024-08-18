@@ -28,6 +28,11 @@ org score_screen_init_hijack
     autoclean JSL score_screen_hud_fix
     NOP
 
+; hijack at level load where it actually has the current save_current_area
+; saving value because game never saves it while in level
+org save_current_area
+    JSR save_current_area_hook
+
 ; freespace in bank 01 - starts here in J, in the middle of a large block in U
 org $01FED2
 
@@ -63,4 +68,8 @@ fix_hud_underwater:
     LDA !r_hdma_table3+3 : STA !irq_bg3_cam_y_backup
 .ret
     LDA !r_header_bg3_tileset ; hijacked code
+    RTS
+
+save_current_area_hook:
+    autoclean JSL set_level
     RTS

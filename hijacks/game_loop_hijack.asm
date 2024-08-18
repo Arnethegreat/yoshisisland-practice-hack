@@ -52,7 +52,8 @@ game_loop:
         JMP init_debug_menu
         +
     }
-    JSR check_bindings
+..bindings
+    JMP check_bindings
     LDA !skip_frame_flag : BEQ +
     STZ !skip_frame_flag
     BRA .skip

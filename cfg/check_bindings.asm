@@ -56,7 +56,7 @@ check_bindings:
     }
 .ret
     PLP
-    RTS
+    JMP game_loop_controller_checks_bindings+3
 .pointers
     dw save_state
     dw .default_load

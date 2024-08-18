@@ -12,7 +12,7 @@ org irq_1_set_vcount
 ; defer BG3 x/y scroll updates in NMI if hud enabled until after the hud has rendered, in irq_2b
 org irqmode_02_regupd_bg3
     LDA !hud_displayed : BNE +
-    JSR restore_bg3_xy
+    JMP restore_bg3_xy
 +
     JMP $C57B
 
@@ -28,10 +28,9 @@ org irqmode_02_regupd_general
     SEP #$20
 ;   LDA !r_reg_bg3sc_mirror : STA $09
 ;   LDA !r_reg_bgmode_mirror : STA $05
-    JSR nmi
-    BRA +
-    NOP #15
-+
+    JMP vbirq
+    skip 12 ; 15 bytes missing from the commented lines, subtract 3 for the JMP
+vbirq_hijack_ret:
 
 org irqmode_02 ; normal level
     JSR check_lag

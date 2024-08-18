@@ -1,10 +1,9 @@
 org interrupt_freespace ; everything in the interrupt region in bank 00 gets copied to WRAM 7E for execution, so adjust breakpoints accordingly
 
-; "NMI" really refers to the IRQ at the bottom of the screen (irq_2) at the start of vblank
-nmi:
-    ; DP is $2100
-
-    LDA !hud_displayed : BNE .nmi_with_hud
+; IRQ at the bottom of the screen (irq_2) at the start of vblank
+; DP is $2100
+vbirq:
+    LDA !hud_displayed : BNE .vbirq_with_hud
 
     ; no HUD, so just set the registers that were skipped in the hijack and return
     LDA !r_reg_tm_mirror : STA.b !reg_tm
@@ -12,9 +11,9 @@ nmi:
     LDA !r_reg_bg3sc_mirror : STA.b !reg_bg3sc
     LDA !r_reg_bgmode_mirror : STA.b !reg_bgmode
 
-    RTS
+    JMP vbirq_hijack_ret
 
-.nmi_with_hud
+.vbirq_with_hud
     ; backup the BG3 camera after the game code has run (e.g. for falling walls in 1-4 which modify $41)
     ; also, modifying the BG3 camera can break OPT rendering, which this avoids
     ; if the flags are set then the backup has already been set to the correct value
@@ -75,7 +74,7 @@ nmi:
     STA !irq_tm_backup
     +
 
-    RTS
+    JMP vbirq_hijack_ret
 
 hud_hdma_table: ; put this table here so it's available in work ram (GSU can take exclusive ROM access)
     db $98 ; $80 (repeat bit) + 24 ($18) -> 3 lines of tiles, each 8 pixels tall
@@ -91,7 +90,7 @@ restore_bg3_xy:
     LDA.b !r_camera_layer3_x+1 : STA !reg_bg3hofs
     LDA.b !r_camera_layer3_y : STA !reg_bg3vofs
     LDA.b !r_camera_layer3_y+1 : STA !reg_bg3vofs
-    RTS
+    JMP $C57B
 
 check_lag:
     LDA !r_game_loop_complete ; Full Game Mode completion flag - $00: Game Mode still running (set by NMI/IRQ), $FF: Game Mode complete (set by end of game loop)
@@ -101,7 +100,7 @@ check_lag:
     SEP #$20
 .no_lag
     INC !frames_passed
-    LDA !r_game_loop_complete
+    LDA !r_game_loop_complete ; A is not modified by this routine, but we need to load this again to ensure correct flags are set on return
     RTS
 
 load_irq2_vcount:

@@ -64,3 +64,9 @@ is_egg_sprite:
     LDA #$0000
 .ret
     RTS
+
+load_intro_hook:
+    INC !is_audio_fixed ; the intro cs also loads required audio
+    REP #$20 ; hijacked code
+    LDA #$0720
+    RTL

@@ -1,6 +1,10 @@
 ; hijack at level load after it sets camera
 ; checks if we're loading a savestate and override camera if we are
 
+org load_intro_hijack
+    autoclean JSL load_intro_hook
+    NOP
+
 org level_load_camera
     autoclean JSL fix_camera
     NOP

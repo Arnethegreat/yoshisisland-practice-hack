@@ -34,6 +34,8 @@ if read1($00FFD9) == $00
 
     main_spinning_wooden_platform_hijack = $029372
 
+    load_intro_hijack = $10DA95
+
     map_init_hijack = $17A83D
 
     score_screen_init_hijack = $01CC20
@@ -124,6 +126,8 @@ elseif read1($00FFD9) == $01
     level_header_hijack = $01B0B8
 
     main_spinning_wooden_platform_hijack = $029372
+
+    load_intro_hijack = $10DB79
 
     map_init_hijack = $17A877
 

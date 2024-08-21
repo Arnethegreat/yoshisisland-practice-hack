@@ -23,7 +23,12 @@ org level_main_hijack
     NOP
 
 org level_header_hijack
-    JSR level_header
+    JSR level_header_hook
+
+; hijack at level load where it actually has the current exit data
+; saving value because game never saves it while in level
+org current_room_exit_hijack
+    JSR save_last_room_exit
 
 org underwater_room_hijack
     JSR fix_hud_underwater
@@ -31,11 +36,6 @@ org underwater_room_hijack
 org score_screen_init_hijack
     autoclean JSL score_screen_hud_fix
     NOP
-
-; hijack at level load where it actually has the current save_current_area
-; saving value because game never saves it while in level
-org save_current_area
-    JSR save_current_area_hook
 
 ; freespace in bank 01 - starts here in J, in the middle of a large block in U
 org $01FED2
@@ -55,7 +55,16 @@ room_init_hook:
     autoclean JSL room_init
     RTS
 
-level_header:
+save_last_room_exit:
+    AND #$00FF ; hijacked code
+    STA !current_level
+    PHA
+    autoclean JSL rezone_save_exit
+    PLA
+    RTS
+
+level_header_hook:
+    autoclean JSL rezone_save_collectibles
     ; if loading savestate, set the bg1 graphics in case they were changed in-level
     LDA !loaded_state : BEQ .ret
     {
@@ -72,8 +81,4 @@ fix_hud_underwater:
     LDA !r_hdma_table3+3 : STA !irq_bg3_cam_y_backup
 .ret
     LDA !r_header_bg3_tileset ; hijacked code
-    RTS
-
-save_current_area_hook:
-    autoclean JSL set_level
     RTS

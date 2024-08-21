@@ -40,11 +40,10 @@ if read1($00FFD9) == $00
 
     score_screen_init_hijack = $01CC20
 
-; save_level_hijack
-    save_current_area = $01C2B6
-; level_load_hijack
+    current_room_exit_hijack = $01C2B6
+
     level_load_camera = $04DBC9
-; debug hijacks
+
     start_select_check = $01D31D
 
     file_select_check = $179890
@@ -135,11 +134,10 @@ elseif read1($00FFD9) == $01
 
     score_screen_init_hijack = $01BA14
 
-; save_level_hijack
-    save_current_area = $01B084
-; level_load_hijack
+    current_room_exit_hijack = $01B084
+
     level_load_camera = $04DC2E
-; debug hijacks
+
     start_select_check = $01C13D
 
     file_select_check = $179897

@@ -1,5 +1,5 @@
 # Ignore anything in the ROMs folder
-/ROMs/*.*
+/ROMs/**
 !.gitkeep
 
 # External tools

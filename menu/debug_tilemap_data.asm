@@ -3,7 +3,7 @@ title_tilemap:
 incsrc "../resources/string_font_map.asm"
 ; CuteShrug
 dw $0040, $0041, $0042
-dw "PRACTICE HACK 0.4.4"
+dw "PRACTICE HACK 1.0.0"
 ; CuteShrug
 dw $0040, $0041, $0042
 

@@ -16,9 +16,6 @@ rezone:
     PLP
     RTS
 
-item_memory_page_pointers:
-  dw !item_mem_page0, !item_mem_page1, !item_mem_page2, !item_mem_page3
-
 load_last_exit:
     PHP
     %a16()

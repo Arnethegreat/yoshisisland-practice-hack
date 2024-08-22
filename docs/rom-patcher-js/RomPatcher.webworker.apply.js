@@ -4,15 +4,15 @@ self.importScripts(
 	'./RomPatcher.js',
 	'./modules/BinFile.js',
 	'./modules/HashCalculator.js',
-	'./modules/RomPatcher.format.ips.js',
-	'./modules/RomPatcher.format.aps_n64.js',
-	'./modules/RomPatcher.format.aps_gba.js',
-	'./modules/RomPatcher.format.ups.js',
+	// './modules/RomPatcher.format.ips.js',
+	// './modules/RomPatcher.format.aps_n64.js',
+	// './modules/RomPatcher.format.aps_gba.js',
+	// './modules/RomPatcher.format.ups.js',
 	'./modules/RomPatcher.format.bps.js',
-	'./modules/RomPatcher.format.rup.js',
-	'./modules/RomPatcher.format.ppf.js',
-	'./modules/RomPatcher.format.pmsr.js',
-	'./modules/RomPatcher.format.vcdiff.js'
+	// './modules/RomPatcher.format.rup.js',
+	// './modules/RomPatcher.format.ppf.js',
+	// './modules/RomPatcher.format.pmsr.js',
+	// './modules/RomPatcher.format.vcdiff.js'
 );
 
 

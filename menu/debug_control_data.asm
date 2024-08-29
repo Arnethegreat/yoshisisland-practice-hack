@@ -136,29 +136,27 @@ control_function_calls:
   dw set_default_input_bindings_and_draw
 
 ; each control is the same, so just store a count for each page (max = $0B)
-!debug_menu_controls_warps_worlds_count = #$0007
-!debug_menu_controls_warps_levels_count = #$000A
+!warps_worlds_count = $07
+!warps_levels_count = $0A
 debug_menu_controls_warps_room_counts:
-  db $02, $03, $05, $05, $01, $08, $03, $06, $01 ; world 1
-  db $05, $03, $03, $0A, $06, $06, $08, $0B, $02 ; world 2
-  db $04, $03, $06, $0B, $04, $04, $06, $05, $02 ; world 3
-  db $05, $06, $03, $0B, $03, $06, $03, $08, $09 ; world 4
-  db $05, $04, $08, $08, $04, $03, $04, $07, $05 ; world 5
-  db $04, $03, $03, $06, $03, $06, $05, $09, $07 ; world 6
+  for world = 1..7
+    for level = 1..9
+      db datasize(warp_data_level_!world!level)/4+1
+    endfor
+    db datasize(warp_data_level_!{world}E)/4+1
+  endfor
 
 ;======================================
 ; Warp destinations
 ; can only currently fit 12 options on a page, so including back and start, each level can have 10 room warps max
 ; should be plenty, but if really needed we could have scrolling or multiple pages per level or something
 
-; 1st column entries:
-;   1 low byte  = room ID
-;   2 high byte = entry x-pos
-; 2nd column entries:
-;   3 low byte  = entry y-pos
-;   4 high byte = entrance type:
-;       00: normal, 01: skiing, 02: right from pipe, 03: left from pipe, 04: down from pipe, 05: up from pipe
-;       06: walk right, 07: walk left, 08: drop down, 09: jump up, 0A: moon
+; byte 1 = room ID
+; byte 2 = entry x-pos (middle 8 bits)
+; byte 3 = entry y-pos (middle 8 bits)
+; byte 4 = entrance type:
+;   00: normal, 01: skiing, 02: right from pipe, 03: left from pipe, 04: down from pipe, 05: up from pipe
+;   06: walk right, 07: walk left, 08: drop down, 09: jump up, 0A: moon
 
 warp_data_level_11: ; 00
   db $3A, $03, $62, $04  ; Cave (Left)
@@ -176,6 +174,7 @@ warp_data_level_14: ; 03
   db $6E, $C4, $6A, $00  ; Pre-Boss Room
   db $3D, $05, $63, $00  ; Boss
 warp_data_level_15: ; 04
+  db $FF ; dummy byte
 warp_data_level_16: ; 05
   db $05, $02, $4A, $00  ; Bonus (Cloud)
   db $9A, $06, $40, $04  ; 2nd Room (Cave)
@@ -194,11 +193,13 @@ warp_data_level_18: ; 9B
   db $9B, $D4, $58, $00  ; Pre-Boss Room
   db $70, $04, $78, $00  ; Boss
 warp_data_level_1E: ; 08
+  db $FF ; dummy byte
 
 warp_data_level_21: ; 09
   db $9C, $06, $75, $04  ; Mario Star Room
   db $71, $04, $61, $04  ; 2nd Room (Poochey)
   db $41, $08, $3E, $09  ; 3rd Room (Falling Rocks)
+  db $41, $1E, $15, $00  ; Post-Falling Rocks
   db $BA, $05, $70, $04  ; Bonus
 warp_data_level_22: ; 0A
   db $42, $00, $3A, $06  ; 2nd Room

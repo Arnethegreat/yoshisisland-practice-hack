@@ -77,7 +77,7 @@ option_world1_tilemaps_addr_table:
     dw option_level11_tilemap, option_level12_tilemap, option_level13_tilemap, option_level14_tilemap
     dw option_level15_tilemap, option_level16_tilemap, option_level17_tilemap, option_level18_tilemap, option_level1E_tilemap
 
-option_level21_tilemap: %store_text("*GATEHACK FLOWER", "POOCHEY", "MAIN 2 (FALLING BLOCKS)", "*STICKY CEILING")
+option_level21_tilemap: %store_text("*GATEHACK FLOWER", "POOCHEY", "MAIN 2 (FALLING BLOCKS)", "AFTER FALLING BLOCKS", "*STICKY CEILING")
 option_level22_tilemap: %store_text("MAIN 2", "MAIN 3")
 option_level23_tilemap: %store_text("CAVE", "*NEP-ENUT")
 option_level24_tilemap: %store_text("MAIN", "*BIG BOOS FLOWER", "BOO PLATFORMS", "MAIN (FROM PLATFORMS)", "LAVA", "EGGS", "*DARK ROOM", "PRE-BOSS", "BOSS")

@@ -63,7 +63,7 @@ load_main_menu:
 load_world_select:
   STZ !warps_current_world_index
   STZ !warps_current_level_index
-  LDA !debug_menu_controls_warps_worlds_count : STA !dbc_row_count_current : STA !dbc_count_current
+  LDA.w #!warps_worlds_count : STA !dbc_row_count_current : STA !dbc_count_current
   JSR init_warp_option_worlds_tilemaps
   RTS
 
@@ -74,7 +74,7 @@ load_level_select:
 
 .next
   STZ !warps_current_level_index
-  LDA !debug_menu_controls_warps_levels_count : STA !dbc_row_count_current : STA !dbc_count_current
+  LDA.w #!warps_levels_count : STA !dbc_row_count_current : STA !dbc_count_current
   JSR init_warp_option_levels_tilemaps
   RTS
 

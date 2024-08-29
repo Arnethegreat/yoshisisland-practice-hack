@@ -163,6 +163,9 @@ init_hud:
     STA !hud_buffer+$0C ; red coin
     STA !hud_buffer+$14 ; star
     STA !hud_buffer+$54 ; flower
+    ; and place new icons
+    LDA #$3C21 : STA !hud_buffer+$0C ; X
+    LDA #$3024 : STA !hud_buffer+$14 ; dot
 .ret
     PLP
     RTS
@@ -291,17 +294,17 @@ hud_hdma_table_controls:
 ; 4 ($30), 5 ($34), 6 ($38) = default bg1 (red lava, brown wood platforms etc.)
 ; 7 ($3C) = dynamic bg1
 hud_tilemap_template:
-    dw $303F, $303F, $303F, $303F, $303F, $303F, $3C37, $303F ; 00-0F
+    dw $303F, $3C4B, $303F, $303F, $303F, $303F, $3C37, $303F ; 00-0F
     dw $303F, $303F, $3C36, $303F, $303F, $303F, $3034, $303F ; 10-1F
     dw $302B, $303F, $303F, $302C, $303F, $303F, $303F, $303F ; 20-2F
     dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; 30-3F
 
-    dw $303F, $303F, $303F, $303F, $303F, $303F, $303E, $303F ; 40-4F
+    dw $303F, $3C4C, $303F, $303F, $303F, $303F, $3C1C, $303F ; 40-4F
     dw $303F, $303F, $3C38, $303F, $303F, $303F, $303F, $303F ; 50-5F
     dw $302B, $303F, $303F, $302C, $303F, $303F, $303F, $303F ; 60-6F
     dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; 70-7F
 
     dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; 80-8F
     dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; 90-9F
-    dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; A0-AF
+    dw $303F, $303F, $3C15, $303F, $303F, $303F, $303F, $303F ; A0-AF
     dw $303F, $303F, $303F, $303F, $303F, $303F, $303F, $303F ; B0-BF

@@ -49,9 +49,9 @@ Miscellaneous data | RAM watch | | Lag frame counter |
 The misc. data only appear in certain rooms, showing:
 * Prince Froggy's damage value during the fight
 * A trainer for the rockless key clip in 6-6
-  * `[tongue frame | jump frame | move left frame | unused]`
+  * `[tongue frame | jump frame | move left frame]`
 
-    The values indicate how early or late the input was, with 8 being frame-perfect (e.g. `8880`)
+    The values indicate how early or late the input was, with 8 being frame-perfect (e.g. `888`)
     - starting from the left corner, begin holding right
     - press tongue after 49 frames
     - press jump after 3 frames

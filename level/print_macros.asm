@@ -56,6 +56,15 @@ macro print_16(offset)
 endmacro
 
 ; value in A (16)
+macro print_12_abs(offset)
+    CMP #$0000 : BPL +
+    EOR #$FFFF
+    INC
+    +
+    %print_12(<offset>)
+endmacro
+
+; value in A (16), prints $-XXX
 macro print_12(offset)
     STA $0000
 
@@ -74,4 +83,26 @@ macro print_12(offset)
     ; $X--
     XBA
     TAX : STX <offset>+0
+endmacro
+
+; value in A (16), prints $XXX-
+macro print_12_upper(offset)
+    STA $0000
+
+    LSR #4
+    AND #$0F0F
+
+    ; $--X
+    TAX : STX <offset>+4
+
+    ; $X--
+    XBA
+    TAX : STX <offset>+0
+
+    LDA $0000
+    AND #$0F00
+
+    ; $-X-
+    XBA
+    TAX : STX <offset>+2
 endmacro

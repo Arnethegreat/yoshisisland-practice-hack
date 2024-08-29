@@ -87,10 +87,10 @@ level_tick:
 
 display_common:
     LDA !yoshi_x_speed
-    %print_16_abs($02)
+    %print_12_abs($04)
 
     LDA !s_egg_cursor_angle
-    %print_16($42)
+    %print_12_upper($44)
 
     LDA !lag_counter
     %print_12($A6)
@@ -105,12 +105,13 @@ display_common:
     CPY #$32 : BNE ++ ; 6-6
     JSR rockless_trainer
     LDA !trainer_result
-    %print_16($82)
+    %print_12_upper($84)
 ++
 
     ; ramwatch
     LDA !ramwatch_addr
     ORA !ramwatch_addr+1 : BEQ + ; don't show when set to $000000
+    LDA #$3C1B : STA $8C ; icon
     ; DP is set to the hud buffer here, but we will be overwriting offset $8E so we can actually use it before printing
     LDA !ramwatch_addr : STA $8E
     LDY !ramwatch_addr+2 : STY $8E+2
@@ -168,10 +169,10 @@ display_nullegg:
     %a16()
 
     LDA !yoshi_x_pos
-    %print_16($0C)
+    %print_12($0E)
 
     LDA !s_camera_layer3_y
-    %print_16($54)
+    %print_12($54)
 
     LDA #$0000
     %a8()

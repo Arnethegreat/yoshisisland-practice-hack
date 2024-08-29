@@ -111,9 +111,12 @@ Increase or decrease frames to skip per frame (amount of slow down). Game will r
 Frame advance mode pauses the game and advances a single frame each time the frame advance input bind is triggered thereafter. It can be disabled via the menu option or by using a bind to change the slow down value. Inputs are buffered in between frames.
 
 ### Stage Intro (with the level text)
-Stage intro now begins as soon as there's user input (if finished loading).
+Stage intro will end as soon as the level has finished loading, if there's user input.
 
 Hold any button to load level as fast as possible.
+
+> [!NOTE]
+> Only applies if the egg inventory doesn't contain a null egg.
 
 ### Disable Autoscroll
 Frees the camera if used during an autoscroller.

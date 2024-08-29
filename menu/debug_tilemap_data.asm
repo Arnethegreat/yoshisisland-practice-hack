@@ -112,7 +112,7 @@ option_level44_tilemap: %store_text("HUB", "TOP RIGHT", "BOTTOM RIGHT 1", "BOTTO
 option_level45_tilemap: %store_text("MAIN 2", "*BASEBALL FLOWER")
 option_level46_tilemap: %store_text("*SMALL ROOM WITH TULIP", "CAVE 1", "CAVE 2", "*DOUBLE ARROW LIFTS", "OUTSIDE")
 option_level47_tilemap: %store_text("*BALLOON PUMP ROOM", "MAIN 2 (PLATFORMS)")
-option_level48_tilemap: %store_text("MAIN 2 (LEFT)", "MAIN 2 (MIDDLE)", "MAIN 2 (RIGHT)", "*GIANT MILDES", "FISHING LAKITU", "TETRIS", "BOSS")
+option_level48_tilemap: %store_text("MAIN 2 (LEFT)", "MAIN 2 (MIDDLE)", "MAIN 2 (RIGHT)", "*GIANT MILDES", "FISHING LAKITU", "BREAKOUT BLOCKS", "BOSS")
 option_level4E_tilemap: %store_text("BRIGHT (MAIN MIDDLE DOOR)", "DARK (EGG POOL)", "BRIGHT (TOP LEFT)", "DARK (MOLE)", "BRIGHT (RED EGG BLOCKS)", "DARK (HELICOPTER)", "BRIGHT (FLASHING EGGS)", "DARK (END WATERFALL)")
 
 option_world4_tilemaps_addr_table:

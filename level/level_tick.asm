@@ -172,6 +172,9 @@ display_nullegg:
 
     LDA !s_camera_layer3_y
     %print_16($54)
+
+    LDA #$0000
+    %a8()
 .ret
     JMP level_tick_end_display
 

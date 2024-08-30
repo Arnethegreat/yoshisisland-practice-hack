@@ -73,7 +73,8 @@ if read1($00FFD9) == $00
     scorescreen_state_pointers = $01C7C4
         !scorescreen_skip_state = $C803
 
-    game_mode_22 = $17B392
+    game_mode_22 = $17B393
+    game_mode_26 = $17A9E0
 
     map_icon_rotation = $17E700
 
@@ -167,7 +168,8 @@ elseif read1($00FFD9) == $01
     scorescreen_state_pointers = $01B592
         !scorescreen_skip_state = $B5D1
 
-    game_mode_22 = $17B3CC
+    game_mode_22 = $17B3CD
+    game_mode_26 = $17AA1A
 
     map_icon_rotation = $17E73E
 

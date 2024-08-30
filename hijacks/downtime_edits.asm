@@ -35,6 +35,7 @@ org scorescreen_state_pointers+$35 ; draw flower around points
 org scorescreen_state_pointers+$37 ; waiting while fanfare plays
     dw !scorescreen_skip_state
 
-; overworld update level score animations
-org $0081DC ; change game mode $26 pointer to $22 (normal overworld)
-    dl game_mode_22
+; skip overworld high score update animations
+org game_mode_26
+    LDA #!gm_overworld : STA !gamemode
+    JMP game_mode_22

@@ -34,15 +34,10 @@ level_init:
     JSR level_room_init_common
     JSR reset_hud
 
-    ; save eggs for full level reset
-    LDX #$000A : STX !last_level_eggs_size
+    ; copy room rezone eggs for full level rezone
+    LDX #$000C
     -
-        LDA !egg_inv_items,x
-        BNE +
-        ; level init code seems to clear the size before this for some reason, so store it manually
-        STX !last_level_eggs_size
-        +
-        STA !last_level_eggs,x
+        LDA !last_exit_eggs,x : STA !last_level_eggs_size,x
         DEX #2
         BPL -
 

@@ -144,7 +144,7 @@ load_room:
 .load
   STA !level_load_type ; Flag to enter 0: start of level, 1: different room within level
   ; if warping before a file has been loaded, load the debug file 3
-  LDA !is_audio_fixed : BNE + ; this flag is set when loading the map or a level, so this can only trigger once
+  LDA !gamemode : CMP.w #!gm_title+1 : BCS +
   JSL load_file3_debug
   +
   LDA.w #!gm_levelfadeout : STA !gamemode

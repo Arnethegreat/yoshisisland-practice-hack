@@ -87,7 +87,7 @@ Save your current state while in a level.
 Normal (fast) load: works while in the same level as the savestate. Restores changes made to terrain. Certain tiles such as sand may appear visually incorrect, but should still be functional.
 Full load: re-loads the room, regenerates all terrain. This can be toggled to the opposite in menu.
 
-Loading can be done from anywhere (but not always guaranteed to work).
+Loading can be done from anywhere in the same level (but not always guaranteed to work).
 An after-load delay can be set from the debug menu. The byte value indicates the number of frames the game will be paused for when a savestate is finished loading.
 
 ### Re-zone

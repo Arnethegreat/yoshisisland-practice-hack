@@ -98,8 +98,11 @@ prepare_load:
     BEQ .fail_load
 
 ; Check if a savestate exists 
-    LDA !savestate_exists
-    BNE .test_experimental_state
+    LDA !savestate_exists : BEQ .fail_load
+
+; Prevent loading if the savestate is in another level, since it leads to issues with rezoning
+    LDA !save_world_num : CMP !world_num : BNE .fail_load
+    LDA !save_level_num : CMP !level_num : BEQ .test_experimental_state
 .fail_load
     LDA.w #!sfx_incorrect : STA !sound_immediate
     JMP .no_load

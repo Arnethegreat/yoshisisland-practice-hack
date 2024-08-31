@@ -29,6 +29,8 @@
 !save_player_form = !sram_block_00_savestate+$AE
 %var_1409(save_bg1_tileset, 2)
 %var_1409(save_bg1_palette, 2)
+%var_1409(save_world_num, 2)
+%var_1409(save_level_num, 2)
 
 ; persistent save data (keeps on reset)
 ; stuff used throughout

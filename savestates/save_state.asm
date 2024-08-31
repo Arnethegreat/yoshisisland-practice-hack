@@ -5,9 +5,8 @@ save_state:
     REP #$30
 
 ; Only save if we're in gamemode 0F
-    LDA !gamemode : CMP.w #!gm_level : BEQ +
-    JMP .ret
-    +
+    LDA !gamemode : CMP.w #!gm_level : BNE .ret
+
 ; Check pause flag too (don't wanna save at start-select)
     LDA $0B0F
     BNE .ret
@@ -30,7 +29,16 @@ save_state:
 ; play 1-up sound for cue that you saved
     LDA.w #!sfx_correct : STA !sound_immediate
 
-.save_additional
+    JSR save_additional
+    JSR load_hud_timers
+    INC !skip_frame_flag ; skip next frame to prevent an extra lag frame incrementing the lag counter
+.ret
+    PLP
+    PLY
+    PLX
+    RTS
+
+save_additional:
     LDA !r_reg_inidisp_mirror : STA !save_inidisp_mirror
     LDA !r_hdma_indirect_table6+0 : STA !save_hdma_indirect_table6+0
     LDA !r_hdma_indirect_table6+2 : STA !save_hdma_indirect_table6+2
@@ -39,6 +47,9 @@ save_state:
 
     LDA !current_level
     STA !save_level
+
+    LDA !world_num : STA !save_world_num
+    LDA !level_num : STA !save_level_num
 
     LDA !yoshi_x_pos
     STA !save_x_pos
@@ -56,12 +67,5 @@ save_state:
 
     LDA !r_header_bg1_tileset : STA !save_bg1_tileset
     LDA !r_header_bg1_palette : STA !save_bg1_palette
-
-    JSR load_hud_timers
-    INC !skip_frame_flag ; skip next frame to prevent an extra lag frame incrementing the lag counter
-
 .ret
-    PLP
-    PLY
-    PLX
     RTS

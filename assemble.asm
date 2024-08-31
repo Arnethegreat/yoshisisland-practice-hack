@@ -19,6 +19,7 @@ incsrc hijacks/level_load_hijack.asm
 incsrc hijacks/mode7_boss_hijack.asm
 incsrc hijacks/bank02_hijack.asm
 incsrc hijacks/downtime_edits.asm
+incsrc hijacks/misc_edits.asm
 incsrc hijacks/debug_hijacks.asm
 arch superfx
 incsrc superfx/camera_hijack.asm

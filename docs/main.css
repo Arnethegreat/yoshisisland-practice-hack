@@ -5,14 +5,13 @@
 #rom-patcher-container {
     background-color: var(--patcher-back-color);
     color: var(--patcher-fore-color);
+    .rom-patcher-container-input {
+        color: initial;
+    }
     box-shadow: 0px 20px 40px var(--patcher-shadow-color);
     border: 1px solid var(--patcher-border-color);
     outline: var(--patcher-outline);
     border-radius: 0;
-
-    .rom-patcher-container-input {
-        color: black;
-    }
 
     button {
         transition: none;

@@ -20,6 +20,8 @@ includeonce
 %var_1409(save_room_frames, 1)
 %var_1409(save_room_seconds, 1)
 %var_1409(save_room_minutes, 1)
+%var_1409(slow_frames, 2)
+%var_1409(save_slow_frames, 2)
 %var_1409(hud_enabled, 1)
 !hud_enabled_l = $7E0000+!hud_enabled
 %var_1409(hud_displayed, 1) ; the hud is not always shown even when it is enabled

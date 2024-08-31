@@ -175,6 +175,26 @@
 !s_egg_cursor_angle = $60EE
 !s_egg_cursor_angle_l = $7000EE
 
+!s_slope_angle = $60B6
+!s_slope_angle_l = $7000B6
+
+!s_player_flutter_state = $60D2
+!s_player_flutter_state_l = $7000D2
+
+!s_player_stair_state = $60DA
+!s_player_stair_state_l = $7000DA
+
+!s_ground_type = $60FA
+!s_ground_type_l = $7000FA
+
+!ground_normal = $00
+!ground_water = $00
+!ground_snow = $04
+!ground_mud = $05
+
+!s_player_mouth_state = $6150
+!s_player_mouth_state_l = $700150
+
 ; Yoshi Colour Palette
 !yoshi_colour = $0383
 

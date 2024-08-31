@@ -44,9 +44,22 @@ Column 1 | Column 2 | Column 3 | Column 4 | Column 5
 :------: | :------: | :------: | :------: | :------:
 Yoshi's horizontal velocity | Red coin amount | Stars amount | Level timer | 
 Most recent egg-aiming angle | Amount of sprites loaded | Flowers amount | Room timer | Input display
-Miscellaneous data | RAM watch | | Lag frame counter | 
+Miscellaneous data[^1] | RAM watch[^2] | Slow movement counter[^3] | Lag frame counter | 
 
-The misc. data only appear in certain rooms, showing:
+If Yoshi's egg inventory contains a non-standard sprite (either by null egg manipulation, or via the debug menu editor), then the HUD will display different data:
+
+Column 1 | Column 2 | Column 3 | Column 4 | Column 5
+:------: | :------: | :------: | :------: | :------:
+Yoshi's horizontal velocity | Yoshi x position | Yoshi x subpixel | Level timer | 
+Most recent egg-aiming angle | Amount of sprites loaded | BG3 vertical offset | Room timer | Input display
+Miscellaneous data[^1] | RAM watch[^2] | Slow movement counter[^3] | Lag frame counter | 
+
+> [!NOTE]
+> The HUD data are currently only switched when visiting the world map.
+
+---
+
+[^1]: The misc. data appear in certain rooms, showing:
 * Prince Froggy's damage value during the fight
 * A trainer for the rockless key clip in 6-6
   * `[tongue frame | jump frame | move left frame]`
@@ -57,20 +70,9 @@ The misc. data only appear in certain rooms, showing:
     - press jump after 3 frames
     - stop holding right and start holding left after 6 frames
 
-RAM watch reads from an arbitrary little-endian address set from the debug menu. The read value appears in the indicated HUD position when the address is set to a value other than `$000000`.
+[^2]: Reads from an arbitrary little-endian address set from the debug menu. The read value appears in the indicated HUD position when the address is set to a value other than `$000000`.
 
----
-
-If Yoshi's egg inventory contains a non-standard sprite (either by null egg manipulation, or via the debug menu editor), then the HUD will display different data:
-
-Column 1 | Column 2 | Column 3 | Column 4 | Column 5
-:------: | :------: | :------: | :------: | :------:
-Yoshi's horizontal velocity | Yoshi x position | Yoshi x subpixel | Level timer | 
-Most recent egg-aiming angle | Amount of sprites loaded | BG3 vertical offset | Room timer | Input display
-Miscellaneous data | RAM watch | | Lag frame counter | 
-
-> [!NOTE]
-> The HUD data are currently only switched when visiting the world map.
+[^3]: Counts the number of frames that Yoshi spends being slowed while running on slopes, stairs, mud, or snow, or by tonguing, spitting, or swallowing while holding a direction.
 
 ### Egg Editor
 Use A/Y to cycle the sprite in the selected, loaded slot. The previous/next eggs in the cycle are displayed beside the cursor.

@@ -66,6 +66,8 @@ level_tick:
     LDY !hud_displayed : BEQ .ret
 {
     LDA #!hud_buffer : TCD
+.csf
+    JMP calc_slow_frames ; needs a16i8
 .cas
     JMP count_active_sprites ; needs a16i8
 .din
@@ -108,6 +110,9 @@ display_common:
     %print_12_upper($84)
 ++
 
+    LDA !slow_frames
+    %print_12($9C)
+
     ; ramwatch
     LDA !ramwatch_addr
     ORA !ramwatch_addr+1 : BEQ + ; don't show when set to $000000
@@ -120,7 +125,6 @@ display_common:
     LDX #$30 : STX $8F ; we use $8F (a palette byte) but it is not overwritten by the print, so fix it
     TXA ; this is the last point when A is 16-bit, so clear the high byte in preparation for resetting DP with 8-bit A
     +
-
     %a8()
 
     LDA !active_sprites
@@ -235,3 +239,24 @@ count_active_sprites:
     STY !active_sprites
  .ret
     JMP level_tick_cas+3
+
+calc_slow_frames:
+    ; must be moving and not fluttering to be slowed down
+    LDA !yoshi_x_speed : BEQ .ret
+    LDY !s_player_flutter_state : CPY #$02 : BCS .ret
+    {
+        LDY !s_slope_angle : BNE .inc ; on a slope
+        LDY !s_ground_type : CPY #!ground_snow : BCS .inc ; on mud/snow
+        LDY !s_player_stair_state+1 : BNE .inc ; on stairs
+
+        ; holding right/left while tonguing/swallowing/spitting
+        LDA !controller_data1 : AND #!controller_left|!controller_right : BEQ .ret
+        LDY !s_player_mouth_state : BNE .inc
+    }
+.ret
+    LDY #$30 : STY $9D : STY $9F : STY $A1 ; normal palette
+    JMP level_tick_csf+3
+.inc
+    INC !slow_frames
+    LDY #$34 : STY $9D : STY $9F : STY $A1 ; lava palette; makes it flash red while increasing
+    JMP level_tick_csf+3

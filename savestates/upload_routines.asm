@@ -39,6 +39,7 @@ save_hud_timers:
     LDA !room_frames : STA !save_room_frames
     LDA !room_seconds : STA !save_room_seconds
     LDA !room_minutes : STA !save_room_minutes
+    LDX !slow_frames : STX !save_slow_frames
 .ret
     PLP
     RTS
@@ -54,6 +55,7 @@ load_hud_timers:
     LDA !save_room_frames : STA !room_frames
     LDA !save_room_seconds : STA !room_seconds
     LDA !save_room_minutes : STA !room_minutes
+    LDX !save_slow_frames : STX !slow_frames
 .ret
     PLP
     RTS

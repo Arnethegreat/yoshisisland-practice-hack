@@ -4,7 +4,7 @@ check bankcross half
 
 arch 65816
 
-print "YI Practice Hack 1.0.0"
+print "YI Practice Hack 1.0.1"
 ;=================================
 incsrc region_check.asm
 incsrc misc/macros.asm

@@ -59,7 +59,7 @@ vbirq:
     AND #~$0400 ; unset BG3 as a subscreen
     STA.b !reg_tm
 
-    ; DMA tilemap to VRAM $6400 ($C800)
+    ; DMA tilemap to VRAM $6400.w ($C800)
     LDX #$80 : STX.b !reg_vmain ; increment after writing to $2119
     LDX #$7E : STX !reg_a1b0 ; source bank
     LDA #$6400 : STA.b !reg_vmadd ; VRAM destination
@@ -160,18 +160,7 @@ irq_2b:
     LDA #!nmi_v
     JMP $C431
 
-test_soft_reset:
-    LDA !controller_data1 : CMP #!controller_data1_L|!controller_data1_R : BNE +
-    LDA !controller_data2 : CMP #!controller_data2_start|!controller_data2_select : BNE +
-    INC !soft_reset_timer
-    LDA !soft_reset_timer : CMP #$20 : BNE .ret
-    JML $008000
-    +
-    STZ !soft_reset_timer
-.ret
-    LDX !r_interrupt_mode ; hijacked code
-    JMP nmi_hijack+3
-
+incsrc "misc/soft_reset.asm"
 incsrc "music/prevent_change.asm"
 
 assert pc() <= interrupt_freespace+!interrupt_freespace_size ; warn if our code overflows the freespace region

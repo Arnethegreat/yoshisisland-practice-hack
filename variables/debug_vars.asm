@@ -60,6 +60,10 @@ includeonce
 %var_1409(palette_anim_timer, 2)
 !palette_backup_size = $0040
 %var_1409(palette_backup, !palette_backup_size)
+!yoshi_palette_offset = $01A0 ; offset from start of CGRAM mirror in $702000
+!yoshi_palette_size = 16*2 ; 16 colours, 1 word per
+%var_707E7E(enable_yoshi_custom_palette, 1)
+%var_707E7E(yoshi_custom_palette, 22) ; 11 colours, 2 bytes each
 
 
 %var_1409(input_repeat_delay_timer, 2)

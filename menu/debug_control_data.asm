@@ -98,8 +98,79 @@ submenu_gamemods_ctrl:
   %define_menu_entry(!ct_nib, !slowdown_mag_l, 1, 8, $F0) ; slowdown amount high
   %define_menu_entry(!ct_nib, !slowdown_mag_l, 2, 8, $0F) ; slowdown amount low
   %define_menu_entry(!ct_toggle, !frame_skip_pause_l, 1, 9, $01) ; frame advance
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 10, submenu_yoshipalette_ctrl) ; palette picker
 .column_counts
-  dw $0000, $0100, $0200, $0300, $0400, $0500, $0600, $0701, $0900
+  dw $0000, $0100, $0200, $0300, $0400, $0500, $0600, $0701, $0900, $0A00
+
+submenu_yoshipalette_ctrl:
+.metadata
+  %define_menu_metadata(submenu_yoshipalette_ctrl, submenu_yoshipalette_tilemap, $0000, submenu_gamemods_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
+  %define_menu_entry(!ct_toggle, !enable_yoshi_custom_palette, 1, 2, $01) ; enable custom yoshi colour
+  %define_menu_entry(!ct_func, $7E0000, 18, 2, $02) ; reset palette to default green yoshi
+
+  ; yoshi skin
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+1, 1, 4, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+1, 2, 4, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+0, 3, 4, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+0, 4, 4, $0F)
+
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+3, 6, 4, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+3, 7, 4, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+2, 8, 4, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+2, 9, 4, $0F)
+
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+5, 11, 4, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+5, 12, 4, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+4, 13, 4, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+4, 14, 4, $0F)
+
+  ; white bits
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+7, 1, 6, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+7, 2, 6, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+6, 3, 6, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+6, 4, 6, $0F)
+
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+9, 6, 6, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+9, 7, 6, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+8, 8, 6, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+8, 9, 6, $0F)
+
+  ; red bits
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+11, 1, 8, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+11, 2, 8, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+10, 3, 8, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+10, 4, 8, $0F)
+
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+13, 6, 8, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+13, 7, 8, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+12, 8, 8, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+12, 9, 8, $0F)
+
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+15, 11, 8, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+15, 12, 8, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+14, 13, 8, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+14, 14, 8, $0F)
+
+  ; outline
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+17, 1, 10, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+17, 2, 10, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+16, 3, 10, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+16, 4, 10, $0F)
+
+  ; baby mario skin
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+19, 1, 12, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+19, 2, 12, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+18, 3, 12, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+18, 4, 12, $0F)
+
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+21, 6, 12, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+21, 7, 12, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+20, 8, 12, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+20, 9, 12, $0F)
+.column_counts
+  dw $0000, $0101, $030B, $0F07, $170B, $2303, $2707
 
 submenu_config_ctrl:
 .metadata
@@ -134,6 +205,7 @@ submenu_config_ctrl:
 control_function_calls:
   dw disable_autoscroll
   dw set_default_input_bindings_and_draw
+  dw reset_palette
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !warps_worlds_count = $07

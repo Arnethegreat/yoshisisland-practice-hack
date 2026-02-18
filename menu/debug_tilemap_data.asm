@@ -27,7 +27,22 @@ submenu_gamemods_tilemap:
             "         DISABLE KAMEK AT BOSS",
             "         FORCE HASTY",
             "         SLOWDOWN AMOUNT",
-            "         FRAME ADVANCE MODE")
+            "         FRAME ADVANCE MODE",
+            "YOSHI PALETTE PICKER/")
+
+submenu_yoshipalette_tilemap:
+%store_text("BACK",
+            "  ENABLE         RESET DEFAULT",
+            "- YOSHI MAIN",
+            "    /    /",
+            "- WHITE BITS",
+            "    /",
+            "- RED BITS",
+            "    /    /",
+            "- OUTLINE",
+            " ",
+            "- MARIO SKIN",
+            "    /")
 
 submenu_config_tilemap:
 %store_text("BACK             RESET DEFAULT",

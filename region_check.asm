@@ -93,6 +93,8 @@ if read1($00FFD9) == $00
 
     despawn_sprite_free_slot = $03A32E ; X: sprite slot
 
+    yoshi_palette_ptrs = $00B7B5
+
     gsu_update_camera_store = $09984E
 
     bank09_freespace = $09B140
@@ -187,6 +189,8 @@ elseif read1($00FFD9) == $01
     acquire_egg = $03BEB9
 
     despawn_sprite_free_slot = $03A32E ; X: sprite slot
+
+    yoshi_palette_ptrs = $00BA14
 
     gsu_update_camera_store = $09984E
 

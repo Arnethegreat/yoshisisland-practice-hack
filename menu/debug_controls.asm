@@ -177,6 +177,7 @@ main_controls:
   BNE +
   {
     JSR get_current_menu_control_offset
+    %i16()
     TAY
     JSR get_current_menu_control_col_count
     STA !dbc_col_count_current
@@ -259,7 +260,6 @@ get_current_menu_control_col_count:
   %ai16()
   LDX !current_menu_data_ptr
   LDA.w !dbc_meta_colcounts_offset,x ; get the offset of the column count data
-  AND #$00FF
   CLC : ADC !dbc_index_row : ADC !dbc_index_row ; add (rowindex*2) to get offset for the specific row
   ADC !current_menu_data_ptr
   TAX

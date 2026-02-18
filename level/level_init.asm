@@ -86,6 +86,7 @@ level_room_init_common:
 
     JSR handle_flags
     JSR per_level_hud_bg3ofs_fix
+    JSR apply_custom_yoshi_colour
     STZ !map16delta_index
     STZ !slow_frames
     STZ !slow_frames+1

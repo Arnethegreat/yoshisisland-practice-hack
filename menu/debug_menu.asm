@@ -6,17 +6,14 @@ init_debug_menu:
     STZ !hud_displayed
 
     ; turn screen off
-    LDA #$8F
-    STA !reg_inidisp
-    STA !r_reg_inidisp_mirror
+    LDA #$8F : STA !reg_inidisp : STA !r_reg_inidisp_mirror
 
 .back_up
     REP #$30
 
     LDA.b !r_camera_layer1_x : STA !camera_layer1_x_backup
     LDA.b !r_camera_layer1_y : STA !camera_layer1_y_backup
-    LDA !r_reg_coldata_mirror
-    STA !bg_color_backup
+    LDA !r_reg_coldata_mirror : STA !bg_color_backup
 
 ; save palette
     LDX #!palette_backup_size
@@ -29,20 +26,14 @@ init_debug_menu:
 
     SEP #$30
 
-    LDA !r_reg_bgmode_mirror
-    STA !bgmode_backup
+    LDA !r_reg_bgmode_mirror : STA !bgmode_backup
 
-    LDA !r_reg_bg1sc_mirror
-    STA !bg1_tilemap_backup
-    LDA !r_reg_bg12nba_mirror
-    STA !bg1_char_backup
+    LDA !r_reg_bg1sc_mirror : STA !bg1_tilemap_backup
+    LDA !r_reg_bg12nba_mirror : STA !bg1_char_backup
 
-    LDA !r_reg_hdmaen_mirror
-    STA !hdma_backup
-    LDA !r_interrupt_mode
-    STA !irq_mode_1_backup
-    LDA $0126
-    STA !irq_mode_2_backup
+    LDA !r_reg_hdmaen_mirror : STA !hdma_backup
+    LDA !r_interrupt_mode : STA !irq_mode_1_backup
+    LDA $0126 : STA !irq_mode_2_backup
 
     LDA !r_reg_w12sel_mirror : STA !w12sel_backup
 
@@ -72,24 +63,17 @@ init_debug_menu:
     STZ $39
     STZ $3A
 ; screen is one pixel off otherwise?
-    LDA #$FF
-    STA $3B
-    STZ $3C
+    LDA #$FF : STA $3B : STZ $3C
 
 
     ; BG1 tilemap
-    LDA #!debug_bg1_tilemap_dest
-    STA !reg_bg1sc
-    STA !r_reg_bg1sc_mirror
+    LDA #!debug_bg1_tilemap_dest : STA !reg_bg1sc : STA !r_reg_bg1sc_mirror
 
     ; BG1 character
-    LDA #!debug_bg1_tile_dest
-    STA !reg_bg12nba
-    STA !r_reg_bg12nba_mirror
+    LDA #!debug_bg1_tile_dest : STA !reg_bg12nba : STA !r_reg_bg12nba_mirror
 
     ; turn on BG1, everything else off
-    LDA #$01
-    STA !reg_tm
+    LDA #$01 : STA !reg_tm
     STZ !reg_ts
 
     ; NMI & IRQ modes: Nintendo Presents
@@ -101,17 +85,14 @@ init_debug_menu:
     STZ !reg_w12sel
     STZ !r_reg_w12sel_mirror
     ; enable backdrop color
-    LDA #$20
-    STA $2131
+    LDA #$20 : STA $2131
 
-    REP #$30
+    %ai16()
     ; background color mirror
-    LDA #$30C5
-    STA !r_reg_coldata_mirror
+    LDA #$30C5 : STA !r_reg_coldata_mirror
 
     ; palettes
-    LDA #$0003
-    STA !palette_anim_timer
+    LDA #$0003 : STA !palette_anim_timer
 
     ; flag on
     INC !debug_menu
@@ -130,7 +111,7 @@ init_debug_menu:
     JSR warp_menu_direct_load
     +
 
-    SEP #$30
+    %ai8()
     JMP game_loop_skip
 
 ;================================
@@ -267,6 +248,8 @@ exit_debug_menu:
         DEX
         DEX
         BNE -
+    JSR apply_custom_yoshi_colour
+
 ; gamemode tests
     SEP #$30
     LDA !gamemode

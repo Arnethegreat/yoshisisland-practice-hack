@@ -17,6 +17,9 @@ sram_boot_check:
     LDA !full_load_default : BEQ + : CMP #$01 : BEQ +
     LDA #$00 : STA !full_load_default
     +
+    LDA !enable_yoshi_custom_palette : BEQ + : CMP #$01 : BEQ +
+    LDA #$00 : STA !enable_yoshi_custom_palette
+    +
     %a16()
     LDA !skip_kamek : BEQ + : CMP #$0001 : BEQ +
     LDA #$0000 : STA !skip_kamek

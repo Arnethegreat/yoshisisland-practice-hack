@@ -153,6 +153,9 @@ R+X | - | Re-zone
 \- | A | Frame advance
 \- | Y | Disable autoscroll
 
+### Custom Yoshi Palette
+The palette editor accepts values in `BGR555` format. It's recommended to generate values with https://orangegb.com/BGR555/ using big endian byte order.
+
 
 # How to assemble manually
 First, clone this repo.

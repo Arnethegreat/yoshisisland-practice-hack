@@ -174,12 +174,8 @@ anim_palette_data:
 dw $035F, $001F, $03E0, $5C1F
 dw $035F, $001F, $03E0, $5C1F
 
-anim_palette_data_selection:
-dw $498A, $498A, $498A, $498A
-dw $4567, $4567, $4567, $4567
-
 animate_palette:
-    REP #$20
+    %a16()
     DEC !palette_anim_timer
     LDA !palette_anim_timer
     BPL .change_color
@@ -187,15 +183,16 @@ animate_palette:
     ; reset timer
     LDA #$0007
     STA !palette_anim_timer
+    LDA !s_cgram_mirror+60
+    EOR #$0842
+    STA !s_cgram_mirror+60
 .change_color
     ASL A
     TAX
     LDA anim_palette_data,x
     STA !s_cgram_mirror+6
-    LDA anim_palette_data_selection,x
-    STA !s_cgram_mirror+60
 .ret
-    SEP #$20
+    %a8()
     RTS
 
 ;================================

@@ -33,16 +33,16 @@ submenu_gamemods_tilemap:
 submenu_yoshipalette_tilemap:
 %store_text("BACK",
             "  ENABLE         RESET DEFAULT",
-            "- YOSHI MAIN",
+            "- YOSHI MAIN p",
             "    /    /",
-            "- WHITE BITS",
+            "- WHITE BITS p",
             "    /",
-            "- RED BITS",
+            "- RED BITS   p",
             "    /    /",
+            "- MARIO SKIN p",
+            "    /",
             "- OUTLINE",
-            " ",
-            "- MARIO SKIN",
-            "    /")
+            " ")
 
 submenu_config_tilemap:
 %store_text("BACK             RESET DEFAULT",

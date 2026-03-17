@@ -154,6 +154,9 @@ main_nib_changer:
 .update_draw
   STA !sound_immediate
   JSR draw_nib
+  ; if palette changer nib, update debug menu palettes
+  LDX !current_menu_data_ptr : CPX #submenu_yoshipalette_ctrl : BNE .ret
+  JSR set_palettepicker_submenu_palette
 
 .ret
   PLP

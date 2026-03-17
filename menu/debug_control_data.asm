@@ -153,24 +153,24 @@ submenu_yoshipalette_ctrl:
   %define_menu_entry(!ct_nib, !yoshi_custom_palette+14, 13, 8, $F0)
   %define_menu_entry(!ct_nib, !yoshi_custom_palette+14, 14, 8, $0F)
 
-  ; outline
+  ; baby mario skin
   %define_menu_entry(!ct_nib, !yoshi_custom_palette+17, 1, 10, $70)
   %define_menu_entry(!ct_nib, !yoshi_custom_palette+17, 2, 10, $0F)
   %define_menu_entry(!ct_nib, !yoshi_custom_palette+16, 3, 10, $F0)
   %define_menu_entry(!ct_nib, !yoshi_custom_palette+16, 4, 10, $0F)
 
-  ; baby mario skin
-  %define_menu_entry(!ct_nib, !yoshi_custom_palette+19, 1, 12, $70)
-  %define_menu_entry(!ct_nib, !yoshi_custom_palette+19, 2, 12, $0F)
-  %define_menu_entry(!ct_nib, !yoshi_custom_palette+18, 3, 12, $F0)
-  %define_menu_entry(!ct_nib, !yoshi_custom_palette+18, 4, 12, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+19, 6, 10, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+19, 7, 10, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+18, 8, 10, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+18, 9, 10, $0F)
 
-  %define_menu_entry(!ct_nib, !yoshi_custom_palette+21, 6, 12, $70)
-  %define_menu_entry(!ct_nib, !yoshi_custom_palette+21, 7, 12, $0F)
-  %define_menu_entry(!ct_nib, !yoshi_custom_palette+20, 8, 12, $F0)
-  %define_menu_entry(!ct_nib, !yoshi_custom_palette+20, 9, 12, $0F)
+  ; outline
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+21, 1, 12, $70)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+21, 2, 12, $0F)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+20, 3, 12, $F0)
+  %define_menu_entry(!ct_nib, !yoshi_custom_palette+20, 4, 12, $0F)
 .column_counts
-  dw $0000, $0101, $030B, $0F07, $170B, $2303, $2707
+  dw $0000, $0101, $030B, $0F07, $170B, $2307, $2B03
 
 submenu_config_ctrl:
 .metadata
@@ -205,7 +205,7 @@ submenu_config_ctrl:
 control_function_calls:
   dw disable_autoscroll
   dw set_default_input_bindings_and_draw
-  dw reset_palette
+  dw reset_custom_palette
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !warps_worlds_count = $07

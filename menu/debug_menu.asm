@@ -188,7 +188,7 @@ animate_palette:
     LDA #$0007
     STA !palette_anim_timer
 .change_color
-    ASL A 
+    ASL A
     TAX
     LDA anim_palette_data,x
     STA !s_cgram_mirror+6

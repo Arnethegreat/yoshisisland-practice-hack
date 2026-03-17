@@ -29,7 +29,7 @@ apply_custom_yoshi_colour:
     PHP
     %ai16()
     LDA !enable_yoshi_custom_palette : AND #$0001 : BEQ +
-    
+
     ; yoshi skin
     LDA !yoshi_custom_palette+0 : STA !s_cgram_mirror+!yoshi_palette_offset+18 ; D9
     LDA !yoshi_custom_palette+2 : STA !s_cgram_mirror+!yoshi_palette_offset+10 ; D5
@@ -44,12 +44,12 @@ apply_custom_yoshi_colour:
     LDA !yoshi_custom_palette+12 : STA !s_cgram_mirror+!yoshi_palette_offset+22 ; DB
     LDA !yoshi_custom_palette+14 : STA !s_cgram_mirror+!yoshi_palette_offset+8 ; D4
 
-    ; outline
-    LDA !yoshi_custom_palette+16 : STA !s_cgram_mirror+!yoshi_palette_offset+2 ; D1
-
     ; baby mario skin
-    LDA !yoshi_custom_palette+18 : STA !s_cgram_mirror+!yoshi_palette_offset+28 ; DE
-    LDA !yoshi_custom_palette+20 : STA !s_cgram_mirror+!yoshi_palette_offset+14 ; D7
+    LDA !yoshi_custom_palette+16 : STA !s_cgram_mirror+!yoshi_palette_offset+28 ; DE
+    LDA !yoshi_custom_palette+18 : STA !s_cgram_mirror+!yoshi_palette_offset+14 ; D7
+
+    ; outline
+    LDA !yoshi_custom_palette+20 : STA !s_cgram_mirror+!yoshi_palette_offset+2 ; D1
 
     BRA .ret
     + ; else load original palette
@@ -71,7 +71,7 @@ apply_custom_yoshi_colour:
     PLP
     RTS
 
-reset_palette: ; to green yosh
+reset_custom_palette: ; to green yosh
     PHP
     %a16()
     LDA #$03E0 : STA !yoshi_custom_palette+0 ; D9
@@ -82,10 +82,11 @@ reset_palette: ; to green yosh
     LDA #$111F : STA !yoshi_custom_palette+10 ; D8
     LDA #$025F : STA !yoshi_custom_palette+12 ; DB
     LDA #$10D2 : STA !yoshi_custom_palette+14 ; D4
-    LDA #$0000 : STA !yoshi_custom_palette+16 ; D1
-    LDA #$6B9F : STA !yoshi_custom_palette+18 ; DE
-    LDA #$467F : STA !yoshi_custom_palette+20 ; D7
+    LDA #$6B9F : STA !yoshi_custom_palette+16 ; DE
+    LDA #$467F : STA !yoshi_custom_palette+18 ; D7
+    LDA #$0000 : STA !yoshi_custom_palette+20 ; D1
     JSR apply_custom_yoshi_colour
+    JSR set_palettepicker_submenu_palette
     JSR init_controls
 .ret
     PLP

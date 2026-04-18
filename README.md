@@ -160,11 +160,11 @@ The palette editor accepts values in `BGR555` format. It's recommended to genera
 # How to assemble manually
 First, clone this repo.
 
-This project uses the [**asar**](https://github.com/RPGHacker/asar) assembler, so download it if you need to.
+This project uses the [**asar**](https://github.com/RPGHacker/asar) assembler so download it if needed.
 
 Run `asar.exe assemble.asm path/to/your_rom.sfc` from the root directory to apply the patch.
 > [!WARNING]
 > This will overwrite the clean ROM.
 
 Alternatively, place the clean ROM(s) you wish to patch into the `ROMs/` dir (they should be called `JP_clean.sfc` for `J1.0` and `NA_clean.sfc` for `U1.0`)
-then run `build.sh` or `build.bat` with no args to build both, or `U` or `J`. The build scripts preserve the clean ROMs by copying them before patching.
+then run either of the build scripts [`build.sh`, `build.ps1`] which preserve the clean ROMs by copying them before patching. Additionally, the build scripts can directly launch Mesen for debugging with a symbol file.

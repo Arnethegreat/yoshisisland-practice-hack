@@ -62,6 +62,11 @@ if read1($00FFD9) == $00
     irqmode_0A = $00C641
     nmi_hijack = $00C013
 
+    native_brk_vector = $00FFE6
+    native_cop_vector = $00FFE4
+    emu_brk_vector = $00FFF6
+    emu_cop_vector = $00FFF4
+
     change_map16_hijack = $10925C
     
     free_movement = $04F5E7
@@ -158,6 +163,11 @@ elseif read1($00FFD9) == $01
     irqmode_08 = $00C87A
     irqmode_0A = $00C641
     nmi_hijack = $00C013
+
+    native_brk_vector = $00FFE6
+    native_cop_vector = $00FFE4
+    emu_brk_vector = $00FFF6
+    emu_cop_vector = $00FFF4
 
     change_map16_hijack = $109303
 

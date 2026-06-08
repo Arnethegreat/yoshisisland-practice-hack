@@ -81,8 +81,9 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 5, 8, $F0) ; ramwatch low
   %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 6, 8, $0F) ; ramwatch low
   %define_menu_entry(!ct_submenu, $7E0000, 1, 9, submenu_config_ctrl) ; input config submenu
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 10, submenu_null_egg_ctrl) ; null egg submenu
 .column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
-  dw $0000, $0100, $0206, $0900, $0A00, $0B01, $0D00, $0E05, $1400
+  dw $0000, $0100, $0206, $0900, $0A00, $0B01, $0D00, $0E05, $1400, $1500
 
 submenu_gamemods_ctrl:
 .metadata
@@ -171,6 +172,32 @@ submenu_yoshipalette_ctrl:
   %define_menu_entry(!ct_nib, !yoshi_custom_palette+20, 4, 12, $0F)
 .column_counts
   dw $0000, $0101, $030B, $0F07, $170B, $2307, $2B03
+
+submenu_null_egg_ctrl:
+.metadata
+  %define_menu_metadata(submenu_null_egg_ctrl, submenu_null_egg_tilemap, $0000, mainmenu_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
+  %define_menu_entry(!ct_nib, !egg_inv_items+0, 6, 2, $00F0) ; egg 1 upper nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+0, 7, 2, $000F) ; egg 1 lower nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+1, 8, 2, $000F) ; egg 1 third nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+2, 6, 3, $00F0) ; egg 2 upper nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+2, 7, 3, $000F) ; egg 2 lower nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+3, 8, 3, $000F) ; egg 2 third nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+4, 6, 4, $00F0) ; egg 3 upper nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+4, 7, 4, $000F) ; egg 3 lower nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+5, 8, 4, $000F) ; egg 3 third nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+6, 6, 5, $00F0) ; egg 4 upper nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+6, 7, 5, $000F) ; egg 4 lower nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+7, 8, 5, $000F) ; egg 4 third nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+8, 6, 6, $00F0) ; egg 5 upper nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+8, 7, 6, $000F) ; egg 5 lower nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+9, 8, 6, $000F) ; egg 5 third nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+10, 6, 7, $00F0) ; egg 6 upper nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+10, 7, 7, $000F) ; egg 6 lower nibble
+  %define_menu_entry(!ct_nib, !egg_inv_items+11, 8, 7, $000F) ; egg 6 third nibble
+.column_counts
+  dw $0001, $0103, $0403, $0703, $0A03, $0D03, $1003
 
 submenu_config_ctrl:
 .metadata

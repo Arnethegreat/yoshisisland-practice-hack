@@ -16,7 +16,8 @@ mainmenu_tilemap:
             "         LOAD DELAY",
             "         HUD",
             "         RAMWATCH",
-            "INPUT CONFIG/")
+            "INPUT CONFIG/",
+            "NULL EGG/")
 
 submenu_gamemods_tilemap:
 %store_text("BACK",
@@ -43,6 +44,15 @@ submenu_yoshipalette_tilemap:
             "    /",
             "- OUTLINE",
             " ")
+
+submenu_null_egg_tilemap:
+%store_text("BACK",
+            "EGG 1       ",
+            "EGG 2       ",
+            "EGG 3       ",
+            "EGG 4       ",
+            "EGG 5       ",
+            "EGG 6       ")
 
 submenu_config_tilemap:
 %store_text("BACK             RESET DEFAULT",

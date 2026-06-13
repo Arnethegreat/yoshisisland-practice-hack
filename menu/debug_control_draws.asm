@@ -25,6 +25,52 @@ draw_nib:
   STA !menu_tilemap_mirror,x
   RTS
 
+draw_exception_info:
+  PHP
+  %a16()
+  %i16()
+
+  LDA !current_menu_data_ptr
+  CMP.w #submenu_exception_ctrl
+  BNE .ret
+
+  LDX #!exception_info_0f00_digits_dest
+  LDY #$0000
+.loop0f00
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  LSR #4
+  STA !menu_tilemap_mirror,x
+  INX #2
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  AND #$000F
+  STA !menu_tilemap_mirror,x
+  INX #2
+  INY #1
+  CPY #$0008
+  BNE .loop0f00
+
+  LDX #!exception_info_0f08_digits_dest
+.loop0f08
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  LSR #4
+  STA !menu_tilemap_mirror,x
+  INX #2
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  AND #$000F
+  STA !menu_tilemap_mirror,x
+  INX #2
+  INY #1
+  CPY #$0010
+  BNE .loop0f08
+
+.ret
+  PLP
+  RTS
+
 draw_toggle:
   REP #$30
 

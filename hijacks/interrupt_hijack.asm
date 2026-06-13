@@ -56,10 +56,10 @@ org play_music_track
 ; BRK/COP Crash Handler
 
 org native_brk_vector
-    dw exception_handler                                  ; $00FFE6 | Native BRK vector (unused)
+    dw exception_handler
 org native_cop_vector
-    dw exception_handler                             ; $00FFE4 | Native COP vector (unused)
+    dw exception_handler
 org emu_brk_vector
-    dw exception_handler                               ; $00FFF6 | Emulation BRK vector (unused)
+    dw exception_handler
 org emu_cop_vector
-    dw exception_handler                               ; $00FFF4 | Emulation COP vector (unused)
+    dw exception_handler

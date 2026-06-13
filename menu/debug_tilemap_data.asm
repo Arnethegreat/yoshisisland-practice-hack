@@ -16,6 +16,7 @@ mainmenu_tilemap:
             "         LOAD DELAY",
             "         HUD",
             "         RAMWATCH",
+            "EXCEPTION HANDLER/",
             "INPUT CONFIG/")
 
 submenu_gamemods_tilemap:
@@ -43,6 +44,13 @@ submenu_yoshipalette_tilemap:
             "    /",
             "- OUTLINE",
             " ")
+
+submenu_exception_tilemap:
+%store_text("BACK",
+            "LOAD LATEST SAVE",
+            "RE-ZONE LEVEL",
+            "0F00:                ",
+            "0F08:                ")
 
 submenu_config_tilemap:
 %store_text("BACK             RESET DEFAULT",

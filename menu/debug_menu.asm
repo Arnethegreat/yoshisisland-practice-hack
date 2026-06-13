@@ -158,6 +158,7 @@ main_debug_menu:
 
 draw_menu:
     PHP
+    JSR draw_exception_info
     SEP #$20
     LDA.b #!menu_tilemap_mirror>>16 : STA $01
     REP #$30
@@ -263,6 +264,8 @@ exit_debug_menu:
     STA !gamemode
     LDA #$00
     STA !r_reg_inidisp_mirror
+
+.load_from_menu
 
 .ret
     JSR handle_flags

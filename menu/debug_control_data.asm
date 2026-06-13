@@ -80,9 +80,10 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_nib, !ramwatch_addr_l+1, 4, 8, $0F) ; ramwatch high
   %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 5, 8, $F0) ; ramwatch low
   %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 6, 8, $0F) ; ramwatch low
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 9, submenu_config_ctrl) ; input config submenu
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 9, submenu_exception_ctrl) ; exception handler submenu
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 10, submenu_config_ctrl) ; input config submenu
 .column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
-  dw $0000, $0100, $0206, $0900, $0A00, $0B01, $0D00, $0E05, $1400
+  dw $0000, $0100, $0206, $0900, $0A00, $0B01, $0D00, $0E05, $1400, $1500
 
 submenu_gamemods_ctrl:
 .metadata
@@ -172,6 +173,17 @@ submenu_yoshipalette_ctrl:
 .column_counts
   dw $0000, $0101, $030B, $0F07, $170B, $2307, $2B03
 
+submenu_exception_ctrl:
+.metadata
+  %define_menu_metadata(submenu_exception_ctrl, submenu_exception_tilemap, $0000, mainmenu_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
+  %define_menu_entry(!ct_func, $7E0000, 1, 2, $03) ; load latest save
+  %define_menu_entry(!ct_func, $7E0000, 1, 3, $04) ; re-zone level
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 4, $00) ; main debug menu
+.column_counts
+  dw $0000, $0100, $0101, $0201, $0301
+
 submenu_config_ctrl:
 .metadata
   %define_menu_metadata(submenu_config_ctrl, submenu_config_tilemap, submenu_config_palette, mainmenu_ctrl)
@@ -201,11 +213,13 @@ submenu_config_ctrl:
 
 ;======================================
 
-; indexed by wilcard for control type !ct_func
+; indexed by wildcard for control type !ct_func
 control_function_calls:
   dw disable_autoscroll
   dw set_default_input_bindings_and_draw
   dw reset_custom_palette
+  dw load_latest_save
+  dw rezone_level_from_menu
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !warps_worlds_count = $07

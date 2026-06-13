@@ -306,6 +306,28 @@ main_call_function:
 
 ;================================
 
+load_latest_save:
+  ; force a full save-state load, then exit the debug menu if successful
+  PHP
+  INC !warping
+  LDA !full_load_default
+  EOR #$01
+  STA !load_mode
+  JSR prepare_load
+  LDA !loaded_state
+  BEQ .no_exit
+  JSR exit_debug_menu
+.no_exit
+  PLP
+  RTS
+
+rezone_level_from_menu:
+  JSR exit_debug_menu
+  JSR rezone
+  RTS
+
+;================================
+
 main_warps_function:
   SEP #$30
   LDA !controller_data1_press

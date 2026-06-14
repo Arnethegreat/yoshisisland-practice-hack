@@ -1,6 +1,9 @@
 ; handle initialization of debug menu
 print pc
+
 init_debug_menu:
+    PHK
+    PLB
     SEP #$30
 
     ; don't draw hud while in menu - it will be reactivated on exit if we're in-level or warping

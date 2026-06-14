@@ -161,10 +161,9 @@ irq_2b:
     JMP $C431
 
 ; BRK/COP handler - Hitting BRK/COP will mean we hit a fatal crash most likely, so just jump to the crash handler instead of trying to return from the interrupt
-; Eventually we want to jump to a crash screen that shows the values of the registers and maybe a stack trace as well as the option to load savestate/last room or go to debug menu.
 exception_handler:
-    %ai8()
-    JML init_debug_menu
+    ; JML only to save space and we don't care about returning safely probably
+    JML handle_exception
 
 incsrc "misc/soft_reset.asm"
 incsrc "music/prevent_change.asm"

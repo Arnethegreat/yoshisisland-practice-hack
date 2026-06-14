@@ -178,9 +178,8 @@ submenu_exception_ctrl:
   %define_menu_metadata(submenu_exception_ctrl, submenu_exception_tilemap, $0000, mainmenu_ctrl)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
-  %define_menu_entry(!ct_func, $7E0000, 1, 2, $03) ; load latest save
-  %define_menu_entry(!ct_func, $7E0000, 1, 3, $04) ; re-zone level
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 4, $00) ; main debug menu
+  %define_menu_entry(!ct_func, $7E0000, 1, 5, $03) ; load latest save
+  %define_menu_entry(!ct_func, $7E0000, 1, 6, $04) ; re-zone level
 .column_counts
   dw $0000, $0100, $0101, $0201, $0301
 

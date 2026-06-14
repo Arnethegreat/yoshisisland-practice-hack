@@ -61,6 +61,7 @@ incsrc level/level_tick.asm
 incsrc level/mode7_boss.asm
 incsrc level/rezone.asm
 ;=================================
+incsrc routines/handle_exception.asm
 incsrc routines/frame_skip.asm
 incsrc routines/warp_menu.asm
 incsrc routines/disable_autoscroll.asm

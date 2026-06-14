@@ -1,4 +1,5 @@
 ; handle initialization of debug menu
+print pc
 init_debug_menu:
     SEP #$30
 

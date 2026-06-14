@@ -6,7 +6,9 @@ handle_exception:
     %a16()
     LDA #$0000
     TCD
-
+    ; Reset the stack to prevent stack overflows
+    LDA #$01FF
+    TCS
     %ai8()
     ; hacky push data bank as 00 as it expects it later in game_loop
     LDA #$00

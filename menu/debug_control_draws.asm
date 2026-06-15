@@ -34,41 +34,73 @@ draw_exception_info:
   CMP.w #submenu_exception_ctrl
   BNE .ret
 
-  LDX #!exception_info_0f00_digits_dest
   LDY #$0000
-.loop0f00
-  LDA !s_spr_state+0,y
-  AND #$00FF
-  LSR #4
-  STA !menu_tilemap_mirror,x
-  INX #2
-  LDA !s_spr_state+0,y
-  AND #$00FF
-  AND #$000F
-  STA !menu_tilemap_mirror,x
-  INX #2
-  INY #1
-  CPY #$0008
-  BNE .loop0f00
-
+  LDX #!exception_info_0f00_digits_dest
+  JSR .draw_exception_info_row
+  LDX #!exception_info_0f04_digits_dest
+  JSR .draw_exception_info_row
   LDX #!exception_info_0f08_digits_dest
-.loop0f08
-  LDA !s_spr_state+0,y
-  AND #$00FF
-  LSR #4
-  STA !menu_tilemap_mirror,x
-  INX #2
-  LDA !s_spr_state+0,y
-  AND #$00FF
-  AND #$000F
-  STA !menu_tilemap_mirror,x
-  INX #2
-  INY #1
-  CPY #$0010
-  BNE .loop0f08
+  JSR .draw_exception_info_row
+  LDX #!exception_info_0f0c_digits_dest
+  JSR .draw_exception_info_row
 
 .ret
   PLP
+  RTS
+
+.draw_exception_info_row:
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  LSR #4
+  STA !menu_tilemap_mirror,x
+  INX #2
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  AND #$000F
+  STA !menu_tilemap_mirror,x
+  INX #2
+  INY #1
+
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  LSR #4
+  STA !menu_tilemap_mirror,x
+  INX #2
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  AND #$000F
+  STA !menu_tilemap_mirror,x
+  INX #2
+  INY #1
+
+  LDA #$003F
+  STA !menu_tilemap_mirror,x
+  INX #2
+
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  LSR #4
+  STA !menu_tilemap_mirror,x
+  INX #2
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  AND #$000F
+  STA !menu_tilemap_mirror,x
+  INX #2
+  INY #1
+
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  LSR #4
+  STA !menu_tilemap_mirror,x
+  INX #2
+  LDA !s_spr_state+0,y
+  AND #$00FF
+  AND #$000F
+  STA !menu_tilemap_mirror,x
+  INX #2
+  INY #1
+
   RTS
 
 draw_toggle:

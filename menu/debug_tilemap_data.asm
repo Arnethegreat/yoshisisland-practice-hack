@@ -53,7 +53,9 @@ submenu_exception_tilemap:
             "LOAD LATEST SAVE",
             "RE-ZONE LEVEL",
             "0F00:                ",
-            "0F08:                ")
+            "0F04:                ",
+            "0F08:                ",
+            "0F0C:                ")
 
 submenu_config_tilemap:
 %store_text("BACK             RESET DEFAULT",

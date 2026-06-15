@@ -181,7 +181,7 @@ submenu_exception_ctrl:
   %define_menu_entry(!ct_func, $7E0000, 1, 5, $03) ; load latest save
   %define_menu_entry(!ct_func, $7E0000, 1, 6, $04) ; re-zone level
 .column_counts
-  dw $0000, $0100, $0101, $0201, $0301
+  dw $0000, $0100, $0200
 
 submenu_config_ctrl:
 .metadata

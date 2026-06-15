@@ -1,6 +1,5 @@
 ; This routine will be jumped to from the BRK / COP
 ; Cleans some stuff up and goes to debug menu
-print pc
 handle_exception:
     CLI
     %a16()

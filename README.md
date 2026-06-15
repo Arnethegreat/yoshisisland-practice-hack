@@ -1,4 +1,4 @@
-# YI Practice Hack 1.0.1
+# YI Practice Hack 1.0.2
 Practice hack for Yoshi's Island designed to be used on a SNES console
 
 Features:
@@ -13,6 +13,7 @@ Features:
 * Removal of slow score screen and world map animations
 * Enabling built-in Debug functions
 * Button configuration
+* Exception Handler (Recover from fatal crash)
 
 and more.
 
@@ -156,6 +157,13 @@ R+X | - | Re-zone
 ### Custom Yoshi Palette
 The palette editor accepts values in `BGR555` format. It's recommended to generate values with https://orangegb.com/BGR555/ using big endian byte order.
 
+
+### Exception Handler (Try recover from crash)
+Detects if game had a fatal crash (by use of BRK/COP instructions) and if so goes to debug menu where you can load latest save or rezone level. It also displays values at $700F00 as information for Tongue Glitch Cancel Setups.
+
+Currently you can choose it as submenu in debug menu but it will probably be replaced by other page later.
+> NOTE: This is not guaranteed to catch all crashes due to its chaotic nature
+> NOTE: Save States may become corrupted by a crash and stability is not guaranteed
 
 # How to assemble manually
 First, clone this repo.

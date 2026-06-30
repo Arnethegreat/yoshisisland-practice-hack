@@ -1,6 +1,5 @@
 ; This routine will be jumped to from the BRK / COP
 ; Cleans some stuff up and goes to debug menu
-print pc
 handle_exception:
     ; guess we're corrupting A here if we return but YOLO for now
     LDA !exception_handler_enabled

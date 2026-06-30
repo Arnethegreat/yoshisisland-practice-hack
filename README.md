@@ -1,4 +1,4 @@
-# YI Practice Hack 1.0.2
+# YI Practice Hack 1.0.2f
 Practice hack for Yoshi's Island designed to be used on a SNES console
 
 Features:
@@ -160,6 +160,11 @@ The palette editor accepts values in `BGR555` format. It's recommended to genera
 
 ### Exception Handler (Try recover from crash)
 Detects if game had a fatal crash (by use of BRK/COP instructions) and if so goes to debug menu where you can load latest save or rezone level. It also displays values at $700F00 as information for Tongue Glitch Cancel Setups.
+
+Exception Menu has a toggle to enable or disable, as well a Return To Crash option where it tries to return to the state you were in when the crash occured.
+For Tongue Glitch Cancel, getting A2/BC values does make the Exception Handler trigger every frame due to how it works. By disabling Exceptions and choosing Return To Crash you can check if your setup would work, however you will properly crash as if your setup is wrong.
+TODO: Find a better way around this maybe...?
+
 
 Currently you can choose it as submenu in debug menu but it will probably be replaced by other page later.
 > NOTE: This is not guaranteed to catch all crashes due to its chaotic nature

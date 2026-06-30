@@ -1,4 +1,5 @@
 ; General Variables
+; https://github.com/brunovalads/yoshisisland-disassembly/wiki/WRAM-Map
 
 !frame_counter = $0030
 !gamemode = $0118

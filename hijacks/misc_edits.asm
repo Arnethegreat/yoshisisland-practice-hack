@@ -5,3 +5,12 @@ org $03CCC0
 
 org $03CD0C ; as above
     CPX $7E2C
+
+; chomp rock hitting sand has a bug with 8/16 mode and executes a BRK but then recovers
+; This triggers our exception handler so fix this bug but keep original behavior (or chomp rock will behave slightly differently)
+; This also fixes it accidently shifting $0280 which is free RAM we use
+
+org chomp_rock_sand_break
+    NOP #7
+    ; One side effect is it does TSB $E6 [$007A46] which might change behavior of some sprite - better keep it in case
+    TSB $E6

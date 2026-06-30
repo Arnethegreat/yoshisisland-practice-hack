@@ -132,7 +132,7 @@ assert !freeram_7F0000+!freeram_7F0000_used <= !freeram_7F0000_max+1, "exceeded 
 assert !freeram_707800+!freeram_707800_used <= !freeram_707800_max+1, "exceeded SRAM freespace region $70:7800"
 assert !freeram_707E7E+!freeram_707E7E_used <= !freeram_707E7E_max+1, "exceeded SRAM freespace region $70:7E7E"
 
-if 0
+if 1
     print "freespace $7E00CC used: ", dec(!freeram_00CC_used), ", remaining: ", dec(!freeram_00CC_max-!freeram_00CC_used-!freeram_00CC+1)
     print "freespace $7E0272 used: ", dec(!freeram_0272_used), ", remaining: ", dec(!freeram_0272_max-!freeram_0272_used-!freeram_0272+1)
     print "freespace $7E1409 used: ", dec(!freeram_1409_used), ", remaining: ", dec(!freeram_1409_max-!freeram_1409_used-!freeram_1409+1)

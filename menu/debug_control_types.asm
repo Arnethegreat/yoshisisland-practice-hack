@@ -326,6 +326,52 @@ rezone_level_from_menu:
   JSR rezone
   RTS
 
+return_to_crash:
+  SEP #$20
+  LDA !exception_return_valid
+  BEQ .ret
+
+  ; Undo debug menu side effects first, then restore the captured exception frame and registers.
+  JSR exit_debug_menu
+
+  ; Restore active stack range first so nested RTS/RTL after RTI still return properly.
+  %i16()
+  LDX.w #$0000
+  -
+    LDA.l !exception_stack_backup,x
+    STA !exception_stack_backup_start,x
+    INX
+    CPX.w #!exception_stack_backup_size
+    BCC -
+
+  ; restore registers and flags from the captured exception
+  REP #$30
+  LDA !exception_return_d
+  TCD
+  LDA !exception_return_sp
+  TCS
+
+  ; restore the exception return address
+  SEP #$20
+  LDA !exception_return_p : STA $01,S
+  LDA !exception_return_pcl : STA $02,S
+  LDA !exception_return_pch : STA $03,S
+  LDA !exception_return_pbr : STA $04,S
+
+  LDA !exception_return_db
+  PHA
+  PLB
+
+  REP #$30
+  LDA !exception_return_a
+  LDX !exception_return_x
+  LDY !exception_return_y
+  SEP #$20
+  STZ !exception_return_valid
+  RTI
+.ret
+  RTS
+
 ;================================
 
 main_warps_function:

@@ -178,10 +178,12 @@ submenu_exception_ctrl:
   %define_menu_metadata(submenu_exception_ctrl, submenu_exception_tilemap, $0000, mainmenu_ctrl)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
+  %define_menu_entry(!ct_toggle, !exception_handler_enabled, 1, 3, $01) ; toggle exception handler
+  %define_menu_entry(!ct_func, $7E0000, 1, 4, $05) ; return to crash
   %define_menu_entry(!ct_func, $7E0000, 1, 5, $03) ; load latest save
   %define_menu_entry(!ct_func, $7E0000, 1, 6, $04) ; re-zone level
 .column_counts
-  dw $0000, $0100, $0200
+  dw $0000, $0100, $0200, $0300, $0400
 
 submenu_config_ctrl:
 .metadata
@@ -219,6 +221,7 @@ control_function_calls:
   dw reset_custom_palette
   dw load_latest_save
   dw rezone_level_from_menu
+  dw return_to_crash
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !warps_worlds_count = $07

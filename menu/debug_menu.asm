@@ -274,6 +274,7 @@ exit_debug_menu:
 .ret
     JSR handle_flags
     JSR hud_sub
+    STZ !exception_return_valid
     STZ !warping
     RTS
 

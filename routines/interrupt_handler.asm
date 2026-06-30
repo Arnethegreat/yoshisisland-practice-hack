@@ -162,7 +162,7 @@ irq_2b:
 
 ; BRK/COP handler - Hitting BRK/COP will mean we hit a fatal crash most likely, so just jump to the crash handler instead of trying to return from the interrupt
 exception_handler:
-    ; JML only to save space and we don't care about returning safely probably
+    ; JML only to save space
     JML handle_exception
 
 incsrc "misc/soft_reset.asm"

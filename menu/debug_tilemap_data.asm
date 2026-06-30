@@ -47,9 +47,9 @@ submenu_yoshipalette_tilemap:
 
 submenu_exception_tilemap:
 %store_text("BACK",
-            "    HI - YOU CRASHED :)",
-            "    EXIT TO KEEP CRASHING :(",
-            " ",
+            "    HI :) - YOU CRASHED? :(",
+            "    ENABLE EXCEPTION HANDLER",
+            "RETURN TO CRASH",
             "LOAD LATEST SAVE",
             "RE-ZONE LEVEL",
             "0F00:                ",

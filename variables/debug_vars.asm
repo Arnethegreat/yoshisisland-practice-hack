@@ -55,11 +55,27 @@ includeonce
 %var_0272(dbc_count_current, 2)
 %var_0272(dbc_row_count_current, 2)
 %var_0272(dbc_col_count_current, 2)
+%var_1409(exception_return_sp, 2)
+%var_1409(exception_return_a, 2)
+%var_1409(exception_return_x, 2)
+%var_1409(exception_return_y, 2)
+%var_1409(exception_return_d, 2)
+%var_1409(exception_return_db, 1)
+%var_1409(exception_return_p, 1)
+%var_1409(exception_return_pcl, 1)
+%var_1409(exception_return_pch, 1)
+%var_1409(exception_return_pbr, 1)
+%var_1409(exception_return_valid, 1)
+!exception_stack_backup_start = $015F
+!exception_stack_backup_end = $01FF
+!exception_stack_backup_size = !exception_stack_backup_end-!exception_stack_backup_start+1
+%var_1409(exception_stack_backup, !exception_stack_backup_size) ; backup active stack range for crash return
 
 %var_0272(warping, 2) ; additional flag for signaling that the menu should quit out
 %var_0272(skip_baby_bowser, 2)
 %var_707E7E(skip_kamek, 2)
 %var_707E7E(debug_control_scheme, 1)
+%var_707E7E(exception_handler_enabled, 1)
 !soft_reset_timer = $0100
 
 %var_0272(ramwatch_addr, 3)

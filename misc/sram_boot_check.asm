@@ -14,6 +14,9 @@ sram_boot_check:
     LDA !disable_music : BEQ + : CMP #$01 : BEQ +
     LDA #$00 : STA !disable_music
     +
+    LDA !exception_handler_enabled : BEQ + : CMP #$01 : BEQ +
+    LDA #$00 : STA !exception_handler_enabled
+    +
     LDA !full_load_default : BEQ + : CMP #$01 : BEQ +
     LDA #$00 : STA !full_load_default
     +

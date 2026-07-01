@@ -61,7 +61,7 @@ mainmenu_ctrl:
   %define_menu_metadata(mainmenu_ctrl, mainmenu_tilemap, $0000, $0000)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, submenu_gamemods_ctrl) ; gameplay mods submenu
-  %define_menu_entry(!ct_warps, $7E0000, 1, 2, $01) ; warps submenu
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 2, submenu_warps_ctrl) ; warps submenu
   %define_menu_entry(!ct_eggcount, !debug_egg_count_mirror_l, 1, 3, $00) ; egg count
   %define_menu_entry(!ct_egg, $7E0000, 3, 3, $00) ; egg 1
   %define_menu_entry(!ct_egg, $7E0000, 4, 3, $01) ; egg 2
@@ -85,6 +85,31 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_submenu, $7E0000, 1, 11, submenu_shenanigans_ctrl) ; shenanigans submenu
 .column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
   dw $0000, $0100, $0206, $0900, $0A00, $0B01, $0D00, $0E05, $1400, $1500, $1600
+
+submenu_warps_ctrl:
+.metadata
+  %define_menu_metadata(submenu_warps_ctrl, submenu_warps_tilemap, $0000, mainmenu_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1,  1, $00) ; back
+  %define_menu_entry(!ct_warps,   $7E0000, 1,  2, $01) ; world 1
+  %define_menu_entry(!ct_warps,   $7E0000, 5,  2, $02) ; world 2
+  %define_menu_entry(!ct_warps,   $7E0000, 9,  2, $03) ; world 3
+  %define_menu_entry(!ct_warps,   $7E0000, 13, 2, $04) ; world 4
+  %define_menu_entry(!ct_warps,   $7E0000, 17, 2, $05) ; world 5
+  %define_menu_entry(!ct_warps,   $7E0000, 21, 2, $06) ; world 6
+  %define_menu_entry(!ct_func, $7E0000, 1,  3, $07) ; preset 1 - warp
+  %define_menu_entry(!ct_func, $7E0000, 14, 3, $08) ; preset 1 - set
+  %define_menu_entry(!ct_func, $7E0000, 1,  4, $07) ; preset 2 - warp
+  %define_menu_entry(!ct_func, $7E0000, 14, 4, $08) ; preset 2 - set
+  %define_menu_entry(!ct_func, $7E0000, 1,  5, $07) ; preset 3 - warp
+  %define_menu_entry(!ct_func, $7E0000, 14, 5, $08) ; preset 3 - set
+  %define_menu_entry(!ct_func, $7E0000, 1,  6, $07) ; preset 4 - warp
+  %define_menu_entry(!ct_func, $7E0000, 14, 6, $08) ; preset 4 - set
+  %define_menu_entry(!ct_func, $7E0000, 1,  7, $07) ; preset 5 - warp
+  %define_menu_entry(!ct_func, $7E0000, 14, 7, $08) ; preset 5 - set
+.column_counts
+  ; row 0: back(1), row 1: worlds(6), rows 2-6: preset warp+set(2 each)
+  dw $0000, $0105, $0701, $0901, $0B01, $0D01, $0F01
 
 submenu_gamemods_ctrl:
 .metadata
@@ -273,6 +298,8 @@ control_function_calls:
   dw rezone_level_from_menu
   dw return_to_crash
   dw nullegg_apply_and_back
+  dw warp_preset_exec
+  dw set_preset_exec
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !warps_worlds_count = $07

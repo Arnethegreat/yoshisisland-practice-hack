@@ -20,6 +20,15 @@ mainmenu_tilemap:
             "INPUT CONFIG/",
             "SHENANIGANS/")
 
+submenu_warps_tilemap:
+%store_text("BACK",
+            "W1  W2  W3  W4  W5  W6",
+            "PRESET 1     SET W CUR LVL+POS",
+            "PRESET 2     SET W CUR LVL+POS",
+            "PRESET 3     SET W CUR LVL+POS",
+            "PRESET 4     SET W CUR LVL+POS",
+            "PRESET 5     SET W CUR LVL+POS")
+
 submenu_gamemods_tilemap:
 %store_text("BACK",
             "DISABLE AUTOSCROLL",
@@ -88,7 +97,6 @@ submenu_nullegg_tilemap:
             "EGG 4:   ",
             "EGG 5:   ",
             "EGG 6:   ",
-
             "         ",
             "NORMAL SPRITES:  000-1BA         ",
             "COMMAND SPRITES: 1BB-1F4         ",

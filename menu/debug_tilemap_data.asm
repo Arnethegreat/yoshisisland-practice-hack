@@ -17,7 +17,8 @@ mainmenu_tilemap:
             "         HUD",
             "         RAMWATCH",
             "EXCEPTION HANDLER/",
-            "INPUT CONFIG/")
+            "INPUT CONFIG/",
+            "SHENANIGANS/")
 
 submenu_gamemods_tilemap:
 %store_text("BACK",
@@ -28,8 +29,7 @@ submenu_gamemods_tilemap:
             "         DISABLE KAMEK AT BOSS",
             "         FORCE HASTY",
             "         SLOWDOWN AMOUNT",
-            "         FRAME ADVANCE MODE",
-            "YOSHI PALETTE PICKER/")
+            "         FRAME ADVANCE MODE")
 
 submenu_yoshipalette_tilemap:
 %store_text("BACK",
@@ -69,6 +69,31 @@ submenu_config_tilemap:
             "                 SLOWDOWN +",
             "                 FRAME ADVANCE",
             "                 NO AUTOSCROLL")
+
+
+submenu_shenanigans_tilemap:
+%store_text("BACK",
+            "NULL EGG SETTER/",
+            "YOSHI PALETTE PICKER/",
+            "SPRITE SPAWNER",
+            "MEMORY EDITOR")
+
+
+submenu_nullegg_tilemap:
+%store_text("BACK            SET EGG IDS",
+            "COUNT:   ",
+            "EGG 1:   ",
+            "EGG 2:   ",
+            "EGG 3:   ",
+            "EGG 4:   ",
+            "EGG 5:   ",
+            "EGG 6:   ",
+
+            "         ",
+            "NORMAL SPRITES:  000-1BA         ",
+            "COMMAND SPRITES: 1BB-1F4         ",
+            "ALL ELSE INVALID: LIKELY CRASH!:)")
+
 
 ;====================================
 ; Warp Options

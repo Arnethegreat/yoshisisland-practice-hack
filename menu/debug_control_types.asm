@@ -326,6 +326,19 @@ rezone_level_from_menu:
   JSR rezone
   RTS
 
+; apply raw egg IDs set in the null egg setter and navigate back to the main menu
+nullegg_apply_and_back:
+  PHP
+  %a16()
+  JSR nullegg_pre_back_sync
+  LDA.w #!sfx_move_cursor : STA !sound_immediate
+  JSR pop_cursor_stack
+  LDA !parent_menu_data_ptr
+  STA !current_menu_data_ptr
+  JSR init_current_menu
+  PLP
+  RTS
+
 return_to_crash:
   SEP #$20
   LDA !exception_return_valid

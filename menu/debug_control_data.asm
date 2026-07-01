@@ -82,8 +82,9 @@ mainmenu_ctrl:
   %define_menu_entry(!ct_nib, !ramwatch_addr_l+0, 6, 8, $0F) ; ramwatch low
   %define_menu_entry(!ct_submenu, $7E0000, 1, 9, submenu_exception_ctrl) ; exception handler submenu
   %define_menu_entry(!ct_submenu, $7E0000, 1, 10, submenu_config_ctrl) ; input config submenu
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 11, submenu_shenanigans_ctrl) ; shenanigans submenu
 .column_counts ; low byte = number of columns per row index (zero-based), high byte = cumulative sum
-  dw $0000, $0100, $0206, $0900, $0A00, $0B01, $0D00, $0E05, $1400, $1500
+  dw $0000, $0100, $0206, $0900, $0A00, $0B01, $0D00, $0E05, $1400, $1500, $1600
 
 submenu_gamemods_ctrl:
 .metadata
@@ -99,13 +100,12 @@ submenu_gamemods_ctrl:
   %define_menu_entry(!ct_nib, !slowdown_mag_l, 1, 8, $F0) ; slowdown amount high
   %define_menu_entry(!ct_nib, !slowdown_mag_l, 2, 8, $0F) ; slowdown amount low
   %define_menu_entry(!ct_toggle, !frame_skip_pause_l, 1, 9, $01) ; frame advance
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 10, submenu_yoshipalette_ctrl) ; palette picker
 .column_counts
-  dw $0000, $0100, $0200, $0300, $0400, $0500, $0600, $0701, $0900, $0A00
+  dw $0000, $0100, $0200, $0300, $0400, $0500, $0600, $0701, $0900
 
 submenu_yoshipalette_ctrl:
 .metadata
-  %define_menu_metadata(submenu_yoshipalette_ctrl, submenu_yoshipalette_tilemap, $0000, submenu_gamemods_ctrl)
+  %define_menu_metadata(submenu_yoshipalette_ctrl, submenu_yoshipalette_tilemap, $0000, submenu_shenanigans_ctrl)
 .data
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
   %define_menu_entry(!ct_toggle, !enable_yoshi_custom_palette, 1, 2, $01) ; enable custom yoshi colour
@@ -212,6 +212,56 @@ submenu_config_ctrl:
 .column_counts
   dw $0001, $0201, $0401, $0601, $0801, $0A01, $0C01, $0E01, $1001, $1201
 
+submenu_shenanigans_ctrl:
+.metadata
+  %define_menu_metadata(submenu_shenanigans_ctrl, submenu_shenanigans_tilemap, $0000, mainmenu_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 2, submenu_nullegg_ctrl) ; null egg setter
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 3, submenu_yoshipalette_ctrl) ; yoshi palette picker
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 4, $00) ; sprite spawner (placeholder)
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 5, $00) ; memory editor (placeholder)
+.column_counts
+  dw $0000, $0100, $0200, $0300, $0400
+
+submenu_nullegg_ctrl:
+.metadata
+  %define_menu_metadata(submenu_nullegg_ctrl, submenu_nullegg_tilemap, $0000, submenu_shenanigans_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
+  %define_menu_entry(!ct_func, $7E0000, 17, 1, $06) ; set egg ids - apply and go back
+  ; egg count 1-6
+  %define_menu_entry(!ct_eggcount, !debug_egg_count_mirror_l, 8, 2, $00) ; egg count
+  ; egg 1 (slot 0: bytes at !egg_inv_items+0 and !egg_inv_items+1)
+  %define_menu_entry(!ct_nib, !egg_inv_items+1, 7, 3, $0F) ; egg 1 nib2 (bits 8-11)
+  %define_menu_entry(!ct_nib, !egg_inv_items+0, 8, 3, $F0) ; egg 1 nib1 (bits 4-7)
+  %define_menu_entry(!ct_nib, !egg_inv_items+0, 9, 3, $0F) ; egg 1 nib0 (bits 0-3)
+  ; egg 2 (slot 1: bytes at !egg_inv_items+2 and !egg_inv_items+3)
+  %define_menu_entry(!ct_nib, !egg_inv_items+3, 7, 4, $0F)
+  %define_menu_entry(!ct_nib, !egg_inv_items+2, 8, 4, $F0)
+  %define_menu_entry(!ct_nib, !egg_inv_items+2, 9, 4, $0F)
+  ; egg 3 (slot 2: bytes at !egg_inv_items+4 and !egg_inv_items+5)
+  %define_menu_entry(!ct_nib, !egg_inv_items+5, 7, 5, $0F)
+  %define_menu_entry(!ct_nib, !egg_inv_items+4, 8, 5, $F0)
+  %define_menu_entry(!ct_nib, !egg_inv_items+4, 9, 5, $0F)
+  ; egg 4 (slot 3: bytes at !egg_inv_items+6 and !egg_inv_items+7)
+  %define_menu_entry(!ct_nib, !egg_inv_items+7, 7, 6, $0F)
+  %define_menu_entry(!ct_nib, !egg_inv_items+6, 8, 6, $F0)
+  %define_menu_entry(!ct_nib, !egg_inv_items+6, 9, 6, $0F)
+  ; egg 5 (slot 4: bytes at !egg_inv_items+8 and !egg_inv_items+9)
+  %define_menu_entry(!ct_nib, !egg_inv_items+9, 7, 7, $0F)
+  %define_menu_entry(!ct_nib, !egg_inv_items+8, 8, 7, $F0)
+  %define_menu_entry(!ct_nib, !egg_inv_items+8, 9, 7, $0F)
+  ; egg 6 (slot 5: bytes at !egg_inv_items+10 and !egg_inv_items+11)
+  %define_menu_entry(!ct_nib, !egg_inv_items+11, 7, 8, $0F)
+  %define_menu_entry(!ct_nib, !egg_inv_items+10, 8, 8, $F0)
+  %define_menu_entry(!ct_nib, !egg_inv_items+10, 9, 8, $0F)
+
+.column_counts
+  ; low byte = col count (inclusive max index), high byte = cumulative ctrl index
+  ; row 0: BACK + SET EGG IDS (2 cols); rows 1: COUNT (1 col); rows 2-7: egg nibs (3 cols each)
+  dw $0001, $0200, $0302, $0602, $0902, $0C02, $0F02, $1202
+
 ;======================================
 
 ; indexed by wildcard for control type !ct_func
@@ -222,6 +272,7 @@ control_function_calls:
   dw load_latest_save
   dw rezone_level_from_menu
   dw return_to_crash
+  dw nullegg_apply_and_back
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !warps_worlds_count = $07

@@ -140,6 +140,33 @@ despawn_egg_sprites:
     RTS
 
 ;================================
+; When leaving the Null Egg Setter submenu, mark all debug_egg_inv_mirror
+; slots as "unknown" so egg_inv_debug_to_wram won't eat the raw
+; egg_inv_items values we set. Also clamps debug_egg_count_mirror to 0-6.
+nullegg_pre_back_sync:
+    PHP
+    %ai16()
+    ; clamp count to 0-6
+    LDA !debug_egg_count_mirror
+    AND #$00FF
+    CMP #$0007
+    BCC .count_ok
+    LDA #$0006
+    STA !debug_egg_count_mirror
+.count_ok
+    ; mark all 6 egg mirror slots as unknown (last tilemap index)
+    ; egg_inv_debug_to_wram skips unknown slots, so our raw values in
+    ; egg_inv_items are preserved on debug menu exit
+    LDA.w #!egg_inv_tilemap_count-1
+    LDX #$000A
+-   STA !debug_egg_inv_mirror,x
+    DEX #2
+    BPL -
+.ret
+    PLP
+    RTS
+
+;================================
 ; Stolen from $029A1A
 spawn_big_yoshi_egg:
     PHP

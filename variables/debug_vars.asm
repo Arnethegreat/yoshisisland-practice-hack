@@ -34,6 +34,7 @@ includeonce
 !tilemap_line_width = !tilemap_line_width_single*2
 !first_option_tilemap_dest = $00C2
 
+; blargh
 !exception_info_0f00_line_dest = !first_option_tilemap_dest+!tilemap_line_width*6
 !exception_info_0f04_line_dest = !first_option_tilemap_dest+!tilemap_line_width*7
 !exception_info_0f08_line_dest = !first_option_tilemap_dest+!tilemap_line_width*8
@@ -42,6 +43,9 @@ includeonce
 !exception_info_0f04_digits_dest = !exception_info_0f04_line_dest+12
 !exception_info_0f08_digits_dest = !exception_info_0f08_line_dest+12
 !exception_info_0f0c_digits_dest = !exception_info_0f0c_line_dest+12
+
+; sprite spawner slot count digits: SLOTS row (ypos=5) at xpos=7
+!sprite_slot_count_tilemap_dest = !first_option_tilemap_dest+!tilemap_line_width*4+(7-1)*2
 
 %var_0272(warps_page_depth_index, 2) ; current page depth --  0: main menu,   1: world select,   2: level select,   3: room warp select
 %var_0272(warps_current_world_index, 2)

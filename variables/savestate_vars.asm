@@ -42,6 +42,7 @@
 %var_707E7E(save_camera_layer1_y, 2)
 
 ; warp position presets (persistent, 5 slots)
+; maybe move to debug_vars.asm 
 !warp_preset_stride  = 18
 !wp_world_num        = 0   ; byte
 !wp_level_num        = 1   ; byte
@@ -50,6 +51,11 @@
 ; +7: reserved (alignment pad)
 !wp_egg_inv_items    = 8   ; 12 bytes (6 words)
 %var_707E7E(warp_presets, !warp_preset_stride*5) ; 90 bytes
+
+; sprite spawner (persistent)
+%var_707E7E(sprite_spawn_id, 2) ; word: sprite ID to spawn (0-$1F4)
+%var_707E7E(sprite_spawn_x, 1) ; byte: X pixel offset from camera
+%var_707E7E(sprite_spawn_y, 1) ; byte: Y pixel offset from camera
 
 ;=================================
 

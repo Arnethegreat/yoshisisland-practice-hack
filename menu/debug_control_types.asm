@@ -326,6 +326,39 @@ rezone_level_from_menu:
   JSR rezone
   RTS
 
+;================================
+
+; Spawns sprite ID !sprite_spawn_id at camera + (spawn_x, spawn_y) offset.
+; Only active in gm_level.
+; ISSUES: Debug Menu despawns egg inventory and this can overwrite those?
+; May have to rework the egg inventory spawn/despawn and only change egg inventory when the menu is closed
+; Or only when egg inventory is changed.
+
+spawn_sprite_from_menu:
+  PHP
+  %ai16()
+  LDA !gamemode : CMP.w #!gm_level : BNE .ret
+
+  %i8()                               ; spawn_sprite requires 8-bit index mode
+  LDA.l !sprite_spawn_id : AND #$0FFF ; mask to 12-bit sprite ID, highest nibble can be anything...
+  JSL spawn_sprite_init               ; Return: A=id(16-bit), Y=slot*4(8-bit)
+  ; set spawn position: camera + user offsets (Y = slot*4 by spawn_sprite)
+  %a16()
+  LDA.l !sprite_spawn_x : AND #$00FF
+  CLC : ADC !s_camera_layer1_x
+
+  STA !s_spr_x_pixel_pos,y
+
+  LDA.l !sprite_spawn_y : AND #$00FF
+  CLC : ADC !s_camera_layer1_y
+
+  STA !s_spr_y_pixel_pos,y
+  %ai16()
+  ; JSR draw_sprite_slot_count
+.ret
+  PLP
+  RTS
+
 ; apply raw egg IDs set in the null egg setter and navigate back to the main menu
 nullegg_apply_and_back:
   PHP

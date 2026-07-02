@@ -84,8 +84,19 @@ submenu_shenanigans_tilemap:
 %store_text("BACK",
             "NULL EGG SETTER/",
             "YOSHI PALETTE PICKER/",
-            "SPRITE SPAWNER",
+            "SPRITE SPAWNER/",
             "MEMORY EDITOR")
+
+
+submenu_sprite_spawner_tilemap:
+%store_text("BACK         SPAWN",
+            "ID:     ",
+            "X:      ",
+            "Y:      ",
+            "SLOTS:  /18",
+            " ",
+            "X/Y POS IS RELATIVE TO CAMERA",
+            "COUNTED FROM TOP LEFT CORNER")
 
 
 submenu_nullegg_tilemap:

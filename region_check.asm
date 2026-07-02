@@ -95,6 +95,8 @@ if read1($00FFD9) == $00
     load_eggs_from_wram = $01C508
 
     spawn_sprite = $03A377
+    spawn_sprite_init = $03A34C
+    spawn_sprite_active = $03A364
 
     acquire_egg = $03BEC4
 
@@ -199,6 +201,8 @@ elseif read1($00FFD9) == $01
     load_eggs_from_wram = $01B2D6
 
     spawn_sprite = $03A377
+    spawn_sprite_init = $03A34C
+    spawn_sprite_active = $03A364
 
     acquire_egg = $03BEB9
 

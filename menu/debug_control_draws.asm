@@ -1,3 +1,37 @@
+; Draws the active sprite slot count (used slots 6-23) on the sprite spawner submenu.
+; Only active when submenu_sprite_spawner_ctrl is the current menu.
+draw_sprite_slot_count:
+  PHP
+  %ai16()
+  LDA !current_menu_data_ptr : CMP.w #submenu_sprite_spawner_ctrl : BNE .ret
+  ; count active sprites in slots 6-23 (Y = slot*4, start at slot 6 = Y=$18)
+  LDX #$0000   ; active slot count
+  LDY #$0018
+.count_loop
+  LDA !s_spr_state,y : BEQ +   ; DBR-relative short form, same as draw_exception_info
+  INX
++ INY #4
+  CPY #$0060 : BCC .count_loop
+  ; X = count (0-18); write as 2 decimal digits. Use X for tilemap
+  PHX                                   ; push count
+  LDX #!sprite_slot_count_tilemap_dest  ; tilemap destination in X
+  PLA                                   ; pop count into A
+  CMP #$000A : BCC .tens_zero
+  SEC : SBC #$000A
+  PHA                                   ; save ones digit
+  LDA #$0001 : STA !menu_tilemap_mirror,x : INX #2
+  PLA
+  BRA .ones
+.tens_zero
+  PHA                                   ; save ones digit
+  LDA #$0000 : STA !menu_tilemap_mirror,x : INX #2
+  PLA
+.ones
+  STA !menu_tilemap_mirror,x
+.ret
+  PLP
+  RTS
+
 draw_eggcount:
   REP #$10
   SEP #$20

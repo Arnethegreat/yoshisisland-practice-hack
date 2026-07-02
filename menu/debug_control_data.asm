@@ -244,10 +244,30 @@ submenu_shenanigans_ctrl:
   %define_menu_entry(!ct_submenu, $7E0000, 1, 1, $00) ; back
   %define_menu_entry(!ct_submenu, $7E0000, 1, 2, submenu_nullegg_ctrl) ; null egg setter
   %define_menu_entry(!ct_submenu, $7E0000, 1, 3, submenu_yoshipalette_ctrl) ; yoshi palette picker
-  %define_menu_entry(!ct_submenu, $7E0000, 1, 4, $00) ; sprite spawner (placeholder)
+  %define_menu_entry(!ct_submenu, $7E0000, 1, 4, submenu_sprite_spawner_ctrl) ; sprite spawner
   %define_menu_entry(!ct_submenu, $7E0000, 1, 5, $00) ; memory editor (placeholder)
 .column_counts
   dw $0000, $0100, $0200, $0300, $0400
+
+submenu_sprite_spawner_ctrl:
+.metadata
+  %define_menu_metadata(submenu_sprite_spawner_ctrl, submenu_sprite_spawner_tilemap, $0000, submenu_shenanigans_ctrl)
+.data
+  %define_menu_entry(!ct_submenu, $7E0000, 1,  1, $00) ; back
+  %define_menu_entry(!ct_func,    $7E0000, 14, 1, $09) ; spawn
+  ; sprite ID: 3 nibble controls)
+  %define_menu_entry(!ct_nib, !sprite_spawn_id+1, 6, 2, $0F) ; ID digit 2 (bits 8-11)
+  %define_menu_entry(!ct_nib, !sprite_spawn_id,   7, 2, $F0) ; ID digit 1 (bits 4-7)
+  %define_menu_entry(!ct_nib, !sprite_spawn_id,   8, 2, $0F) ; ID digit 0 (bits 0-3)
+  ; X offset: 2 nibbles (hi then lo)
+  %define_menu_entry(!ct_nib, !sprite_spawn_x, 6, 3, $F0) ; X hi nibble
+  %define_menu_entry(!ct_nib, !sprite_spawn_x, 7, 3, $0F) ; X lo nibble
+  ; Y offset: 2 nibbles
+  %define_menu_entry(!ct_nib, !sprite_spawn_y, 6, 4, $F0) ; Y hi nibble
+  %define_menu_entry(!ct_nib, !sprite_spawn_y, 7, 4, $0F) ; Y lo nibble
+.column_counts
+  ; row 0: back+spawn(2); row 1: id nibs; rows 2-3: x/y nibs
+  dw $0001, $0202, $0501, $0701
 
 submenu_nullegg_ctrl:
 .metadata
@@ -300,6 +320,7 @@ control_function_calls:
   dw nullegg_apply_and_back
   dw warp_preset_exec
   dw set_preset_exec
+  dw spawn_sprite_from_menu     ; 9
 
 ; each control is the same, so just store a count for each page (max = $0B)
 !warps_worlds_count = $07
